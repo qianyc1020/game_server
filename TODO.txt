@@ -1,0 +1,14 @@
+技术：
+1. tcp websocket 对接
+2. protobuf接入，分文件处理 
+3. 数据库对接
+4. 对接creator 客户端,typescript
+5. 游戏逻辑
+6.
+
+网站优化 备案
+小游戏资质
+appstore 账号
+
+
+
