@@ -4,4 +4,4 @@ var ServiceManager = require("../netbus/ServiceManager.js")
 
 ServiceManager.register_service(1,ServiceTest)
 
-NetBus.start_ws_server("127.0.0.1" , "6081")
+NetBus.start_ws_server("172.16.166.106" , "6081")
