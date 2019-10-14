@@ -1,3 +1,5 @@
+var STR_LEN_IN_BUF = 2 //用来表示用2字节表示byte_len长度
+
 function read_int8(cmd_buf, offset) {
 	return cmd_buf.readInt8(offset);
 }
@@ -51,10 +53,11 @@ function alloc_buffer(total_len) {
 	return Buffer.allocUnsafe(total_len);
 }
 
-function write_cmd_header_inbuf(cmd_buf, stype, ctype) {
+function write_cmd_header_inbuf(cmd_buf, stype, ctype, utag, proto_type) {
 	write_int16(cmd_buf, 0, stype);
 	write_int16(cmd_buf, 2, ctype);
-	write_uint32(cmd_buf, 4, 0);
+	write_uint32(cmd_buf, 4, utag);
+	write_int16(cmd_buf, 8, proto_type);
 	return ProtoTools.header_size;
 }
 
@@ -70,17 +73,9 @@ function clear_utag_inbuf(cmd_buf) {
 	write_uint32(cmd_buf, 4, 0);	
 }
 
-function read_cmd_header_inbuf(cmd_buf) {
-	var cmd = {};
-	cmd[0] = ProtoTools.read_int16(cmd_buf, 0);
-	cmd[1] = ProtoTools.read_int16(cmd_buf, 1);
-	return [cmd, ProtoTools.header_size];
-}
-
 function write_str_inbuf(cmd_buf, offset, str, byte_len) {
-	// 写入2个字节字符串长度信息;
 	write_int16(cmd_buf, offset, byte_len);
-	offset += 2;
+	offset += STR_LEN_IN_BUF; // 写入2个字节字符串长度信息;
 	write_str(cmd_buf, offset, str);
 	offset += byte_len;
 	return offset;
@@ -95,70 +90,18 @@ function read_str_inbuf(cmd_buf, offset) {
 	return [str, offset];
 }
 
-function decode_empty_cmd(cmd_buf) {
-	var cmd = {};
-	cmd[0] = read_int16(cmd_buf, 0);
-	cmd[1] = read_int16(cmd_buf, 2);
-	cmd[2] = null;
-	return cmd;
-}
-
-function encode_empty_cmd(stype, ctype, body) {
-	var cmd_buf = alloc_buffer(ProtoTools.header_size);
-	write_cmd_header_inbuf(cmd_buf, stype, ctype);
-	return cmd_buf;
-}
-
-function encode_int32_cmd(stype, ctype, value) {
-	var cmd_buf = alloc_buffer(ProtoTools.header_size + 4);
-	write_cmd_header_inbuf(cmd_buf, stype, ctype);
-	write_int32(cmd_buf, ProtoTools.header_size, value);
-	return cmd_buf;
-}
-
-function decode_int32_cmd(cmd_buf) {
-	var cmd = {};
-	cmd[0] = read_int16(cmd_buf, 0);
-	cmd[1] = read_int16(cmd_buf, 2);
-	cmd[2] = read_int32(cmd_buf, ProtoTools.header_size);
-	return cmd;
-}
-
-function encode_status_cmd(stype, ctype, status) {
-	var cmd_buf = alloc_buffer(ProtoTools.header_size + 2);
-	write_cmd_header_inbuf(cmd_buf, stype, ctype);
-	write_int16(cmd_buf, ProtoTools.header_size, status);
-	return cmd_buf;
-}
-
-function decode_status_cmd(cmd_buf) {
-	var cmd = {};
-	cmd[0] = read_int16(cmd_buf, 0);
-	cmd[1] = read_int16(cmd_buf, 2);
-	cmd[2] = read_int16(cmd_buf, ProtoTools.header_size);
-	return cmd;
-}
-
-function encode_str_cmd(stype, ctype, str) {
-	var byte_len = str.utf8_byte_len();
-	var total_len =ProtoTools.header_size + 2 + byte_len;
-	var cmd_buf = alloc_buffer(total_len);
-
-	var offset = write_cmd_header_inbuf(cmd_buf, stype, ctype);
-	offset = write_str_inbuf(cmd_buf, offset, str, byte_len);
-
+function encode_str_cmd(stype, ctype, utag, proto_type, str) {
+	var byte_len 	= str.utf8_byte_len();
+	var total_len 	= ProtoTools.header_size + STR_LEN_IN_BUF + byte_len; // STR_LEN_IN_BUF 用来表示用2字节表示byte_len长度
+	var cmd_buf 	= alloc_buffer(total_len);
+	var offset 		= write_cmd_header_inbuf(cmd_buf, stype, ctype, utag, proto_type);
+	write_str_inbuf(cmd_buf, offset, str, byte_len);
 	return cmd_buf;
 }
 
 function decode_str_cmd(cmd_buf) {
-	var cmd = {};
-	cmd[0] = read_int16(cmd_buf, 0);
-	cmd[1] = read_int16(cmd_buf, 2);
-
 	var ret = read_str_inbuf(cmd_buf, ProtoTools.header_size);
-	cmd[2] = ret[0];
-
-	return cmd;
+	return ret[0]
 }
 
 var ProtoTools = {
@@ -187,20 +130,11 @@ var ProtoTools = {
 	write_utag_inbuf: write_utag_inbuf,
 	clear_utag_inbuf: clear_utag_inbuf,
 	
-	write_str_inbuf: write_str_inbuf,
 	read_str_inbuf: read_str_inbuf,
 
 	// 模板编码解码器
 	encode_str_cmd: encode_str_cmd,
-	encode_status_cmd: encode_status_cmd,
-	encode_empty_cmd: encode_empty_cmd,
-
 	decode_str_cmd: decode_str_cmd,
-	decode_status_cmd: decode_status_cmd,
-	decode_empty_cmd: decode_empty_cmd,
-
-	decode_int32_cmd: decode_int32_cmd, 
-	encode_int32_cmd: encode_int32_cmd,
 };
 
 module.exports = ProtoTools;
