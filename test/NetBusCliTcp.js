@@ -6,6 +6,7 @@ var ProtoManager = require("../netbus/ProtoManager.js")
 var Platform = require("../utils/Platform.js")
 var TcpPkg = require("../netbus/TcpPkg");
 var ProtoType = require("../netbus/ProtoType.js")
+var netpkg = require("./netpkg.js")
 
 var local = "127.0.0.1"
 var remote = "www.hccfun.com"
@@ -26,10 +27,23 @@ sock.on("connect",function() {
 	var ctype = 1;
 	var utag = 0;
 	var proto_type = ProtoType.PROTO_JSON;
-	var body = "test-tcp-client-hcc"
-	var cmd = ProtoManager.encode_cmd(stype, ctype, utag, proto_type, body) 
-	var cmd_buf = TcpPkg.package_data(cmd);
-	sock.write(cmd_buf);
+	var cmd1 = ProtoManager.encode_cmd(stype, ctype, utag, proto_type, "hccstart") 
+	var cmd1 = "hccstart"
+	var cmd2 = "hccend"
+	// var cmd_buf = netpkg.test_pkg_two_action(cmd1, cmd2);
+	var cmd_buf = netpkg.test_pkg_two_slice(cmd1, cmd2);
+	// var cmd_buf = TcpPkg.package_data(cmd);
+	sock.write(cmd_buf[0]);
+	setTimeout(function(){
+		sock.write(cmd_buf[1]);
+	},1000)
+	// sock.write(cmd_buf[1]);
+
+	// setInterval(function(){
+		// sock.write(cmd_buf);
+	// },10)
+	// 
+	// readUInt16LE
 });
 
 sock.on("error", function(e) {

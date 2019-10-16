@@ -36,7 +36,7 @@ function start_tcp_server(ip, port, is_encrypt) {
 	Log.info("start tcp server ..", ip, port);
 	var server = net.createServer(function(client_session) { 
 		on_session_enter(client_session, false, is_encrypt);
-		add_client_session_event(client_session);
+		tcp_add_client_session_event(client_session);
 	});
 	// 监听发生错误的时候调用
 	server.on("error", function() {
@@ -99,8 +99,9 @@ function ws_add_client_session_event(session) {
 		on_session_recv_cmd(session, data);
 	});
 }
+
 //tcp 客户端session事件
-function add_client_session_event(session) {
+function tcp_add_client_session_event(session) {
 	session.on("close", function() {
 		on_session_exit(session);
 		session.end();
@@ -116,50 +117,9 @@ function add_client_session_event(session) {
 			session_close(session);
 			return;
 		}
-		//粘包处理
-		var last_pkg = session.last_pkg;
-		if (last_pkg != null) { // 上一次剩余没有处理完的半包;
-			last_pkg = Buffer.concat([last_pkg, data], last_pkg.length + data.length);
-		}
-		else {
-			last_pkg = data;	
-		}
-
-		var offset = 0;
-		var pkg_len = TcpPkg.read_pkg_size(last_pkg, offset);
-		if (pkg_len < 0) {
-			return;
-		}
-		Log.info("offset: " + offset)
-
-		while(offset + pkg_len <= last_pkg.length) { // 判断是否有完整的包;
-			// 根据长度信息来读取我们的数据,假设我们传过来的是文本数据
-			var cmd_buf; 
-			// 收到了一个完整的数据包
-			cmd_buf = Buffer.allocUnsafe(pkg_len - 2); // 2个长度信息
-			last_pkg.copy(cmd_buf, 0, offset + 2, offset + pkg_len);
-			on_session_recv_cmd(session, cmd_buf);	
-
-			offset += pkg_len;
-			if (offset >= last_pkg.length) { // 正好我们的包处理完了;
-				break;
-			}
-
-			pkg_len = TcpPkg.read_pkg_size(last_pkg, offset);
-			if (pkg_len < 0) {
-				break;
-			}
-		}
-
-		// 能处理的数据包已经处理完成了,保存 0.几个包的数据
-		if (offset >= last_pkg.length) {
-			last_pkg = null;
-		}
-		else { // offset, length这段数据拷贝到新的Buffer里面
-			var buf = Buffer.allocUnsafe(last_pkg.length - offset);
-			last_pkg.copy(buf, 0, offset, last_pkg.length);
-			last_pkg = buf;
-		}
+		var last_pkg = handle_package_data(session.last_pkg, data,function(cmd_buf){
+			on_session_recv_cmd(session, cmd_buf);
+		})
 		session.last_pkg = last_pkg;
 		Log.info("last_pkg: " + last_pkg)
 	});
@@ -208,7 +168,7 @@ function session_send_cmd(stype, ctype, utag, proto_type, body) {
 }
 
 function session_send_encoded_cmd(cmd) {
-	Log.info(cmd)
+	Log.info("send_cmd: " , cmd)
 	if (!this.is_connected) {
 		return;
 	}
@@ -231,6 +191,66 @@ function on_recv_cmd_server_return(session, str_or_buf) {
 	if(!ServiceManager.on_recv_server_return(session, str_or_buf)) {
 		session_close(session);
 	}
+}
+
+//粘包处理
+function handle_package_data(last_package, recv_data, cmd_callback){
+	if(!recv_data){
+		return null;
+	}
+	
+	var last_pkg = last_package;
+	var data 	 = recv_data;
+	Log.info("hcc>>last_pkg , data111: " , last_pkg , data)
+	if (last_pkg != null) { // 上一次剩余没有处理完的半包;
+		last_pkg = Buffer.concat([last_pkg, data], last_pkg.length + data.length);
+	}
+	else {
+		last_pkg = data
+	}
+	
+	Log.info("hcc>>last_pkg , data222: " , last_pkg , data)
+	
+	var offset = 0;
+	var pkg_len = TcpPkg.read_pkg_size(last_pkg, offset);
+	if (pkg_len < 0) {
+		return null;
+	}
+
+	Log.info("hcc>>offset: " + offset)
+	var HEAD_LEN = 2; // 2个长度信息
+	while(offset + pkg_len <= last_pkg.length) { // 判断是否有完整的包;
+		// 根据长度信息来读取数据
+		var cmd_buf = null; 
+		// 收到了一个完整的数据包
+		cmd_buf = Buffer.allocUnsafe(pkg_len - HEAD_LEN); 
+		last_pkg.copy(cmd_buf, 0, offset + HEAD_LEN, offset + pkg_len);	
+		if (cmd_callback){
+			cmd_callback(cmd_buf)
+		}
+
+		offset += pkg_len;
+		if (offset >= last_pkg.length) { // 正好包处理完了
+			break;
+		}
+
+		pkg_len = TcpPkg.read_pkg_size(last_pkg, offset);
+		Log.info("hcc>>offset1: " , offset)
+		if (pkg_len < 0) {
+			break;
+		}
+	}
+
+	// 能处理的数据包已经处理完成了,保存 0.几个包的数据
+	if (offset >= last_pkg.length) {
+		last_pkg = null;
+	}
+	else { // offset, length这段数据拷贝到新的Buffer里面
+		var buf = Buffer.allocUnsafe(last_pkg.length - offset);
+		last_pkg.copy(buf, 0, offset, last_pkg.length);
+		last_pkg = buf;
+	}
+	return last_pkg
 }
 
 var NetBus = {
