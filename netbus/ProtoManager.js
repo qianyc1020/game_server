@@ -45,21 +45,19 @@ function decode_cmd_header(cmd_buf) {
 }
 
 function _json_encode(stype, ctype, utag, proto_type, body) {
-	var str = JSON.stringify(body);
-	Log.info(str)
-	var cmd_buf = ProtoTools.encode_str_cmd(stype, ctype, utag, proto_type, str);
-	return cmd_buf;
+	return ProtoTools.encode_str_cmd(stype, ctype, utag, proto_type, JSON.stringify(body));
 }
-
+//解包：返回body
 function _json_decode(cmd_buf) {
-	var cmd = ProtoTools.decode_str_cmd(cmd_buf);
+	var body = ProtoTools.decode_str_cmd(cmd_buf);
+	Log.info(cmd_buf,body)
 	try {
-		cmd = JSON.parse(cmd);
+		body = JSON.parse(body);
 	}
 	catch(e) {
 		return null;
 	}
-	return cmd;
+	return body;
 } 
 
 // 加密 TODO

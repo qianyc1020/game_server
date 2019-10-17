@@ -79,10 +79,10 @@ function on_client_lost_connect(session) {
 }
 
 var service_manager = {
-	on_client_lost_connect: on_client_lost_connect,
-	on_recv_client_cmd: on_recv_client_cmd,
 	register_service: register_service,
 	on_recv_server_return: on_recv_server_return,
+	on_recv_client_cmd: on_recv_client_cmd,
+	on_client_lost_connect: on_client_lost_connect,
 };
 
 module.exports = service_manager;

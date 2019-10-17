@@ -84,7 +84,7 @@ function write_str_inbuf(cmd_buf, offset, str, byte_len) {
 // 返回 str, offset
 function read_str_inbuf(cmd_buf, offset) {
 	var byte_len = read_int16(cmd_buf, offset);
-	offset += 2;
+	offset += STR_LEN_IN_BUF;
 	var str = read_str(cmd_buf, offset, byte_len);
 	offset += byte_len;
 	return [str, offset];

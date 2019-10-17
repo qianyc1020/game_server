@@ -4,10 +4,12 @@ var ws = require("ws");
 var ProtoManager = require("../netbus/ProtoManager.js")
 var Platform = require("../utils/Platform.js")
 
-var hoststr = Platform.isWin32() ? "ws://127.0.0.1:6081" : "ws://www.hccfun.com:6081";
+var local = "ws://127.0.0.1:6081"
+var remote = "ws://www.hccfun.com:6081"
+var hoststr = Platform.isWin32() ? local : remote
 Log.info(hoststr)
 
-var sock = new ws(hoststr);
+var sock = new ws(local);
 
 sock.on("open", function () {
 	Log.info("connect success !!!!");
@@ -17,7 +19,10 @@ sock.on("open", function () {
 	var proto_type = 1;
 	var body = "huangshucheng"
 	var cmd = ProtoManager.encode_cmd(stype, ctype, utag, proto_type, body) 
-	sock.send(cmd);
+	// sock.send(cmd);	
+	setInterval(function(){
+		sock.send(cmd);	
+	},100)
 });
 
 sock.on("error", function(err) {
@@ -30,5 +35,7 @@ sock.on("close", function() {
 
 sock.on("message", function(data) {
 	var proto_type = 1;
-	Log.info(ProtoManager.decode_cmd(proto_type,data));
+	Log.info("receive:", ProtoManager.decode_cmd(proto_type,data));
 });
+
+Log.info("1111")
