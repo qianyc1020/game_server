@@ -57,7 +57,6 @@ function on_session_enter(session, is_ws, is_encrypt) {
 	global_seesion_key ++;
 }
 
-// 一定能够保证是一个整包;
 // 如果是json协议 str_or_buf json字符串;
 // 如果是protobuf协议 str_or_buf Buffer对象;
 function on_session_recv_cmd(session, str_or_buf) {

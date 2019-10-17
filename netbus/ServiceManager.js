@@ -13,32 +13,24 @@ function register_service(stype, service) {
 }
 
 function on_recv_server_return (session, cmd_buf) {
-	// 根据收到的数据解码命令
 	if (session.is_encrypt) {
 		cmd_buf = ProtoManager.decrypt_cmd(cmd_buf);	
 	}
-	var stype, ctype, body, utag, proto_type;
-
 	var cmd = ProtoManager.decode_cmd_header(cmd_buf);
 	if (!cmd) {
 		return false;
 	}
-	stype = cmd[0]; 
-	ctype = cmd[1]; 
-	utag = cmd[2];
-	proto_type = cmd[3];
+	var stype 		= cmd[0]; 
+	var ctype 		= cmd[1]; 
+	var utag 		= cmd[2];
+	var proto_type 	= cmd[3];
 
 	if (service_modules[stype].is_transfer) {
 		service_modules[stype].on_recv_server_return(session, stype, ctype, utag, proto_type,null,cmd_buf);
 		return true;
 	}
 
-	var cmd = ProtoManager.decode_cmd(proto_type, cmd_buf);
-	if (!cmd) {
-		return false;
-	}
-	
-	body = cmd[2];
+	var body = ProtoManager.decode_cmd(proto_type, cmd_buf);
 	service_modules[stype].on_recv_server_return(session, stype, ctype, utag, proto_type, body, cmd_buf);
 	return true;
 }
@@ -48,18 +40,14 @@ function on_recv_client_cmd(session, cmd_buf) {
 	if (session.is_encrypt) {
 		cmd_buf = ProtoManager.decrypt_cmd(cmd_buf);	
 	}
-	var stype, ctype, body, utag, proto_type;
-
 	var cmd = ProtoManager.decode_cmd_header(cmd_buf);
 	if (!cmd) {
 		return false;
 	}
-	stype = cmd[0];
-	ctype = cmd[1];
-	utag = cmd[2];
-	proto_type = cmd[3];
-
-	Log.info(stype,ctype,utag,proto_type)
+	var stype 		= cmd[0];
+	var ctype 		= cmd[1];
+	var utag 		= cmd[2];
+	var proto_type 	= cmd[3];
 
 	if (!service_modules[stype]) {
 		return false;
@@ -70,12 +58,7 @@ function on_recv_client_cmd(session, cmd_buf) {
 		return true;
 	}
 
-	var cmd = ProtoManager.decode_cmd(proto_type, cmd_buf);
-	if (!cmd) {
-		return false;
-	}
-
-	body = cmd[2];
+	var body = ProtoManager.decode_cmd(proto_type, cmd_buf);
 	service_modules[stype].on_recv_player_cmd(session, stype, ctype, utag, proto_type, body, cmd_buf);
 	Log.info("on_recv_client_cmd>> " , stype, ctype, utag, proto_type, body)
 	return true;
