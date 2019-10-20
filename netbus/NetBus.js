@@ -1,7 +1,7 @@
 require("./Init.js")
 var ws 				= require("ws");
 var net 			= require("net");
-var StickPackage 	= require("stickPackage")
+var StickPackage 	= require("stickpackage")
 var Log 			= require("../utils/Log.js")
 var TcpPkg 			= require("./TcpPkg.js")
 var ProtoManager	 = require("./ProtoManager.js")

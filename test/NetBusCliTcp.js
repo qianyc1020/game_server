@@ -7,7 +7,7 @@ var Platform = require("../utils/Platform.js")
 var TcpPkg = require("../netbus/TcpPkg");
 var ProtoType = require("../netbus/ProtoType.js")
 var netpkg = require("./netpkg.js")
-var StickPackage 	 = require("stickPackage")
+var StickPackage 	 = require("stickpackage")
 var recvMsgCenter = new StickPackage.msgCenter({bigEndian:false})
 
 var local = "127.0.0.1"
