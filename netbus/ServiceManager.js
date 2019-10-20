@@ -1,5 +1,5 @@
 var Log 			= require("../utils/Log.js");
-var ProtoManager 	= require("./ProtoManager");
+var ProtoManager 	= require("./ProtoManager.js");
 
 var service_modules = {};
 
@@ -12,7 +12,7 @@ function register_service(stype, service) {
 	Log.info(service_modules[stype].name + " service registed success !!!!");
 }
 
-function on_recv_server_return (session, cmd_buf) {
+function on_recv_server_return(session, cmd_buf) {
 	if (session.is_encrypt) {
 		cmd_buf = ProtoManager.decrypt_cmd(cmd_buf);	
 	}
@@ -25,6 +25,17 @@ function on_recv_server_return (session, cmd_buf) {
 	var utag 		= cmd[2];
 	var proto_type 	= cmd[3];
 
+	// Log.info("on_recv_server_return: stype:" + stype, ",ctype: " + ctype , ",utag: " + utag , ",proto_type: " + proto_type)
+	if (!service_modules[stype]) {
+		Log.error("service_modules not exist")
+		return false;
+	}
+	
+	if (stype == null || ctype == null || utag == null || proto_type == null ) {
+		Log.error("cmd error")
+		return false;
+	}
+
 	if (service_modules[stype].is_transfer) {
 		service_modules[stype].on_recv_server_return(session, stype, ctype, utag, proto_type,null,cmd_buf);
 		return true;
@@ -32,11 +43,15 @@ function on_recv_server_return (session, cmd_buf) {
 
 	var body = ProtoManager.decode_cmd(proto_type, cmd_buf);
 	service_modules[stype].on_recv_server_return(session, stype, ctype, utag, proto_type, body, cmd_buf);
+	// Log.info("on_recv_server_return>> " , stype, ctype, utag, proto_type, body)
 	return true;
 }
 
 function on_recv_client_cmd(session, cmd_buf) {
-	// 根据我们的收到的数据解码我们命令
+	// 根据收到的数据解码命令
+	if (!cmd_buf){
+		return
+	}
 	if (session.is_encrypt) {
 		cmd_buf = ProtoManager.decrypt_cmd(cmd_buf);	
 	}
@@ -49,7 +64,15 @@ function on_recv_client_cmd(session, cmd_buf) {
 	var utag 		= cmd[2];
 	var proto_type 	= cmd[3];
 
+	// Log.info("on_recv_client_cmd: stype: " + stype, ",ctype: " + ctype , ",utag: " + utag , ",proto_type: " + proto_type , "cmd_buf: " , cmd_buf)
+
 	if (!service_modules[stype]) {
+		Log.error("service_modules not exist")
+		return false;
+	}
+
+	if (stype == null || ctype == null || utag == null || proto_type == null ) {
+		Log.error("cmd error")
 		return false;
 	}
 
@@ -60,13 +83,14 @@ function on_recv_client_cmd(session, cmd_buf) {
 
 	var body = ProtoManager.decode_cmd(proto_type, cmd_buf);
 	service_modules[stype].on_recv_player_cmd(session, stype, ctype, utag, proto_type, body, cmd_buf);
-	Log.info("on_recv_client_cmd>> " , stype, ctype, utag, proto_type, body)
+	// Log.info("on_recv_client_cmd>> " , stype, ctype, utag, proto_type, body)
 	return true;
 }
 
-// 玩家掉线就走这里
+// 玩家掉线
 function on_client_lost_connect(session) {
 	var uid = session.uid;
+	Log.info("on_client_lost_connect: uid " + uid)
 	if (uid === 0) {
 		return;
 	}
