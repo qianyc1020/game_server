@@ -249,7 +249,7 @@ function session_send_encoded_cmd(cmd) {
 		}else{
 			data = TcpPkg.package_data(cmd);
 		}
-		Log.info("data: " , data)
+		// Log.info("data: " , data)
 		if (data){
 			this.write(data);
 		}

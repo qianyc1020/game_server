@@ -2,6 +2,7 @@ var Log 		= require("../../utils/Log.js")
 var NetBus 		= require("../../netbus/NetBus.js")
 var ProtoTools 	= require("../../netbus/ProtoTools.js")
 var Stype 		= require("../Stype.js")
+var ProtoCmd 	= require("../ProtoCmd.js")
 
 var uid_session_map = {}; //保存已经登录过的玩家 uid-> session
 
@@ -27,7 +28,7 @@ var GatewayService = {
 
 //客户端转发到服务器
 function on_recv_player_cmd(session, stype, ctype, utag, proto_type, body, raw_cmd){
-	Log.info("on_recv_player_cmd:", stype, ctype, utag, proto_type, body, raw_cmd)
+	Log.info("on_recv_player_cmd:", ProtoCmd.getProtoName(stype)+ ",", ProtoCmd.getCmdName(stype,ctype)+ ",", "utag:" + utag)
 	var server_session = NetBus.get_server_session(stype);
 	if (!server_session) {
 		return;
@@ -48,7 +49,7 @@ function on_recv_player_cmd(session, stype, ctype, utag, proto_type, body, raw_c
 }
 //服务器转发到客户端
 function on_recv_server_return(session, stype, ctype, utag, proto_type, body, raw_cmd){
-	Log.info("on_recv_server_return:", stype, ctype, utag, proto_type, body, raw_cmd)
+	Log.info("on_recv_server_return:", ProtoCmd.getProtoName(stype)+ ",", ProtoCmd.getCmdName(stype,ctype)+ ",", "utag:" + utag)
 	var client_session = null;
 	if (is_befor_login_cmd()) { // 还没登录,utag == session.session_key
 		client_session = NetBus.get_client_session(utag);
