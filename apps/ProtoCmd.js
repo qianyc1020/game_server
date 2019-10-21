@@ -1,10 +1,13 @@
+var Log 	= require("../utils/Log.js")
+var Stype 	= require("./Stype")
+
 //服务器下标->协议脚本
 var StypeProtos = {
-	[0] : require("./gateway/BroadcastProto.js"),
-	[1] : require("./talk_room/TalkProto.js"),
-	[2] : require("./auth_server/AuthProto.js"),
-	[3] : require("./system_server/SystemProto.js"),
-	[4] : require("./game_server/GameProto.js"),
+	[Stype.Broadcast] : require("./gateway/BroadcastProto.js"),
+	[Stype.TalkRoom] : require("./talk_room/TalkProto.js"),
+	[Stype.Auth] : require("./auth_server/AuthProto.js"),
+	[Stype.GameSystem] : require("./system_server/SystemProto.js"),
+	[Stype.Game] : require("./game_server/GameProto.js"),
 }
 
 //命名空间

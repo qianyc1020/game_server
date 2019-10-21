@@ -1,6 +1,5 @@
 var GameConf 	= require("../GameConf.js")
 var NetBus 		= require("../../netbus/NetBus.js")
-var Stype 		= require("../Stype.js")
 var GatewayService = require("./GatewayService.js")
 var ServiceManager = require("../../netbus/ServiceManager.js")
 

@@ -9,7 +9,7 @@ var remote = "ws://www.hccfun.com:6081"
 var hoststr = Platform.isWin32() ? local : remote
 Log.info(hoststr)
 
-var sock = new ws(local);
+var sock = new ws(remote);
 
 sock.on("open", function () {
 	Log.info("connect success !!!!");
