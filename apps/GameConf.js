@@ -13,7 +13,7 @@ if(Platform.isWin32()){
 var GameConf = {
 	gateway_config: {
 		host: localhost,
-		ports: 6080,
+		ports: [6080,6081], //tcp , ws
 	},
 
 	webserver: {
@@ -36,28 +36,28 @@ var GameConf = {
 	game_database: {
 		host: localhost,
 		port: 3306,
-		db_name: "hcc_game_node",
+		db_name: "game_database",
 
 		uname: "root",
 		upwd: "123456",
 	},
 
-	center_server: {
+	auth_server: {
 		host: localhost,
 		port: 6086,
 		stypes: [Stype.Auth],
 	},
 
-	center_database: {
+	auth_database: {
 		host: localhost,
 		port: 3306,
-		db_name: "hcc_center",
+		db_name: "auth_database",
 
 		uname: "root",
 		upwd: "123456",
 	},
 
-	center_redis: {
+	auth_redis: {
 		host: localhost,
 		port: 6379,
 		db_index: 0,
@@ -77,11 +77,11 @@ var GameConf = {
 			port: 6086,
 		},
 
-		2: {
-			stype: Stype.GameSystem,
-			host: localhost,
-			port: 6087,
-		},
+		// 2: {
+		// 	stype: Stype.GameSystem,
+		// 	host: localhost,
+		// 	port: 6087,
+		// },
 	},
 };
 

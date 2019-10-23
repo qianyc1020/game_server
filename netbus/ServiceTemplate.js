@@ -2,11 +2,11 @@ var service = {
 	name: "service tempalte", // 服务名称
 	is_transfer: false, // 是否为转发模块,
 
-	// 收到客户端给我们发来的数据
+	// 收到客户端发来的数据
 	on_recv_player_cmd: function(session, stype, ctype, utag, proto_type, body, raw_cmd) {
 	},
 
-	// 收到我们连接的服务给我们发过来的数据;
+	// 收到连接的服务发过来的数据;
 	on_recv_server_return: function (session, stype, ctype, utag, proto_type, body, raw_cmd) {
 	}, 
 

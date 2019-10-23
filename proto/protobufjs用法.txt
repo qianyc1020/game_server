@@ -5,3 +5,9 @@
 pbjs -t static-module -w commonjs -o gameprotocol.js gameprotocol.proto
 
 pbjs -t static-module -w commonjs -o 文件名.js 文件名.proto
+
+
+//当前使用模式:
+将proto文件分开
+统一合并到protobufMsg.proto文件中
+再由protobufMsg.js文件到各自的服务器去查找对应的xxxProto.js 文件协议

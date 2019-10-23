@@ -9,20 +9,23 @@ var remote = "ws://www.hccfun.com:6081"
 var hoststr = Platform.isWin32() ? local : remote
 Log.info(hoststr)
 
-var sock = new ws(remote);
+var sock = new ws(local);
 
+var proto_type = 2;
 sock.on("open", function () {
 	Log.info("connect success !!!!");
-	var stype = 1;
-	var ctype = 1;
+	var stype = 2;
+	var ctype = 0;
 	var utag = 0;
-	var proto_type = 1;
-	var body = "huangshucheng"
+	var body = {
+		name: "huangshucheng",
+		age: 27,
+		email : "827773271@qq.com",
+	}
 	var cmd = ProtoManager.encode_cmd(stype, ctype, utag, proto_type, body) 
-	// sock.send(cmd);	
 	setInterval(function(){
 		sock.send(cmd);	
-	},100)
+	},1000)
 });
 
 sock.on("error", function(err) {
@@ -34,8 +37,5 @@ sock.on("close", function() {
 });
 
 sock.on("message", function(data) {
-	var proto_type = 1;
 	Log.info("receive:", ProtoManager.decode_cmd(proto_type,data));
 });
-
-Log.info("1111")

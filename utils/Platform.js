@@ -1,4 +1,4 @@
-var os 			= require("os")
+var os = require("os")
 
 function isWin32(){
 	return os.platform() == "win32"

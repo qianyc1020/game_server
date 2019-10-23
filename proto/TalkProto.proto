@@ -1,4 +1,8 @@
-syntax = "proto2"; 
+//TalkProto.proro
+
+syntax = "proto3";
+package TalkProto;
+
 enum Cmd {
 	INVALID_CMD = 0;
 	
@@ -16,8 +20,16 @@ enum Cmd {
 	eOnSendMsg = 9;
 }
 
+message LoginReq {
+	
+}
+
 message LoginRes {
   required int32 status = 1;
+}
+
+message ExitReq {
+	
 }
 
 message ExitRes {

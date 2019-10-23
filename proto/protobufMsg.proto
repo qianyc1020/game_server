@@ -1,0 +1,6 @@
+//ProtoMsg.proto
+
+syntax = "proto3";
+
+import "AuthProto.proto";
+import "TalkProto.proto";

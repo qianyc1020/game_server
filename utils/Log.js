@@ -1,5 +1,5 @@
-var util = require('util');
-var TimeUtil = require("../utils/TimeUtil");
+var util        = require('util');
+var TimeUtil    = require("../utils/TimeUtil");
 
 // log level
 var LEVEL = {
@@ -87,7 +87,7 @@ function log(level, message) {
             levelString = '[]';
             break;
     }
-    var output = util.format('%s%s %s(%d) %s', curTime ,levelString, fileName, lineNumber, message );
+    var output = util.format('%s%s %s(%d) %s', curTime ,levelString, fileName, lineNumber, message);
     if (!coloredOutput) {
         process.stdout.write(output + '\n');
     } else {

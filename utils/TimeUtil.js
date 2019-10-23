@@ -1,5 +1,3 @@
-var crypto = require("crypto");
-
 // 返回当前的时间戳，单位是秒
 function timestamp() {
     var date = new Date();

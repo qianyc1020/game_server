@@ -1,4 +1,8 @@
+//AuthProto.proto
+
 syntax = "proto3"; 
+package AuthProto;
+
 enum Cmd {
 	INVALED = 0;
 	eLoginReq = 1;
@@ -9,7 +13,6 @@ message LoginReq {
   string name = 1;  
   int32 age = 2;  
   string email = 3;  
-  int32 int_set = 4;
 }
 
 message LoginRes {
