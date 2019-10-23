@@ -7,6 +7,7 @@ var service = {
 	},
 
 	// 收到连接的服务发过来的数据;
+	//body:null
 	on_recv_server_return: function (session, stype, ctype, utag, proto_type, body, raw_cmd) {
 	}, 
 

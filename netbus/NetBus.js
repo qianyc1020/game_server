@@ -4,8 +4,8 @@ var net 			= require("net");
 var StickPackage 	= require("stickpackage")
 var Log 			= require("../utils/Log.js")
 var TcpPkg 			= require("./TcpPkg.js")
-var ProtoManager	 = require("./ProtoManager.js")
-var ServiceManager 	 = require("./ServiceManager.js")
+var ProtoManager	= require("./ProtoManager.js")
+var ServiceManager 	= require("./ServiceManager.js")
 var Stype 			= require("../apps/Stype.js")
 
 var global_session_list = {}; 	//客户端session
@@ -76,7 +76,7 @@ function connect_tcp_server(stype, host, port, is_encrypt) {
 		if (session.is_connected === true) {
 			on_session_disconnect(session);	
 		}
-		session.end();
+		session_close(session);
 		// 重新连接到服务器
 		setTimeout(function() {
 			Log.warn("reconnect:", Stype.name[stype],host,port);
@@ -138,7 +138,7 @@ function on_session_enter(session, is_wbsocket, is_encrypt) {
 function ws_add_client_session_event(session) {
 	session.on("close", function() {
 		on_session_exit(session);
-		session.close();
+		session_close(session);
 	});
 
 	session.on("error", function(err) {
@@ -157,7 +157,7 @@ function ws_add_client_session_event(session) {
 function tcp_add_client_session_event(session) {
 	session.on("close", function() {
 		on_session_exit(session);
-		session.end(); //
+		session_close(session);
 	});
 
 	session.on("error", function(err) {
