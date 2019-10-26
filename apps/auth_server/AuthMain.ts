@@ -1,10 +1,11 @@
-var GameConf 	= require("../GameConf.js")
-var NetBus 		= require("../../netbus/NetBus.js")
-var Stype 		= require("../Stype.js")
-var AuthService = require("./AuthService.js");
-var ServiceManager = require("../../netbus/ServiceManager.js")
-var MySqlAuthCenter = require("../../database/MySqlAuthCenter")
-var Log = require("../../utils/Log.js")
+import GameConf from "../GameConf"
+import NetBus from "../../netbus/NetBus"
+import Stype from "../Stype"
+import AuthService from "./AuthService"
+import ServiceManager from "../../netbus/ServiceManager"
+import MySqlAuthCenter from "../../database/MySqlAuthCenter"
+var Log = require("../../utils/Log")
+
 
 var auth_server = GameConf.auth_server;
 NetBus.start_tcp_server(auth_server.host, auth_server.port, false);
@@ -17,3 +18,5 @@ ServiceManager.register_service(Stype.Auth, AuthService);
 // MySqlAuthCenter.get_uinfo_by_uname_upwd("test1111","111111",function(errcode,ret){
 //     Log.info("mysql: " , errcode , ret)
 // })
+
+

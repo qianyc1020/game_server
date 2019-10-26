@@ -1,7 +1,7 @@
-var GameConf 	= require("../GameConf.js")
-var NetBus 		= require("../../netbus/NetBus.js")
-var GatewayService = require("./GatewayService.js")
-var ServiceManager = require("../../netbus/ServiceManager.js")
+import GameConf from "../GameConf"
+import NetBus from "../../netbus/NetBus"
+import GatewayService from "./GatewayService"
+import ServiceManager from "../../netbus/ServiceManager"
 
 var host 	= GameConf.gateway_config.host;
 var posts 	= GameConf.gateway_config.ports;

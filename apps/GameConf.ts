@@ -1,6 +1,5 @@
-var Stype 	 = require("./Stype.js");
-var Log 	 = require("../utils/Log.js")
-var Platform = require("../utils/Platform.js")
+import Stype from "./Stype"
+import Platform from "../utils/Platform"
 
 var localhost = "127.0.0.1"
 
@@ -85,4 +84,4 @@ var GameConf = {
 	},
 };
 
-module.exports = GameConf;
+export default GameConf;

@@ -1,4 +1,5 @@
 var Stype = {
+	name : {},
 	Broadcast: 0, // 广播服务
 	TalkRoom: 1,
 	Auth: 2,
@@ -14,4 +15,4 @@ Stype.name = {
 	[4] : "Game",
 }
 
-module.exports = Stype;
+export default Stype;

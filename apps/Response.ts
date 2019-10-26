@@ -16,4 +16,4 @@ var Response = {
 	NOT_YOUR_TURN: -112, // 没有轮到你
 };
 
-module.exports = Response;
+export default Response;

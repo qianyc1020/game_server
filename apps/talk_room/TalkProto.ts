@@ -1,4 +1,5 @@
-var TalkProto = {
+let TalkProto = {
+	nameSpace: "TalkProto", 
 	[0] : "LoginReq",
 	[1] : "LoginRes",
 	[3] : "ExitReq",
@@ -9,6 +10,4 @@ var TalkProto = {
 	[8] : "OnUserExit",
 }
 
-TalkProto.nameSpace = "TalkProto"
-
-module.exports = TalkProto;
+export default TalkProto;

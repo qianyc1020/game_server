@@ -1,8 +1,9 @@
-require("../3rd/Extend.js")
-var Log = require("../utils/Log.js")
+require("../3rd/Extend")
+var Log = require("../utils/Log")
 var ws = require("ws");
-var ProtoManager = require("../netbus/ProtoManager.js")
-var Platform = require("../utils/Platform.js")
+
+import ProtoManager from "../netbus/ProtoManager"
+import Platform from "../utils/Platform"
 
 var local = "ws://127.0.0.1:6081"
 var remote = "ws://www.hccfun.com:6081"
@@ -18,7 +19,7 @@ sock.on("open", function () {
 	var ctype = 0;
 	var utag = 0;
 	var body = {
-		name: "huangshucheng",
+		name: "huangshucheng websocket",
 		age: 27,
 		email : "827773271@qq.com",
 	}

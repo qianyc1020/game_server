@@ -1,1 +1,0 @@
-require("../3rd/Extend.js")

@@ -1,7 +1,7 @@
-var MySqlEngine = require("./MySqlEngine.js")
+var MySqlEngine = require("./MySqlEngine")
 var util        = require("util")
-var Log         = require("../utils/Log.js")
-var Respones    = require("../apps/Response.js")
+var Log         = require("../utils/Log")
+var Respones    = require("../apps/Response")
 
 var conn_pool       = null;
 var connect_info    = {}

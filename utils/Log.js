@@ -1,5 +1,4 @@
 var util        = require('util');
-var TimeUtil    = require("../utils/TimeUtil");
 
 // log level
 var LEVEL = {
@@ -55,6 +54,20 @@ function newPrepareStackTrace(error, structuredStack) {
     return structuredStack;
 }
 
+// 获取当前时间(精确到毫秒)
+function get_cur_time() {
+    var now = new Date();
+    var getFullYear     = now.getFullYear();
+    var getMonth        = now.getMonth()+1;
+    var getDate         = now.getDate();
+    var getHours        = now.getHours();
+    var getMinutes      = now.getMinutes();
+    var getSeconds      = now.getSeconds();
+    var getMilliseconds = now.getMilliseconds();
+    var timeStr = getFullYear + "" + getMonth + "" + getDate + " " + getHours + ":" + getMinutes + ":" + getSeconds + ' ' + getMilliseconds
+    return timeStr
+}
+
 // must not be called directly due to stack trace
 function log(level, message) {
     // get call stack and find the caller
@@ -69,8 +82,7 @@ function log(level, message) {
     var fileName = fileNameSplited[fileNameSplited.length - 1];
     var lineNumber = caller.getLineNumber();
     var columnNumber = caller.getColumnNumber();
-    var curTime = TimeUtil.get_cur_time()
-    // function name may be empty if it is a global call
+    var curTime = get_cur_time();
     // var functionName = caller.getFunctionName();
     var levelString;
     switch (level) {
