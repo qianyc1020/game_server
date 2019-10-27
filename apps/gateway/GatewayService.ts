@@ -4,13 +4,14 @@ import Stype from "../Stype"
 import ProtoCmd from "../ProtoCmd"
 import ProtoManager from "../../netbus/ProtoManager"
 import Respones from "../Response"
+import ServiceBase from "../../netbus/ServiceBase"
 var Log = require("../../utils/Log")
 
 var uid_session_map = {}; //保存已经登录过的玩家 uid-> session
 
-class GatewayService {
-	service_name: "GatewayService"; // 服务名称
-	is_transfer: true; 		// 是否为转发模块,
+class GatewayService extends ServiceBase {
+	service_name: string = "GatewayService"; // 服务名称
+	is_transfer: boolean = true; 		// 是否为转发模块,
 	
 	//客户端发到网关，网关转发到服务器
 	static on_recv_client_player_cmd(session:any, stype:number, ctype:number, utag:number, proto_type:number, raw_cmd:any){
