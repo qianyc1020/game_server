@@ -1,13 +1,13 @@
-require("./Init")
-var ws 				= require("ws");
-var net 			= require("net");
-var StickPackage 	= require("stickpackage")
-var Log 			= require("../utils/Log")
 
+import StickPackage from "stickpackage"
 import TcpPkg from "./TcpPkg"
 import ProtoManager from "./ProtoManager"
 import ServiceManager from "./ServiceManager"
 import Stype from "../apps/Stype"
+
+var ws 				= require("ws");
+var net 			= require("net");
+var Log 			= require("../utils/Log")
 
 var global_session_list = {}; 	//客户端session
 var global_seesion_key 	= 1; 	//客户端session key
@@ -241,7 +241,6 @@ class NetBus {
         if (session.is_websocket) {//websocket
             session.send(encode_cmd);
         }else {//tcp
-            // var data = IS_USE_STICKPACKAGE == true ? this.msgCenter.publish(cmd) : TcpPkg.package_data(cmd);
             var data = null;
             if (IS_USE_STICKPACKAGE == true){
                 if (session.msgCenter){
@@ -262,7 +261,7 @@ class NetBus {
         if(!recv_data){
             return null;
         }
-        Log.info("handle_package_data111")
+        // Log.info("handle_package_data111")
         var last_pkg = last_package;
         var data 	 = recv_data;
         if (last_pkg != null) { //上一次剩余没有处理完的半包;
@@ -271,14 +270,14 @@ class NetBus {
         else {
             last_pkg = data
         }
-        Log.info("handle_package_data222")
+        // Log.info("handle_package_data222")
         var pkg_len = TcpPkg.read_pkg_size(last_pkg, 0);
         if (pkg_len <= 2 || pkg_len <= 0) {
             return null;
         }
         var offset      = 0;
         var HEAD_LEN    = 2; //2个长度信息
-        Log.info("handle_package_data333,offset: "+ offset , "pkg_len: "+ pkg_len ,"last_pkg_len: " + last_pkg.length)
+        // Log.info("handle_package_data333,offset: "+ offset , "pkg_len: "+ pkg_len ,"last_pkg_len: " + last_pkg.length)
         while(offset + pkg_len <= last_pkg.length) { //判断是否有完整的包;
             // 根据长度信息来读取数据
             var cmd_buf = null; 
@@ -286,10 +285,10 @@ class NetBus {
             cmd_buf = Buffer.allocUnsafe(pkg_len - HEAD_LEN); 
             last_pkg.copy(cmd_buf, 0, offset + HEAD_LEN, offset + pkg_len);	
             if (cmd_callback){
-                Log.info("handle_package_data9999")
+                // Log.info("handle_package_data9999")
                 cmd_callback(cmd_buf)
             }
-            Log.info("handle_package_data444")
+            // Log.info("handle_package_data444")
             offset += pkg_len;
             if (offset >= last_pkg.length) { //正好包处理完了
                 break;
@@ -311,7 +310,7 @@ class NetBus {
             last_pkg = buf;
         }
 
-        Log.info("handle_package_data555")
+        // Log.info("handle_package_data555")
         return last_pkg
     }
 

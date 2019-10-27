@@ -1,4 +1,3 @@
-require("../3rd/Extend")
 var Log = require("../utils/Log")
 var ws = require("ws");
 

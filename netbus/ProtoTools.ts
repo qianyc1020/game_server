@@ -1,10 +1,11 @@
 import ProtoCmd from "../apps/ProtoCmd"
-var protobufMsg = require("../proto/protobufMsg")
+import StringUtil from "../utils/StringUtil"
+import * as protobufMsg from "../proto/protobufMsg"
 var Log 		= require("../utils/Log")
 
 class ProtoTools  {
-    static STR_LEN_IN_BUF: number = 2 //用来表示用2字节表示byte_len长度
-    static HEADER_SIZE: number = 10; //header size
+    static  STR_LEN_IN_BUF: number = 2 //用来表示用2字节表示byte_len长度
+    static  HEADER_SIZE: number = 10; //header size
     static ProtoType = {
         PROTO_JSON: 1,
         PROTO_BUF: 2,
@@ -110,7 +111,8 @@ class ProtoTools  {
     
     //编码str命令
     static encode_str_cmd(stype, ctype, utag, proto_type, str) {
-        var byte_len 	= str.utf8_byte_len();
+        var byte_len 	= StringUtil.utf8_byte_len(str);
+        Log.info("hcc>>encode_str_cmd: len: " , byte_len)
         var total_len 	= ProtoTools.HEADER_SIZE + ProtoTools.STR_LEN_IN_BUF + byte_len; // STR_LEN_IN_BUF 用来表示用2字节表示byte_len长度
         var cmd_buf 	= ProtoTools.alloc_buffer(total_len);
         var offset 		= ProtoTools.write_cmd_header_inbuf(cmd_buf, stype, ctype, utag, proto_type);

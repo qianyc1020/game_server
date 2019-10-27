@@ -1,4 +1,3 @@
-require("../3rd/Extend")
 var Log = require("../utils/Log")
 var net = require("net");
 var StickPackage 	 = require("stickpackage")
@@ -13,7 +12,7 @@ var remote = "www.hccfun.com"
 var hoststr = Platform.isWin32() ? local : remote
 Log.info("host:" , hoststr)
 
-var proto_type = 1
+var proto_type = 2
 
 var sock = net.connect({
 	port: 6080,

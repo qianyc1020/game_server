@@ -1,4 +1,5 @@
 var mysql = require("mysql")
+// import mysql from "mysql"
 
 var MySqlEngine = {
 	connect : connect,

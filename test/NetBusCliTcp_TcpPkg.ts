@@ -1,4 +1,3 @@
-require("../3rd/Extend")
 var Log = require("../utils/Log")
 var net = require("net");
 
