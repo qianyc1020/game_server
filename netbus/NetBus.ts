@@ -1,5 +1,3 @@
-
-import StickPackage from "stickpackage"
 import TcpPkg from "./TcpPkg"
 import ProtoManager from "./ProtoManager"
 import ServiceManager from "./ServiceManager"
@@ -7,6 +5,7 @@ import Stype from "../apps/Stype"
 
 var ws 				= require("ws");
 var net 			= require("net");
+var StickPackage    = require("stickpackage")
 var Log 			= require("../utils/Log")
 
 var global_session_list = {}; 	//客户端session
