@@ -25,7 +25,7 @@ sock.on("connect",function() {
 	var msgCenter = new StickPackage.msgCenter({bigEndian:false})
 	console.log("tcp connect success");
 	var stype = 2;
-	var ctype = 0;
+	var ctype = 1;
 	var utag = 0;
 	var body = {
 		name: "huangshucheng tcpsocket",

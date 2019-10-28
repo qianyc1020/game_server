@@ -7,7 +7,6 @@ import MySqlAuth from "../../database/MySqlAuth"
 
 var Log = require("../../utils/Log")
 
-
 var auth_server = GameConf.auth_server;
 NetBus.start_tcp_server(auth_server.host, auth_server.port, false);
 

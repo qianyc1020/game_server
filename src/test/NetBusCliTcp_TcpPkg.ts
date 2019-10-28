@@ -23,7 +23,7 @@ sock.on("connect",function() {
 	console.log("tcp connect success");
 	// 1, 2, body = "Hello Talk room!!!"
 	var stype = 2;
-	var ctype = 0;
+	var ctype = 1;
 	var utag = 0;
 	var body = {
 		name: "huangshucheng tcpsocket",
