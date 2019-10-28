@@ -15,8 +15,8 @@ server.on("close",function(){
 	console.log("hcc server is closed");
 });
 
-server.listen(6090,function(){
-	console.log("hcc http js server is running at port 6090");
+server.listen(6091,function(){
+	console.log("hcc http ts server is running at port 6091");
 })
 
-console.log("http js start")
+console.log("http ts")

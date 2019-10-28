@@ -1,9 +1,9 @@
 var proto_path = "../proto/GameEcho.proto"
-var Log = require("../utils/Log.js")
+var Log = require("../utils/Log")
 var protobuf = require("protobufjs")
-var Stype = require("../apps/Stype.js")
+var Stype = require("../apps/Stype")
 
-var ProtoMsg = require("../proto/protobufMsg.js")
+var ProtoMsg = require("../proto/protobufMsg")
 
 Log.info("Stype: " , Stype)
 
