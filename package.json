@@ -26,5 +26,8 @@
     "redis": "^2.8.0",
     "stickpackage": "^3.1.2",
     "ws": "^7.1.2"
+  },
+  "devDependencies": {
+    "@types/node": "^12.11.7"
   }
 }

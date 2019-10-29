@@ -1,4 +1,6 @@
-const http = require('http')
+// const http = require('http')
+
+import * as http from "http"
 const server = http.createServer()
 
 var index = 1
