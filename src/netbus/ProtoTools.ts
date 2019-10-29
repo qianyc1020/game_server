@@ -1,6 +1,6 @@
 import ProtoCmd from "../apps/ProtoCmd"
 import StringUtil from "../utils/StringUtil"
-import * as protobufMsg from "../proto/protobufMsg"
+import * as protobufMsg from "../protobuf/protobufMsg"
 var Log 		= require("../utils/Log")
 
 class ProtoTools  {
@@ -128,19 +128,20 @@ class ProtoTools  {
     static encode_protobuf_cmd(stype, ctype, utag, proto_type, body){
         var stypeName = ProtoCmd.getProtoName(stype)
         var cmdName   = ProtoCmd.getCmdName(stype,ctype)
+        Log.info("protoinfo: ", stypeName , cmdName ,stype ,ctype)
         if (!stypeName || !cmdName){
-            Log.error("stypeName or cmdName not exist")
+            Log.error("encode stypeName or cmdName not exist")
             return;
         }
     
         if (!protobufMsg[stypeName]) {
-            Log.error("stypeName not exist")
+            Log.error("encode stypeName not exist")
             return;
         }
     
         var msgType = protobufMsg[stypeName][cmdName]
         if (!msgType) {
-            Log.error("cmdName not exist")
+            Log.error("encode cmdName not exist")
             return;
         }
     
@@ -173,18 +174,18 @@ class ProtoTools  {
             var stypeName = ProtoCmd.getProtoName(stype)
             var cmdName   = ProtoCmd.getCmdName(stype,ctype)
             if (!stypeName || !cmdName){
-                Log.error("stypeName or cmdName not exist")
+                Log.error("decode stypeName or cmdName not exist")
                 return;
             }
     
             if (!protobufMsg[stypeName]) {
-                Log.error("stypeName not exist")
+                Log.error("decode stypeName not exist")
                 return;
             }
     
             var msgType = protobufMsg[stypeName][cmdName]
             if (!msgType) {
-                Log.error("cmdName not exist")
+                Log.error("decode cmdName not exist")
                 return;
             }
             var error = msgType.verify(bodyBuf)

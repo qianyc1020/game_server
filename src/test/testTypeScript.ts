@@ -29,7 +29,7 @@ var str1 = StringUtil.random_string(5)
 var str2 = StringUtil.random_int(1,9)
 Log.info(str,str1,str2)
 */
-
+/*
 Log.info("timeUtil: " , TimeUtil)
 Log.info(TimeUtil.timestamp(),TimeUtil.timestamp2date(TimeUtil.timestamp()),TimeUtil.timestamp_today(),TimeUtil.get_cur_time(),TimeUtil.date2timestamp("2017-06-28 18:00:00"))
 Log.info(Platform.isLinux() , Platform.isWin32())
@@ -41,4 +41,14 @@ var service_module = {
 for(var stype in service_module) {
     Log.info(stype, service_module[stype])
 }
+*/
 
+/////////////
+// import { Cmd, CmdName } from "../apps/auth_server/AuthProto"
+import * as proto from "../apps/auth_server/AuthProto"
+
+Log.info(proto)
+Log.info("---------------")
+// Log.info(Cmd)
+Log.info("---------------\n\n")
+// Log.info(CmdName)

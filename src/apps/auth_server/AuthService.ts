@@ -1,8 +1,8 @@
 import ProtoCmd from "../ProtoCmd"
-import AuthProto from "./AuthProto"
 import ProtoManater from "../../netbus/ProtoManager"
 import NetBus from "../../netbus/NetBus"
 import ServiceBase from "../../netbus/ServiceBase"
+import * as AuthProto from "./AuthProto"
 
 var Log = require("../../utils/Log")
 
@@ -15,7 +15,8 @@ class AuthService extends ServiceBase {
 		Log.info("on_recv_player_cmd:", ProtoCmd.getProtoName(stype) + ",", ProtoCmd.getCmdName(stype,ctype)+ ",", "utag:" + utag)
 		var resbody = {status:1}
 		// NetBus.send_encoded_cmd(session,raw_cmd)
-		NetBus.send_cmd(session,stype,1,utag,proto_type,resbody)
+		NetBus.send_cmd(session,stype,AuthProto.Cmd.eLoginRes,utag,proto_type,resbody)
+		NetBus.send_encoded_cmd(session, raw_cmd);
 		
 		//自己服务自己解码
 		var decode_buf = ProtoManater.decode_cmd(proto_type,raw_cmd)

@@ -15,7 +15,7 @@ var proto_type = 2;
 sock.on("open", function () {
 	Log.info("connect success !!!!");
 	var stype = 2;
-	var ctype = 0;
+	var ctype = 1;
 	var utag = 0;
 	var body = {
 		name: "huangshucheng websocket",
