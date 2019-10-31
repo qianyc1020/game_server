@@ -3,8 +3,10 @@ import ProtoManager from "./ProtoManager"
 import ServiceManager from "./ServiceManager"
 import Stype from "../apps/Stype"
 
-var ws 				= require("ws");
-var net 			= require("net");
+import * as WebSocket from "ws"
+import * as TcpSocket from "net"
+import ArrayUtil from '../utils/ArrayUtil';
+
 var StickPackage    = require("stickpackage")
 var Log 			= require("../utils/Log")
 
@@ -15,29 +17,29 @@ var IS_USE_STICKPACKAGE = true; 	//是否使用stickpackage处理粘包
 
 class NetBus {
         //开启webserver
-        static start_ws_server(ip, port, is_encrypt) {
+        static start_ws_server(ip:string, port:number, is_encrypt:boolean) {
         Log.info("start ws server:", ip, port);
-        var server = new ws.Server({
+        var server = new WebSocket.Server({
             host: ip,
             port: port,
         });
 
-        server.on("connection", function(client_session){
+        server.on("connection", function(client_session:WebSocket){
             NetBus.on_session_enter(client_session, true, is_encrypt);
             NetBus.ws_add_client_session_event(client_session);
         });
 
-        server.on("error", function(err){
+        server.on("error", function(err:Error){
         });
 
-        server.on("close", function(err){
-            Log.error("ws server listen close!!");
+        server.on("close", function(err:Error){
+            Log.error("WebSocket server listen close!!");
         });
     }
     //开启tcpserver
-    static start_tcp_server(ip, port, is_encrypt) {
+    static start_tcp_server(ip:string, port:number, is_encrypt:boolean) {
         Log.info("start tcp server:", ip, port);
-        var server = net.createServer(function(client_session) { 
+        var server = TcpSocket.createServer(function(client_session:TcpSocket.Socket) { 
             NetBus.on_session_enter(client_session, false, is_encrypt);
             NetBus.tcp_add_client_session_event(client_session);
         });
@@ -57,8 +59,8 @@ class NetBus {
         });
     }
     //连接到其他服务器
-    static connect_tcp_server(stype, host, port, is_encrypt) {
-        var session = net.connect({
+    static connect_tcp_server(stype:number, host:string, port:number, is_encrypt:boolean) {
+        var session = TcpSocket.connect({
             port: port,
             host: host,
         });
@@ -67,7 +69,7 @@ class NetBus {
         session.on("connect",function() {
             NetBus.on_session_connected(stype, session, false, is_encrypt);
             if (session.msgCenter){
-                session.msgCenter.onMsgRecv(function(cmd_buf){
+                session.msgCenter.onMsgRecv(function(cmd_buf:Buffer){
                     NetBus.on_recv_cmd_server_return(session,cmd_buf)
                 });
             }
@@ -85,10 +87,10 @@ class NetBus {
             }, 1000);
         });
 
-        session.on("error", function(err) {
+        session.on("error", function(err:Error) {
         });
 
-        session.on("data", function(data) {
+        session.on("data", function(data:Buffer) {
             if (!Buffer.isBuffer(data)) {
                 NetBus.session_close(session);
                 return;
@@ -100,7 +102,7 @@ class NetBus {
                 }
             }else{
                 //TODO 数据包不对，会一直堆积
-                var last_pkg = NetBus.handle_package_data(session.last_pkg, data,function(cmd_buf){
+                var last_pkg = NetBus.handle_package_data(session.last_pkg, data,function(cmd_buf:Buffer){
                     NetBus.on_recv_cmd_server_return(session, cmd_buf)
                 })
                 session.last_pkg = last_pkg;
@@ -109,7 +111,7 @@ class NetBus {
     }
 
     // 有客户端的session接入进来
-    static on_session_enter(session, is_websocket, is_encrypt) {
+    static on_session_enter(session:any, is_websocket:boolean, is_encrypt:boolean) {
         if (is_websocket) {
             Log.info("websocket session enter", session._socket.remoteAddress, session._socket.remotePort);
         }
@@ -134,16 +136,16 @@ class NetBus {
     }
 
     //websocket 客户端session事件
-    static ws_add_client_session_event(session) {
+    static ws_add_client_session_event(session:WebSocket) {
         session.on("close", function() {
             NetBus.on_session_exit(session);
             NetBus.session_close(session);
         });
 
-        session.on("error", function(err) {
+        session.on("error", function(err:Error) {
         });
 
-        session.on("message", function(data) {
+        session.on("message", function(data:Buffer) {
             if (!Buffer.isBuffer(data)) {
                 NetBus.session_close(session);
                 return;
@@ -153,16 +155,16 @@ class NetBus {
     }
 
     //tcp 客户端session事件
-    static tcp_add_client_session_event(session) {
+    static tcp_add_client_session_event(session:TcpSocket.Socket) {
         session.on("close", function() {
             NetBus.on_session_exit(session);
             NetBus.session_close(session);
         });
 
-        session.on("error", function(err) {
+        session.on("error", function(err:Error) {
         });
 
-        session.on("data", function(data) {
+        session.on("data", function(data:Buffer) {
             if (!Buffer.isBuffer(data)) {
                 NetBus.session_close(session);
                 return;
@@ -174,7 +176,7 @@ class NetBus {
             }else{
                 Log.info("data recv: " , data)
                 //TODO 数据包不对，会一直堆积
-                var last_pkg = NetBus.handle_package_data(session.last_pkg, data, function(cmd_buf){
+                var last_pkg = NetBus.handle_package_data(session.last_pkg, data, function(cmd_buf:Buffer){
                     // Log.info("handle_package_data888: " ,cmd_buf)
                     NetBus.on_session_recv_cmd(session, cmd_buf);
                 })
@@ -183,21 +185,21 @@ class NetBus {
         });
 
         if (session.msgCenter){
-            session.msgCenter.onMsgRecv(function(cmd_buf){
+            session.msgCenter.onMsgRecv(function(cmd_buf:Buffer){
                 NetBus.on_session_recv_cmd(session,cmd_buf)
             });
         }
     }
 
     //接收客户端数据
-    static on_session_recv_cmd(session, str_or_buf) {
+    static on_session_recv_cmd(session:any, str_or_buf:any) {
         if(!ServiceManager.on_recv_client_cmd(session, str_or_buf)) {
             NetBus.session_close(session);
         }
     }
 
     // 有客户端session退出
-    static on_session_exit(session) {
+    static on_session_exit(session:any) {
         session.is_connected = false;
         ServiceManager.on_client_lost_connect(session);
         session.last_pkg = null; 
@@ -209,7 +211,7 @@ class NetBus {
     }
 
     // 关闭session
-    static session_close(session) {
+    static session_close(session:any) {
         if (!session.is_websocket) {
             session.end();
         }
@@ -218,7 +220,7 @@ class NetBus {
         }
     }
 
-    static send_cmd(session, stype, ctype, utag, proto_type, body){
+    static send_cmd(session:any, stype:number, ctype:number, utag:number, proto_type:number, body:any){
         if (!session.is_connected){
             return
         }
@@ -228,7 +230,7 @@ class NetBus {
         }
     }
 
-    static send_encoded_cmd(session, encode_cmd){
+    static send_encoded_cmd(session:any, encode_cmd:any){
         if (!session.is_connected) {
             return;
         }
@@ -256,7 +258,7 @@ class NetBus {
     }
 
     //粘包处理
-    static handle_package_data(last_package, recv_data, cmd_callback){
+    static handle_package_data(last_package:Buffer, recv_data:Buffer, cmd_callback:any){
         if(!recv_data){
             return null;
         }
@@ -315,14 +317,14 @@ class NetBus {
 
     //////////////////////////////////
     //当前作为客户端，接收到其他服务器消息
-    static on_recv_cmd_server_return(session, str_or_buf) {
+    static on_recv_cmd_server_return(session:any, str_or_buf:any) {
         if(!ServiceManager.on_recv_server_cmd(session, str_or_buf)) {
             NetBus.session_close(session);
         }
     }
 
     //当前作为客户端，成功连接到其他服务器
-    static on_session_connected(stype, session, is_websocket, is_encrypt) {
+    static on_session_connected(stype:number, session:any, is_websocket:boolean, is_encrypt:boolean) {
         if (is_websocket) {
             Log.info("session connect:", session._socket.remoteAddress, session._socket.remotePort);
         }
@@ -344,17 +346,17 @@ class NetBus {
     }
 
     //当前作为客户端，获取其他服务器session
-    static get_server_session(stype) {
+    static get_server_session(stype:number) {
         return server_connect_list[stype];
     }
 
     //获取客户端Session
-    static get_client_session(session_key) {
+    static get_client_session(session_key:number) {
         return global_session_list[session_key];
     }
 
     //当前作为客户端，其他服务器断开链接
-    static on_session_disconnect(session) {
+    static on_session_disconnect(session:any) {
         session.is_connected = false;
         var stype = session.session_key;
         session.last_pkg = null; 

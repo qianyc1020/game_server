@@ -1,16 +1,15 @@
-var mysql = require("mysql")
+import * as mysql from "mysql"
 var Log = require("../utils/Log")
 
 class MySqlEngine {
-    private _conn_pool: any;
-    private _host: string;
-    private _port: number;
-    private _db_name: string;
-    private _uname: string;
-    private _upwd: string;
+    private _conn_pool: mysql.Pool;
+    private _host: string = "";
+    private _port: number = 0;
+    private _db_name: string = "";
+    private _uname: string = "";
+    private _upwd: string = "";
 
     constructor(){
-
     }
 
     connect(host:string, port:number, db_name:string, uname:string, upwd:string) {
@@ -28,7 +27,7 @@ class MySqlEngine {
             password: upwd,
         });
 
-        this._conn_pool.on('acquire', function (connection) {
+        this._conn_pool.on('acquire', function (connection:mysql.PoolConnection) {
             // Log.info('pool111 %d acquired', connection.threadId);
           });
 
@@ -41,13 +40,13 @@ class MySqlEngine {
             // Log.info('pool333 qnqueue');
         });
 
-        this._conn_pool.on('release', function (connection) {
+        this._conn_pool.on('release', function (connection:mysql.PoolConnection) {
             // Log.info('pool444 Connection %d released', connection.threadId);
         });
     }
     //查询sql，直接使用Pool.query接口，自动帮你release
     mysql_query(sql:string, callback:any){
-        this._conn_pool.query(sql, function (sql_err, sql_result, fields_desic) {
+        this._conn_pool.query(sql, function (sql_err:mysql.MysqlError, sql_result:any, fields_desic:any) {
             if (sql_err) {
                 if(callback) {
                     callback(sql_err, null, null);
@@ -62,12 +61,7 @@ class MySqlEngine {
 
     //查询sql，需要手动release
     mysql_exec(sql:string, callback:any) {
-        if (!this._conn_pool || this._conn_pool._closed){
-            Log.error("mysql " + this._db_name + " is closed")
-            return
-        }
-
-        this._conn_pool.getConnection(function(err, conn) {
+        this._conn_pool.getConnection(function(err:mysql.MysqlError, conn:any) {
             if (err) {
                 if(callback) {
                     callback(err, null, null);
@@ -75,7 +69,7 @@ class MySqlEngine {
                 return;
             }
     
-            conn.query(sql, function(sql_err, sql_result, fields_desic) {
+            conn.query(sql, function(sql_err:mysql.MysqlError, sql_result:any, fields_desic:any) {
                 conn.release();
                 if (sql_err) {
                     if (callback) {
