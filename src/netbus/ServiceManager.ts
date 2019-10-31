@@ -1,10 +1,12 @@
-import ProtoManager from "./ProtoManager"
+import ProtoManager from "./ProtoManager";
+import ArrayUtil from '../utils/ArrayUtil';
+
 var Log = require("../utils/Log");
 
 class ServiceManager {
-    static service_modules = {};    
+    static service_modules = [];    
 
-    static register_service(stype, service) {
+    static register_service(stype:number, service:any) {
         if (ServiceManager.service_modules[stype]) {
             Log.warn(ServiceManager.service_modules[stype].name + " service is registed !!!!");
         }
@@ -13,7 +15,7 @@ class ServiceManager {
         Log.info(ServiceManager.service_modules[stype].name + " service registed success !!!!");
     }
     
-    static on_recv_server_cmd(session, cmd_buf) {
+    static on_recv_server_cmd(session:any, cmd_buf:Buffer) {
         if (session.is_encrypt) {
             cmd_buf = ProtoManager.decrypt_cmd(cmd_buf);	
         }
@@ -40,7 +42,7 @@ class ServiceManager {
         return true;
     }
     
-    static on_recv_client_cmd(session, cmd_buf) {
+    static on_recv_client_cmd(session:any, cmd_buf:Buffer) {
         // 根据收到的数据解码命令
         if (!cmd_buf){
             return false;
@@ -73,7 +75,7 @@ class ServiceManager {
     }
     
     // 玩家掉线
-    static on_client_lost_connect(session) {
+    static on_client_lost_connect(session:any) {
         var uid = session.uid;
         Log.info("on_client_lost_connect: uid " + uid)
         if (uid === 0) {

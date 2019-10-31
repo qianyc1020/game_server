@@ -3,8 +3,8 @@ var Log = require("../utils/Log")
 
 class ProtoManager {
     //解头: stype, ctype, utag, proto_type, body
-    static decode_cmd_header(cmd_buf) {
-        var cmd = {};
+    static decode_cmd_header(cmd_buf:Buffer) {
+        var cmd = [];
 
         if (cmd_buf.length < ProtoTools.HEADER_SIZE) {
             return null;
@@ -17,7 +17,7 @@ class ProtoManager {
     }
 
     //编码
-    static encode_cmd(stype, ctype, utag, proto_type, body) {
+    static encode_cmd(stype:number, ctype:number, utag:number, proto_type:number, body:any) {
         if (proto_type == ProtoTools.ProtoType.PROTO_JSON) {
             return ProtoTools.encode_str_cmd(stype, ctype, utag, proto_type, JSON.stringify(body));
         }
@@ -27,7 +27,7 @@ class ProtoManager {
     }
 
     //解码, 返回: body
-    static decode_cmd(proto_type, cmd_buf) {
+    static decode_cmd(proto_type:number, cmd_buf:Buffer) {
         if (cmd_buf.length < ProtoTools.HEADER_SIZE) {
             return null;
         }
@@ -40,8 +40,8 @@ class ProtoManager {
     }
 
     //解包：返回body
-    static _json_decode(cmd_buf) {
-        var body = ProtoTools.decode_str_cmd(cmd_buf);
+    static _json_decode(cmd_buf:any) {
+        let body = ProtoTools.decode_str_cmd(cmd_buf);
         try {
             body = JSON.parse(body);
         }
@@ -52,12 +52,12 @@ class ProtoManager {
     }
 
     // 加密 TODO
-    static encrypt_cmd(str_of_buf) {
+    static encrypt_cmd(str_of_buf:any) {
         return str_of_buf;
     }
 
     // 解密 TODO
-    static decrypt_cmd(str_of_buf) {
+    static decrypt_cmd(str_of_buf:any) {
         return str_of_buf;
     }
 

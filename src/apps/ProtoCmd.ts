@@ -20,12 +20,14 @@ class ProtoCmd {
 		if(ProtoCmd.StypeProtos[stype]){
 			return ProtoCmd.StypeProtos[stype].protoName
 		}
+		return "";
 	}
 	//字段名称
 	static getCmdName(stype:number, ctype:number):string{
 		if(ProtoCmd.StypeProtos[stype]){
 			return ProtoCmd.StypeProtos[stype].CmdName[ctype]
 		}
+		return "";
 	}
 }
 

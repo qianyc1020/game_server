@@ -89,25 +89,25 @@ class GatewayService extends ServiceBase {
 		// server_session.send_cmd(stype, Cmd.USER_DISCONNECT, null, utag, proto_man.PROTO_JSON);
 	}
 	//还没登录
-	static is_befor_login_cmd(stype, ctype){
+	static is_befor_login_cmd(stype:number, ctype:number){
 		return true; // TODO
 	}
 	
-	static is_login_cmd(stype, ctype){
+	static is_login_cmd(stype:number, ctype:number){
 		return false; // TODO
 	}
 	
 	//返回登录过的玩家的UID
-	static get_session_by_uid(uid) {
+	static get_session_by_uid(uid:number) {
 		return uid_session_map[uid];
 	}
 	//保存登录过的玩家的 uid->session
-	static save_session_with_uid(uid, session, proto_type) {
+	static save_session_with_uid(uid:number, session:any, proto_type:number) {
 		uid_session_map[uid] = session;
 		session.proto_type = proto_type;
 	}
 	//清理session
-	static clear_session_with_uid(uid) {
+	static clear_session_with_uid(uid:number) {
 		uid_session_map[uid] = null;
 		delete uid_session_map[uid];
 	}

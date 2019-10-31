@@ -19,3 +19,4 @@ class Person {
 // 实例化
 let person = new Person('temptation', 18);
 person.say();
+console.log('cccccccccccccccc')

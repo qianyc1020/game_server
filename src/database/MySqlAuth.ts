@@ -1,6 +1,6 @@
 import MySqlEngine from "./MySqlEngine"
 import Respones from "../apps/Response"
-var util        = require("util")
+import * as util from "util"
 var Log         = require("../utils/Log")
 
 class MySqlAuth {
@@ -28,7 +28,7 @@ class MySqlAuth {
 	static get_uinfo_by_uname_upwd(uname:string, upwd:string, callback:any) {
 		var sql = "select uid, unick, usex, uface, uvip, status from uinfo where uname = \"%s\" and upwd = \"%s\" and is_guest = 0 limit 1";
 		var sql_cmd = util.format(sql, uname, upwd);
-		MySqlAuth.mysql_query(sql_cmd, function(err, sql_ret, fields_desic) {
+		MySqlAuth.mysql_query(sql_cmd, function(err:any, sql_ret:any, fields_desic:any) {
 			if (err) {
 				callback(Respones.SYSTEM_ERR, null);
 				return;
