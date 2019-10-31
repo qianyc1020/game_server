@@ -2,8 +2,9 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-var Stype_1 = __importDefault(require("./Stype"));
+var Stype_1 = require("../apps/Stype");
 var Platform_1 = __importDefault(require("../utils/Platform"));
 var localhost = "127.0.0.1";
 if (Platform_1.default.isWin32()) {
@@ -24,7 +25,7 @@ var GameConf = {
     game_system_server: {
         host: localhost,
         port: 6087,
-        stypes: [Stype_1.default.GameSystem],
+        stypes: [Stype_1.Stype.GameSystem],
     },
     // game_server: {
     // 	host: localhost,
@@ -41,7 +42,7 @@ var GameConf = {
     auth_server: {
         host: localhost,
         port: 6086,
-        stypes: [Stype_1.default.Auth],
+        stypes: [Stype_1.Stype.Auth],
     },
     auth_database: {
         host: localhost,
@@ -61,13 +62,13 @@ var GameConf = {
         db_index: 1,
     },
     // 代码来生成
-    gw_connect_servers: {
-        1: {
-            stype: Stype_1.default.Auth,
+    gw_connect_servers: (_a = {},
+        _a[1] = {
+            stype: Stype_1.Stype.Auth,
             host: localhost,
             port: 6086,
         },
-    },
+        _a),
 };
 exports.default = GameConf;
 //# sourceMappingURL=GameConf.js.map

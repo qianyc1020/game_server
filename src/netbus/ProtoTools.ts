@@ -1,12 +1,13 @@
 import ProtoCmd from "../apps/ProtoCmd"
 import StringUtil from "../utils/StringUtil"
 import * as protobufMsg from "../protobuf/protobufMsg"
+import { load } from "protobufjs";
 var Log 		= require("../utils/Log")
 
 class ProtoTools  {
     static  STR_LEN_IN_BUF: number = 2 //用来表示用2字节表示byte_len长度
     static  HEADER_SIZE: number = 10; //header size
-    static ProtoType = {
+    static ProtoType:any = {
         PROTO_JSON: 1,
         PROTO_BUF: 2,
     };
@@ -132,7 +133,11 @@ class ProtoTools  {
             Log.error("encode stypeName or cmdName not exist")
             return;
         }
-    
+        //test TODO
+        // protobufMsg.AuthProto.Cmd
+        // protobufMsg.AuthProto.LoginReq
+        // protobufMsg.AuthProto.LoginRes
+
         if (!protobufMsg[stypeName]) {
             Log.error("encode stypeName not exist")
             return;

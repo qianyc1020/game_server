@@ -118,6 +118,10 @@ var ProtoTools = /** @class */ (function () {
             Log.error("encode stypeName or cmdName not exist");
             return;
         }
+        //test TODO
+        // protobufMsg.AuthProto.Cmd
+        // protobufMsg.AuthProto.LoginReq
+        // protobufMsg.AuthProto.LoginRes
         if (!protobufMsg[stypeName]) {
             Log.error("encode stypeName not exist");
             return;

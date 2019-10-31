@@ -1,4 +1,4 @@
-import Stype from "./Stype"
+import {Stype,StypeName} from "../apps/Stype"
 import Platform from "../utils/Platform"
 
 var localhost = "127.0.0.1"
@@ -9,7 +9,7 @@ if(Platform.isWin32()){
 	localhost = "172.16.166.106"
 }
 
-var GameConf = {
+var GameConf:any = {
 	gateway_config: {
 		host: localhost,
 		ports: [6080,6081], //tcp , ws
@@ -70,7 +70,7 @@ var GameConf = {
 
 	// 代码来生成
 	gw_connect_servers: {
-		1: {
+		[1]: {
 			stype: Stype.Auth,
 			host: localhost,
 			port: 6086,

@@ -4,7 +4,7 @@ import ArrayUtil from '../utils/ArrayUtil';
 var Log = require("../utils/Log");
 
 class ServiceManager {
-    static service_modules = [];    
+    static service_modules:any = {};    
 
     static register_service(stype:number, service:any) {
         if (ServiceManager.service_modules[stype]) {

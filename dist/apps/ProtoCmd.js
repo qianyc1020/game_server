@@ -1,7 +1,4 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -11,12 +8,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-var Stype_1 = __importDefault(require("./Stype"));
 var Broadcast = __importStar(require("./gateway/BroadcastProto"));
 var TalkRoom = __importStar(require("./talk_room/TalkProto"));
 var Auth = __importStar(require("./auth_server/AuthProto"));
 var GameSystem = __importStar(require("./system_server/SystemProto"));
 var GameProto = __importStar(require("./game_server/GameProto"));
+var Stype_1 = require("./Stype");
 var ProtoCmd = /** @class */ (function () {
     function ProtoCmd() {
     }
@@ -25,22 +22,22 @@ var ProtoCmd = /** @class */ (function () {
         if (ProtoCmd.StypeProtos[stype]) {
             return ProtoCmd.StypeProtos[stype].protoName;
         }
-        return "";
+        return null;
     };
     //字段名称
     ProtoCmd.getCmdName = function (stype, ctype) {
         if (ProtoCmd.StypeProtos[stype]) {
             return ProtoCmd.StypeProtos[stype].CmdName[ctype];
         }
-        return "";
+        return null;
     };
     //服务器下标->协议脚本
     ProtoCmd.StypeProtos = (_a = {},
-        _a[Stype_1.default.Broadcast] = Broadcast,
-        _a[Stype_1.default.TalkRoom] = TalkRoom,
-        _a[Stype_1.default.Auth] = Auth,
-        _a[Stype_1.default.GameSystem] = GameSystem,
-        _a[Stype_1.default.Game] = GameProto,
+        _a[Stype_1.Stype.Broadcast] = Broadcast,
+        _a[Stype_1.Stype.TalkRoom] = TalkRoom,
+        _a[Stype_1.Stype.Auth] = Auth,
+        _a[Stype_1.Stype.GameSystem] = GameSystem,
+        _a[Stype_1.Stype.Game] = GameProto,
         _a);
     return ProtoCmd;
 }());

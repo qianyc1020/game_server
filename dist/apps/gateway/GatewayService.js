@@ -18,11 +18,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var NetBus_1 = __importDefault(require("../../netbus/NetBus"));
 var ProtoTools_1 = __importDefault(require("../../netbus/ProtoTools"));
-var Stype_1 = __importDefault(require("../Stype"));
 var ProtoCmd_1 = __importDefault(require("../ProtoCmd"));
 var ProtoManager_1 = __importDefault(require("../../netbus/ProtoManager"));
 var Response_1 = __importDefault(require("../Response"));
 var ServiceBase_1 = __importDefault(require("../../netbus/ServiceBase"));
+var Stype_1 = require("../Stype");
 var Log = require("../../utils/Log");
 var uid_session_map = {}; //保存已经登录过的玩家 uid-> session
 var GatewayService = /** @class */ (function (_super) {
@@ -94,7 +94,7 @@ var GatewayService = /** @class */ (function (_super) {
     //玩家掉线 TODO send to other server
     GatewayService.on_player_disconnect = function (session, stype) {
         Log.info("on_player_disconnect");
-        if (stype == Stype_1.default.Auth) { // 由Auth服务保存的，那么我们就由Auth清空
+        if (stype == Stype_1.Stype.Auth) { // 由Auth服务保存的，那么我们就由Auth清空
             GatewayService.clear_session_with_uid(session.uid);
         }
         var server_session = NetBus_1.default.get_server_session(stype);

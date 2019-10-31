@@ -1,29 +1,24 @@
 import TcpPkg from "./TcpPkg"
 import ProtoManager from "./ProtoManager"
 import ServiceManager from "./ServiceManager"
-import Stype from "../apps/Stype"
-
 import * as WebSocket from "ws"
 import * as TcpSocket from "net"
 import ArrayUtil from '../utils/ArrayUtil';
+import { Stype, StypeName} from '../apps/Stype';
 
 var StickPackage    = require("stickpackage")
 var Log 			= require("../utils/Log")
 
-var global_session_list = {}; 	//客户端session
+var global_session_list:any = {}; 	//客户端session
 var global_seesion_key 	= 1; 	//客户端session key
-var server_connect_list = {}; 	//当前作为客户端，连接到的其他服务器的session
+var server_connect_list:any = {}; 	//当前作为客户端，连接到的其他服务器的session
 var IS_USE_STICKPACKAGE = true; 	//是否使用stickpackage处理粘包
 
 class NetBus {
-        //开启webserver
-        static start_ws_server(ip:string, port:number, is_encrypt:boolean) {
+    //开启webserver
+    static start_ws_server(ip:string, port:number, is_encrypt:boolean) {
         Log.info("start ws server:", ip, port);
-        var server = new WebSocket.Server({
-            host: ip,
-            port: port,
-        });
-
+        var server:WebSocket.Server = new WebSocket.Server({ host: ip, port: port,});
         server.on("connection", function(client_session:WebSocket){
             NetBus.on_session_enter(client_session, true, is_encrypt);
             NetBus.ws_add_client_session_event(client_session);
@@ -60,7 +55,7 @@ class NetBus {
     }
     //连接到其他服务器
     static connect_tcp_server(stype:number, host:string, port:number, is_encrypt:boolean) {
-        var session = TcpSocket.connect({
+        var session:any = TcpSocket.connect({
             port: port,
             host: host,
         });
@@ -82,7 +77,7 @@ class NetBus {
             NetBus.session_close(session);
             // 重新连接到服务器
             setTimeout(function() {
-                Log.warn("reconnect:", Stype.name[stype],host,port);
+                Log.warn("reconnect:", StypeName[stype],host,port);
                 NetBus.connect_tcp_server(stype, host, port, is_encrypt);
             }, 1000);
         });
@@ -155,7 +150,7 @@ class NetBus {
     }
 
     //tcp 客户端session事件
-    static tcp_add_client_session_event(session:TcpSocket.Socket) {
+    static tcp_add_client_session_event(session:any) {
         session.on("close", function() {
             NetBus.on_session_exit(session);
             NetBus.session_close(session);
@@ -220,6 +215,7 @@ class NetBus {
         }
     }
 
+    // 发送数据包
     static send_cmd(session:any, stype:number, ctype:number, utag:number, proto_type:number, body:any){
         if (!session.is_connected){
             return
@@ -230,6 +226,7 @@ class NetBus {
         }
     }
 
+    // 发送未解包的数据包
     static send_encoded_cmd(session:any, encode_cmd:any){
         if (!session.is_connected) {
             return;
@@ -263,7 +260,7 @@ class NetBus {
             return null;
         }
         // Log.info("handle_package_data111")
-        var last_pkg = last_package;
+        var last_pkg:any = last_package;
         var data 	 = recv_data;
         if (last_pkg != null) { //上一次剩余没有处理完的半包;
             last_pkg = Buffer.concat([last_pkg, data], last_pkg.length + data.length);

@@ -78,7 +78,7 @@ var ServiceManager = /** @class */ (function () {
             ServiceManager.service_modules[stype].on_player_disconnect(session, stype);
         }
     };
-    ServiceManager.service_modules = [];
+    ServiceManager.service_modules = {};
     return ServiceManager;
 }());
 exports.default = ServiceManager;

@@ -85,7 +85,7 @@ class MySqlEngine {
     }
 
     get_mysql_info(){
-        var info = {
+        var info:any = {
             host      : this._host,
             port      : this._port,
             db_name   : this._db_name,

@@ -13,9 +13,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var TcpPkg_1 = __importDefault(require("./TcpPkg"));
 var ProtoManager_1 = __importDefault(require("./ProtoManager"));
 var ServiceManager_1 = __importDefault(require("./ServiceManager"));
-var Stype_1 = __importDefault(require("../apps/Stype"));
 var WebSocket = __importStar(require("ws"));
 var TcpSocket = __importStar(require("net"));
+var Stype_1 = require("../apps/Stype");
 var StickPackage = require("stickpackage");
 var Log = require("../utils/Log");
 var global_session_list = {}; //客户端session
@@ -28,10 +28,7 @@ var NetBus = /** @class */ (function () {
     //开启webserver
     NetBus.start_ws_server = function (ip, port, is_encrypt) {
         Log.info("start ws server:", ip, port);
-        var server = new WebSocket.Server({
-            host: ip,
-            port: port,
-        });
+        var server = new WebSocket.Server({ host: ip, port: port, });
         server.on("connection", function (client_session) {
             NetBus.on_session_enter(client_session, true, is_encrypt);
             NetBus.ws_add_client_session_event(client_session);
@@ -84,7 +81,7 @@ var NetBus = /** @class */ (function () {
             NetBus.session_close(session);
             // 重新连接到服务器
             setTimeout(function () {
-                Log.warn("reconnect:", Stype_1.default.name[stype], host, port);
+                Log.warn("reconnect:", Stype_1.StypeName[stype], host, port);
                 NetBus.connect_tcp_server(stype, host, port, is_encrypt);
             }, 1000);
         });
@@ -207,6 +204,7 @@ var NetBus = /** @class */ (function () {
             session.close();
         }
     };
+    // 发送数据包
     NetBus.send_cmd = function (session, stype, ctype, utag, proto_type, body) {
         if (!session.is_connected) {
             return;
@@ -216,6 +214,7 @@ var NetBus = /** @class */ (function () {
             NetBus.send_encoded_cmd(session, encode_cmd);
         }
     };
+    // 发送未解包的数据包
     NetBus.send_encoded_cmd = function (session, encode_cmd) {
         if (!session.is_connected) {
             return;

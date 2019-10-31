@@ -8,14 +8,14 @@ class TimeUtil{
     }
 
     // 时间戳是秒，Date是毫秒
-    static timestamp2date(time) {
+    static timestamp2date(time:number) {
         var date = new Date();
         date.setTime(time * 1000);
         return [date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()];
     }
 
     // "2017-06-28 18:00:00"
-    static date2timestamp(strtime)  {
+    static date2timestamp(strtime:string)  {
         var date = new Date(strtime.replace(/-/g, '/'));
         var time = Date.parse(date.toString());
         return (time / 1000);

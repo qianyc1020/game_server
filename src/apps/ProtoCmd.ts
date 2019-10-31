@@ -1,13 +1,13 @@
-import  Stype from "./Stype"
 import * as Broadcast from "./gateway/BroadcastProto"
 import * as TalkRoom from "./talk_room/TalkProto"
 import * as Auth from "./auth_server/AuthProto"
 import * as GameSystem from "./system_server/SystemProto"
 import * as GameProto from "./game_server/GameProto"
+import { Stype,StypeName } from './Stype';
 
 class ProtoCmd {
 	//服务器下标->协议脚本
-	  static StypeProtos = {
+	  static StypeProtos:any = {
 		[Stype.Broadcast] : Broadcast,
 		[Stype.TalkRoom] : TalkRoom,
 		[Stype.Auth] : Auth,
@@ -16,18 +16,18 @@ class ProtoCmd {
 	}
 	
 	//命名空间
-	static getProtoName(stype: number):string{
+	static getProtoName(stype: number):any{
 		if(ProtoCmd.StypeProtos[stype]){
 			return ProtoCmd.StypeProtos[stype].protoName
 		}
-		return "";
+		return null;
 	}
 	//字段名称
-	static getCmdName(stype:number, ctype:number):string{
+	static getCmdName(stype:number, ctype:number):any{
 		if(ProtoCmd.StypeProtos[stype]){
 			return ProtoCmd.StypeProtos[stype].CmdName[ctype]
 		}
-		return "";
+		return null;
 	}
 }
 

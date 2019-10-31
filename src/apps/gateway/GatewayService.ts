@@ -1,13 +1,13 @@
 import NetBus from "../../netbus/NetBus"
 import ProtoTools from "../../netbus/ProtoTools"
-import Stype from "../Stype"
 import ProtoCmd from "../ProtoCmd"
 import ProtoManager from "../../netbus/ProtoManager"
 import Respones from "../Response"
 import ServiceBase from "../../netbus/ServiceBase"
+import { Stype, StypeName } from '../Stype';
 var Log = require("../../utils/Log")
 
-var uid_session_map = {}; //保存已经登录过的玩家 uid-> session
+var uid_session_map:any = {}; //保存已经登录过的玩家 uid-> session
 
 class GatewayService extends ServiceBase {
 	service_name: string = "GatewayService"; // 服务名称
