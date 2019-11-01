@@ -40,7 +40,7 @@ sock.on("connect",function() {
  	},1000)
 });
 
-sock.on("error", function(e) {
+sock.on("error", function(e:any) {
 	Log.info("error", e);
 });
 
@@ -54,11 +54,11 @@ sock.on("end", function() {
 	Log.info("end event");
 });
 
-sock.on("data", function(data) {
+sock.on("data", function(data:any) {
 	recvMsgCenter.putData(data)
 });
 //处理粘包
-recvMsgCenter.onMsgRecv(function(cmd_buf){
+recvMsgCenter.onMsgRecv(function(cmd_buf:any){
 	var cmd = ProtoManager.decode_cmd_header(cmd_buf);
 	var body = ProtoManager.decode_cmd(proto_type, cmd_buf);
 	Log.info("header: " , cmd)

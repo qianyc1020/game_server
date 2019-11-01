@@ -30,7 +30,7 @@ sock.on("connect",function() {
 		age: 27,
 		email : "827773271@qq.com",
 	}
-	var cmd1 = ProtoManager.encode_cmd(stype, ctype, utag, proto_type, body) 
+	var cmd1:any = ProtoManager.encode_cmd(stype, ctype, utag, proto_type, body) 
 	var pkg_cmd =  TcpPkg.package_data(cmd1)
 	//粘包处理工具
 	//  var cmd_buf = msgCenter.publish(cmd1)
@@ -40,7 +40,7 @@ sock.on("connect",function() {
  	},1000)
 });
 
-sock.on("error", function(e) {
+sock.on("error", function(e:any) {
 	Log.info("error", e);
 });
 
@@ -54,7 +54,7 @@ sock.on("end", function() {
 	Log.info("end event");
 });
 
-sock.on("data", function(cmd_buf) {
+sock.on("data", function(cmd_buf:any) {
 	// var cmd = ProtoManager.decode_cmd_header(cmd_buf);
 	// var body = ProtoManager.decode_cmd(proto_type, cmd_buf);
 	// Log.info("header: " , cmd)

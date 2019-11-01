@@ -9,10 +9,10 @@ import { Stype, StypeName} from '../apps/Stype';
 var StickPackage    = require("stickpackage")
 var Log 			= require("../utils/Log")
 
-var global_session_list:any = {}; 	//客户端session
-var global_seesion_key 	= 1; 	//客户端session key
-var server_connect_list:any = {}; 	//当前作为客户端，连接到的其他服务器的session
-var IS_USE_STICKPACKAGE = true; 	//是否使用stickpackage处理粘包
+var global_session_list:any         = {}; 	//客户端session
+var global_seesion_key:number 	    = 1; 	//客户端session key
+var server_connect_list:any         = {}; 	//当前作为客户端，连接到的其他服务器的session
+var IS_USE_STICKPACKAGE:boolean     = true; //是否使用stickpackage处理粘包
 
 class NetBus {
     //开启webserver

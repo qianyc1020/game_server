@@ -29,6 +29,17 @@ class ProtoCmd {
 		}
 		return null;
 	}
+	//
+	static getCmd(stype:number, ctype:number){
+		let protoName = ProtoCmd.getProtoName(stype);
+		if(protoName){
+			let cmdName = ProtoCmd.getCmdName(stype,ctype)
+			if (cmdName){
+				return protoName + "." + cmdName;
+			}
+		}
+		return null;
+	}
 }
 
 export default ProtoCmd;

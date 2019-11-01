@@ -2,7 +2,7 @@ import * as mysql from "mysql"
 var Log = require("../utils/Log")
 
 class MySqlEngine {
-    private _conn_pool: mysql.Pool;
+    private _conn_pool:any = null;
     private _host: string = "";
     private _port: number = 0;
     private _db_name: string = "";

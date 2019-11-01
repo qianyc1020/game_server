@@ -12,11 +12,24 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var ProtoCmd_1 = __importDefault(require("../apps/ProtoCmd"));
 var StringUtil_1 = __importDefault(require("../utils/StringUtil"));
-var protobufMsg = __importStar(require("../protobuf/protobufMsg"));
+var protobuf = __importStar(require("protobufjs"));
 var Log = require("../utils/Log");
+var proto_path = "protobufMsg.proto";
+var protoRoot = null;
+//load protobuf file
+protobuf.load(proto_path, function (err, root) {
+    if (err) {
+        Log.error(err);
+        return;
+    }
+    protoRoot = root;
+    Log.info("load protofile success: " + proto_path);
+});
 var ProtoTools = /** @class */ (function () {
     function ProtoTools() {
     }
+    ProtoTools.init = function () {
+    };
     ProtoTools.read_int8 = function (cmd_buf, offset) {
         return cmd_buf.readInt8(offset);
     };
@@ -109,87 +122,80 @@ var ProtoTools = /** @class */ (function () {
     ProtoTools.decode_str_cmd = function (cmd_buf) {
         return ProtoTools.read_str_inbuf(cmd_buf, ProtoTools.HEADER_SIZE);
     };
-    //编码 protobuf命令
     ProtoTools.encode_protobuf_cmd = function (stype, ctype, utag, proto_type, body) {
-        var stypeName = ProtoCmd_1.default.getProtoName(stype);
-        var cmdName = ProtoCmd_1.default.getCmdName(stype, ctype);
-        Log.info("protoinfo: ", stypeName, cmdName, stype, ctype);
-        if (!stypeName || !cmdName) {
+        if (!protoRoot) {
+            Log.error("encode protoRoot is null");
+            return;
+        }
+        var protoCmd = ProtoCmd_1.default.getCmd(stype, ctype);
+        if (!protoCmd) {
             Log.error("encode stypeName or cmdName not exist");
             return;
         }
-        //test TODO
-        // protobufMsg.AuthProto.Cmd
-        // protobufMsg.AuthProto.LoginReq
-        // protobufMsg.AuthProto.LoginRes
-        if (!protobufMsg[stypeName]) {
-            Log.error("encode stypeName not exist");
+        var messageType = protoRoot.lookup(protoCmd);
+        if (!messageType) {
+            Log.error("encode protobuf message " + protoCmd + " is null");
             return;
         }
-        var msgType = protobufMsg[stypeName][cmdName];
-        if (!msgType) {
-            Log.error("encode cmdName not exist");
-            return;
-        }
-        var error = msgType.verify(body);
+        var error = messageType.verify(body);
         if (error) {
-            Log.error(error);
+            Log.error("encode protobuf body is error");
             return;
         }
-        try {
-            var msg = msgType.create(body);
-            var emcode_msg = msgType.encode(msg).finish();
-            var byte_len = emcode_msg.byteLength;
-            var total_len = ProtoTools.HEADER_SIZE + byte_len;
-            var cmd_buf = ProtoTools.alloc_buffer(total_len);
-            var offset = ProtoTools.write_cmd_header_inbuf(cmd_buf, stype, ctype, utag, proto_type);
-            ProtoTools.write_protobuf_inbuf(cmd_buf, offset, emcode_msg);
-            return cmd_buf;
-        }
-        catch (e) {
-            Log.error(e);
+        var message = messageType.create(body);
+        if (message) {
+            try {
+                var emcode_msg = messageType.encode(message).finish();
+                var total_len = ProtoTools.HEADER_SIZE + emcode_msg.byteLength;
+                var cmd_buf = ProtoTools.alloc_buffer(total_len);
+                var offset = ProtoTools.write_cmd_header_inbuf(cmd_buf, stype, ctype, utag, proto_type);
+                ProtoTools.write_protobuf_inbuf(cmd_buf, offset, emcode_msg);
+                return cmd_buf;
+            }
+            catch (error) {
+                Log.error(error);
+            }
         }
     };
     //解码protobuf命令,返回body
     ProtoTools.decode_protobuf_cmd = function (cmd_buf) {
+        if (!protoRoot) {
+            Log.error("decode protoRoot is null");
+            return;
+        }
         var stype = ProtoTools.read_int16(cmd_buf, 0);
         var ctype = ProtoTools.read_int16(cmd_buf, 2);
-        // Log.info("decode_protobuf_cmd",stype , ctype , "len:"+ cmd_buf.length , cmd_buf)
+        var protoCmd = ProtoCmd_1.default.getCmd(stype, ctype);
+        if (!protoCmd) {
+            Log.error("decode stypeName or cmdName not exist");
+            return;
+        }
         var bodyBuf = ProtoTools.read_protobuf_inbuf(cmd_buf, ProtoTools.HEADER_SIZE);
         if (bodyBuf) {
-            var stypeName = ProtoCmd_1.default.getProtoName(stype);
-            var cmdName = ProtoCmd_1.default.getCmdName(stype, ctype);
-            if (!stypeName || !cmdName) {
-                Log.error("decode stypeName or cmdName not exist");
+            var messageType = protoRoot.lookup(protoCmd);
+            if (!messageType) {
+                Log.error("decode protobuf message " + protoCmd + " is null");
                 return;
             }
-            if (!protobufMsg[stypeName]) {
-                Log.error("decode stypeName not exist");
-                return;
-            }
-            var msgType = protobufMsg[stypeName][cmdName];
-            if (!msgType) {
-                Log.error("decode cmdName not exist");
-                return;
-            }
-            var error = msgType.verify(bodyBuf);
+            var error = messageType.verify(bodyBuf);
             if (error) {
-                Log.error(error);
+                Log.error("decode protobuf ", error);
                 return;
             }
             var decodeMsg = null;
             try {
-                decodeMsg = msgType.decode(bodyBuf);
+                decodeMsg = messageType.decode(bodyBuf);
             }
             catch (e) {
-                Log.error(e);
+                Log.error("decode protobuf ", e);
                 return;
             }
             return decodeMsg;
         }
     };
-    ProtoTools.STR_LEN_IN_BUF = 2; //用来表示用2字节表示byte_len长度
-    ProtoTools.HEADER_SIZE = 10; //header size
+    ProtoTools.STR_LEN_IN_BUF = 2; // 用来表示用2字节表示byte_len长度
+    ProtoTools.HEADER_SIZE = 10; // header size
+    ProtoTools.protobufRoot = null;
     ProtoTools.ProtoType = {
         PROTO_JSON: 1,
         PROTO_BUF: 2,

@@ -1,4 +1,4 @@
-//ProtoMsg.proto
+//ProtobufMsg.proto
 
 syntax = "proto3";
 

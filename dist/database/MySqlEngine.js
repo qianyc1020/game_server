@@ -11,6 +11,7 @@ var mysql = __importStar(require("mysql"));
 var Log = require("../utils/Log");
 var MySqlEngine = /** @class */ (function () {
     function MySqlEngine() {
+        this._conn_pool = null;
         this._host = "";
         this._port = 0;
         this._db_name = "";

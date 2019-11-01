@@ -28,7 +28,7 @@ sock.on("open", function () {
 	},1000)
 });
 
-sock.on("error", function(err) {
+sock.on("error", function(err:any) {
 	Log.info("error: ", err);
 });
 
@@ -36,6 +36,6 @@ sock.on("close", function() {
 	Log.info("close");
 });
 
-sock.on("message", function(data) {
+sock.on("message", function(data:any) {
 	Log.info("receive:", ProtoManager.decode_cmd(proto_type,data));
 });

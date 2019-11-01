@@ -31,6 +31,17 @@ var ProtoCmd = /** @class */ (function () {
         }
         return null;
     };
+    //
+    ProtoCmd.getCmd = function (stype, ctype) {
+        var protoName = ProtoCmd.getProtoName(stype);
+        if (protoName) {
+            var cmdName = ProtoCmd.getCmdName(stype, ctype);
+            if (cmdName) {
+                return protoName + "." + cmdName;
+            }
+        }
+        return null;
+    };
     //服务器下标->协议脚本
     ProtoCmd.StypeProtos = (_a = {},
         _a[Stype_1.Stype.Broadcast] = Broadcast,
