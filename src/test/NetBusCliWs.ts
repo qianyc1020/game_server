@@ -13,11 +13,11 @@ Log.info(hoststr)
 
 var sock = new ws(local);
 
-var proto_type = 1;
+var proto_type = 2;
 sock.on("open", function () {
 	Log.info("connect success !!!!");
 	var stype = Stype.Auth;
-	var ctype = AuthProto.Cmd.eEmptyReq;
+	var ctype = AuthProto.Cmd.eLoginReq;
 	var utag = 0;
 	var body = {
 		name: "huangshucheng websocket",

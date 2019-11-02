@@ -1,13 +1,22 @@
 "use strict";
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
 var Log = require("../utils/Log");
 var net = require("net");
+var AuthProto = __importStar(require("../apps/auth_server/AuthProto"));
 var StickPackage = require("stickpackage");
 var ProtoManager_1 = __importDefault(require("../netbus/ProtoManager"));
 var Platform_1 = __importDefault(require("../utils/Platform"));
+var Stype_1 = require("../apps/Stype");
 var recvMsgCenter = new StickPackage.msgCenter({ bigEndian: false });
 var local = "127.0.0.1";
 var remote = "www.hccfun.com";
@@ -23,8 +32,8 @@ var sock = net.connect({
 sock.on("connect", function () {
     var msgCenter = new StickPackage.msgCenter({ bigEndian: false });
     console.log("tcp connect success");
-    var stype = 2;
-    var ctype = 1;
+    var stype = Stype_1.Stype.Auth;
+    var ctype = AuthProto.Cmd.eLoginReq;
     var utag = 0;
     var body = {
         name: "huangshucheng tcpsocket",

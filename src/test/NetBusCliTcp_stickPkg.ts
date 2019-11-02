@@ -1,9 +1,11 @@
 var Log = require("../utils/Log")
 var net = require("net");
+import * as AuthProto from "../apps/auth_server/AuthProto"
 var StickPackage 	 = require("stickpackage")
 
 import ProtoManager from "../netbus/ProtoManager"
 import Platform from "../utils/Platform"
+import {Stype,StypeName}  from '../apps/Stype';
 
 var recvMsgCenter = new StickPackage.msgCenter({bigEndian:false})
 
@@ -24,8 +26,8 @@ var sock = net.connect({
 sock.on("connect",function() {
 	var msgCenter = new StickPackage.msgCenter({bigEndian:false})
 	console.log("tcp connect success");
-	var stype = 2;
-	var ctype = 1;
+	var stype = Stype.Auth;
+	var ctype = AuthProto.Cmd.eLoginReq;
 	var utag = 0;
 	var body = {
 		name: "huangshucheng tcpsocket",

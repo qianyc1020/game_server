@@ -15,18 +15,11 @@ var __extends = (this && this.__extends) || (function () {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
 exports.__esModule = true;
 var ProtoCmd_1 = __importDefault(require("../ProtoCmd"));
+var ProtoManager_1 = __importDefault(require("../../netbus/ProtoManager"));
 var NetBus_1 = __importDefault(require("../../netbus/NetBus"));
 var ServiceBase_1 = __importDefault(require("../../netbus/ServiceBase"));
-var AuthProto = __importStar(require("./AuthProto"));
 var Log = require("../../utils/Log");
 var AuthService = /** @class */ (function (_super) {
     __extends(AuthService, _super);
@@ -39,14 +32,12 @@ var AuthService = /** @class */ (function (_super) {
     // 收到客户端发来的数据
     AuthService.on_recv_client_player_cmd = function (session, stype, ctype, utag, proto_type, raw_cmd) {
         Log.info("on_recv_player_cmd:", ProtoCmd_1["default"].getProtoName(stype) + ",", ProtoCmd_1["default"].getCmdName(stype, ctype) + ",", "utag:" + utag);
-        var resbody = { status: 1 };
+        Log.info("decode_cmd: ", ProtoManager_1["default"].decode_cmd(proto_type, raw_cmd));
         NetBus_1["default"].send_encoded_cmd(session, raw_cmd);
-        NetBus_1["default"].send_cmd(session, stype, AuthProto.Cmd.eLoginRes, utag, proto_type, resbody);
+        // var resbody = {status:1}
+        // NetBus.send_cmd(session,stype,AuthProto.Cmd.eLoginRes,utag,proto_type,resbody)
         // NetBus.send_encoded_cmd(session, raw_cmd);
         // NetBus.send_cmd(session,stype,AuthProto.Cmd.eEmptyRes,utag,proto_type);
-        //自己服务自己解码
-        // var decode_buf = ProtoManater.decode_cmd(proto_type,raw_cmd)
-        // Log.info("decode_cmd: " , decode_buf)
     };
     // 收到连接的服务发过来的数据;
     AuthService.on_recv_server_player_cmd = function (session, stype, ctype, utag, proto_type, raw_cmd) {
