@@ -14,15 +14,6 @@ var auth_server = GameConf_1["default"].auth_server;
 NetBus_1["default"].start_tcp_server(auth_server.host, auth_server.port, false);
 ServiceManager_1["default"].register_service(Stype_1.Stype.Auth, AuthService_1["default"]);
 //test database
-var auth_database = GameConf_1["default"].auth_database;
-MySqlAuth_1["default"].connect(auth_database.host, auth_database.port, auth_database.db_name, auth_database.uname, auth_database.upwd);
-// setInterval(function(){
-//     MySqlAuth.get_uinfo_by_uname_upwd("xiaoyan","111111",function(err:any,ret:any){
-//         if(err){
-//             Log.error("hcc>>err: " , err)
-//             return;
-//         }
-//         Log.info("hcc>>info: " ,ret)
-//     })
-// },2000)
+var db_auth = GameConf_1["default"].auth_database;
+MySqlAuth_1["default"].connect(db_auth.host, db_auth.port, db_auth.db_name, db_auth.uname, db_auth.upwd);
 //# sourceMappingURL=AuthMain.js.map

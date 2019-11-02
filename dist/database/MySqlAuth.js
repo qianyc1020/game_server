@@ -101,6 +101,7 @@ var MySqlAuth = /** @class */ (function () {
             callback(Response_1["default"].INVALID_PARAMS);
         });
     };
+    //TODO 手机号不能作为账号
     MySqlAuth.check_phone_code_valid = function (phone, phone_code, opt_type, callback) {
         var sql = "select id from phone_chat where phone = \"%s\" and opt_type = %d and code = \"%s\" and end_time >= %d limit 1";
         var t = TimeUtil_1["default"].timestamp();
