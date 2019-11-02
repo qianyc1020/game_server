@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var StringUtil = /** @class */ (function () {
     function StringUtil() {
     }
@@ -51,5 +51,5 @@ var StringUtil = /** @class */ (function () {
     };
     return StringUtil;
 }());
-exports.default = StringUtil;
+exports["default"] = StringUtil;
 //# sourceMappingURL=StringUtil.js.map

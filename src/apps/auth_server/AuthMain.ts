@@ -13,12 +13,5 @@ NetBus.start_tcp_server(auth_server.host, auth_server.port, false);
 ServiceManager.register_service(Stype.Auth, AuthService);
 
 //test database
-var auth_database = GameConf.auth_database;
-MySqlAuth.connect(auth_database.host,auth_database.port,auth_database.db_name,auth_database.uname,auth_database.upwd)
-
-
-// setInterval(function(){
-//     MySqlAuth.get_uinfo_by_uname_upwd("test1111","111111",function(errcode,ret){
-//         Log.info("mysql: " , errcode , ret)
-//     })
-// },1000)
+var db_auth = GameConf.auth_database;
+MySqlAuth.connect(db_auth.host, db_auth.port, db_auth.db_name, db_auth.uname, db_auth.upwd)

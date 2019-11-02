@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var TimeUtil = /** @class */ (function () {
     function TimeUtil() {
     }
@@ -59,6 +59,6 @@ var TimeUtil = /** @class */ (function () {
     };
     return TimeUtil;
 }());
-exports.default = TimeUtil;
+exports["default"] = TimeUtil;
 // module.exports = TimeUtil;
 //# sourceMappingURL=TimeUtil.js.map

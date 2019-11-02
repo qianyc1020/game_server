@@ -1,12 +1,12 @@
 "use strict";
 var _a;
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 exports.Stype = {
     Broadcast: 0,
     TalkRoom: 1,
     Auth: 2,
     GameSystem: 3,
-    Game: 4,
+    Game: 4
 };
 exports.StypeName = (_a = {},
     _a[0] = "Broadcast",

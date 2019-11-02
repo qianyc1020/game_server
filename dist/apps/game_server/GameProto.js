@@ -1,6 +1,6 @@
 "use strict";
 var _a;
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 exports.protoName = "GameProto";
 var Cmd;
 (function (Cmd) {

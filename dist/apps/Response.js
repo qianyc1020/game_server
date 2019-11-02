@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var Response = {
     OK: 1,
     INVALID_PARAMS: -100,
@@ -14,7 +14,7 @@ var Response = {
     INVALID_ZONE: -109,
     CHIP_IS_NOT_ENOUGH: -110,
     VIP_IS_NOT_ENOUGH: -111,
-    NOT_YOUR_TURN: -112,
+    NOT_YOUR_TURN: -112
 };
-exports.default = Response;
+exports["default"] = Response;
 //# sourceMappingURL=Response.js.map

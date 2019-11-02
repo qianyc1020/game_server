@@ -3,7 +3,6 @@ import ProtoManager from "./ProtoManager"
 import ServiceManager from "./ServiceManager"
 import * as WebSocket from "ws"
 import * as TcpSocket from "net"
-import ArrayUtil from '../utils/ArrayUtil';
 import { Stype, StypeName} from '../apps/Stype';
 
 var StickPackage    = require("stickpackage")
@@ -216,7 +215,7 @@ class NetBus {
     }
 
     // 发送数据包
-    static send_cmd(session:any, stype:number, ctype:number, utag:number, proto_type:number, body:any){
+    static send_cmd(session:any, stype:number, ctype:number, utag:number, proto_type:number, body?:any){
         if (!session.is_connected){
             return
         }

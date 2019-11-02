@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var os = require("os");
 var Platform = /** @class */ (function () {
     function Platform() {
@@ -12,7 +12,7 @@ var Platform = /** @class */ (function () {
     };
     return Platform;
 }());
-exports.default = Platform;
+exports["default"] = Platform;
 //////////
 // export default Platform;
 // 这么写， import Platform from "../utils/Platform" 不带default

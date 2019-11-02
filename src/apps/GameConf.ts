@@ -35,8 +35,7 @@ var GameConf:any = {
 	game_database: {
 		host: localhost,
 		port: 3306,
-		db_name: "game_database",
-
+		db_name: "moba_game",
 		uname: "root",
 		upwd: "123456",
 	},
@@ -51,7 +50,6 @@ var GameConf:any = {
 		host: localhost,
 		port: 3306,
 		db_name: "auth_center",
-
 		uname: "root",
 		upwd: "123456",
 	},

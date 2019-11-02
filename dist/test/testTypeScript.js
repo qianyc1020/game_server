@@ -9,14 +9,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var Log = require("../utils/Log");
 Log.info('hccccc tst ts');
 Log.warn('hccccc tst ts');
 Log.error('hccccc tst ts');
 var Platform_1 = __importDefault(require("../utils/Platform"));
 // var Platform = require("../utils/Platform")
-Log.info(Platform_1.default);
+Log.info(Platform_1["default"]);
 // import CryptoUtil = require("../utils/CryptoUtil")
 // Log.info(CryptoUtil)
 // var base64_encode = CryptoUtil.base64_encode("huangshucheng")

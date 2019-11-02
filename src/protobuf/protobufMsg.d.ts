@@ -7,7 +7,9 @@ export namespace AuthProto {
     enum Cmd {
         INVALED = 0,
         eLoginReq = 1,
-        eLoginRes = 2
+        eLoginRes = 2,
+        eEmptyReq = 3,
+        eEmptyRes = 4
     }
 
     /** Properties of a LoginReq. */
@@ -88,14 +90,14 @@ export namespace AuthProto {
          * @param message Plain object to verify
          * @returns `null` if valid, otherwise the reason why it is not
          */
-        public static verify(message: { [k: string]: any }): (string|null);
+        public static verify(message: [ 'object' ].<string, any>): (string|null);
 
         /**
          * Creates a LoginReq message from a plain object. Also converts values to their respective internal types.
          * @param object Plain object
          * @returns LoginReq
          */
-        public static fromObject(object: { [k: string]: any }): AuthProto.LoginReq;
+        public static fromObject(object: [ 'object' ].<string, any>): AuthProto.LoginReq;
 
         /**
          * Creates a plain object from a LoginReq message. Also converts values to other types if specified.
@@ -103,13 +105,13 @@ export namespace AuthProto {
          * @param [options] Conversion options
          * @returns Plain object
          */
-        public static toObject(message: AuthProto.LoginReq, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static toObject(message: AuthProto.LoginReq, options?: $protobuf.IConversionOptions): [ 'object' ].<string, any>;
 
         /**
          * Converts this LoginReq to JSON.
          * @returns JSON object
          */
-        public toJSON(): { [k: string]: any };
+        public toJSON(): [ 'object' ].<string, any>;
     }
 
     /** Properties of a LoginRes. */
@@ -178,14 +180,14 @@ export namespace AuthProto {
          * @param message Plain object to verify
          * @returns `null` if valid, otherwise the reason why it is not
          */
-        public static verify(message: { [k: string]: any }): (string|null);
+        public static verify(message: [ 'object' ].<string, any>): (string|null);
 
         /**
          * Creates a LoginRes message from a plain object. Also converts values to their respective internal types.
          * @param object Plain object
          * @returns LoginRes
          */
-        public static fromObject(object: { [k: string]: any }): AuthProto.LoginRes;
+        public static fromObject(object: [ 'object' ].<string, any>): AuthProto.LoginRes;
 
         /**
          * Creates a plain object from a LoginRes message. Also converts values to other types if specified.
@@ -193,13 +195,181 @@ export namespace AuthProto {
          * @param [options] Conversion options
          * @returns Plain object
          */
-        public static toObject(message: AuthProto.LoginRes, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static toObject(message: AuthProto.LoginRes, options?: $protobuf.IConversionOptions): [ 'object' ].<string, any>;
 
         /**
          * Converts this LoginRes to JSON.
          * @returns JSON object
          */
-        public toJSON(): { [k: string]: any };
+        public toJSON(): [ 'object' ].<string, any>;
+    }
+
+    /** Properties of an EmptyReq. */
+    interface IEmptyReq {
+    }
+
+    /** Represents an EmptyReq. */
+    class EmptyReq implements IEmptyReq {
+
+        /**
+         * Constructs a new EmptyReq.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: AuthProto.IEmptyReq);
+
+        /**
+         * Creates a new EmptyReq instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns EmptyReq instance
+         */
+        public static create(properties?: AuthProto.IEmptyReq): AuthProto.EmptyReq;
+
+        /**
+         * Encodes the specified EmptyReq message. Does not implicitly {@link AuthProto.EmptyReq.verify|verify} messages.
+         * @param message EmptyReq message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: AuthProto.IEmptyReq, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified EmptyReq message, length delimited. Does not implicitly {@link AuthProto.EmptyReq.verify|verify} messages.
+         * @param message EmptyReq message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: AuthProto.IEmptyReq, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an EmptyReq message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns EmptyReq
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): AuthProto.EmptyReq;
+
+        /**
+         * Decodes an EmptyReq message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns EmptyReq
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): AuthProto.EmptyReq;
+
+        /**
+         * Verifies an EmptyReq message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: [ 'object' ].<string, any>): (string|null);
+
+        /**
+         * Creates an EmptyReq message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns EmptyReq
+         */
+        public static fromObject(object: [ 'object' ].<string, any>): AuthProto.EmptyReq;
+
+        /**
+         * Creates a plain object from an EmptyReq message. Also converts values to other types if specified.
+         * @param message EmptyReq
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: AuthProto.EmptyReq, options?: $protobuf.IConversionOptions): [ 'object' ].<string, any>;
+
+        /**
+         * Converts this EmptyReq to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): [ 'object' ].<string, any>;
+    }
+
+    /** Properties of an EmptyRes. */
+    interface IEmptyRes {
+    }
+
+    /** Represents an EmptyRes. */
+    class EmptyRes implements IEmptyRes {
+
+        /**
+         * Constructs a new EmptyRes.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: AuthProto.IEmptyRes);
+
+        /**
+         * Creates a new EmptyRes instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns EmptyRes instance
+         */
+        public static create(properties?: AuthProto.IEmptyRes): AuthProto.EmptyRes;
+
+        /**
+         * Encodes the specified EmptyRes message. Does not implicitly {@link AuthProto.EmptyRes.verify|verify} messages.
+         * @param message EmptyRes message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: AuthProto.IEmptyRes, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified EmptyRes message, length delimited. Does not implicitly {@link AuthProto.EmptyRes.verify|verify} messages.
+         * @param message EmptyRes message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: AuthProto.IEmptyRes, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an EmptyRes message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns EmptyRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): AuthProto.EmptyRes;
+
+        /**
+         * Decodes an EmptyRes message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns EmptyRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): AuthProto.EmptyRes;
+
+        /**
+         * Verifies an EmptyRes message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: [ 'object' ].<string, any>): (string|null);
+
+        /**
+         * Creates an EmptyRes message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns EmptyRes
+         */
+        public static fromObject(object: [ 'object' ].<string, any>): AuthProto.EmptyRes;
+
+        /**
+         * Creates a plain object from an EmptyRes message. Also converts values to other types if specified.
+         * @param message EmptyRes
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: AuthProto.EmptyRes, options?: $protobuf.IConversionOptions): [ 'object' ].<string, any>;
+
+        /**
+         * Converts this EmptyRes to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): [ 'object' ].<string, any>;
     }
 }
 
@@ -208,7 +378,7 @@ export namespace TalkProto {
 
     /** Cmd enum. */
     enum Cmd {
-        INVALID_CMD = 0,
+        INVALED = 0,
         eLoginReq = 1,
         eLoginRes = 2,
         eExitReq = 3,
@@ -280,14 +450,14 @@ export namespace TalkProto {
          * @param message Plain object to verify
          * @returns `null` if valid, otherwise the reason why it is not
          */
-        public static verify(message: { [k: string]: any }): (string|null);
+        public static verify(message: [ 'object' ].<string, any>): (string|null);
 
         /**
          * Creates a LoginReq message from a plain object. Also converts values to their respective internal types.
          * @param object Plain object
          * @returns LoginReq
          */
-        public static fromObject(object: { [k: string]: any }): TalkProto.LoginReq;
+        public static fromObject(object: [ 'object' ].<string, any>): TalkProto.LoginReq;
 
         /**
          * Creates a plain object from a LoginReq message. Also converts values to other types if specified.
@@ -295,13 +465,13 @@ export namespace TalkProto {
          * @param [options] Conversion options
          * @returns Plain object
          */
-        public static toObject(message: TalkProto.LoginReq, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static toObject(message: TalkProto.LoginReq, options?: $protobuf.IConversionOptions): [ 'object' ].<string, any>;
 
         /**
          * Converts this LoginReq to JSON.
          * @returns JSON object
          */
-        public toJSON(): { [k: string]: any };
+        public toJSON(): [ 'object' ].<string, any>;
     }
 
     /** Properties of a LoginRes. */
@@ -370,14 +540,14 @@ export namespace TalkProto {
          * @param message Plain object to verify
          * @returns `null` if valid, otherwise the reason why it is not
          */
-        public static verify(message: { [k: string]: any }): (string|null);
+        public static verify(message: [ 'object' ].<string, any>): (string|null);
 
         /**
          * Creates a LoginRes message from a plain object. Also converts values to their respective internal types.
          * @param object Plain object
          * @returns LoginRes
          */
-        public static fromObject(object: { [k: string]: any }): TalkProto.LoginRes;
+        public static fromObject(object: [ 'object' ].<string, any>): TalkProto.LoginRes;
 
         /**
          * Creates a plain object from a LoginRes message. Also converts values to other types if specified.
@@ -385,13 +555,13 @@ export namespace TalkProto {
          * @param [options] Conversion options
          * @returns Plain object
          */
-        public static toObject(message: TalkProto.LoginRes, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static toObject(message: TalkProto.LoginRes, options?: $protobuf.IConversionOptions): [ 'object' ].<string, any>;
 
         /**
          * Converts this LoginRes to JSON.
          * @returns JSON object
          */
-        public toJSON(): { [k: string]: any };
+        public toJSON(): [ 'object' ].<string, any>;
     }
 
     /** Properties of an ExitReq. */
@@ -454,14 +624,14 @@ export namespace TalkProto {
          * @param message Plain object to verify
          * @returns `null` if valid, otherwise the reason why it is not
          */
-        public static verify(message: { [k: string]: any }): (string|null);
+        public static verify(message: [ 'object' ].<string, any>): (string|null);
 
         /**
          * Creates an ExitReq message from a plain object. Also converts values to their respective internal types.
          * @param object Plain object
          * @returns ExitReq
          */
-        public static fromObject(object: { [k: string]: any }): TalkProto.ExitReq;
+        public static fromObject(object: [ 'object' ].<string, any>): TalkProto.ExitReq;
 
         /**
          * Creates a plain object from an ExitReq message. Also converts values to other types if specified.
@@ -469,13 +639,13 @@ export namespace TalkProto {
          * @param [options] Conversion options
          * @returns Plain object
          */
-        public static toObject(message: TalkProto.ExitReq, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static toObject(message: TalkProto.ExitReq, options?: $protobuf.IConversionOptions): [ 'object' ].<string, any>;
 
         /**
          * Converts this ExitReq to JSON.
          * @returns JSON object
          */
-        public toJSON(): { [k: string]: any };
+        public toJSON(): [ 'object' ].<string, any>;
     }
 
     /** Properties of an ExitRes. */
@@ -544,14 +714,14 @@ export namespace TalkProto {
          * @param message Plain object to verify
          * @returns `null` if valid, otherwise the reason why it is not
          */
-        public static verify(message: { [k: string]: any }): (string|null);
+        public static verify(message: [ 'object' ].<string, any>): (string|null);
 
         /**
          * Creates an ExitRes message from a plain object. Also converts values to their respective internal types.
          * @param object Plain object
          * @returns ExitRes
          */
-        public static fromObject(object: { [k: string]: any }): TalkProto.ExitRes;
+        public static fromObject(object: [ 'object' ].<string, any>): TalkProto.ExitRes;
 
         /**
          * Creates a plain object from an ExitRes message. Also converts values to other types if specified.
@@ -559,13 +729,13 @@ export namespace TalkProto {
          * @param [options] Conversion options
          * @returns Plain object
          */
-        public static toObject(message: TalkProto.ExitRes, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static toObject(message: TalkProto.ExitRes, options?: $protobuf.IConversionOptions): [ 'object' ].<string, any>;
 
         /**
          * Converts this ExitRes to JSON.
          * @returns JSON object
          */
-        public toJSON(): { [k: string]: any };
+        public toJSON(): [ 'object' ].<string, any>;
     }
 
     /** Properties of a SendMsgReq. */
@@ -634,14 +804,14 @@ export namespace TalkProto {
          * @param message Plain object to verify
          * @returns `null` if valid, otherwise the reason why it is not
          */
-        public static verify(message: { [k: string]: any }): (string|null);
+        public static verify(message: [ 'object' ].<string, any>): (string|null);
 
         /**
          * Creates a SendMsgReq message from a plain object. Also converts values to their respective internal types.
          * @param object Plain object
          * @returns SendMsgReq
          */
-        public static fromObject(object: { [k: string]: any }): TalkProto.SendMsgReq;
+        public static fromObject(object: [ 'object' ].<string, any>): TalkProto.SendMsgReq;
 
         /**
          * Creates a plain object from a SendMsgReq message. Also converts values to other types if specified.
@@ -649,13 +819,13 @@ export namespace TalkProto {
          * @param [options] Conversion options
          * @returns Plain object
          */
-        public static toObject(message: TalkProto.SendMsgReq, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static toObject(message: TalkProto.SendMsgReq, options?: $protobuf.IConversionOptions): [ 'object' ].<string, any>;
 
         /**
          * Converts this SendMsgReq to JSON.
          * @returns JSON object
          */
-        public toJSON(): { [k: string]: any };
+        public toJSON(): [ 'object' ].<string, any>;
     }
 
     /** Properties of a SendMsgRes. */
@@ -724,14 +894,14 @@ export namespace TalkProto {
          * @param message Plain object to verify
          * @returns `null` if valid, otherwise the reason why it is not
          */
-        public static verify(message: { [k: string]: any }): (string|null);
+        public static verify(message: [ 'object' ].<string, any>): (string|null);
 
         /**
          * Creates a SendMsgRes message from a plain object. Also converts values to their respective internal types.
          * @param object Plain object
          * @returns SendMsgRes
          */
-        public static fromObject(object: { [k: string]: any }): TalkProto.SendMsgRes;
+        public static fromObject(object: [ 'object' ].<string, any>): TalkProto.SendMsgRes;
 
         /**
          * Creates a plain object from a SendMsgRes message. Also converts values to other types if specified.
@@ -739,13 +909,13 @@ export namespace TalkProto {
          * @param [options] Conversion options
          * @returns Plain object
          */
-        public static toObject(message: TalkProto.SendMsgRes, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static toObject(message: TalkProto.SendMsgRes, options?: $protobuf.IConversionOptions): [ 'object' ].<string, any>;
 
         /**
          * Converts this SendMsgRes to JSON.
          * @returns JSON object
          */
-        public toJSON(): { [k: string]: any };
+        public toJSON(): [ 'object' ].<string, any>;
     }
 
     /** Properties of an OnUserLogin. */
@@ -820,14 +990,14 @@ export namespace TalkProto {
          * @param message Plain object to verify
          * @returns `null` if valid, otherwise the reason why it is not
          */
-        public static verify(message: { [k: string]: any }): (string|null);
+        public static verify(message: [ 'object' ].<string, any>): (string|null);
 
         /**
          * Creates an OnUserLogin message from a plain object. Also converts values to their respective internal types.
          * @param object Plain object
          * @returns OnUserLogin
          */
-        public static fromObject(object: { [k: string]: any }): TalkProto.OnUserLogin;
+        public static fromObject(object: [ 'object' ].<string, any>): TalkProto.OnUserLogin;
 
         /**
          * Creates a plain object from an OnUserLogin message. Also converts values to other types if specified.
@@ -835,13 +1005,13 @@ export namespace TalkProto {
          * @param [options] Conversion options
          * @returns Plain object
          */
-        public static toObject(message: TalkProto.OnUserLogin, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static toObject(message: TalkProto.OnUserLogin, options?: $protobuf.IConversionOptions): [ 'object' ].<string, any>;
 
         /**
          * Converts this OnUserLogin to JSON.
          * @returns JSON object
          */
-        public toJSON(): { [k: string]: any };
+        public toJSON(): [ 'object' ].<string, any>;
     }
 
     /** Properties of an OnUserExit. */
@@ -916,14 +1086,14 @@ export namespace TalkProto {
          * @param message Plain object to verify
          * @returns `null` if valid, otherwise the reason why it is not
          */
-        public static verify(message: { [k: string]: any }): (string|null);
+        public static verify(message: [ 'object' ].<string, any>): (string|null);
 
         /**
          * Creates an OnUserExit message from a plain object. Also converts values to their respective internal types.
          * @param object Plain object
          * @returns OnUserExit
          */
-        public static fromObject(object: { [k: string]: any }): TalkProto.OnUserExit;
+        public static fromObject(object: [ 'object' ].<string, any>): TalkProto.OnUserExit;
 
         /**
          * Creates a plain object from an OnUserExit message. Also converts values to other types if specified.
@@ -931,13 +1101,13 @@ export namespace TalkProto {
          * @param [options] Conversion options
          * @returns Plain object
          */
-        public static toObject(message: TalkProto.OnUserExit, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static toObject(message: TalkProto.OnUserExit, options?: $protobuf.IConversionOptions): [ 'object' ].<string, any>;
 
         /**
          * Converts this OnUserExit to JSON.
          * @returns JSON object
          */
-        public toJSON(): { [k: string]: any };
+        public toJSON(): [ 'object' ].<string, any>;
     }
 
     /** Properties of an OnSendMsg. */
@@ -1018,14 +1188,14 @@ export namespace TalkProto {
          * @param message Plain object to verify
          * @returns `null` if valid, otherwise the reason why it is not
          */
-        public static verify(message: { [k: string]: any }): (string|null);
+        public static verify(message: [ 'object' ].<string, any>): (string|null);
 
         /**
          * Creates an OnSendMsg message from a plain object. Also converts values to their respective internal types.
          * @param object Plain object
          * @returns OnSendMsg
          */
-        public static fromObject(object: { [k: string]: any }): TalkProto.OnSendMsg;
+        public static fromObject(object: [ 'object' ].<string, any>): TalkProto.OnSendMsg;
 
         /**
          * Creates a plain object from an OnSendMsg message. Also converts values to other types if specified.
@@ -1033,12 +1203,12 @@ export namespace TalkProto {
          * @param [options] Conversion options
          * @returns Plain object
          */
-        public static toObject(message: TalkProto.OnSendMsg, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static toObject(message: TalkProto.OnSendMsg, options?: $protobuf.IConversionOptions): [ 'object' ].<string, any>;
 
         /**
          * Converts this OnSendMsg to JSON.
          * @returns JSON object
          */
-        public toJSON(): { [k: string]: any };
+        public toJSON(): [ 'object' ].<string, any>;
     }
 }

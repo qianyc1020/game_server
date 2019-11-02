@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var crypto = require("crypto"); //导入其他库
 var CryptoUtil = /** @class */ (function () {
     function CryptoUtil() {
@@ -26,5 +26,5 @@ var CryptoUtil = /** @class */ (function () {
     };
     return CryptoUtil;
 }());
-exports.default = CryptoUtil;
+exports["default"] = CryptoUtil;
 //# sourceMappingURL=CryptoUtil.js.map

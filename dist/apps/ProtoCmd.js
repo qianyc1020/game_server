@@ -7,7 +7,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 var _a;
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var Broadcast = __importStar(require("./gateway/BroadcastProto"));
 var TalkRoom = __importStar(require("./talk_room/TalkProto"));
 var Auth = __importStar(require("./auth_server/AuthProto"));
@@ -52,5 +52,5 @@ var ProtoCmd = /** @class */ (function () {
         _a);
     return ProtoCmd;
 }());
-exports.default = ProtoCmd;
+exports["default"] = ProtoCmd;
 //# sourceMappingURL=ProtoCmd.js.map

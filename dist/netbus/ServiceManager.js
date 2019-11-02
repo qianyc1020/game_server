@@ -2,7 +2,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var ProtoManager_1 = __importDefault(require("./ProtoManager"));
 var Log = require("../utils/Log");
 var ServiceManager = /** @class */ (function () {
@@ -17,9 +17,9 @@ var ServiceManager = /** @class */ (function () {
     };
     ServiceManager.on_recv_server_cmd = function (session, cmd_buf) {
         if (session.is_encrypt) {
-            cmd_buf = ProtoManager_1.default.decrypt_cmd(cmd_buf);
+            cmd_buf = ProtoManager_1["default"].decrypt_cmd(cmd_buf);
         }
-        var cmd = ProtoManager_1.default.decode_cmd_header(cmd_buf);
+        var cmd = ProtoManager_1["default"].decode_cmd_header(cmd_buf);
         if (!cmd) {
             return false;
         }
@@ -44,9 +44,9 @@ var ServiceManager = /** @class */ (function () {
             return false;
         }
         if (session.is_encrypt) {
-            cmd_buf = ProtoManager_1.default.decrypt_cmd(cmd_buf);
+            cmd_buf = ProtoManager_1["default"].decrypt_cmd(cmd_buf);
         }
-        var cmd = ProtoManager_1.default.decode_cmd_header(cmd_buf);
+        var cmd = ProtoManager_1["default"].decode_cmd_header(cmd_buf);
         if (!cmd) {
             return false;
         }
@@ -81,5 +81,5 @@ var ServiceManager = /** @class */ (function () {
     ServiceManager.service_modules = {};
     return ServiceManager;
 }());
-exports.default = ServiceManager;
+exports["default"] = ServiceManager;
 //# sourceMappingURL=ServiceManager.js.map

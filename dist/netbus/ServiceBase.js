@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var ServiceBase = /** @class */ (function () {
     function ServiceBase() {
         this.service_name = "ServiceBase"; // 服务名称
@@ -16,5 +16,5 @@ var ServiceBase = /** @class */ (function () {
     };
     return ServiceBase;
 }());
-exports.default = ServiceBase;
+exports["default"] = ServiceBase;
 //# sourceMappingURL=ServiceBase.js.map

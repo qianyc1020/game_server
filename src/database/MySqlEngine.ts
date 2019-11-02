@@ -26,26 +26,13 @@ class MySqlEngine {
             user: uname,
             password: upwd,
         });
-
-        this._conn_pool.on('acquire', function (connection:mysql.PoolConnection) {
-            // Log.info('pool111 %d acquired', connection.threadId);
-          });
-
-        this._conn_pool.on('connection',function(){
-            // Log.info('pool222 create one connection');
-        });
-
-        //当一个回掉压入队伍等待连接的时候触发入队事件
-        this._conn_pool.on('enqueue',function(){
-            // Log.info('pool333 qnqueue');
-        });
-
-        this._conn_pool.on('release', function (connection:mysql.PoolConnection) {
-            // Log.info('pool444 Connection %d released', connection.threadId);
-        });
     }
-    //查询sql，直接使用Pool.query接口，自动帮你release
-    mysql_query(sql:string, callback:any){
+    //查询sql，直接使用Pool.query接口，自动release
+    mysql_query(sql:string, callback:Function){
+        if (!this._conn_pool){
+            Log.error("mysql Pool is null")
+            return;
+        }
         this._conn_pool.query(sql, function (sql_err:mysql.MysqlError, sql_result:any, fields_desic:any) {
             if (sql_err) {
                 if(callback) {
@@ -56,31 +43,6 @@ class MySqlEngine {
             if (callback) {
                 callback(null, sql_result, fields_desic);
             }
-        });
-    }
-
-    //查询sql，需要手动release
-    mysql_exec(sql:string, callback:any) {
-        this._conn_pool.getConnection(function(err:mysql.MysqlError, conn:any) {
-            if (err) {
-                if(callback) {
-                    callback(err, null, null);
-                }
-                return;
-            }
-    
-            conn.query(sql, function(sql_err:mysql.MysqlError, sql_result:any, fields_desic:any) {
-                conn.release();
-                if (sql_err) {
-                    if (callback) {
-                        callback(sql_err, null, null);
-                    }
-                    return;
-                }
-                if (callback) {
-                    callback(null, sql_result, fields_desic);
-                }
-            });
         });
     }
 

@@ -25,12 +25,16 @@ $root.AuthProto = (function() {
      * @property {number} INVALED=0 INVALED value
      * @property {number} eLoginReq=1 eLoginReq value
      * @property {number} eLoginRes=2 eLoginRes value
+     * @property {number} eEmptyReq=3 eEmptyReq value
+     * @property {number} eEmptyRes=4 eEmptyRes value
      */
     AuthProto.Cmd = (function() {
         var valuesById = {}, values = Object.create(valuesById);
         values[valuesById[0] = "INVALED"] = 0;
         values[valuesById[1] = "eLoginReq"] = 1;
         values[valuesById[2] = "eLoginRes"] = 2;
+        values[valuesById[3] = "eEmptyReq"] = 3;
+        values[valuesById[4] = "eEmptyRes"] = 4;
         return values;
     })();
 
@@ -453,6 +457,326 @@ $root.AuthProto = (function() {
         return LoginRes;
     })();
 
+    AuthProto.EmptyReq = (function() {
+
+        /**
+         * Properties of an EmptyReq.
+         * @memberof AuthProto
+         * @interface IEmptyReq
+         */
+
+        /**
+         * Constructs a new EmptyReq.
+         * @memberof AuthProto
+         * @classdesc Represents an EmptyReq.
+         * @implements IEmptyReq
+         * @constructor
+         * @param {AuthProto.IEmptyReq=} [properties] Properties to set
+         */
+        function EmptyReq(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * Creates a new EmptyReq instance using the specified properties.
+         * @function create
+         * @memberof AuthProto.EmptyReq
+         * @static
+         * @param {AuthProto.IEmptyReq=} [properties] Properties to set
+         * @returns {AuthProto.EmptyReq} EmptyReq instance
+         */
+        EmptyReq.create = function create(properties) {
+            return new EmptyReq(properties);
+        };
+
+        /**
+         * Encodes the specified EmptyReq message. Does not implicitly {@link AuthProto.EmptyReq.verify|verify} messages.
+         * @function encode
+         * @memberof AuthProto.EmptyReq
+         * @static
+         * @param {AuthProto.IEmptyReq} message EmptyReq message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        EmptyReq.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified EmptyReq message, length delimited. Does not implicitly {@link AuthProto.EmptyReq.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof AuthProto.EmptyReq
+         * @static
+         * @param {AuthProto.IEmptyReq} message EmptyReq message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        EmptyReq.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes an EmptyReq message from the specified reader or buffer.
+         * @function decode
+         * @memberof AuthProto.EmptyReq
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {AuthProto.EmptyReq} EmptyReq
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        EmptyReq.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.AuthProto.EmptyReq();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes an EmptyReq message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof AuthProto.EmptyReq
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {AuthProto.EmptyReq} EmptyReq
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        EmptyReq.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies an EmptyReq message.
+         * @function verify
+         * @memberof AuthProto.EmptyReq
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        EmptyReq.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            return null;
+        };
+
+        /**
+         * Creates an EmptyReq message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof AuthProto.EmptyReq
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {AuthProto.EmptyReq} EmptyReq
+         */
+        EmptyReq.fromObject = function fromObject(object) {
+            if (object instanceof $root.AuthProto.EmptyReq)
+                return object;
+            return new $root.AuthProto.EmptyReq();
+        };
+
+        /**
+         * Creates a plain object from an EmptyReq message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof AuthProto.EmptyReq
+         * @static
+         * @param {AuthProto.EmptyReq} message EmptyReq
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        EmptyReq.toObject = function toObject() {
+            return {};
+        };
+
+        /**
+         * Converts this EmptyReq to JSON.
+         * @function toJSON
+         * @memberof AuthProto.EmptyReq
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        EmptyReq.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return EmptyReq;
+    })();
+
+    AuthProto.EmptyRes = (function() {
+
+        /**
+         * Properties of an EmptyRes.
+         * @memberof AuthProto
+         * @interface IEmptyRes
+         */
+
+        /**
+         * Constructs a new EmptyRes.
+         * @memberof AuthProto
+         * @classdesc Represents an EmptyRes.
+         * @implements IEmptyRes
+         * @constructor
+         * @param {AuthProto.IEmptyRes=} [properties] Properties to set
+         */
+        function EmptyRes(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * Creates a new EmptyRes instance using the specified properties.
+         * @function create
+         * @memberof AuthProto.EmptyRes
+         * @static
+         * @param {AuthProto.IEmptyRes=} [properties] Properties to set
+         * @returns {AuthProto.EmptyRes} EmptyRes instance
+         */
+        EmptyRes.create = function create(properties) {
+            return new EmptyRes(properties);
+        };
+
+        /**
+         * Encodes the specified EmptyRes message. Does not implicitly {@link AuthProto.EmptyRes.verify|verify} messages.
+         * @function encode
+         * @memberof AuthProto.EmptyRes
+         * @static
+         * @param {AuthProto.IEmptyRes} message EmptyRes message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        EmptyRes.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified EmptyRes message, length delimited. Does not implicitly {@link AuthProto.EmptyRes.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof AuthProto.EmptyRes
+         * @static
+         * @param {AuthProto.IEmptyRes} message EmptyRes message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        EmptyRes.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes an EmptyRes message from the specified reader or buffer.
+         * @function decode
+         * @memberof AuthProto.EmptyRes
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {AuthProto.EmptyRes} EmptyRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        EmptyRes.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.AuthProto.EmptyRes();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes an EmptyRes message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof AuthProto.EmptyRes
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {AuthProto.EmptyRes} EmptyRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        EmptyRes.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies an EmptyRes message.
+         * @function verify
+         * @memberof AuthProto.EmptyRes
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        EmptyRes.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            return null;
+        };
+
+        /**
+         * Creates an EmptyRes message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof AuthProto.EmptyRes
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {AuthProto.EmptyRes} EmptyRes
+         */
+        EmptyRes.fromObject = function fromObject(object) {
+            if (object instanceof $root.AuthProto.EmptyRes)
+                return object;
+            return new $root.AuthProto.EmptyRes();
+        };
+
+        /**
+         * Creates a plain object from an EmptyRes message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof AuthProto.EmptyRes
+         * @static
+         * @param {AuthProto.EmptyRes} message EmptyRes
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        EmptyRes.toObject = function toObject() {
+            return {};
+        };
+
+        /**
+         * Converts this EmptyRes to JSON.
+         * @function toJSON
+         * @memberof AuthProto.EmptyRes
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        EmptyRes.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return EmptyRes;
+    })();
+
     return AuthProto;
 })();
 
@@ -469,7 +793,7 @@ $root.TalkProto = (function() {
      * Cmd enum.
      * @name TalkProto.Cmd
      * @enum {string}
-     * @property {number} INVALID_CMD=0 INVALID_CMD value
+     * @property {number} INVALED=0 INVALED value
      * @property {number} eLoginReq=1 eLoginReq value
      * @property {number} eLoginRes=2 eLoginRes value
      * @property {number} eExitReq=3 eExitReq value
@@ -482,7 +806,7 @@ $root.TalkProto = (function() {
      */
     TalkProto.Cmd = (function() {
         var valuesById = {}, values = Object.create(valuesById);
-        values[valuesById[0] = "INVALID_CMD"] = 0;
+        values[valuesById[0] = "INVALED"] = 0;
         values[valuesById[1] = "eLoginReq"] = 1;
         values[valuesById[2] = "eLoginRes"] = 2;
         values[valuesById[3] = "eExitReq"] = 3;

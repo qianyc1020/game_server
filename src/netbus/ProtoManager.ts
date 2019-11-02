@@ -1,4 +1,5 @@
 import ProtoTools from "./ProtoTools"
+import CryptoUtil from '../utils/CryptoUtil';
 var Log = require("../utils/Log")
 
 class ProtoManager {
@@ -17,9 +18,9 @@ class ProtoManager {
     }
 
     //编码
-    static encode_cmd(stype:number, ctype:number, utag:number, proto_type:number, body:any) {
+    static encode_cmd(stype:number, ctype:number, utag:number, proto_type:number, body?:any) {
         if (proto_type == ProtoTools.ProtoType.PROTO_JSON) {
-            return ProtoTools.encode_str_cmd(stype, ctype, utag, proto_type, JSON.stringify(body));
+            return ProtoManager._json_encode(stype, ctype, utag, proto_type, body)
         }
         else {
             return ProtoTools.encode_protobuf_cmd(stype, ctype, utag, proto_type, body);
@@ -39,16 +40,22 @@ class ProtoManager {
         }
     }
 
-    //解包：返回body
-    static _json_decode(cmd_buf:any) {
-        let body = ProtoTools.decode_str_cmd(cmd_buf);
+    private static _json_encode(stype:number, ctype:number, utag:number, proto_type:number,body?:any ) {
+        let str = "";
         try {
-            body = JSON.parse(body);
+            str = JSON.stringify(body);
+        } catch (error) {
         }
-        catch(e) {
-            return null;
+        return ProtoTools.encode_str_cmd(stype, ctype, utag,proto_type,str);
+    }
+    
+    private static _json_decode(cmd_buf:Buffer){
+        let str = "";
+        try {
+            str = JSON.parse(ProtoTools.decode_str_cmd(cmd_buf));
+        } catch (error) {
         }
-        return body;
+        return str;
     }
 
     // 加密 TODO

@@ -6,7 +6,9 @@ package AuthProto;
 enum Cmd {
 	INVALED = 0;
 	eLoginReq = 1;
-	eLoginRes = 2;
+  eLoginRes = 2;
+  eEmptyReq = 3;
+  eEmptyRes = 4;
 }
 
 message LoginReq {  
@@ -17,4 +19,11 @@ message LoginReq {
 
 message LoginRes {
   int32 status = 1;	
+}
+
+message EmptyReq {
+
+}
+
+message EmptyRes {
 }

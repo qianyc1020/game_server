@@ -9,7 +9,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var TcpPkg_1 = __importDefault(require("./TcpPkg"));
 var ProtoManager_1 = __importDefault(require("./ProtoManager"));
 var ServiceManager_1 = __importDefault(require("./ServiceManager"));
@@ -28,7 +28,7 @@ var NetBus = /** @class */ (function () {
     //开启webserver
     NetBus.start_ws_server = function (ip, port, is_encrypt) {
         Log.info("start ws server:", ip, port);
-        var server = new WebSocket.Server({ host: ip, port: port, });
+        var server = new WebSocket.Server({ host: ip, port: port });
         server.on("connection", function (client_session) {
             NetBus.on_session_enter(client_session, true, is_encrypt);
             NetBus.ws_add_client_session_event(client_session);
@@ -56,14 +56,14 @@ var NetBus = /** @class */ (function () {
         server.listen({
             host: ip,
             port: port,
-            exclusive: true,
+            exclusive: true
         });
     };
     //连接到其他服务器
     NetBus.connect_tcp_server = function (stype, host, port, is_encrypt) {
         var session = TcpSocket.connect({
             port: port,
-            host: host,
+            host: host
         });
         session.is_connected = false;
         session.on("connect", function () {
@@ -180,14 +180,14 @@ var NetBus = /** @class */ (function () {
     };
     //接收客户端数据
     NetBus.on_session_recv_cmd = function (session, str_or_buf) {
-        if (!ServiceManager_1.default.on_recv_client_cmd(session, str_or_buf)) {
+        if (!ServiceManager_1["default"].on_recv_client_cmd(session, str_or_buf)) {
             NetBus.session_close(session);
         }
     };
     // 有客户端session退出
     NetBus.on_session_exit = function (session) {
         session.is_connected = false;
-        ServiceManager_1.default.on_client_lost_connect(session);
+        ServiceManager_1["default"].on_client_lost_connect(session);
         session.last_pkg = null;
         if (global_session_list[session.session_key]) {
             global_session_list[session.session_key] = null;
@@ -209,7 +209,7 @@ var NetBus = /** @class */ (function () {
         if (!session.is_connected) {
             return;
         }
-        var encode_cmd = ProtoManager_1.default.encode_cmd(stype, ctype, utag, proto_type, body);
+        var encode_cmd = ProtoManager_1["default"].encode_cmd(stype, ctype, utag, proto_type, body);
         if (encode_cmd) {
             NetBus.send_encoded_cmd(session, encode_cmd);
         }
@@ -220,7 +220,7 @@ var NetBus = /** @class */ (function () {
             return;
         }
         if (session.is_encrypt) {
-            encode_cmd = ProtoManager_1.default.encrypt_cmd(encode_cmd);
+            encode_cmd = ProtoManager_1["default"].encrypt_cmd(encode_cmd);
         }
         if (session.is_websocket) { //websocket
             session.send(encode_cmd);
@@ -233,7 +233,7 @@ var NetBus = /** @class */ (function () {
                 }
             }
             else {
-                data = TcpPkg_1.default.package_data(encode_cmd);
+                data = TcpPkg_1["default"].package_data(encode_cmd);
             }
             // Log.info("data: " , data)
             if (data) {
@@ -256,7 +256,7 @@ var NetBus = /** @class */ (function () {
             last_pkg = data;
         }
         // Log.info("handle_package_data222")
-        var pkg_len = TcpPkg_1.default.read_pkg_size(last_pkg, 0);
+        var pkg_len = TcpPkg_1["default"].read_pkg_size(last_pkg, 0);
         if (pkg_len <= 2 || pkg_len <= 0) {
             return null;
         }
@@ -278,7 +278,7 @@ var NetBus = /** @class */ (function () {
             if (offset >= last_pkg.length) { //正好包处理完了
                 break;
             }
-            pkg_len = TcpPkg_1.default.read_pkg_size(last_pkg, offset);
+            pkg_len = TcpPkg_1["default"].read_pkg_size(last_pkg, offset);
             if (pkg_len < 0) {
                 break;
             }
@@ -298,7 +298,7 @@ var NetBus = /** @class */ (function () {
     //////////////////////////////////
     //当前作为客户端，接收到其他服务器消息
     NetBus.on_recv_cmd_server_return = function (session, str_or_buf) {
-        if (!ServiceManager_1.default.on_recv_server_cmd(session, str_or_buf)) {
+        if (!ServiceManager_1["default"].on_recv_server_cmd(session, str_or_buf)) {
             NetBus.session_close(session);
         }
     };
@@ -342,5 +342,5 @@ var NetBus = /** @class */ (function () {
     };
     return NetBus;
 }());
-exports.default = NetBus;
+exports["default"] = NetBus;
 //# sourceMappingURL=NetBus.js.map

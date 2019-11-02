@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var TcpPkg = /** @class */ (function () {
     function TcpPkg() {
     }
@@ -17,5 +17,5 @@ var TcpPkg = /** @class */ (function () {
     };
     return TcpPkg;
 }());
-exports.default = TcpPkg;
+exports["default"] = TcpPkg;
 //# sourceMappingURL=TcpPkg.js.map

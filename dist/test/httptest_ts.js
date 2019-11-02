@@ -7,7 +7,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var http = __importStar(require("http"));
 var server = http.createServer();
 var index = 1;
