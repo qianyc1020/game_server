@@ -108,7 +108,7 @@ var ProtoTools = /** @class */ (function () {
     ProtoTools.encode_protobuf_cmd = function (stype, ctype, utag, proto_type, body) {
         var stypeName = ProtoCmd_1["default"].getProtoName(stype);
         var cmdName = ProtoCmd_1["default"].getCmdName(stype, ctype);
-        // Log.info("protoinfo: ", stypeName , cmdName ,stype ,ctype)
+        Log.info("protoinfo: ", stypeName, cmdName, stype, ctype);
         if (!stypeName || !cmdName) {
             Log.error("encode stypeName or cmdName not exist");
             return;
@@ -164,11 +164,6 @@ var ProtoTools = /** @class */ (function () {
             var msgType = protobufMsg[stypeName][cmdName];
             if (!msgType) {
                 Log.error("decode cmdName not exist");
-                return;
-            }
-            var error = msgType.verify(bodyBuf);
-            if (error) {
-                Log.error(error);
                 return;
             }
             var decodeMsg = null;

@@ -33,12 +33,11 @@ sock.on("connect", function () {
     var msgCenter = new StickPackage.msgCenter({ bigEndian: false });
     console.log("tcp connect success");
     var stype = Stype_1.Stype.Auth;
-    var ctype = AuthProto.Cmd.eLoginReq;
+    var ctype = AuthProto.Cmd.eUnameLoginReq;
     var utag = 0;
     var body = {
-        name: "huangshucheng tcpsocket",
-        age: 27,
-        email: "827773271@qq.com"
+        uname: "test1111",
+        upwd: "111111"
     };
     var cmd1 = ProtoManager_1["default"].encode_cmd(stype, ctype, utag, proto_type, body);
     //粘包处理工具

@@ -5,25 +5,137 @@ package AuthProto;
 
 enum Cmd {
 	INVALED = 0;
-	eLoginReq = 1;
-  eLoginRes = 2;
-  eEmptyReq = 3;
-  eEmptyRes = 4;
+	eUnameLoginReq = 1; //用户名密码登陆
+  eUnameLoginRes = 2;
+
+  eGuestLoginReq = 3; //游客登陆
+  eGuestLoginRes = 4;
+
+  eUnameRegistReq = 5; //用户名密码注册
+  eUnameRegistRes = 6;
+
+  ePhoneRegistReq = 7; //手机号注册
+  ePhoneRegistRes = 8;
+
+  eGetPhoneRegVerNumReq = 9; //获取手机号注册的验证码
+  eGetPhoneRegVerNumRes = 10;
+
+  eBindPhoneNumberReq = 11; //绑定手机号
+  eBindPhoneNumberRes = 12;
+
+  eResetUserPwdReq = 13; //修改密码
+  eResetUserPwdRes = 14;
+
+  eLoginOutReq = 15; //退出登录
+  eLoginOutRes = 16;
+
+  eEditProfileReq = 17; //修改资料
+  eEditProfileRes = 18;
+  
+  eAccountUpgradeReq = 19; //游客账号升级
+  eAccountUpgradeRes = 20;
+
+  eGetUserCenterInfoReq = 21; //获取玩家信息
+  eGetUserCenterInfoRes = 22;
+
+  eReloginRes = 23; //被重复登录
+  eUserLostConnectRes = 24; //玩家掉线
 }
 
-message LoginReq {  
-  string name = 1;  
-  int32 age = 2;  
-  string email = 3;  
+message UnameLoginReq {  
+	required string uname = 1;
+	required string upwd = 2; 
 }
 
-message LoginRes {
-  int32 status = 1;	
+message UnameLoginRes {
+  int32 status = 1;
 }
 
-message EmptyReq {
+message GuestLoginReq {
+  required string guestkey = 1;
+}
+
+message GuestLoginRes {
+  required sint32 status = 1;
+}
+
+message UnameRegistReq {
+	required string uname = 1;
+	required string upwdmd5 = 2;
+}
+
+message UnameRegistRes {
+  required sint32 status = 1;
+}
+
+message PhoneRegistReq {
 
 }
 
-message EmptyRes {
+message PhoneRegistRes {
+
+}
+
+message GetPhoneRegVerNumReq {
+
+}
+
+message GetPhoneRegVerNumRes {
+
+}
+
+message BindPhoneNumberReq {
+
+}
+
+message BindPhoneNumberRes {
+
+}
+
+message ResetUserPwdReq {
+  
+}
+
+message ResetUserPwdRes {
+
+}
+
+message LoginOutReq {
+
+}
+
+message LoginOutRes {
+  required sint32 status = 1;
+}
+
+message EditProfileReq {
+	required string unick = 1;
+	required sint32 uface = 2;
+	required sint32 usex = 3;
+}
+
+message EditProfileRes {
+  required sint32 status = 1;
+}
+
+message AccountUpgradeReq {
+	required string uname = 1;
+	required string upwdMd5 = 2;
+}
+
+message AccountUpgradeRes {
+  required sint32 status = 1;
+}
+
+message GetUserCenterInfoReq {
+}
+
+message GetUserCenterInfoRes {
+	required string userCenterInfoString = 1;
+}
+
+message ReloginRes {
+}
+
+message UserLostConnectRes {
 }

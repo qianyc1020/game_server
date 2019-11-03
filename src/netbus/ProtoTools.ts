@@ -128,7 +128,7 @@ class ProtoTools  {
     static encode_protobuf_cmd(stype:number, ctype:number, utag:number, proto_type:number, body?:any){
         let stypeName = ProtoCmd.getProtoName(stype)
         let cmdName   = ProtoCmd.getCmdName(stype,ctype)
-        // Log.info("protoinfo: ", stypeName , cmdName ,stype ,ctype)
+        Log.info("protoinfo: ", stypeName , cmdName ,stype ,ctype)
         if (!stypeName || !cmdName){
             Log.error("encode stypeName or cmdName not exist")
             return;
@@ -193,12 +193,6 @@ class ProtoTools  {
                 Log.error("decode cmdName not exist")
                 return;
             }
-            let error = msgType.verify(bodyBuf)
-            if(error){
-                Log.error(error)
-                return;
-            }
-    
             let decodeMsg = null;
             try {
                  decodeMsg = msgType.decode(bodyBuf)

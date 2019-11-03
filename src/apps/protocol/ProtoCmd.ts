@@ -7,10 +7,10 @@ import { Stype,StypeName } from './Stype';
 class ProtoCmd {
 	//服务器下标->协议脚本
 	  static StypeProtos:any = {
-		[Stype.TalkRoom] : TalkRoom,
-		[Stype.Auth] : Auth,
-		[Stype.GameSystem] : GameSystem,
-		[Stype.Game] : GameProto,
+		  [Stype.Auth] : Auth,
+		  [Stype.GameSystem] : GameSystem,
+		  [Stype.Game] : GameProto,
+		  [Stype.TalkRoom] : TalkRoom,
 	}
 	
 	//命名空间

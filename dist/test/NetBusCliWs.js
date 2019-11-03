@@ -25,12 +25,11 @@ var proto_type = 2;
 sock.on("open", function () {
     Log.info("connect success !!!!");
     var stype = Stype_1.Stype.Auth;
-    var ctype = AuthProto.Cmd.eLoginReq;
+    var ctype = AuthProto.Cmd.eUnameLoginReq;
     var utag = 0;
     var body = {
-        name: "huangshucheng websocket",
-        age: 27,
-        email: "827773271@qq.com"
+        uname: "test2222",
+        upwd: "111111"
     };
     var cmd = ProtoManager_1["default"].encode_cmd(stype, ctype, utag, proto_type, body);
     setInterval(function () {
