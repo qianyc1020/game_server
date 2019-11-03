@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 var _a;
 exports.__esModule = true;
-var Stype_1 = require("../apps/Stype");
+var Stype_1 = require("./protocol/Stype");
 var Platform_1 = __importDefault(require("../utils/Platform"));
 var localhost = "127.0.0.1";
 if (Platform_1["default"].isWin32()) {

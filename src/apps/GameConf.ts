@@ -1,4 +1,4 @@
-import {Stype,StypeName} from "../apps/Stype"
+import {Stype,StypeName} from "./protocol/Stype"
 import Platform from "../utils/Platform"
 
 var localhost = "127.0.0.1"

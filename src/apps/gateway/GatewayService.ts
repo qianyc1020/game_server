@@ -1,10 +1,10 @@
 import NetBus from "../../netbus/NetBus"
 import ProtoTools from "../../netbus/ProtoTools"
-import ProtoCmd from "../ProtoCmd"
+import ProtoCmd from "../protocol/ProtoCmd"
 import ProtoManager from "../../netbus/ProtoManager"
 import Respones from "../Response"
 import ServiceBase from "../../netbus/ServiceBase"
-import { Stype, StypeName } from '../Stype';
+import { Stype, StypeName } from '../protocol/Stype';
 var Log = require("../../utils/Log")
 
 var uid_session_map:any = {}; //保存已经登录过的玩家 uid-> session

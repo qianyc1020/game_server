@@ -2,13 +2,6 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
 exports.__esModule = true;
 var Log = require("../utils/Log");
 Log.info('hccccc tst ts');
@@ -46,8 +39,6 @@ for(var stype in service_module) {
 */
 /////////////
 // import { Cmd, CmdName } from "../apps/auth_server/AuthProto"
-var proto = __importStar(require("../apps/auth_server/AuthProto"));
-Log.info(proto);
 Log.info("---------------");
 // Log.info(Cmd)
 Log.info("---------------\n\n");

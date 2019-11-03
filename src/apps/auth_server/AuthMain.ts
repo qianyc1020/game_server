@@ -1,9 +1,9 @@
 import GameConf from "../GameConf"
 import NetBus from "../../netbus/NetBus"
-import {Stype,StypeName} from "../Stype"
 import AuthService from "./AuthService"
 import ServiceManager from "../../netbus/ServiceManager"
 import MySqlAuth from "../../database/MySqlAuth"
+import {Stype,StypeName} from '../protocol/Stype'
 
 var Log = require("../../utils/Log")
 

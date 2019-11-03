@@ -8,11 +8,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 var _a;
 exports.__esModule = true;
-var Broadcast = __importStar(require("./gateway/BroadcastProto"));
-var TalkRoom = __importStar(require("./talk_room/TalkProto"));
-var Auth = __importStar(require("./auth_server/AuthProto"));
-var GameSystem = __importStar(require("./system_server/SystemProto"));
-var GameProto = __importStar(require("./game_server/GameProto"));
+var TalkRoom = __importStar(require("./TalkProto"));
+var Auth = __importStar(require("./AuthProto"));
+var GameSystem = __importStar(require("./SystemProto"));
+var GameProto = __importStar(require("./GameProto"));
 var Stype_1 = require("./Stype");
 var ProtoCmd = /** @class */ (function () {
     function ProtoCmd() {
@@ -33,7 +32,6 @@ var ProtoCmd = /** @class */ (function () {
     };
     //服务器下标->协议脚本
     ProtoCmd.StypeProtos = (_a = {},
-        _a[Stype_1.Stype.Broadcast] = Broadcast,
         _a[Stype_1.Stype.TalkRoom] = TalkRoom,
         _a[Stype_1.Stype.Auth] = Auth,
         _a[Stype_1.Stype.GameSystem] = GameSystem,

@@ -70,7 +70,7 @@ class ServiceManager {
         }
     
         ServiceManager.service_modules[stype].on_recv_client_player_cmd(session, stype, ctype, utag, proto_type, cmd_buf);
-        Log.info("on_recv_client_cmd>> " , stype, ctype, utag, proto_type)
+        // Log.info("on_recv_client_cmd>> " , stype, ctype, utag, proto_type)
         return true;
     }
     
@@ -83,7 +83,7 @@ class ServiceManager {
         }
         // 遍历所有的服务模块通知在这个服务上的这个玩家掉线了
         for(var stype in ServiceManager.service_modules) {
-            ServiceManager.service_modules[stype].on_player_disconnect(session, stype);
+            ServiceManager.service_modules[stype].on_player_disconnect(session);
         }
     }
 }

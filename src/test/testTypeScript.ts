@@ -45,9 +45,7 @@ for(var stype in service_module) {
 
 /////////////
 // import { Cmd, CmdName } from "../apps/auth_server/AuthProto"
-import * as proto from "../apps/auth_server/AuthProto"
 
-Log.info(proto)
 Log.info("---------------")
 // Log.info(Cmd)
 Log.info("---------------\n\n")

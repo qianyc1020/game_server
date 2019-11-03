@@ -5,10 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 var GameConf_1 = __importDefault(require("../GameConf"));
 var NetBus_1 = __importDefault(require("../../netbus/NetBus"));
-var Stype_1 = require("../Stype");
 var AuthService_1 = __importDefault(require("./AuthService"));
 var ServiceManager_1 = __importDefault(require("../../netbus/ServiceManager"));
 var MySqlAuth_1 = __importDefault(require("../../database/MySqlAuth"));
+var Stype_1 = require("../protocol/Stype");
 var Log = require("../../utils/Log");
 var auth_server = GameConf_1["default"].auth_server;
 NetBus_1["default"].start_tcp_server(auth_server.host, auth_server.port, false);

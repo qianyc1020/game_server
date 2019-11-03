@@ -3,13 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-var ProtoCmd_1 = __importDefault(require("../apps/ProtoCmd"));
+var ProtoCmd_1 = __importDefault(require("../apps/protocol/ProtoCmd"));
 var StringUtil_1 = __importDefault(require("../utils/StringUtil"));
-// import * as protobufMsg from "../protobuf/protobufMsg"
-// import * as protobuf from "protobufjs";
-// var protoMsg:any = protobufMsg;
 var Log = require("../utils/Log");
-var protoMsg = require("../protobuf/protobufMsg");
+// import protobufMsg from "../apps/protocol/protobufMsg"
+var protobufMsg = require("../apps/protocol/protobufMsg");
 var ProtoTools = /** @class */ (function () {
     function ProtoTools() {
     }
@@ -71,7 +69,6 @@ var ProtoTools = /** @class */ (function () {
     };
     ProtoTools.write_str_inbuf = function (cmd_buf, offset, str, byte_len) {
         ProtoTools.write_int16(cmd_buf, offset, byte_len);
-        offset += ProtoTools.STR_LEN_IN_BUF; // 写入2个字节字符串长度信息;
         ProtoTools.write_str(cmd_buf, offset, str);
         offset += byte_len;
         return offset;
@@ -79,7 +76,6 @@ var ProtoTools = /** @class */ (function () {
     // 返回 str, offset
     ProtoTools.read_str_inbuf = function (cmd_buf, offset) {
         var byte_len = ProtoTools.read_int16(cmd_buf, offset);
-        offset += ProtoTools.STR_LEN_IN_BUF;
         var str = ProtoTools.read_str(cmd_buf, offset, byte_len);
         offset += byte_len;
         return str;
@@ -98,7 +94,7 @@ var ProtoTools = /** @class */ (function () {
         }
         var byte_len = StringUtil_1["default"].utf8_byte_len(str);
         // Log.info("hcc>>encode_str_cmd: len: " , byte_len)
-        var total_len = ProtoTools.HEADER_SIZE + ProtoTools.STR_LEN_IN_BUF + byte_len; // STR_LEN_IN_BUF 用来表示用2字节表示byte_len长度
+        var total_len = ProtoTools.HEADER_SIZE + byte_len;
         var cmd_buf = ProtoTools.alloc_buffer(total_len);
         var offset = ProtoTools.write_cmd_header_inbuf(cmd_buf, stype, ctype, utag, proto_type);
         ProtoTools.write_str_inbuf(cmd_buf, offset, str, byte_len);
@@ -117,11 +113,11 @@ var ProtoTools = /** @class */ (function () {
             Log.error("encode stypeName or cmdName not exist");
             return;
         }
-        if (!protoMsg[stypeName]) {
+        if (!protobufMsg[stypeName]) {
             Log.error("encode stypeName not exist");
             return;
         }
-        var msgType = protoMsg[stypeName][cmdName];
+        var msgType = protobufMsg[stypeName][cmdName];
         if (!msgType) {
             Log.error("encode cmdName not exist");
             return;
@@ -161,11 +157,11 @@ var ProtoTools = /** @class */ (function () {
                 Log.error("decode stypeName or cmdName not exist");
                 return;
             }
-            if (!protoMsg[stypeName]) {
+            if (!protobufMsg[stypeName]) {
                 Log.error("decode stypeName not exist");
                 return;
             }
-            var msgType = protoMsg[stypeName][cmdName];
+            var msgType = protobufMsg[stypeName][cmdName];
             if (!msgType) {
                 Log.error("decode cmdName not exist");
                 return;
@@ -186,7 +182,6 @@ var ProtoTools = /** @class */ (function () {
             return decodeMsg;
         }
     };
-    ProtoTools.STR_LEN_IN_BUF = 2; // 用来表示用2字节表示byte_len长度
     ProtoTools.HEADER_SIZE = 10; // header size
     ProtoTools.ProtoType = {
         PROTO_JSON: 1,
