@@ -12,7 +12,7 @@ if(Platform.isWin32()){
 var GameConf:any = {
 	gateway_config: {
 		host: localhost,
-		ports: [6080,6081], //tcp , ws
+		ports: [6080,6061], //tcp , ws
 	},
 
 	webserver: {

@@ -16,7 +16,7 @@ else if (Platform_1["default"].isLinux()) {
 var GameConf = {
     gateway_config: {
         host: localhost,
-        ports: [6080, 6081]
+        ports: [6080, 6061]
     },
     webserver: {
         host: localhost,
