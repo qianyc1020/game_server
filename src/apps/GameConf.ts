@@ -2,17 +2,25 @@ import {Stype,StypeName} from "./protocol/Stype"
 import Platform from "../utils/Platform"
 
 var localhost = "127.0.0.1"
+var wss_port = 6081;
 
 if(Platform.isWin32()){
 	localhost = "127.0.0.1"
+	wss_port = 6081;
 }else if(Platform.isLinux()){
 	localhost = "172.16.166.106"
+	wss_port = 6061;
 }
 
-var GameConf:any = {
+// websocket wss://172.16.166.106:6061 阿里云服务内网端口
+// 6061 服务端内网端口
+// 6081 服务端wss外网端口(nginx.conf外网配置)
+
+var GameConf: any = {
 	gateway_config: {
 		host: localhost,
-		ports: [6080,6061], //tcp , ws
+		tcp_port: 6080,
+		wbsocket_port: wss_port, 
 	},
 
 	webserver: {
