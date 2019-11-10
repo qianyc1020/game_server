@@ -65,14 +65,16 @@ class AuthModel {
         let body =  this.decode_cmd(proto_type,raw_cmd);
         Log.info("uname_login cmd: " , body)
         // NetBus.send_encoded_cmd(session,raw_cmd);
-        var res_body = {status:1}
+        let res_body = {status:1}
         NetBus.send_cmd(session,Stype.Auth,Cmd.eUnameLoginRes,utag, proto_type,res_body);
     }
     
     guest_login(session:any, utag:number, proto_type:number, raw_cmd:any){
         let body =  this.decode_cmd(proto_type,raw_cmd);
         Log.info("guest_login cmd: " , body)
-        NetBus.send_encoded_cmd(session,raw_cmd);
+        // NetBus.send_encoded_cmd(session,raw_cmd);
+        let res_body = {status:1}
+        NetBus.send_cmd(session, Stype.Auth, Cmd.eGuestLoginRes, utag, proto_type, res_body)
     }
 
     uname_regist(session:any, utag:number, proto_type:number, raw_cmd:any){

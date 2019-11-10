@@ -7,16 +7,23 @@ exports.__esModule = true;
 var Stype_1 = require("./protocol/Stype");
 var Platform_1 = __importDefault(require("../utils/Platform"));
 var localhost = "127.0.0.1";
+var wss_port = 6081;
 if (Platform_1["default"].isWin32()) {
     localhost = "127.0.0.1";
+    wss_port = 6081;
 }
 else if (Platform_1["default"].isLinux()) {
     localhost = "172.16.166.106";
+    wss_port = 6061;
 }
+// websocket wss://172.16.166.106:6061 阿里云服务内网端口
+// 6061 服务端内网端口
+// 6081 服务端wss外网端口(nginx.conf外网配置)
 var GameConf = {
     gateway_config: {
         host: localhost,
-        ports: [6080, 6061]
+        tcp_port: 6080,
+        wbsocket_port: wss_port
     },
     webserver: {
         host: localhost,

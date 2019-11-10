@@ -68,7 +68,9 @@ var AuthModel = /** @class */ (function () {
     AuthModel.prototype.guest_login = function (session, utag, proto_type, raw_cmd) {
         var body = this.decode_cmd(proto_type, raw_cmd);
         Log.info("guest_login cmd: ", body);
-        NetBus_1["default"].send_encoded_cmd(session, raw_cmd);
+        // NetBus.send_encoded_cmd(session,raw_cmd);
+        var res_body = { status: 1 };
+        NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eGuestLoginRes, utag, proto_type, res_body);
     };
     AuthModel.prototype.uname_regist = function (session, utag, proto_type, raw_cmd) {
         var body = this.decode_cmd(proto_type, raw_cmd);

@@ -7,10 +7,8 @@ var GameConf_1 = __importDefault(require("../GameConf"));
 var NetBus_1 = __importDefault(require("../../netbus/NetBus"));
 var GatewayService_1 = __importDefault(require("./GatewayService"));
 var ServiceManager_1 = __importDefault(require("../../netbus/ServiceManager"));
-var host = GameConf_1["default"].gateway_config.host;
-var posts = GameConf_1["default"].gateway_config.ports;
-NetBus_1["default"].start_tcp_server(host, posts[0], false);
-NetBus_1["default"].start_ws_server(host, posts[1], false);
+NetBus_1["default"].start_tcp_server(GameConf_1["default"].gateway_config.host, GameConf_1["default"].gateway_config.tcp_port, false);
+NetBus_1["default"].start_ws_server(GameConf_1["default"].gateway_config.host, GameConf_1["default"].gateway_config.wbsocket_port, false);
 // 链接其他服务器
 var game_server = GameConf_1["default"].gw_connect_servers;
 for (var key in game_server) {
