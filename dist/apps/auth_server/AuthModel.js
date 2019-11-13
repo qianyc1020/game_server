@@ -7,6 +7,8 @@ var NetBus_1 = __importDefault(require("../../netbus/NetBus"));
 var AuthProto_1 = require("../protocol/AuthProto");
 var ProtoManager_1 = __importDefault(require("../../netbus/ProtoManager"));
 var Stype_1 = require("../protocol/Stype");
+var MySqlAuth_1 = __importDefault(require("../../database/MySqlAuth"));
+var Response_1 = __importDefault(require("../Response"));
 var Log = require("../../utils/Log");
 var AuthModel = /** @class */ (function () {
     function AuthModel() {
@@ -61,9 +63,31 @@ var AuthModel = /** @class */ (function () {
     AuthModel.prototype.uname_login = function (session, utag, proto_type, raw_cmd) {
         var body = this.decode_cmd(proto_type, raw_cmd);
         Log.info("uname_login cmd: ", body);
-        // NetBus.send_encoded_cmd(session,raw_cmd);
-        var res_body = { status: 1 };
-        NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eUnameLoginRes, utag, proto_type, res_body);
+        // let res_body = {status:1}
+        // NetBus.send_cmd(session,Stype.Auth,Cmd.eUnameLoginRes,utag, proto_type,res_body);
+        if (!body.uname || !body.upwd) {
+            return;
+        }
+        MySqlAuth_1["default"].get_uinfo_by_uname_upwd(body.uname, body.upwd, function (status, data) {
+            Log.info("mysql ret: ", data);
+            if (status == Response_1["default"].OK) {
+                if (data.length <= 0) {
+                    NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eUnameLoginRes, utag, proto_type, { status: Response_1["default"].UNAME_OR_UPWD_ERR });
+                }
+                else {
+                    var sql_info = data[0];
+                    if (sql_info.status != 0) {
+                        NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eUnameLoginRes, utag, proto_type, { status: Response_1["default"].ILLEGAL_ACCOUNT });
+                    }
+                    else {
+                        NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eUnameLoginRes, utag, proto_type, { status: 1 });
+                    }
+                }
+            }
+            else {
+                NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eUnameLoginRes, utag, proto_type, { status: Response_1["default"].UNAME_OR_UPWD_ERR });
+            }
+        });
     };
     AuthModel.prototype.guest_login = function (session, utag, proto_type, raw_cmd) {
         var body = this.decode_cmd(proto_type, raw_cmd);
@@ -75,7 +99,9 @@ var AuthModel = /** @class */ (function () {
     AuthModel.prototype.uname_regist = function (session, utag, proto_type, raw_cmd) {
         var body = this.decode_cmd(proto_type, raw_cmd);
         Log.info("uname_regist cmd: ", body);
-        NetBus_1["default"].send_encoded_cmd(session, raw_cmd);
+        // NetBus.send_encoded_cmd(session,raw_cmd);
+        var res_body = { status: 1 };
+        NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eUnameRegistRes, utag, proto_type, res_body);
     };
     AuthModel.prototype.phone_regist = function (session, utag, proto_type, raw_cmd) {
         var body = this.decode_cmd(proto_type, raw_cmd);

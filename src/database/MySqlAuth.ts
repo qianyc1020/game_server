@@ -2,6 +2,7 @@ import MySqlEngine from "./MySqlEngine"
 import TimeUtil from '../utils/TimeUtil';
 import * as util from "util"
 import Response from '../apps/Response';
+import { createCipher } from "crypto";
 var Log         = require("../utils/Log")
 
 class MySqlAuth {
@@ -22,12 +23,14 @@ class MySqlAuth {
 	static get_uinfo_by_uname_upwd(uname:string, upwd:string, callback:Function) {
 		var sql = "select * from uinfo where uname = \"%s\" and upwd = \"%s\" and is_guest = 0 limit 1";
 		var sql_cmd = util.format(sql, uname, upwd);
+		Log.info("sql: " , sql_cmd)
 		MySqlAuth.query(sql_cmd, function(err:any, sql_ret:any, fields_desic:any) {
 			if (err) {
 				callback(Response.SYSTEM_ERR, err);
 				return;
 			}
 			callback(Response.OK, sql_ret);
+			Log.info("ret::: " , sql_ret)
 		});
 	}
 

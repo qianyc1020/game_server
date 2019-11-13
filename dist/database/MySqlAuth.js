@@ -30,12 +30,14 @@ var MySqlAuth = /** @class */ (function () {
     MySqlAuth.get_uinfo_by_uname_upwd = function (uname, upwd, callback) {
         var sql = "select * from uinfo where uname = \"%s\" and upwd = \"%s\" and is_guest = 0 limit 1";
         var sql_cmd = util.format(sql, uname, upwd);
+        Log.info("sql: ", sql_cmd);
         MySqlAuth.query(sql_cmd, function (err, sql_ret, fields_desic) {
             if (err) {
                 callback(Response_1["default"].SYSTEM_ERR, err);
                 return;
             }
             callback(Response_1["default"].OK, sql_ret);
+            Log.info("ret::: ", sql_ret);
         });
     };
     MySqlAuth.get_guest_uinfo_by_ukey = function (ukey, callback) {
