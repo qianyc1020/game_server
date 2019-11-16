@@ -2,8 +2,9 @@ import MySqlEngine from "./MySqlEngine"
 import TimeUtil from '../utils/TimeUtil';
 import * as util from "util"
 import Response from '../apps/Response';
-import { createCipher } from "crypto";
 var Log         = require("../utils/Log")
+
+let MAX_NUMBER_ID = 1000000;
 
 class MySqlAuth {
 	private static mysqlEngine: MySqlEngine = new MySqlEngine();
@@ -20,23 +21,35 @@ class MySqlAuth {
 		MySqlAuth.engine().mysql_query(sql, callback);
 	}
 
+	static login_by_uname_upwd(uname:string, upwd:string, callback:Function){
+		var sql = "select uname, upwd ,uid from uinfo where uname = \"%s\" and upwd = \"%s\" and is_guest = 0 limit 1";
+		var sql_cmd = util.format(sql, uname, upwd);
+		// Log.info("sql: " , sql_cmd)
+		MySqlAuth.query(sql_cmd, function(err:any, sql_ret:any, fields_desic:any) {
+			if (err) {
+				callback(Response.SYSTEM_ERR, err);
+				return;
+			}
+			callback(Response.OK, sql_ret);
+		});
+	}
+
 	static get_uinfo_by_uname_upwd(uname:string, upwd:string, callback:Function) {
 		var sql = "select * from uinfo where uname = \"%s\" and upwd = \"%s\" and is_guest = 0 limit 1";
 		var sql_cmd = util.format(sql, uname, upwd);
-		Log.info("sql: " , sql_cmd)
+		// Log.info("sql: " , sql_cmd)
 		MySqlAuth.query(sql_cmd, function(err:any, sql_ret:any, fields_desic:any) {
 			if (err) {
 				callback(Response.SYSTEM_ERR, err);
 				return;
 			}
 			callback(Response.OK, sql_ret);
-			Log.info("ret::: " , sql_ret)
 		});
 	}
 
-	static get_guest_uinfo_by_ukey(ukey:string, callback:Function) {
-		var sql = "select * from uinfo where guest_key = \"%s\" limit 1";
-		var sql_cmd = util.format(sql, ukey);
+	static guest_login_by_guestkey(guestkey:string, callback:Function){
+		var sql = "select guest_key , uid from uinfo where guest_key = \"%s\" limit 1";
+		var sql_cmd = util.format(sql, guestkey);
 		MySqlAuth.query(sql_cmd, function(err:any, sql_ret:any, fields_desic:any) {
 			if (err) {
 				callback(Response.SYSTEM_ERR, err);
@@ -44,17 +57,97 @@ class MySqlAuth {
 			}
 			callback(Response.OK, sql_ret);
 		});
+	}
+
+	static insert_uname_upwd_user(uname:string , upwdmd5:string ,unick:string, uface:number, usex:number, callback:Function){
+		let max_numid = MAX_NUMBER_ID;
+		MySqlAuth.get_max_uid(function (status:number, maxuid: number) {
+			if(status == Response.OK){
+				max_numid = max_numid + maxuid + 1;
+				Log.info("max_numid: " , max_numid)
+				var sql = "insert into uinfo(`uname`, `upwd` ,`unick`, `uface`, `usex`, `numberid`, `guest_key`)values(\"%s\", \"%s\", \"%s\", %d, %d, %d,0)";
+				var sql_cmd = util.format(sql, uname, upwdmd5, unick, uface, usex, max_numid);
+				MySqlAuth.query(sql_cmd, function(err:any, sql_ret:any, fields_desic:any) {
+					if (err) {
+						callback(Response.SYSTEM_ERR, err);
+						return;
+					}
+					callback(Response.OK,sql_ret);
+				});	
+			}else{
+				callback(Response.SYSTEM_ERR);
+			}
+		})
+
 	}
 
 	static insert_guest_user(unick:string, uface:number, usex:number, ukey:string, callback:Function) {
-		var sql = "insert into uinfo(`guest_key`, `unick`, `uface`, `usex`, `is_guest`)values(\"%s\", \"%s\", %d, %d, 1)";
-		var sql_cmd = util.format(sql, ukey, unick, uface, usex);
+		let max_numid = MAX_NUMBER_ID;
+		MySqlAuth.get_max_uid(function (status:number, maxuid: number) {
+			if(status == Response.OK){
+				max_numid = max_numid + maxuid + 1;
+				var sql = "insert into uinfo(`guest_key`, `unick`, `uface`, `usex`, `numberid`, `is_guest`)values(\"%s\", \"%s\", %d, %d, %d,1)";
+				var sql_cmd = util.format(sql, ukey, unick, uface, usex, max_numid);
+				MySqlAuth.query(sql_cmd, function(err:any, sql_ret:any, fields_desic:any) {
+					if (err) {
+						callback(Response.SYSTEM_ERR, err);
+						return;
+					}
+					callback(Response.OK,sql_ret);
+				});
+			}else{
+				callback(Response.SYSTEM_ERR);
+			}
+		})
+	}
+
+	static check_uname_exist(uname:string, callback:Function){
+		let sql = "select uid from uinfo where binary uname = \"%s\""
+		var sql_cmd = util.format(sql, uname);
 		MySqlAuth.query(sql_cmd, function(err:any, sql_ret:any, fields_desic:any) {
 			if (err) {
 				callback(Response.SYSTEM_ERR, err);
 				return;
 			}
-			callback(Response.OK,sql_ret);
+			
+			if(sql_ret.length <= 0) {
+				callback(Response.INVALID_PARAMS);
+				return;
+			}
+			if (sql_ret[0].uid != undefined) {
+				callback(Response.OK);
+				return;	
+			}
+			callback(Response.INVALID_PARAMS);
+		});
+	}
+
+	static get_max_uid(callback:Function){
+		let sql = "select uid from uinfo order by uid desc"
+		MySqlAuth.query(sql,function (err:any, sql_ret:any, fields_desic:any) {
+			if(err){
+				return callback(Response.INVALIDI_OPT,err);
+			}
+
+			if(sql_ret.length <= 0 ){
+				callback(Response.OK , 0)
+				return
+			}
+			callback(Response.OK , sql_ret[0].uid);
+		})
+	}
+
+	////////////////////////////////////
+
+	static get_guest_uinfo_by_guestkey(guestkey:string, callback:Function) {
+		var sql = "select * from uinfo where guest_key = \"%s\" limit 1";
+		var sql_cmd = util.format(sql, guestkey);
+		MySqlAuth.query(sql_cmd, function(err:any, sql_ret:any, fields_desic:any) {
+			if (err) {
+				callback(Response.SYSTEM_ERR, err);
+				return;
+			}
+			callback(Response.OK, sql_ret);
 		});
 	}
 

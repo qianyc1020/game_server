@@ -15,6 +15,7 @@ var TimeUtil_1 = __importDefault(require("../utils/TimeUtil"));
 var util = __importStar(require("util"));
 var Response_1 = __importDefault(require("../apps/Response"));
 var Log = require("../utils/Log");
+var MAX_NUMBER_ID = 1000000;
 var MySqlAuth = /** @class */ (function () {
     function MySqlAuth() {
     }
@@ -27,33 +28,118 @@ var MySqlAuth = /** @class */ (function () {
     MySqlAuth.query = function (sql, callback) {
         MySqlAuth.engine().mysql_query(sql, callback);
     };
+    MySqlAuth.login_by_uname_upwd = function (uname, upwd, callback) {
+        var sql = "select uname, upwd ,uid from uinfo where uname = \"%s\" and upwd = \"%s\" and is_guest = 0 limit 1";
+        var sql_cmd = util.format(sql, uname, upwd);
+        // Log.info("sql: " , sql_cmd)
+        MySqlAuth.query(sql_cmd, function (err, sql_ret, fields_desic) {
+            if (err) {
+                callback(Response_1["default"].SYSTEM_ERR, err);
+                return;
+            }
+            callback(Response_1["default"].OK, sql_ret);
+        });
+    };
     MySqlAuth.get_uinfo_by_uname_upwd = function (uname, upwd, callback) {
         var sql = "select * from uinfo where uname = \"%s\" and upwd = \"%s\" and is_guest = 0 limit 1";
         var sql_cmd = util.format(sql, uname, upwd);
-        Log.info("sql: ", sql_cmd);
+        // Log.info("sql: " , sql_cmd)
         MySqlAuth.query(sql_cmd, function (err, sql_ret, fields_desic) {
             if (err) {
                 callback(Response_1["default"].SYSTEM_ERR, err);
                 return;
             }
             callback(Response_1["default"].OK, sql_ret);
-            Log.info("ret::: ", sql_ret);
         });
     };
-    MySqlAuth.get_guest_uinfo_by_ukey = function (ukey, callback) {
-        var sql = "select * from uinfo where guest_key = \"%s\" limit 1";
-        var sql_cmd = util.format(sql, ukey);
+    MySqlAuth.guest_login_by_guestkey = function (guestkey, callback) {
+        var sql = "select guest_key , uid from uinfo where guest_key = \"%s\" limit 1";
+        var sql_cmd = util.format(sql, guestkey);
         MySqlAuth.query(sql_cmd, function (err, sql_ret, fields_desic) {
             if (err) {
                 callback(Response_1["default"].SYSTEM_ERR, err);
                 return;
             }
             callback(Response_1["default"].OK, sql_ret);
+        });
+    };
+    MySqlAuth.insert_uname_upwd_user = function (uname, upwdmd5, unick, uface, usex, callback) {
+        var max_numid = MAX_NUMBER_ID;
+        MySqlAuth.get_max_uid(function (status, maxuid) {
+            if (status == Response_1["default"].OK) {
+                max_numid = max_numid + maxuid + 1;
+                Log.info("max_numid: ", max_numid);
+                var sql = "insert into uinfo(`uname`, `upwd` ,`unick`, `uface`, `usex`, `numberid`, `guest_key`)values(\"%s\", \"%s\", \"%s\", %d, %d, %d,0)";
+                var sql_cmd = util.format(sql, uname, upwdmd5, unick, uface, usex, max_numid);
+                MySqlAuth.query(sql_cmd, function (err, sql_ret, fields_desic) {
+                    if (err) {
+                        callback(Response_1["default"].SYSTEM_ERR, err);
+                        return;
+                    }
+                    callback(Response_1["default"].OK, sql_ret);
+                });
+            }
+            else {
+                callback(Response_1["default"].SYSTEM_ERR);
+            }
         });
     };
     MySqlAuth.insert_guest_user = function (unick, uface, usex, ukey, callback) {
-        var sql = "insert into uinfo(`guest_key`, `unick`, `uface`, `usex`, `is_guest`)values(\"%s\", \"%s\", %d, %d, 1)";
-        var sql_cmd = util.format(sql, ukey, unick, uface, usex);
+        var max_numid = MAX_NUMBER_ID;
+        MySqlAuth.get_max_uid(function (status, maxuid) {
+            if (status == Response_1["default"].OK) {
+                max_numid = max_numid + maxuid + 1;
+                var sql = "insert into uinfo(`guest_key`, `unick`, `uface`, `usex`, `numberid`, `is_guest`)values(\"%s\", \"%s\", %d, %d, %d,1)";
+                var sql_cmd = util.format(sql, ukey, unick, uface, usex, max_numid);
+                MySqlAuth.query(sql_cmd, function (err, sql_ret, fields_desic) {
+                    if (err) {
+                        callback(Response_1["default"].SYSTEM_ERR, err);
+                        return;
+                    }
+                    callback(Response_1["default"].OK, sql_ret);
+                });
+            }
+            else {
+                callback(Response_1["default"].SYSTEM_ERR);
+            }
+        });
+    };
+    MySqlAuth.check_uname_exist = function (uname, callback) {
+        var sql = "select uid from uinfo where binary uname = \"%s\"";
+        var sql_cmd = util.format(sql, uname);
+        MySqlAuth.query(sql_cmd, function (err, sql_ret, fields_desic) {
+            if (err) {
+                callback(Response_1["default"].SYSTEM_ERR, err);
+                return;
+            }
+            if (sql_ret.length <= 0) {
+                callback(Response_1["default"].INVALID_PARAMS);
+                return;
+            }
+            if (sql_ret[0].uid != undefined) {
+                callback(Response_1["default"].OK);
+                return;
+            }
+            callback(Response_1["default"].INVALID_PARAMS);
+        });
+    };
+    MySqlAuth.get_max_uid = function (callback) {
+        var sql = "select uid from uinfo order by uid desc";
+        MySqlAuth.query(sql, function (err, sql_ret, fields_desic) {
+            if (err) {
+                return callback(Response_1["default"].INVALIDI_OPT, err);
+            }
+            if (sql_ret.length <= 0) {
+                callback(Response_1["default"].OK, 0);
+                return;
+            }
+            callback(Response_1["default"].OK, sql_ret[0].uid);
+        });
+    };
+    ////////////////////////////////////
+    MySqlAuth.get_guest_uinfo_by_guestkey = function (guestkey, callback) {
+        var sql = "select * from uinfo where guest_key = \"%s\" limit 1";
+        var sql_cmd = util.format(sql, guestkey);
         MySqlAuth.query(sql_cmd, function (err, sql_ret, fields_desic) {
             if (err) {
                 callback(Response_1["default"].SYSTEM_ERR, err);

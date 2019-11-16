@@ -49,6 +49,8 @@ message UnameLoginReq {
 
 message UnameLoginRes {
   int32 status = 1;
+  int32 uid = 2;
+  optional string userLoginInfo = 3;
 }
 
 message GuestLoginReq {
@@ -56,7 +58,9 @@ message GuestLoginReq {
 }
 
 message GuestLoginRes {
-  required sint32 status = 1;
+  required int32 status = 1;
+  int32 uid = 2;
+  optional string userLoginInfo = 3;
 }
 
 message UnameRegistReq {
@@ -65,7 +69,7 @@ message UnameRegistReq {
 }
 
 message UnameRegistRes {
-  required sint32 status = 1;
+  required int32 status = 1;
 }
 
 message PhoneRegistReq {
@@ -105,33 +109,36 @@ message LoginOutReq {
 }
 
 message LoginOutRes {
-  required sint32 status = 1;
+  required int32 status = 1;
 }
 
 message EditProfileReq {
 	required string unick = 1;
-	required sint32 uface = 2;
-	required sint32 usex = 3;
+	required int32 uface = 2;
+	required int32 usex = 3;
 }
 
 message EditProfileRes {
-  required sint32 status = 1;
+  required int32 status = 1;
 }
 
 message AccountUpgradeReq {
 	required string uname = 1;
-	required string upwdMd5 = 2;
+	required string upwdmd5 = 2;
 }
 
 message AccountUpgradeRes {
-  required sint32 status = 1;
+  required int32 status = 1;
 }
 
 message GetUserCenterInfoReq {
+  required string uname = 1;
+  required string upwdmd5 = 2;
 }
 
 message GetUserCenterInfoRes {
-	required string userCenterInfoString = 1;
+  required int32 status = 1;
+	optional string userCenterInfoString = 2;
 }
 
 message ReloginRes {

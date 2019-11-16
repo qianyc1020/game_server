@@ -4,11 +4,16 @@ import ProtoManater from "../../netbus/ProtoManager"
 import { Stype , StypeName } from '../protocol/Stype';
 import MySqlAuth from '../../database/MySqlAuth';
 import Response from '../Response';
+import StringUtil from '../../utils/StringUtil';
 
 var Log =  require("../../utils/Log")
 
 class AuthModel {
     private static readonly Instance: AuthModel = new AuthModel();
+
+    private constructor(){
+
+    }
 
     public static getInstance(){
         return AuthModel.Instance;
@@ -49,6 +54,7 @@ class AuthModel {
             case Cmd.eReloginRes:
             break;
             case Cmd.eUserLostConnectRes:
+                this.on_user_lost_connect(session,utag,proto_type,raw_cmd)
             break;
             default:
             break;
@@ -65,26 +71,36 @@ class AuthModel {
     
     uname_login(session:any, utag:number, proto_type:number, raw_cmd:any){
         let body =  this.decode_cmd(proto_type,raw_cmd);
+        if(!body){
+            NetBus.send_cmd(session, Stype.Auth, Cmd.eUnameLoginRes, utag, proto_type, {status: Response.INVALID_PARAMS})
+            return;
+        }
         Log.info("uname_login cmd: " , body)
-        // let res_body = {status:1}
-        // NetBus.send_cmd(session,Stype.Auth,Cmd.eUnameLoginRes,utag, proto_type,res_body);
 
         if(!body.uname || !body.upwd){
-            return
+            NetBus.send_cmd(session, Stype.Auth, Cmd.eUnameLoginRes, utag, proto_type, {status: Response.INVALID_PARAMS})
+            return;
         }
 
-        MySqlAuth.get_uinfo_by_uname_upwd(body.uname , body.upwd , function(status:number , data:any) {
-            Log.info("mysql ret: " , data)
+        if(body.uname.length < 6 || body.upwd.length < 6){
+            NetBus.send_cmd(session, Stype.Auth, Cmd.eUnameLoginRes, utag, proto_type, {status: Response.INVALID_PARAMS})
+            return;
+        }
+
+        MySqlAuth.login_by_uname_upwd(body.uname , body.upwd , function(status:number , data:any) {
+            Log.info("login_by_uname_upwd ret: " , data)
             if(status == Response.OK){
                 if(data.length <= 0){
                     NetBus.send_cmd(session, Stype.Auth, Cmd.eUnameLoginRes, utag, proto_type, {status: Response.UNAME_OR_UPWD_ERR})    
                 }else{
                     let sql_info = data[0]
-                    if(sql_info.status != 0){
-                        NetBus.send_cmd(session, Stype.Auth, Cmd.eUnameLoginRes, utag, proto_type, {status: Response.ILLEGAL_ACCOUNT})
-                    }else{
-                        NetBus.send_cmd(session, Stype.Auth, Cmd.eUnameLoginRes, utag, proto_type, {status: 1})
+                    let resbody = {
+                        status: 1,
+                        uid: sql_info.uid,
+                        userLoginInfo: JSON.stringify(sql_info)
                     }
+                    Log.info("hcc>>uname_login",JSON.stringify(sql_info))
+                    NetBus.send_cmd(session, Stype.Auth, Cmd.eUnameLoginRes, utag, proto_type, resbody)
                 }
             }else{
                 NetBus.send_cmd(session, Stype.Auth, Cmd.eUnameLoginRes, utag, proto_type, {status: Response.UNAME_OR_UPWD_ERR})    
@@ -94,18 +110,85 @@ class AuthModel {
     
     guest_login(session:any, utag:number, proto_type:number, raw_cmd:any){
         let body =  this.decode_cmd(proto_type,raw_cmd);
+        if(!body){
+            NetBus.send_cmd(session, Stype.Auth, Cmd.eGuestLoginRes, utag, proto_type, {status: Response.INVALID_PARAMS})
+            return;
+        }
         Log.info("guest_login cmd: " , body)
-        // NetBus.send_encoded_cmd(session,raw_cmd);
-        let res_body = {status:1}
-        NetBus.send_cmd(session, Stype.Auth, Cmd.eGuestLoginRes, utag, proto_type, res_body)
+        if(!body.guestkey){
+            NetBus.send_cmd(session, Stype.Auth, Cmd.eGuestLoginRes, utag, proto_type, {status: Response.INVALID_PARAMS})
+            return;
+        }
+        if(body.guestkey.length < 32){
+            NetBus.send_cmd(session, Stype.Auth, Cmd.eGuestLoginRes, utag, proto_type, {status: Response.INVALID_PARAMS})
+            return;
+        }
+        let _this = this;
+        MySqlAuth.guest_login_by_guestkey(body.guestkey, function(status:number , data:any) {
+            Log.info("guest_login_by_guestkey ret: " , data)
+            if(status == Response.OK){
+                if(data.length <= 0){ //
+                    var unick = "gst" + StringUtil.random_int_str(5);
+                    var usex = StringUtil.random_int(0, 1);
+                    var uface = 0;
+                    MySqlAuth.insert_guest_user(unick, uface, usex, body.guestkey,function (status:number, data:any) {
+                        if(status != Response.OK){
+                            NetBus.send_cmd(session, Stype.Auth, Cmd.eGuestLoginRes, utag, proto_type, {status: Response.INVALID_PARAMS})
+                            return;
+                        }
+                        _this.guest_login(session,utag,proto_type,raw_cmd);
+                    })
+                }else{
+                    let sql_info = data[0]
+                    let resbody = {
+                        status: 1,
+                        uid: sql_info.uid,
+                        userLoginInfo: JSON.stringify(sql_info)
+                    }
+                    Log.info("hcc>>guest_login_by_guestkey: ",resbody)
+                    NetBus.send_cmd(session, Stype.Auth, Cmd.eGuestLoginRes, utag, proto_type, resbody)
+                }
+            }else{
+                NetBus.send_cmd(session, Stype.Auth, Cmd.eGuestLoginRes, utag, proto_type, {status: Response.UNAME_OR_UPWD_ERR})    
+            }
+        })
     }
 
     uname_regist(session:any, utag:number, proto_type:number, raw_cmd:any){
         let body =  this.decode_cmd(proto_type,raw_cmd);
         Log.info("uname_regist cmd: " , body)
-        // NetBus.send_encoded_cmd(session,raw_cmd);
-        let res_body  = {status: 1}
-        NetBus.send_cmd(session, Stype.Auth, Cmd.eUnameRegistRes, utag, proto_type, res_body)
+
+        if(!body){
+            NetBus.send_cmd(session, Stype.Auth, Cmd.eUnameRegistRes, utag, proto_type, {status: Response.INVALID_PARAMS})
+            return;
+        }
+
+        if(!body.uname || !body.upwdmd5){
+            NetBus.send_cmd(session, Stype.Auth, Cmd.eUnameRegistRes, utag, proto_type, {status: Response.INVALID_PARAMS})
+            return;
+        }
+
+        if(body.uname.length < 6 || body.upwdmd5.length < 6){
+            NetBus.send_cmd(session, Stype.Auth, Cmd.eUnameRegistRes, utag, proto_type, {status: Response.INVALID_PARAMS})
+            return;
+        }
+
+        let unick   = "gst" + StringUtil.random_int_str(5);
+        var usex    = StringUtil.random_int(0, 1);
+        var uface   = 0;
+        MySqlAuth.check_uname_exist(body.uname , function(status:number, data:any) {
+            if(status == Response.OK){
+                NetBus.send_cmd(session, Stype.Auth, Cmd.eUnameRegistRes, utag, proto_type, {status: Response.ILLEGAL_ACCOUNT})
+                return;
+            }
+            MySqlAuth.insert_uname_upwd_user(body.uname, body.upwdmd5, unick, uface, usex, function(status:number, data:any) {
+                if(status == Response.OK){
+                    NetBus.send_cmd(session, Stype.Auth, Cmd.eUnameRegistRes, utag, proto_type,{status: 1})
+                }else{
+                    NetBus.send_cmd(session, Stype.Auth, Cmd.eUnameRegistRes, utag, proto_type, {status: Response.ILLEGAL_ACCOUNT})
+                }
+            })
+        })
     }
 
     phone_regist(session:any, utag:number, proto_type:number, raw_cmd:any){
@@ -122,8 +205,24 @@ class AuthModel {
 
     get_user_center_info(session:any, utag:number, proto_type:number, raw_cmd:any){
         let body =  this.decode_cmd(proto_type,raw_cmd);
-        Log.info("get_user_center_info cmd: " , body)
-        NetBus.send_encoded_cmd(session,raw_cmd);
+        MySqlAuth.get_uinfo_by_uname_upwd(body.uname, body.upwdmd5,function (status:number, data:any) {
+            if(status == Response.OK){
+                let sql_info = data[0]
+                let resbody = {
+                    status: 1,
+                    userLoginInfo: JSON.stringify(sql_info)
+                }
+                Log.info("get_user_center_info:" , resbody)
+                NetBus.send_cmd(session, Stype.Auth, Cmd.eGetUserCenterInfoRes,utag,proto_type,resbody)
+            }else{
+                NetBus.send_cmd(session, Stype.Auth, Cmd.eGetUserCenterInfoRes,utag,proto_type,{status: Response.ILLEGAL_ACCOUNT})
+            }
+        })
+    }
+
+    on_user_lost_connect(session:any, utag:number, proto_type:number, raw_cmd:any){
+        let body =  this.decode_cmd(proto_type,raw_cmd);
+        Log.info("on_user_lost_connect utag:" ,utag , body)
     }
 }
 

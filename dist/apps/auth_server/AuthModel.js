@@ -9,6 +9,7 @@ var ProtoManager_1 = __importDefault(require("../../netbus/ProtoManager"));
 var Stype_1 = require("../protocol/Stype");
 var MySqlAuth_1 = __importDefault(require("../../database/MySqlAuth"));
 var Response_1 = __importDefault(require("../Response"));
+var StringUtil_1 = __importDefault(require("../../utils/StringUtil"));
 var Log = require("../../utils/Log");
 var AuthModel = /** @class */ (function () {
     function AuthModel() {
@@ -50,6 +51,7 @@ var AuthModel = /** @class */ (function () {
             case AuthProto_1.Cmd.eReloginRes:
                 break;
             case AuthProto_1.Cmd.eUserLostConnectRes:
+                this.on_user_lost_connect(session, utag, proto_type, raw_cmd);
                 break;
             default:
                 break;
@@ -62,26 +64,34 @@ var AuthModel = /** @class */ (function () {
     };
     AuthModel.prototype.uname_login = function (session, utag, proto_type, raw_cmd) {
         var body = this.decode_cmd(proto_type, raw_cmd);
-        Log.info("uname_login cmd: ", body);
-        // let res_body = {status:1}
-        // NetBus.send_cmd(session,Stype.Auth,Cmd.eUnameLoginRes,utag, proto_type,res_body);
-        if (!body.uname || !body.upwd) {
+        if (!body) {
+            NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eUnameLoginRes, utag, proto_type, { status: Response_1["default"].INVALID_PARAMS });
             return;
         }
-        MySqlAuth_1["default"].get_uinfo_by_uname_upwd(body.uname, body.upwd, function (status, data) {
-            Log.info("mysql ret: ", data);
+        Log.info("uname_login cmd: ", body);
+        if (!body.uname || !body.upwd) {
+            NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eUnameLoginRes, utag, proto_type, { status: Response_1["default"].INVALID_PARAMS });
+            return;
+        }
+        if (body.uname.length < 6 || body.upwd.length < 6) {
+            NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eUnameLoginRes, utag, proto_type, { status: Response_1["default"].INVALID_PARAMS });
+            return;
+        }
+        MySqlAuth_1["default"].login_by_uname_upwd(body.uname, body.upwd, function (status, data) {
+            Log.info("login_by_uname_upwd ret: ", data);
             if (status == Response_1["default"].OK) {
                 if (data.length <= 0) {
                     NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eUnameLoginRes, utag, proto_type, { status: Response_1["default"].UNAME_OR_UPWD_ERR });
                 }
                 else {
                     var sql_info = data[0];
-                    if (sql_info.status != 0) {
-                        NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eUnameLoginRes, utag, proto_type, { status: Response_1["default"].ILLEGAL_ACCOUNT });
-                    }
-                    else {
-                        NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eUnameLoginRes, utag, proto_type, { status: 1 });
-                    }
+                    var resbody = {
+                        status: 1,
+                        uid: sql_info.uid,
+                        userLoginInfo: JSON.stringify(sql_info)
+                    };
+                    Log.info("hcc>>uname_login", JSON.stringify(sql_info));
+                    NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eUnameLoginRes, utag, proto_type, resbody);
                 }
             }
             else {
@@ -91,17 +101,83 @@ var AuthModel = /** @class */ (function () {
     };
     AuthModel.prototype.guest_login = function (session, utag, proto_type, raw_cmd) {
         var body = this.decode_cmd(proto_type, raw_cmd);
+        if (!body) {
+            NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eGuestLoginRes, utag, proto_type, { status: Response_1["default"].INVALID_PARAMS });
+            return;
+        }
         Log.info("guest_login cmd: ", body);
-        // NetBus.send_encoded_cmd(session,raw_cmd);
-        var res_body = { status: 1 };
-        NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eGuestLoginRes, utag, proto_type, res_body);
+        if (!body.guestkey) {
+            NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eGuestLoginRes, utag, proto_type, { status: Response_1["default"].INVALID_PARAMS });
+            return;
+        }
+        if (body.guestkey.length < 32) {
+            NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eGuestLoginRes, utag, proto_type, { status: Response_1["default"].INVALID_PARAMS });
+            return;
+        }
+        var _this = this;
+        MySqlAuth_1["default"].guest_login_by_guestkey(body.guestkey, function (status, data) {
+            Log.info("guest_login_by_guestkey ret: ", data);
+            if (status == Response_1["default"].OK) {
+                if (data.length <= 0) { //
+                    var unick = "gst" + StringUtil_1["default"].random_int_str(5);
+                    var usex = StringUtil_1["default"].random_int(0, 1);
+                    var uface = 0;
+                    MySqlAuth_1["default"].insert_guest_user(unick, uface, usex, body.guestkey, function (status, data) {
+                        if (status != Response_1["default"].OK) {
+                            NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eGuestLoginRes, utag, proto_type, { status: Response_1["default"].INVALID_PARAMS });
+                            return;
+                        }
+                        _this.guest_login(session, utag, proto_type, raw_cmd);
+                    });
+                }
+                else {
+                    var sql_info = data[0];
+                    var resbody = {
+                        status: 1,
+                        uid: sql_info.uid,
+                        userLoginInfo: JSON.stringify(sql_info)
+                    };
+                    Log.info("hcc>>guest_login_by_guestkey: ", resbody);
+                    NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eGuestLoginRes, utag, proto_type, resbody);
+                }
+            }
+            else {
+                NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eGuestLoginRes, utag, proto_type, { status: Response_1["default"].UNAME_OR_UPWD_ERR });
+            }
+        });
     };
     AuthModel.prototype.uname_regist = function (session, utag, proto_type, raw_cmd) {
         var body = this.decode_cmd(proto_type, raw_cmd);
         Log.info("uname_regist cmd: ", body);
-        // NetBus.send_encoded_cmd(session,raw_cmd);
-        var res_body = { status: 1 };
-        NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eUnameRegistRes, utag, proto_type, res_body);
+        if (!body) {
+            NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eUnameRegistRes, utag, proto_type, { status: Response_1["default"].INVALID_PARAMS });
+            return;
+        }
+        if (!body.uname || !body.upwdmd5) {
+            NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eUnameRegistRes, utag, proto_type, { status: Response_1["default"].INVALID_PARAMS });
+            return;
+        }
+        if (body.uname.length < 6 || body.upwdmd5.length < 6) {
+            NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eUnameRegistRes, utag, proto_type, { status: Response_1["default"].INVALID_PARAMS });
+            return;
+        }
+        var unick = "gst" + StringUtil_1["default"].random_int_str(5);
+        var usex = StringUtil_1["default"].random_int(0, 1);
+        var uface = 0;
+        MySqlAuth_1["default"].check_uname_exist(body.uname, function (status, data) {
+            if (status == Response_1["default"].OK) {
+                NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eUnameRegistRes, utag, proto_type, { status: Response_1["default"].ILLEGAL_ACCOUNT });
+                return;
+            }
+            MySqlAuth_1["default"].insert_uname_upwd_user(body.uname, body.upwdmd5, unick, uface, usex, function (status, data) {
+                if (status == Response_1["default"].OK) {
+                    NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eUnameRegistRes, utag, proto_type, { status: 1 });
+                }
+                else {
+                    NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eUnameRegistRes, utag, proto_type, { status: Response_1["default"].ILLEGAL_ACCOUNT });
+                }
+            });
+        });
     };
     AuthModel.prototype.phone_regist = function (session, utag, proto_type, raw_cmd) {
         var body = this.decode_cmd(proto_type, raw_cmd);
@@ -115,8 +191,24 @@ var AuthModel = /** @class */ (function () {
     };
     AuthModel.prototype.get_user_center_info = function (session, utag, proto_type, raw_cmd) {
         var body = this.decode_cmd(proto_type, raw_cmd);
-        Log.info("get_user_center_info cmd: ", body);
-        NetBus_1["default"].send_encoded_cmd(session, raw_cmd);
+        MySqlAuth_1["default"].get_uinfo_by_uname_upwd(body.uname, body.upwdmd5, function (status, data) {
+            if (status == Response_1["default"].OK) {
+                var sql_info = data[0];
+                var resbody = {
+                    status: 1,
+                    userLoginInfo: JSON.stringify(sql_info)
+                };
+                Log.info("get_user_center_info:", resbody);
+                NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eGetUserCenterInfoRes, utag, proto_type, resbody);
+            }
+            else {
+                NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eGetUserCenterInfoRes, utag, proto_type, { status: Response_1["default"].ILLEGAL_ACCOUNT });
+            }
+        });
+    };
+    AuthModel.prototype.on_user_lost_connect = function (session, utag, proto_type, raw_cmd) {
+        var body = this.decode_cmd(proto_type, raw_cmd);
+        Log.info("on_user_lost_connect utag:", utag, body);
     };
     AuthModel.Instance = new AuthModel();
     return AuthModel;
