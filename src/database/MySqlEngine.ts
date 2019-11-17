@@ -25,6 +25,7 @@ class MySqlEngine {
             database: db_name, // 要连接的数据库
             user: uname,
             password: upwd,
+            // socketPath: "/run/mysqld/mysqld.sock", //TODO 数据库连接不上
         });
     }
     //查询sql，直接使用Pool.query接口，自动release
