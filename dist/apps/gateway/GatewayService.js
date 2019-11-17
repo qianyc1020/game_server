@@ -80,7 +80,7 @@ var GatewayService = /** @class */ (function (_super) {
                     NetBus_1["default"].send_cmd(prev_session, stype, AuthProto_1.Cmd.eReloginRes, utag, proto_type);
                     prev_session.uid = 0; // 可能会有隐患，是否通知其它的服务 TODO
                     NetBus_1["default"].session_close(prev_session);
-                    // Log.info("on_recv_server_player_cmd: relogin: ", utag);
+                    Log.info("on_recv_server_player_cmd: relogin: ", utag);
                 }
                 if (body.uid) {
                     client_session.uid = body.uid;
@@ -96,6 +96,9 @@ var GatewayService = /** @class */ (function (_super) {
         if (client_session) {
             ProtoTools_1["default"].clear_utag_inbuf(raw_cmd);
             NetBus_1["default"].send_encoded_cmd(client_session, raw_cmd);
+            if (ctype == AuthProto_1.Cmd.eLoginOutRes) {
+                GatewayService.clear_session_with_uid(utag);
+            }
         }
     };
     //玩家掉线

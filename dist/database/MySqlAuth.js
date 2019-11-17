@@ -40,10 +40,9 @@ var MySqlAuth = /** @class */ (function () {
             callback(Response_1["default"].OK, sql_ret);
         });
     };
-    MySqlAuth.get_uinfo_by_uname_upwd = function (uname, upwd, callback) {
-        var sql = "select * from uinfo where uname = \"%s\" and upwd = \"%s\" and is_guest = 0 limit 1";
-        var sql_cmd = util.format(sql, uname, upwd);
-        // Log.info("sql: " , sql_cmd)
+    MySqlAuth.login_by_guestkey = function (guestkey, callback) {
+        var sql = "select guest_key , uid from uinfo where guest_key = \"%s\" limit 1";
+        var sql_cmd = util.format(sql, guestkey);
         MySqlAuth.query(sql_cmd, function (err, sql_ret, fields_desic) {
             if (err) {
                 callback(Response_1["default"].SYSTEM_ERR, err);
@@ -52,9 +51,22 @@ var MySqlAuth = /** @class */ (function () {
             callback(Response_1["default"].OK, sql_ret);
         });
     };
-    MySqlAuth.guest_login_by_guestkey = function (guestkey, callback) {
-        var sql = "select guest_key , uid from uinfo where guest_key = \"%s\" limit 1";
-        var sql_cmd = util.format(sql, guestkey);
+    MySqlAuth.get_uinfo_by_uname_upwd = function (uname, upwd, callback) {
+        if (uname && upwd && uname != "" && upwd != "") {
+            var sql = "select * from uinfo where uname = \"%s\" and upwd = \"%s\" and is_guest = 0 limit 1";
+            var sql_cmd = util.format(sql, uname, upwd);
+            MySqlAuth.query(sql_cmd, function (err, sql_ret, fields_desic) {
+                if (err) {
+                    callback(Response_1["default"].SYSTEM_ERR, err);
+                    return;
+                }
+                callback(Response_1["default"].OK, sql_ret);
+            });
+        }
+    };
+    MySqlAuth.get_uinfo_by_uid = function (uid, callback) {
+        var sql = "select * from uinfo where uid = %d limit 1";
+        var sql_cmd = util.format(sql, uid);
         MySqlAuth.query(sql_cmd, function (err, sql_ret, fields_desic) {
             if (err) {
                 callback(Response_1["default"].SYSTEM_ERR, err);

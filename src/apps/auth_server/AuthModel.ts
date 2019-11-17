@@ -33,16 +33,15 @@ class AuthModel {
                 this.uname_regist(session,utag,proto_type,raw_cmd)
             break;
             case Cmd.ePhoneRegistReq:
-                this.phone_regist(session,utag,proto_type,raw_cmd);
             break;
             case Cmd.eGetPhoneRegVerNumReq:
-                this.get_phone_regist_virtify_num(session,utag,proto_type,raw_cmd);
             break;
             case Cmd.eBindPhoneNumberReq:
             break;
             case Cmd.eResetUserPwdReq:
             break;
             case Cmd.eLoginOutReq:
+                this.on_login_out(session, utag, proto_type,raw_cmd)
             break;
             case Cmd.eEditProfileReq:
             break;
@@ -124,13 +123,13 @@ class AuthModel {
             return;
         }
         let _this = this;
-        MySqlAuth.guest_login_by_guestkey(body.guestkey, function(status:number , data:any) {
-            Log.info("guest_login_by_guestkey ret: " , data)
+        MySqlAuth.login_by_guestkey(body.guestkey, function(status:number , data:any) {
+            Log.info("login_by_guestkey ret: " , data)
             if(status == Response.OK){
                 if(data.length <= 0){ //
                     var unick = "gst" + StringUtil.random_int_str(5);
                     var usex = StringUtil.random_int(0, 1);
-                    var uface = 0;
+                    var uface = StringUtil.random_int(1, 9);
                     MySqlAuth.insert_guest_user(unick, uface, usex, body.guestkey,function (status:number, data:any) {
                         if(status != Response.OK){
                             NetBus.send_cmd(session, Stype.Auth, Cmd.eGuestLoginRes, utag, proto_type, {status: Response.INVALID_PARAMS})
@@ -145,7 +144,7 @@ class AuthModel {
                         uid: sql_info.uid,
                         userLoginInfo: JSON.stringify(sql_info)
                     }
-                    Log.info("hcc>>guest_login_by_guestkey: ",resbody)
+                    Log.info("hcc>>login_by_guestkey: ",resbody)
                     NetBus.send_cmd(session, Stype.Auth, Cmd.eGuestLoginRes, utag, proto_type, resbody)
                 }
             }else{
@@ -175,7 +174,7 @@ class AuthModel {
 
         let unick   = "gst" + StringUtil.random_int_str(5);
         var usex    = StringUtil.random_int(0, 1);
-        var uface   = 0;
+        var uface   = StringUtil.random_int(1, 9);
         MySqlAuth.check_uname_exist(body.uname , function(status:number, data:any) {
             if(status == Response.OK){
                 NetBus.send_cmd(session, Stype.Auth, Cmd.eUnameRegistRes, utag, proto_type, {status: Response.ILLEGAL_ACCOUNT})
@@ -191,26 +190,17 @@ class AuthModel {
         })
     }
 
-    phone_regist(session:any, utag:number, proto_type:number, raw_cmd:any){
-        let body =  this.decode_cmd(proto_type,raw_cmd);
-        Log.info("phone_regist cmd: " , body)
-        NetBus.send_encoded_cmd(session,raw_cmd);
-    }
-
-    get_phone_regist_virtify_num(session:any, utag:number, proto_type:number, raw_cmd:any){
-        let body =  this.decode_cmd(proto_type,raw_cmd);
-        Log.info("phone_regist cmd: " , body)
-        NetBus.send_encoded_cmd(session,raw_cmd);
-    }
-
     get_user_center_info(session:any, utag:number, proto_type:number, raw_cmd:any){
-        let body =  this.decode_cmd(proto_type,raw_cmd);
-        MySqlAuth.get_uinfo_by_uname_upwd(body.uname, body.upwdmd5,function (status:number, data:any) {
+        if(utag == 0){
+            NetBus.send_cmd(session, Stype.Auth, Cmd.eGetUserCenterInfoRes,utag,proto_type,{status: Response.ILLEGAL_ACCOUNT})
+        }
+
+        MySqlAuth.get_uinfo_by_uid(utag,function (status:number, data:any) {
             if(status == Response.OK){
                 let sql_info = data[0]
                 let resbody = {
                     status: 1,
-                    userLoginInfo: JSON.stringify(sql_info)
+                    userCenterInfoString: JSON.stringify(sql_info),
                 }
                 Log.info("get_user_center_info:" , resbody)
                 NetBus.send_cmd(session, Stype.Auth, Cmd.eGetUserCenterInfoRes,utag,proto_type,resbody)
@@ -218,6 +208,13 @@ class AuthModel {
                 NetBus.send_cmd(session, Stype.Auth, Cmd.eGetUserCenterInfoRes,utag,proto_type,{status: Response.ILLEGAL_ACCOUNT})
             }
         })
+    }
+
+    on_login_out(session:any, utag:number, proto_type:number,raw_cmd:any){
+        Log.info("user login out uid:" , utag)
+        if(utag != 0){
+            NetBus.send_cmd(session, Stype.Auth, Cmd.eLoginOutRes,utag,proto_type,{status: 1});
+        }
     }
 
     on_user_lost_connect(session:any, utag:number, proto_type:number, raw_cmd:any){

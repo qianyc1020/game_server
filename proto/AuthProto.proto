@@ -132,8 +132,7 @@ message AccountUpgradeRes {
 }
 
 message GetUserCenterInfoReq {
-  required string uname = 1;
-  required string upwdmd5 = 2;
+
 }
 
 message GetUserCenterInfoRes {

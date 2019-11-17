@@ -34,10 +34,9 @@ class MySqlAuth {
 		});
 	}
 
-	static get_uinfo_by_uname_upwd(uname:string, upwd:string, callback:Function) {
-		var sql = "select * from uinfo where uname = \"%s\" and upwd = \"%s\" and is_guest = 0 limit 1";
-		var sql_cmd = util.format(sql, uname, upwd);
-		// Log.info("sql: " , sql_cmd)
+	static login_by_guestkey(guestkey:string, callback:Function){
+		var sql = "select guest_key , uid from uinfo where guest_key = \"%s\" limit 1";
+		var sql_cmd = util.format(sql, guestkey);
 		MySqlAuth.query(sql_cmd, function(err:any, sql_ret:any, fields_desic:any) {
 			if (err) {
 				callback(Response.SYSTEM_ERR, err);
@@ -46,10 +45,24 @@ class MySqlAuth {
 			callback(Response.OK, sql_ret);
 		});
 	}
+	
+	static get_uinfo_by_uname_upwd(uname:string, upwd:string, callback:Function) {
+		if(uname && upwd && uname != "" && upwd != ""){
+			let sql = "select * from uinfo where uname = \"%s\" and upwd = \"%s\" and is_guest = 0 limit 1";
+			let sql_cmd = util.format(sql, uname, upwd);
+			MySqlAuth.query(sql_cmd, function(err:any, sql_ret:any, fields_desic:any) {
+				if (err) {
+					callback(Response.SYSTEM_ERR, err);
+					return;
+				}
+				callback(Response.OK, sql_ret);
+			});
+		}
+	}
 
-	static guest_login_by_guestkey(guestkey:string, callback:Function){
-		var sql = "select guest_key , uid from uinfo where guest_key = \"%s\" limit 1";
-		var sql_cmd = util.format(sql, guestkey);
+	static get_uinfo_by_uid(uid:number,callback:Function){
+		var sql = "select * from uinfo where uid = %d limit 1";
+		var sql_cmd = util.format(sql, uid);
 		MySqlAuth.query(sql_cmd, function(err:any, sql_ret:any, fields_desic:any) {
 			if (err) {
 				callback(Response.SYSTEM_ERR, err);

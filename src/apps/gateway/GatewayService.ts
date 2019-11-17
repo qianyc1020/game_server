@@ -6,6 +6,7 @@ import Respones from "../Response"
 import ServiceBase from "../../netbus/ServiceBase"
 import { Stype, StypeName } from '../protocol/Stype';
 import { Cmd } from '../protocol/AuthProto';
+import ServiceManager from '../../netbus/ServiceManager';
 
 let Log = require("../../utils/Log")
 
@@ -64,7 +65,7 @@ class GatewayService extends ServiceBase {
 					NetBus.send_cmd(prev_session, stype, Cmd.eReloginRes, utag, proto_type);
 					prev_session.uid = 0; // 可能会有隐患，是否通知其它的服务 TODO
 					NetBus.session_close(prev_session);
-					// Log.info("on_recv_server_player_cmd: relogin: ", utag);
+					Log.info("on_recv_server_player_cmd: relogin: ", utag);
 				}
 
 				if(body.uid){
@@ -81,6 +82,9 @@ class GatewayService extends ServiceBase {
 		if (client_session){
 			ProtoTools.clear_utag_inbuf(raw_cmd);
 			NetBus.send_encoded_cmd(client_session,raw_cmd);
+			if(ctype == Cmd.eLoginOutRes){
+				GatewayService.clear_session_with_uid(utag);
+			}
 		}
 	}
 	//玩家掉线

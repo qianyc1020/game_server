@@ -1,10 +1,14 @@
 技术：
-1. tcp websocket 对接
-2. protobuf接入，分文件处理 
-3. 数据库对接
-4. 对接creator 客户端,typescript
-5. 游戏逻辑
-6.
+1. tcp websocket 对接 OK 
+2. protobuf接入，分文件处理 OK
+3. 数据库对接 OK
+4. 数据库服务端部署 
+4. 对接creator 客户端,typescript OK
+5. 登陆，登出，串号，注册 OK
+6. 大厅资料显示 OK
+7. 弹窗管理,小提示 OK 
+8. 进出房间
+9. 微信登陆，手机号登陆
 
 网站优化 备案
 小游戏资质

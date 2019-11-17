@@ -30,16 +30,15 @@ var AuthModel = /** @class */ (function () {
                 this.uname_regist(session, utag, proto_type, raw_cmd);
                 break;
             case AuthProto_1.Cmd.ePhoneRegistReq:
-                this.phone_regist(session, utag, proto_type, raw_cmd);
                 break;
             case AuthProto_1.Cmd.eGetPhoneRegVerNumReq:
-                this.get_phone_regist_virtify_num(session, utag, proto_type, raw_cmd);
                 break;
             case AuthProto_1.Cmd.eBindPhoneNumberReq:
                 break;
             case AuthProto_1.Cmd.eResetUserPwdReq:
                 break;
             case AuthProto_1.Cmd.eLoginOutReq:
+                this.on_login_out(session, utag, proto_type, raw_cmd);
                 break;
             case AuthProto_1.Cmd.eEditProfileReq:
                 break;
@@ -115,13 +114,13 @@ var AuthModel = /** @class */ (function () {
             return;
         }
         var _this = this;
-        MySqlAuth_1["default"].guest_login_by_guestkey(body.guestkey, function (status, data) {
-            Log.info("guest_login_by_guestkey ret: ", data);
+        MySqlAuth_1["default"].login_by_guestkey(body.guestkey, function (status, data) {
+            Log.info("login_by_guestkey ret: ", data);
             if (status == Response_1["default"].OK) {
                 if (data.length <= 0) { //
                     var unick = "gst" + StringUtil_1["default"].random_int_str(5);
                     var usex = StringUtil_1["default"].random_int(0, 1);
-                    var uface = 0;
+                    var uface = StringUtil_1["default"].random_int(1, 9);
                     MySqlAuth_1["default"].insert_guest_user(unick, uface, usex, body.guestkey, function (status, data) {
                         if (status != Response_1["default"].OK) {
                             NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eGuestLoginRes, utag, proto_type, { status: Response_1["default"].INVALID_PARAMS });
@@ -137,7 +136,7 @@ var AuthModel = /** @class */ (function () {
                         uid: sql_info.uid,
                         userLoginInfo: JSON.stringify(sql_info)
                     };
-                    Log.info("hcc>>guest_login_by_guestkey: ", resbody);
+                    Log.info("hcc>>login_by_guestkey: ", resbody);
                     NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eGuestLoginRes, utag, proto_type, resbody);
                 }
             }
@@ -163,7 +162,7 @@ var AuthModel = /** @class */ (function () {
         }
         var unick = "gst" + StringUtil_1["default"].random_int_str(5);
         var usex = StringUtil_1["default"].random_int(0, 1);
-        var uface = 0;
+        var uface = StringUtil_1["default"].random_int(1, 9);
         MySqlAuth_1["default"].check_uname_exist(body.uname, function (status, data) {
             if (status == Response_1["default"].OK) {
                 NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eUnameRegistRes, utag, proto_type, { status: Response_1["default"].ILLEGAL_ACCOUNT });
@@ -179,24 +178,16 @@ var AuthModel = /** @class */ (function () {
             });
         });
     };
-    AuthModel.prototype.phone_regist = function (session, utag, proto_type, raw_cmd) {
-        var body = this.decode_cmd(proto_type, raw_cmd);
-        Log.info("phone_regist cmd: ", body);
-        NetBus_1["default"].send_encoded_cmd(session, raw_cmd);
-    };
-    AuthModel.prototype.get_phone_regist_virtify_num = function (session, utag, proto_type, raw_cmd) {
-        var body = this.decode_cmd(proto_type, raw_cmd);
-        Log.info("phone_regist cmd: ", body);
-        NetBus_1["default"].send_encoded_cmd(session, raw_cmd);
-    };
     AuthModel.prototype.get_user_center_info = function (session, utag, proto_type, raw_cmd) {
-        var body = this.decode_cmd(proto_type, raw_cmd);
-        MySqlAuth_1["default"].get_uinfo_by_uname_upwd(body.uname, body.upwdmd5, function (status, data) {
+        if (utag == 0) {
+            NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eGetUserCenterInfoRes, utag, proto_type, { status: Response_1["default"].ILLEGAL_ACCOUNT });
+        }
+        MySqlAuth_1["default"].get_uinfo_by_uid(utag, function (status, data) {
             if (status == Response_1["default"].OK) {
                 var sql_info = data[0];
                 var resbody = {
                     status: 1,
-                    userLoginInfo: JSON.stringify(sql_info)
+                    userCenterInfoString: JSON.stringify(sql_info)
                 };
                 Log.info("get_user_center_info:", resbody);
                 NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eGetUserCenterInfoRes, utag, proto_type, resbody);
@@ -205,6 +196,12 @@ var AuthModel = /** @class */ (function () {
                 NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eGetUserCenterInfoRes, utag, proto_type, { status: Response_1["default"].ILLEGAL_ACCOUNT });
             }
         });
+    };
+    AuthModel.prototype.on_login_out = function (session, utag, proto_type, raw_cmd) {
+        Log.info("user login out uid:", utag);
+        if (utag != 0) {
+            NetBus_1["default"].send_cmd(session, Stype_1.Stype.Auth, AuthProto_1.Cmd.eLoginOutRes, utag, proto_type, { status: 1 });
+        }
     };
     AuthModel.prototype.on_user_lost_connect = function (session, utag, proto_type, raw_cmd) {
         var body = this.decode_cmd(proto_type, raw_cmd);
