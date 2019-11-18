@@ -28,10 +28,14 @@ var Log = require("../../utils/Log");
 var LOGIN_ERQ_CMD = [
     AuthProto_1.Cmd.eUnameLoginReq,
     AuthProto_1.Cmd.eGuestLoginReq,
+    AuthProto_1.Cmd.ePhoneRegistReq,
+    AuthProto_1.Cmd.eUnameRegistReq,
 ];
 var LOGIN_ERS_CMD = [
     AuthProto_1.Cmd.eUnameLoginRes,
     AuthProto_1.Cmd.eGuestLoginRes,
+    AuthProto_1.Cmd.eUnameRegistRes,
+    AuthProto_1.Cmd.ePhoneRegistRes,
 ];
 var uid_session_map = {}; //保存已经登录过的玩家 uid-> session
 var GatewayService = /** @class */ (function (_super) {
