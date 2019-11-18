@@ -13,11 +13,15 @@ let Log = require("../../utils/Log")
 let LOGIN_ERQ_CMD = [
 	Cmd.eUnameLoginReq, 
 	Cmd.eGuestLoginReq,
+	Cmd.ePhoneRegistReq,
+	Cmd.eUnameRegistReq,
 ]
 
 let LOGIN_ERS_CMD = [
 	Cmd.eUnameLoginRes, 
 	Cmd.eGuestLoginRes,
+	Cmd.eUnameRegistRes,
+	Cmd.ePhoneRegistRes,
 ]
 
 let uid_session_map:any = {}; //保存已经登录过的玩家 uid-> session
