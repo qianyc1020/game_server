@@ -2,7 +2,7 @@
 1. tcp websocket 对接 OK 
 2. protobuf接入，分文件处理 OK
 3. 数据库对接 OK
-4. 数据库服务端部署 
+4. 数据库服务端部署 (设置密码？)OK
 4. 对接creator 客户端,typescript OK
 5. 登陆，登出，串号，注册 OK
 6. 大厅资料显示 OK
