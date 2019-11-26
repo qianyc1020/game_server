@@ -34,11 +34,11 @@ var GameConf: any = {
 		stypes: [Stype.GameSystem],
 	},
 
-	// game_server: {
-	// 	host: localhost,
-	// 	port: 6088,
-	// 	stypes: [Stype.Game5Chess],
-	// },
+	game_server: {
+		host: localhost,
+		port: 6088,
+		stypes: [Stype.GameHoodle],
+	},
 
 	game_database: {
 		host: localhost,
@@ -82,11 +82,11 @@ var GameConf: any = {
 			port: 6086,
 		},
 
-		// 2: {
-		// 	stype: Stype.GameSystem,
-		// 	host: localhost,
-		// 	port: 6087,
-		// },
+		[2]: {
+			stype: Stype.GameHoodle,
+			host: localhost,
+			port: 6088,
+		},
 	},
 };
 

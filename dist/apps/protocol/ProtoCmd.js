@@ -34,7 +34,7 @@ var ProtoCmd = /** @class */ (function () {
     ProtoCmd.StypeProtos = (_a = {},
         _a[Stype_1.Stype.Auth] = Auth,
         _a[Stype_1.Stype.GameSystem] = GameSystem,
-        _a[Stype_1.Stype.Game] = GameProto,
+        _a[Stype_1.Stype.GameHoodle] = GameProto,
         _a[Stype_1.Stype.TalkRoom] = TalkRoom,
         _a);
     return ProtoCmd;

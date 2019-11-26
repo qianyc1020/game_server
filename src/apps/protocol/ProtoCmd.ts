@@ -9,7 +9,7 @@ class ProtoCmd {
 	  static StypeProtos:any = {
 		  [Stype.Auth] : Auth,
 		  [Stype.GameSystem] : GameSystem,
-		  [Stype.Game] : GameProto,
+		  [Stype.GameHoodle] : GameProto,
 		  [Stype.TalkRoom] : TalkRoom,
 	}
 	

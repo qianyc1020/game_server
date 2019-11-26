@@ -6,7 +6,6 @@ import Respones from "../Response"
 import ServiceBase from "../../netbus/ServiceBase"
 import { Stype, StypeName } from '../protocol/Stype';
 import { Cmd } from '../protocol/AuthProto';
-import ServiceManager from '../../netbus/ServiceManager';
 
 let Log = require("../../utils/Log")
 
@@ -91,7 +90,7 @@ class GatewayService extends ServiceBase {
 			}
 		}
 	}
-	//玩家掉线
+	//玩家掉线,网关发消息给其他服务，其他服务接收eUserLostConnectRes协议进行处理就好了
 	static on_player_disconnect(session:any, stype:number) {
 		Log.info("on_player_disconnect")
 		if (stype == Stype.Auth) { // 由Auth服务保存的，那么就由Auth清空

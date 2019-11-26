@@ -16,27 +16,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-var ServiceBase_1 = __importDefault(require("../../netbus/ServiceBase"));
-var AuthModel_1 = __importDefault(require("./AuthModel"));
-var AuthService = /** @class */ (function (_super) {
-    __extends(AuthService, _super);
-    function AuthService() {
+var ServiceBase_1 = __importDefault(require("../../../netbus/ServiceBase"));
+var GameHoodleModle_1 = __importDefault(require("./GameHoodleModle"));
+var GameHoodleService = /** @class */ (function (_super) {
+    __extends(GameHoodleService, _super);
+    function GameHoodleService() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.service_name = "AuthService"; // 服务名称
+        _this.service_name = "GameHoodleService"; // 服务名称
         _this.is_transfer = false; // 是否为转发模块,
         return _this;
     }
     // 收到客户端，或者其他服务发来的数据
-    AuthService.on_recv_client_player_cmd = function (session, stype, ctype, utag, proto_type, raw_cmd) {
-        AuthModel_1["default"].getInstance().recv_cmd_msg(session, stype, ctype, utag, proto_type, raw_cmd);
+    GameHoodleService.on_recv_client_player_cmd = function (session, stype, ctype, utag, proto_type, raw_cmd) {
+        GameHoodleModle_1["default"].getInstance().recv_cmd_msg(session, stype, ctype, utag, proto_type, raw_cmd);
     };
     // 收到连接的其他服务发过来的消息，这里不做处理
-    AuthService.on_recv_server_player_cmd = function (session, stype, ctype, utag, proto_type, raw_cmd) {
+    GameHoodleService.on_recv_server_player_cmd = function (session, stype, ctype, utag, proto_type, raw_cmd) {
     };
     // 收到客户端断开连接，网关已经发了断开协议（eUserLostConnectRes）过来，这里不用做处理
-    AuthService.on_player_disconnect = function (session) {
+    GameHoodleService.on_player_disconnect = function (session) {
     };
-    return AuthService;
+    return GameHoodleService;
 }(ServiceBase_1["default"]));
-exports["default"] = AuthService;
-//# sourceMappingURL=AuthService.js.map
+exports["default"] = GameHoodleService;
+//# sourceMappingURL=GameHoodleService.js.map

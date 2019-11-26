@@ -5,11 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 var NetBus_1 = __importDefault(require("../../netbus/NetBus"));
 var AuthProto_1 = require("../protocol/AuthProto");
-var ProtoManager_1 = __importDefault(require("../../netbus/ProtoManager"));
 var Stype_1 = require("../protocol/Stype");
 var MySqlAuth_1 = __importDefault(require("../../database/MySqlAuth"));
 var Response_1 = __importDefault(require("../Response"));
 var StringUtil_1 = __importDefault(require("../../utils/StringUtil"));
+var ProtoManager_1 = __importDefault(require("../../netbus/ProtoManager"));
 var Log = require("../../utils/Log");
 var AuthModel = /** @class */ (function () {
     function AuthModel() {
@@ -29,6 +29,15 @@ var AuthModel = /** @class */ (function () {
             case AuthProto_1.Cmd.eUnameRegistReq:
                 this.uname_regist(session, utag, proto_type, raw_cmd);
                 break;
+            case AuthProto_1.Cmd.eLoginOutReq:
+                this.on_login_out(session, utag, proto_type, raw_cmd);
+                break;
+            case AuthProto_1.Cmd.eGetUserCenterInfoReq:
+                this.get_user_center_info(session, utag, proto_type, raw_cmd);
+                break;
+            case AuthProto_1.Cmd.eUserLostConnectRes:
+                this.on_user_lost_connect(session, utag, proto_type, raw_cmd);
+                break;
             case AuthProto_1.Cmd.ePhoneRegistReq:
                 break;
             case AuthProto_1.Cmd.eGetPhoneRegVerNumReq:
@@ -37,26 +46,15 @@ var AuthModel = /** @class */ (function () {
                 break;
             case AuthProto_1.Cmd.eResetUserPwdReq:
                 break;
-            case AuthProto_1.Cmd.eLoginOutReq:
-                this.on_login_out(session, utag, proto_type, raw_cmd);
-                break;
             case AuthProto_1.Cmd.eEditProfileReq:
                 break;
             case AuthProto_1.Cmd.eAccountUpgradeReq:
                 break;
-            case AuthProto_1.Cmd.eGetUserCenterInfoReq:
-                this.get_user_center_info(session, utag, proto_type, raw_cmd);
-                break;
             case AuthProto_1.Cmd.eReloginRes:
-                break;
-            case AuthProto_1.Cmd.eUserLostConnectRes:
-                this.on_user_lost_connect(session, utag, proto_type, raw_cmd);
                 break;
             default:
                 break;
         }
-    };
-    AuthModel.prototype.recv_cmd_disconnect = function (session) {
     };
     AuthModel.prototype.decode_cmd = function (proto_type, raw_cmd) {
         return ProtoManager_1["default"].decode_cmd(proto_type, raw_cmd);

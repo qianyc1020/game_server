@@ -1,0 +1,12 @@
+//GameHoodleProto.proro
+//弹珠游戏
+
+syntax = "proto3";
+package GameHoodleProto;
+
+enum Cmd {
+	INVALED = 0;
+	
+}
+
+

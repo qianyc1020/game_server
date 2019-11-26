@@ -1,10 +1,10 @@
 import NetBus from '../../netbus/NetBus';
 import {Cmd,CmdName} from "../protocol/AuthProto"
-import ProtoManater from "../../netbus/ProtoManager"
 import { Stype , StypeName } from '../protocol/Stype';
 import MySqlAuth from '../../database/MySqlAuth';
 import Response from '../Response';
 import StringUtil from '../../utils/StringUtil';
+import ProtoManager from '../../netbus/ProtoManager';
 
 var Log =  require("../../utils/Log")
 
@@ -32,6 +32,15 @@ class AuthModel {
             case Cmd.eUnameRegistReq:
                 this.uname_regist(session,utag,proto_type,raw_cmd)
             break;
+            case Cmd.eLoginOutReq:
+                this.on_login_out(session, utag, proto_type,raw_cmd)
+            break;
+            case Cmd.eGetUserCenterInfoReq:
+                this.get_user_center_info(session,utag,proto_type,raw_cmd);
+            break;
+            case Cmd.eUserLostConnectRes:
+                this.on_user_lost_connect(session,utag,proto_type,raw_cmd)
+            break;
             case Cmd.ePhoneRegistReq:
             break;
             case Cmd.eGetPhoneRegVerNumReq:
@@ -40,32 +49,19 @@ class AuthModel {
             break;
             case Cmd.eResetUserPwdReq:
             break;
-            case Cmd.eLoginOutReq:
-                this.on_login_out(session, utag, proto_type,raw_cmd)
-            break;
             case Cmd.eEditProfileReq:
             break;
             case Cmd.eAccountUpgradeReq:
             break;
-            case Cmd.eGetUserCenterInfoReq:
-                this.get_user_center_info(session,utag,proto_type,raw_cmd);
-            break;
             case Cmd.eReloginRes:
-            break;
-            case Cmd.eUserLostConnectRes:
-                this.on_user_lost_connect(session,utag,proto_type,raw_cmd)
             break;
             default:
             break;
         }
     }
 
-    public recv_cmd_disconnect(session:any){
-        
-    }
-
     private decode_cmd(proto_type:number,raw_cmd:any){
-        return ProtoManater.decode_cmd(proto_type,raw_cmd);
+        return ProtoManager.decode_cmd(proto_type,raw_cmd);
     }
     
     uname_login(session:any, utag:number, proto_type:number, raw_cmd:any){
