@@ -6,7 +6,71 @@ package GameHoodleProto;
 
 enum Cmd {
 	INVALED = 0;
+
+	eCheckLinkGameReq = 1; 	//进入包厢，连接到游戏服务，发送一些数据到客户端
+	eCheckLinkGameRes = 2;
+
+	eUserInfoRes = 3;		//玩家信息
+
+	eRoomInfoRes = 4; 	//房间规则
+	eRoomIdRes = 5; 	//房间号
+	ePlayCountRes = 6; 	//局数
+
+	eUserReadyReq = 7;	//玩家准备
+	eUserReadyRes = 8;
+	
+	eGameStartRes = 9;	//游戏开始
+	eGameResultRes = 10;	//游戏结束
+	eGameTotalResultRes = 11; 	//大结算
+}
+
+message UserInfo {
+	required string numberid = 1;
+	required string userInfoString = 2;
+}
+
+message CheckLinkGameReq {
+
+}
+
+message CheckLinkGameRes {
+	required sint32 status = 1;
+}
+
+message UserInfoRes {
+	repeated UserInfo = 1;
+}
+
+message RoomInfoRes {
+	required string roominfo = 1;
+}
+
+message RoomIdRes {
+	required string roomid = 1;
+}
+
+message PlayCountRes {
+	required string playcount = 1;
+	required string totalplaycount = 2;
+}
+
+message UserReadyReq {
 	
 }
 
+message UserReadyRes {
+	required sint32 status 	= 1;
+	optional string numberid = 2;
+}
 
+message GameStart {
+	required sint32 status = 1;
+}
+
+message GameResultRes {
+	repeated sint32 scores = 1;
+}
+
+message GameTotalResultRes {
+	repeated sint32 scores = 1;
+}

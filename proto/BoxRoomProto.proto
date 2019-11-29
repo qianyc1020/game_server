@@ -1,0 +1,77 @@
+//RoomProto.proro
+//进出房间管理
+
+syntax = "proto3";
+package BoxRoomProto;
+
+enum Cmd {
+	INVALED = 0;
+
+	eCreateRoomReq = 1; //创建包厢
+	eCreateRoomRes = 2;
+
+	eJoinRoomReq = 3;	//加入包厢
+	eJoinRoomRes = 4;
+
+	eExitRoomReq = 5;	//退出包厢
+	eExitRoomRes = 6;
+
+	eDessolveReq = 7;	//解散包厢
+	eDessolveRes = 8;
+
+	eGetRoomStatusReq = 9;	//包厢状态
+	eGetRoomStatusRes = 10;
+
+	eBackRoomReq = 11;	//返回包厢
+	eBackRoomRes = 12;
+
+}
+
+message CreateRoomReq {
+	required string roominfo = 1;
+}
+
+message CreateRoomRes {
+	required sint32 status = 1;
+}
+
+message JoinRoomReq {
+	required string roomid = 1;
+}
+
+message JoinRoomRes {
+	required sint32 status = 1;
+}
+
+message ExitRoomReq {
+	
+}
+
+message ExitRoomRes {
+	required sint32 status = 1;
+	optional sint32 numberid = 2;
+}
+
+message DessolveReq {
+	
+}
+
+message DessolveRes {
+	required sint32 status = 1;
+}
+
+message GetRoomStatusReq {
+	
+}
+
+message GetRoomStatusRes {
+	required sint32 status = 1;
+}
+
+message BackRoomReq {
+	
+}
+
+message BackRoomRes {
+	required sint32 status = 1;
+}

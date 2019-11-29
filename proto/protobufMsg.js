@@ -6234,4 +6234,2814 @@ $root.TalkProto = (function() {
     return TalkProto;
 })();
 
+$root.BoxRoomProto = (function() {
+
+    /**
+     * Namespace BoxRoomProto.
+     * @exports BoxRoomProto
+     * @namespace
+     */
+    var BoxRoomProto = {};
+
+    /**
+     * Cmd enum.
+     * @name BoxRoomProto.Cmd
+     * @enum {string}
+     * @property {number} INVALED=0 INVALED value
+     * @property {number} eCreateRoomReq=1 eCreateRoomReq value
+     * @property {number} eCreateRoomRes=2 eCreateRoomRes value
+     * @property {number} eJoinRoomReq=3 eJoinRoomReq value
+     * @property {number} eJoinRoomRes=4 eJoinRoomRes value
+     * @property {number} eExitRoomReq=5 eExitRoomReq value
+     * @property {number} eExitRoomRes=6 eExitRoomRes value
+     * @property {number} eDessolveReq=7 eDessolveReq value
+     * @property {number} eDessolveRes=8 eDessolveRes value
+     * @property {number} eGetRoomStatusReq=9 eGetRoomStatusReq value
+     * @property {number} eGetRoomStatusRes=10 eGetRoomStatusRes value
+     * @property {number} eBackRoomReq=11 eBackRoomReq value
+     * @property {number} eBackRoomRes=12 eBackRoomRes value
+     */
+    BoxRoomProto.Cmd = (function() {
+        var valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "INVALED"] = 0;
+        values[valuesById[1] = "eCreateRoomReq"] = 1;
+        values[valuesById[2] = "eCreateRoomRes"] = 2;
+        values[valuesById[3] = "eJoinRoomReq"] = 3;
+        values[valuesById[4] = "eJoinRoomRes"] = 4;
+        values[valuesById[5] = "eExitRoomReq"] = 5;
+        values[valuesById[6] = "eExitRoomRes"] = 6;
+        values[valuesById[7] = "eDessolveReq"] = 7;
+        values[valuesById[8] = "eDessolveRes"] = 8;
+        values[valuesById[9] = "eGetRoomStatusReq"] = 9;
+        values[valuesById[10] = "eGetRoomStatusRes"] = 10;
+        values[valuesById[11] = "eBackRoomReq"] = 11;
+        values[valuesById[12] = "eBackRoomRes"] = 12;
+        return values;
+    })();
+
+    BoxRoomProto.CreateRoomReq = (function() {
+
+        /**
+         * Properties of a CreateRoomReq.
+         * @memberof BoxRoomProto
+         * @interface ICreateRoomReq
+         * @property {string} roominfo CreateRoomReq roominfo
+         */
+
+        /**
+         * Constructs a new CreateRoomReq.
+         * @memberof BoxRoomProto
+         * @classdesc Represents a CreateRoomReq.
+         * @implements ICreateRoomReq
+         * @constructor
+         * @param {BoxRoomProto.ICreateRoomReq=} [properties] Properties to set
+         */
+        function CreateRoomReq(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * CreateRoomReq roominfo.
+         * @member {string} roominfo
+         * @memberof BoxRoomProto.CreateRoomReq
+         * @instance
+         */
+        CreateRoomReq.prototype.roominfo = "";
+
+        /**
+         * Creates a new CreateRoomReq instance using the specified properties.
+         * @function create
+         * @memberof BoxRoomProto.CreateRoomReq
+         * @static
+         * @param {BoxRoomProto.ICreateRoomReq=} [properties] Properties to set
+         * @returns {BoxRoomProto.CreateRoomReq} CreateRoomReq instance
+         */
+        CreateRoomReq.create = function create(properties) {
+            return new CreateRoomReq(properties);
+        };
+
+        /**
+         * Encodes the specified CreateRoomReq message. Does not implicitly {@link BoxRoomProto.CreateRoomReq.verify|verify} messages.
+         * @function encode
+         * @memberof BoxRoomProto.CreateRoomReq
+         * @static
+         * @param {BoxRoomProto.ICreateRoomReq} message CreateRoomReq message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CreateRoomReq.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            writer.uint32(/* id 1, wireType 2 =*/10).string(message.roominfo);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified CreateRoomReq message, length delimited. Does not implicitly {@link BoxRoomProto.CreateRoomReq.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof BoxRoomProto.CreateRoomReq
+         * @static
+         * @param {BoxRoomProto.ICreateRoomReq} message CreateRoomReq message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CreateRoomReq.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a CreateRoomReq message from the specified reader or buffer.
+         * @function decode
+         * @memberof BoxRoomProto.CreateRoomReq
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {BoxRoomProto.CreateRoomReq} CreateRoomReq
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CreateRoomReq.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.BoxRoomProto.CreateRoomReq();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.roominfo = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            if (!message.hasOwnProperty("roominfo"))
+                throw $util.ProtocolError("missing required 'roominfo'", { instance: message });
+            return message;
+        };
+
+        /**
+         * Decodes a CreateRoomReq message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof BoxRoomProto.CreateRoomReq
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {BoxRoomProto.CreateRoomReq} CreateRoomReq
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CreateRoomReq.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a CreateRoomReq message.
+         * @function verify
+         * @memberof BoxRoomProto.CreateRoomReq
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CreateRoomReq.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (!$util.isString(message.roominfo))
+                return "roominfo: string expected";
+            return null;
+        };
+
+        /**
+         * Creates a CreateRoomReq message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof BoxRoomProto.CreateRoomReq
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {BoxRoomProto.CreateRoomReq} CreateRoomReq
+         */
+        CreateRoomReq.fromObject = function fromObject(object) {
+            if (object instanceof $root.BoxRoomProto.CreateRoomReq)
+                return object;
+            var message = new $root.BoxRoomProto.CreateRoomReq();
+            if (object.roominfo != null)
+                message.roominfo = String(object.roominfo);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a CreateRoomReq message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof BoxRoomProto.CreateRoomReq
+         * @static
+         * @param {BoxRoomProto.CreateRoomReq} message CreateRoomReq
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CreateRoomReq.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults)
+                object.roominfo = "";
+            if (message.roominfo != null && message.hasOwnProperty("roominfo"))
+                object.roominfo = message.roominfo;
+            return object;
+        };
+
+        /**
+         * Converts this CreateRoomReq to JSON.
+         * @function toJSON
+         * @memberof BoxRoomProto.CreateRoomReq
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CreateRoomReq.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return CreateRoomReq;
+    })();
+
+    BoxRoomProto.CreateRoomRes = (function() {
+
+        /**
+         * Properties of a CreateRoomRes.
+         * @memberof BoxRoomProto
+         * @interface ICreateRoomRes
+         * @property {number} status CreateRoomRes status
+         */
+
+        /**
+         * Constructs a new CreateRoomRes.
+         * @memberof BoxRoomProto
+         * @classdesc Represents a CreateRoomRes.
+         * @implements ICreateRoomRes
+         * @constructor
+         * @param {BoxRoomProto.ICreateRoomRes=} [properties] Properties to set
+         */
+        function CreateRoomRes(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * CreateRoomRes status.
+         * @member {number} status
+         * @memberof BoxRoomProto.CreateRoomRes
+         * @instance
+         */
+        CreateRoomRes.prototype.status = 0;
+
+        /**
+         * Creates a new CreateRoomRes instance using the specified properties.
+         * @function create
+         * @memberof BoxRoomProto.CreateRoomRes
+         * @static
+         * @param {BoxRoomProto.ICreateRoomRes=} [properties] Properties to set
+         * @returns {BoxRoomProto.CreateRoomRes} CreateRoomRes instance
+         */
+        CreateRoomRes.create = function create(properties) {
+            return new CreateRoomRes(properties);
+        };
+
+        /**
+         * Encodes the specified CreateRoomRes message. Does not implicitly {@link BoxRoomProto.CreateRoomRes.verify|verify} messages.
+         * @function encode
+         * @memberof BoxRoomProto.CreateRoomRes
+         * @static
+         * @param {BoxRoomProto.ICreateRoomRes} message CreateRoomRes message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CreateRoomRes.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            writer.uint32(/* id 1, wireType 0 =*/8).sint32(message.status);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified CreateRoomRes message, length delimited. Does not implicitly {@link BoxRoomProto.CreateRoomRes.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof BoxRoomProto.CreateRoomRes
+         * @static
+         * @param {BoxRoomProto.ICreateRoomRes} message CreateRoomRes message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CreateRoomRes.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a CreateRoomRes message from the specified reader or buffer.
+         * @function decode
+         * @memberof BoxRoomProto.CreateRoomRes
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {BoxRoomProto.CreateRoomRes} CreateRoomRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CreateRoomRes.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.BoxRoomProto.CreateRoomRes();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.status = reader.sint32();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            if (!message.hasOwnProperty("status"))
+                throw $util.ProtocolError("missing required 'status'", { instance: message });
+            return message;
+        };
+
+        /**
+         * Decodes a CreateRoomRes message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof BoxRoomProto.CreateRoomRes
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {BoxRoomProto.CreateRoomRes} CreateRoomRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CreateRoomRes.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a CreateRoomRes message.
+         * @function verify
+         * @memberof BoxRoomProto.CreateRoomRes
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CreateRoomRes.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (!$util.isInteger(message.status))
+                return "status: integer expected";
+            return null;
+        };
+
+        /**
+         * Creates a CreateRoomRes message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof BoxRoomProto.CreateRoomRes
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {BoxRoomProto.CreateRoomRes} CreateRoomRes
+         */
+        CreateRoomRes.fromObject = function fromObject(object) {
+            if (object instanceof $root.BoxRoomProto.CreateRoomRes)
+                return object;
+            var message = new $root.BoxRoomProto.CreateRoomRes();
+            if (object.status != null)
+                message.status = object.status | 0;
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a CreateRoomRes message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof BoxRoomProto.CreateRoomRes
+         * @static
+         * @param {BoxRoomProto.CreateRoomRes} message CreateRoomRes
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CreateRoomRes.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults)
+                object.status = 0;
+            if (message.status != null && message.hasOwnProperty("status"))
+                object.status = message.status;
+            return object;
+        };
+
+        /**
+         * Converts this CreateRoomRes to JSON.
+         * @function toJSON
+         * @memberof BoxRoomProto.CreateRoomRes
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CreateRoomRes.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return CreateRoomRes;
+    })();
+
+    BoxRoomProto.JoinRoomReq = (function() {
+
+        /**
+         * Properties of a JoinRoomReq.
+         * @memberof BoxRoomProto
+         * @interface IJoinRoomReq
+         * @property {string} roomid JoinRoomReq roomid
+         */
+
+        /**
+         * Constructs a new JoinRoomReq.
+         * @memberof BoxRoomProto
+         * @classdesc Represents a JoinRoomReq.
+         * @implements IJoinRoomReq
+         * @constructor
+         * @param {BoxRoomProto.IJoinRoomReq=} [properties] Properties to set
+         */
+        function JoinRoomReq(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * JoinRoomReq roomid.
+         * @member {string} roomid
+         * @memberof BoxRoomProto.JoinRoomReq
+         * @instance
+         */
+        JoinRoomReq.prototype.roomid = "";
+
+        /**
+         * Creates a new JoinRoomReq instance using the specified properties.
+         * @function create
+         * @memberof BoxRoomProto.JoinRoomReq
+         * @static
+         * @param {BoxRoomProto.IJoinRoomReq=} [properties] Properties to set
+         * @returns {BoxRoomProto.JoinRoomReq} JoinRoomReq instance
+         */
+        JoinRoomReq.create = function create(properties) {
+            return new JoinRoomReq(properties);
+        };
+
+        /**
+         * Encodes the specified JoinRoomReq message. Does not implicitly {@link BoxRoomProto.JoinRoomReq.verify|verify} messages.
+         * @function encode
+         * @memberof BoxRoomProto.JoinRoomReq
+         * @static
+         * @param {BoxRoomProto.IJoinRoomReq} message JoinRoomReq message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        JoinRoomReq.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            writer.uint32(/* id 1, wireType 2 =*/10).string(message.roomid);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified JoinRoomReq message, length delimited. Does not implicitly {@link BoxRoomProto.JoinRoomReq.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof BoxRoomProto.JoinRoomReq
+         * @static
+         * @param {BoxRoomProto.IJoinRoomReq} message JoinRoomReq message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        JoinRoomReq.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a JoinRoomReq message from the specified reader or buffer.
+         * @function decode
+         * @memberof BoxRoomProto.JoinRoomReq
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {BoxRoomProto.JoinRoomReq} JoinRoomReq
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        JoinRoomReq.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.BoxRoomProto.JoinRoomReq();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.roomid = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            if (!message.hasOwnProperty("roomid"))
+                throw $util.ProtocolError("missing required 'roomid'", { instance: message });
+            return message;
+        };
+
+        /**
+         * Decodes a JoinRoomReq message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof BoxRoomProto.JoinRoomReq
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {BoxRoomProto.JoinRoomReq} JoinRoomReq
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        JoinRoomReq.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a JoinRoomReq message.
+         * @function verify
+         * @memberof BoxRoomProto.JoinRoomReq
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        JoinRoomReq.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (!$util.isString(message.roomid))
+                return "roomid: string expected";
+            return null;
+        };
+
+        /**
+         * Creates a JoinRoomReq message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof BoxRoomProto.JoinRoomReq
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {BoxRoomProto.JoinRoomReq} JoinRoomReq
+         */
+        JoinRoomReq.fromObject = function fromObject(object) {
+            if (object instanceof $root.BoxRoomProto.JoinRoomReq)
+                return object;
+            var message = new $root.BoxRoomProto.JoinRoomReq();
+            if (object.roomid != null)
+                message.roomid = String(object.roomid);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a JoinRoomReq message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof BoxRoomProto.JoinRoomReq
+         * @static
+         * @param {BoxRoomProto.JoinRoomReq} message JoinRoomReq
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        JoinRoomReq.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults)
+                object.roomid = "";
+            if (message.roomid != null && message.hasOwnProperty("roomid"))
+                object.roomid = message.roomid;
+            return object;
+        };
+
+        /**
+         * Converts this JoinRoomReq to JSON.
+         * @function toJSON
+         * @memberof BoxRoomProto.JoinRoomReq
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        JoinRoomReq.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return JoinRoomReq;
+    })();
+
+    BoxRoomProto.JoinRoomRes = (function() {
+
+        /**
+         * Properties of a JoinRoomRes.
+         * @memberof BoxRoomProto
+         * @interface IJoinRoomRes
+         * @property {number} status JoinRoomRes status
+         */
+
+        /**
+         * Constructs a new JoinRoomRes.
+         * @memberof BoxRoomProto
+         * @classdesc Represents a JoinRoomRes.
+         * @implements IJoinRoomRes
+         * @constructor
+         * @param {BoxRoomProto.IJoinRoomRes=} [properties] Properties to set
+         */
+        function JoinRoomRes(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * JoinRoomRes status.
+         * @member {number} status
+         * @memberof BoxRoomProto.JoinRoomRes
+         * @instance
+         */
+        JoinRoomRes.prototype.status = 0;
+
+        /**
+         * Creates a new JoinRoomRes instance using the specified properties.
+         * @function create
+         * @memberof BoxRoomProto.JoinRoomRes
+         * @static
+         * @param {BoxRoomProto.IJoinRoomRes=} [properties] Properties to set
+         * @returns {BoxRoomProto.JoinRoomRes} JoinRoomRes instance
+         */
+        JoinRoomRes.create = function create(properties) {
+            return new JoinRoomRes(properties);
+        };
+
+        /**
+         * Encodes the specified JoinRoomRes message. Does not implicitly {@link BoxRoomProto.JoinRoomRes.verify|verify} messages.
+         * @function encode
+         * @memberof BoxRoomProto.JoinRoomRes
+         * @static
+         * @param {BoxRoomProto.IJoinRoomRes} message JoinRoomRes message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        JoinRoomRes.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            writer.uint32(/* id 1, wireType 0 =*/8).sint32(message.status);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified JoinRoomRes message, length delimited. Does not implicitly {@link BoxRoomProto.JoinRoomRes.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof BoxRoomProto.JoinRoomRes
+         * @static
+         * @param {BoxRoomProto.IJoinRoomRes} message JoinRoomRes message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        JoinRoomRes.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a JoinRoomRes message from the specified reader or buffer.
+         * @function decode
+         * @memberof BoxRoomProto.JoinRoomRes
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {BoxRoomProto.JoinRoomRes} JoinRoomRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        JoinRoomRes.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.BoxRoomProto.JoinRoomRes();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.status = reader.sint32();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            if (!message.hasOwnProperty("status"))
+                throw $util.ProtocolError("missing required 'status'", { instance: message });
+            return message;
+        };
+
+        /**
+         * Decodes a JoinRoomRes message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof BoxRoomProto.JoinRoomRes
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {BoxRoomProto.JoinRoomRes} JoinRoomRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        JoinRoomRes.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a JoinRoomRes message.
+         * @function verify
+         * @memberof BoxRoomProto.JoinRoomRes
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        JoinRoomRes.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (!$util.isInteger(message.status))
+                return "status: integer expected";
+            return null;
+        };
+
+        /**
+         * Creates a JoinRoomRes message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof BoxRoomProto.JoinRoomRes
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {BoxRoomProto.JoinRoomRes} JoinRoomRes
+         */
+        JoinRoomRes.fromObject = function fromObject(object) {
+            if (object instanceof $root.BoxRoomProto.JoinRoomRes)
+                return object;
+            var message = new $root.BoxRoomProto.JoinRoomRes();
+            if (object.status != null)
+                message.status = object.status | 0;
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a JoinRoomRes message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof BoxRoomProto.JoinRoomRes
+         * @static
+         * @param {BoxRoomProto.JoinRoomRes} message JoinRoomRes
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        JoinRoomRes.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults)
+                object.status = 0;
+            if (message.status != null && message.hasOwnProperty("status"))
+                object.status = message.status;
+            return object;
+        };
+
+        /**
+         * Converts this JoinRoomRes to JSON.
+         * @function toJSON
+         * @memberof BoxRoomProto.JoinRoomRes
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        JoinRoomRes.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return JoinRoomRes;
+    })();
+
+    BoxRoomProto.ExitRoomReq = (function() {
+
+        /**
+         * Properties of an ExitRoomReq.
+         * @memberof BoxRoomProto
+         * @interface IExitRoomReq
+         */
+
+        /**
+         * Constructs a new ExitRoomReq.
+         * @memberof BoxRoomProto
+         * @classdesc Represents an ExitRoomReq.
+         * @implements IExitRoomReq
+         * @constructor
+         * @param {BoxRoomProto.IExitRoomReq=} [properties] Properties to set
+         */
+        function ExitRoomReq(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * Creates a new ExitRoomReq instance using the specified properties.
+         * @function create
+         * @memberof BoxRoomProto.ExitRoomReq
+         * @static
+         * @param {BoxRoomProto.IExitRoomReq=} [properties] Properties to set
+         * @returns {BoxRoomProto.ExitRoomReq} ExitRoomReq instance
+         */
+        ExitRoomReq.create = function create(properties) {
+            return new ExitRoomReq(properties);
+        };
+
+        /**
+         * Encodes the specified ExitRoomReq message. Does not implicitly {@link BoxRoomProto.ExitRoomReq.verify|verify} messages.
+         * @function encode
+         * @memberof BoxRoomProto.ExitRoomReq
+         * @static
+         * @param {BoxRoomProto.IExitRoomReq} message ExitRoomReq message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ExitRoomReq.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified ExitRoomReq message, length delimited. Does not implicitly {@link BoxRoomProto.ExitRoomReq.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof BoxRoomProto.ExitRoomReq
+         * @static
+         * @param {BoxRoomProto.IExitRoomReq} message ExitRoomReq message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ExitRoomReq.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes an ExitRoomReq message from the specified reader or buffer.
+         * @function decode
+         * @memberof BoxRoomProto.ExitRoomReq
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {BoxRoomProto.ExitRoomReq} ExitRoomReq
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ExitRoomReq.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.BoxRoomProto.ExitRoomReq();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes an ExitRoomReq message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof BoxRoomProto.ExitRoomReq
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {BoxRoomProto.ExitRoomReq} ExitRoomReq
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ExitRoomReq.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies an ExitRoomReq message.
+         * @function verify
+         * @memberof BoxRoomProto.ExitRoomReq
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        ExitRoomReq.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            return null;
+        };
+
+        /**
+         * Creates an ExitRoomReq message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof BoxRoomProto.ExitRoomReq
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {BoxRoomProto.ExitRoomReq} ExitRoomReq
+         */
+        ExitRoomReq.fromObject = function fromObject(object) {
+            if (object instanceof $root.BoxRoomProto.ExitRoomReq)
+                return object;
+            return new $root.BoxRoomProto.ExitRoomReq();
+        };
+
+        /**
+         * Creates a plain object from an ExitRoomReq message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof BoxRoomProto.ExitRoomReq
+         * @static
+         * @param {BoxRoomProto.ExitRoomReq} message ExitRoomReq
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        ExitRoomReq.toObject = function toObject() {
+            return {};
+        };
+
+        /**
+         * Converts this ExitRoomReq to JSON.
+         * @function toJSON
+         * @memberof BoxRoomProto.ExitRoomReq
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        ExitRoomReq.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return ExitRoomReq;
+    })();
+
+    BoxRoomProto.ExitRoomRes = (function() {
+
+        /**
+         * Properties of an ExitRoomRes.
+         * @memberof BoxRoomProto
+         * @interface IExitRoomRes
+         * @property {number} status ExitRoomRes status
+         * @property {number|null} [numberid] ExitRoomRes numberid
+         */
+
+        /**
+         * Constructs a new ExitRoomRes.
+         * @memberof BoxRoomProto
+         * @classdesc Represents an ExitRoomRes.
+         * @implements IExitRoomRes
+         * @constructor
+         * @param {BoxRoomProto.IExitRoomRes=} [properties] Properties to set
+         */
+        function ExitRoomRes(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * ExitRoomRes status.
+         * @member {number} status
+         * @memberof BoxRoomProto.ExitRoomRes
+         * @instance
+         */
+        ExitRoomRes.prototype.status = 0;
+
+        /**
+         * ExitRoomRes numberid.
+         * @member {number} numberid
+         * @memberof BoxRoomProto.ExitRoomRes
+         * @instance
+         */
+        ExitRoomRes.prototype.numberid = 0;
+
+        /**
+         * Creates a new ExitRoomRes instance using the specified properties.
+         * @function create
+         * @memberof BoxRoomProto.ExitRoomRes
+         * @static
+         * @param {BoxRoomProto.IExitRoomRes=} [properties] Properties to set
+         * @returns {BoxRoomProto.ExitRoomRes} ExitRoomRes instance
+         */
+        ExitRoomRes.create = function create(properties) {
+            return new ExitRoomRes(properties);
+        };
+
+        /**
+         * Encodes the specified ExitRoomRes message. Does not implicitly {@link BoxRoomProto.ExitRoomRes.verify|verify} messages.
+         * @function encode
+         * @memberof BoxRoomProto.ExitRoomRes
+         * @static
+         * @param {BoxRoomProto.IExitRoomRes} message ExitRoomRes message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ExitRoomRes.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            writer.uint32(/* id 1, wireType 0 =*/8).sint32(message.status);
+            if (message.numberid != null && message.hasOwnProperty("numberid"))
+                writer.uint32(/* id 2, wireType 0 =*/16).sint32(message.numberid);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified ExitRoomRes message, length delimited. Does not implicitly {@link BoxRoomProto.ExitRoomRes.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof BoxRoomProto.ExitRoomRes
+         * @static
+         * @param {BoxRoomProto.IExitRoomRes} message ExitRoomRes message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ExitRoomRes.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes an ExitRoomRes message from the specified reader or buffer.
+         * @function decode
+         * @memberof BoxRoomProto.ExitRoomRes
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {BoxRoomProto.ExitRoomRes} ExitRoomRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ExitRoomRes.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.BoxRoomProto.ExitRoomRes();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.status = reader.sint32();
+                    break;
+                case 2:
+                    message.numberid = reader.sint32();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            if (!message.hasOwnProperty("status"))
+                throw $util.ProtocolError("missing required 'status'", { instance: message });
+            return message;
+        };
+
+        /**
+         * Decodes an ExitRoomRes message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof BoxRoomProto.ExitRoomRes
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {BoxRoomProto.ExitRoomRes} ExitRoomRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ExitRoomRes.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies an ExitRoomRes message.
+         * @function verify
+         * @memberof BoxRoomProto.ExitRoomRes
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        ExitRoomRes.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (!$util.isInteger(message.status))
+                return "status: integer expected";
+            if (message.numberid != null && message.hasOwnProperty("numberid"))
+                if (!$util.isInteger(message.numberid))
+                    return "numberid: integer expected";
+            return null;
+        };
+
+        /**
+         * Creates an ExitRoomRes message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof BoxRoomProto.ExitRoomRes
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {BoxRoomProto.ExitRoomRes} ExitRoomRes
+         */
+        ExitRoomRes.fromObject = function fromObject(object) {
+            if (object instanceof $root.BoxRoomProto.ExitRoomRes)
+                return object;
+            var message = new $root.BoxRoomProto.ExitRoomRes();
+            if (object.status != null)
+                message.status = object.status | 0;
+            if (object.numberid != null)
+                message.numberid = object.numberid | 0;
+            return message;
+        };
+
+        /**
+         * Creates a plain object from an ExitRoomRes message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof BoxRoomProto.ExitRoomRes
+         * @static
+         * @param {BoxRoomProto.ExitRoomRes} message ExitRoomRes
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        ExitRoomRes.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.status = 0;
+                object.numberid = 0;
+            }
+            if (message.status != null && message.hasOwnProperty("status"))
+                object.status = message.status;
+            if (message.numberid != null && message.hasOwnProperty("numberid"))
+                object.numberid = message.numberid;
+            return object;
+        };
+
+        /**
+         * Converts this ExitRoomRes to JSON.
+         * @function toJSON
+         * @memberof BoxRoomProto.ExitRoomRes
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        ExitRoomRes.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return ExitRoomRes;
+    })();
+
+    BoxRoomProto.DessolveReq = (function() {
+
+        /**
+         * Properties of a DessolveReq.
+         * @memberof BoxRoomProto
+         * @interface IDessolveReq
+         */
+
+        /**
+         * Constructs a new DessolveReq.
+         * @memberof BoxRoomProto
+         * @classdesc Represents a DessolveReq.
+         * @implements IDessolveReq
+         * @constructor
+         * @param {BoxRoomProto.IDessolveReq=} [properties] Properties to set
+         */
+        function DessolveReq(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * Creates a new DessolveReq instance using the specified properties.
+         * @function create
+         * @memberof BoxRoomProto.DessolveReq
+         * @static
+         * @param {BoxRoomProto.IDessolveReq=} [properties] Properties to set
+         * @returns {BoxRoomProto.DessolveReq} DessolveReq instance
+         */
+        DessolveReq.create = function create(properties) {
+            return new DessolveReq(properties);
+        };
+
+        /**
+         * Encodes the specified DessolveReq message. Does not implicitly {@link BoxRoomProto.DessolveReq.verify|verify} messages.
+         * @function encode
+         * @memberof BoxRoomProto.DessolveReq
+         * @static
+         * @param {BoxRoomProto.IDessolveReq} message DessolveReq message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        DessolveReq.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified DessolveReq message, length delimited. Does not implicitly {@link BoxRoomProto.DessolveReq.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof BoxRoomProto.DessolveReq
+         * @static
+         * @param {BoxRoomProto.IDessolveReq} message DessolveReq message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        DessolveReq.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a DessolveReq message from the specified reader or buffer.
+         * @function decode
+         * @memberof BoxRoomProto.DessolveReq
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {BoxRoomProto.DessolveReq} DessolveReq
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        DessolveReq.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.BoxRoomProto.DessolveReq();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a DessolveReq message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof BoxRoomProto.DessolveReq
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {BoxRoomProto.DessolveReq} DessolveReq
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        DessolveReq.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a DessolveReq message.
+         * @function verify
+         * @memberof BoxRoomProto.DessolveReq
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        DessolveReq.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            return null;
+        };
+
+        /**
+         * Creates a DessolveReq message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof BoxRoomProto.DessolveReq
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {BoxRoomProto.DessolveReq} DessolveReq
+         */
+        DessolveReq.fromObject = function fromObject(object) {
+            if (object instanceof $root.BoxRoomProto.DessolveReq)
+                return object;
+            return new $root.BoxRoomProto.DessolveReq();
+        };
+
+        /**
+         * Creates a plain object from a DessolveReq message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof BoxRoomProto.DessolveReq
+         * @static
+         * @param {BoxRoomProto.DessolveReq} message DessolveReq
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        DessolveReq.toObject = function toObject() {
+            return {};
+        };
+
+        /**
+         * Converts this DessolveReq to JSON.
+         * @function toJSON
+         * @memberof BoxRoomProto.DessolveReq
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        DessolveReq.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return DessolveReq;
+    })();
+
+    BoxRoomProto.DessolveRes = (function() {
+
+        /**
+         * Properties of a DessolveRes.
+         * @memberof BoxRoomProto
+         * @interface IDessolveRes
+         * @property {number} status DessolveRes status
+         */
+
+        /**
+         * Constructs a new DessolveRes.
+         * @memberof BoxRoomProto
+         * @classdesc Represents a DessolveRes.
+         * @implements IDessolveRes
+         * @constructor
+         * @param {BoxRoomProto.IDessolveRes=} [properties] Properties to set
+         */
+        function DessolveRes(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * DessolveRes status.
+         * @member {number} status
+         * @memberof BoxRoomProto.DessolveRes
+         * @instance
+         */
+        DessolveRes.prototype.status = 0;
+
+        /**
+         * Creates a new DessolveRes instance using the specified properties.
+         * @function create
+         * @memberof BoxRoomProto.DessolveRes
+         * @static
+         * @param {BoxRoomProto.IDessolveRes=} [properties] Properties to set
+         * @returns {BoxRoomProto.DessolveRes} DessolveRes instance
+         */
+        DessolveRes.create = function create(properties) {
+            return new DessolveRes(properties);
+        };
+
+        /**
+         * Encodes the specified DessolveRes message. Does not implicitly {@link BoxRoomProto.DessolveRes.verify|verify} messages.
+         * @function encode
+         * @memberof BoxRoomProto.DessolveRes
+         * @static
+         * @param {BoxRoomProto.IDessolveRes} message DessolveRes message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        DessolveRes.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            writer.uint32(/* id 1, wireType 0 =*/8).sint32(message.status);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified DessolveRes message, length delimited. Does not implicitly {@link BoxRoomProto.DessolveRes.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof BoxRoomProto.DessolveRes
+         * @static
+         * @param {BoxRoomProto.IDessolveRes} message DessolveRes message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        DessolveRes.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a DessolveRes message from the specified reader or buffer.
+         * @function decode
+         * @memberof BoxRoomProto.DessolveRes
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {BoxRoomProto.DessolveRes} DessolveRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        DessolveRes.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.BoxRoomProto.DessolveRes();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.status = reader.sint32();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            if (!message.hasOwnProperty("status"))
+                throw $util.ProtocolError("missing required 'status'", { instance: message });
+            return message;
+        };
+
+        /**
+         * Decodes a DessolveRes message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof BoxRoomProto.DessolveRes
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {BoxRoomProto.DessolveRes} DessolveRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        DessolveRes.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a DessolveRes message.
+         * @function verify
+         * @memberof BoxRoomProto.DessolveRes
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        DessolveRes.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (!$util.isInteger(message.status))
+                return "status: integer expected";
+            return null;
+        };
+
+        /**
+         * Creates a DessolveRes message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof BoxRoomProto.DessolveRes
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {BoxRoomProto.DessolveRes} DessolveRes
+         */
+        DessolveRes.fromObject = function fromObject(object) {
+            if (object instanceof $root.BoxRoomProto.DessolveRes)
+                return object;
+            var message = new $root.BoxRoomProto.DessolveRes();
+            if (object.status != null)
+                message.status = object.status | 0;
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a DessolveRes message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof BoxRoomProto.DessolveRes
+         * @static
+         * @param {BoxRoomProto.DessolveRes} message DessolveRes
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        DessolveRes.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults)
+                object.status = 0;
+            if (message.status != null && message.hasOwnProperty("status"))
+                object.status = message.status;
+            return object;
+        };
+
+        /**
+         * Converts this DessolveRes to JSON.
+         * @function toJSON
+         * @memberof BoxRoomProto.DessolveRes
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        DessolveRes.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return DessolveRes;
+    })();
+
+    BoxRoomProto.GetRoomStatusReq = (function() {
+
+        /**
+         * Properties of a GetRoomStatusReq.
+         * @memberof BoxRoomProto
+         * @interface IGetRoomStatusReq
+         */
+
+        /**
+         * Constructs a new GetRoomStatusReq.
+         * @memberof BoxRoomProto
+         * @classdesc Represents a GetRoomStatusReq.
+         * @implements IGetRoomStatusReq
+         * @constructor
+         * @param {BoxRoomProto.IGetRoomStatusReq=} [properties] Properties to set
+         */
+        function GetRoomStatusReq(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * Creates a new GetRoomStatusReq instance using the specified properties.
+         * @function create
+         * @memberof BoxRoomProto.GetRoomStatusReq
+         * @static
+         * @param {BoxRoomProto.IGetRoomStatusReq=} [properties] Properties to set
+         * @returns {BoxRoomProto.GetRoomStatusReq} GetRoomStatusReq instance
+         */
+        GetRoomStatusReq.create = function create(properties) {
+            return new GetRoomStatusReq(properties);
+        };
+
+        /**
+         * Encodes the specified GetRoomStatusReq message. Does not implicitly {@link BoxRoomProto.GetRoomStatusReq.verify|verify} messages.
+         * @function encode
+         * @memberof BoxRoomProto.GetRoomStatusReq
+         * @static
+         * @param {BoxRoomProto.IGetRoomStatusReq} message GetRoomStatusReq message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        GetRoomStatusReq.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified GetRoomStatusReq message, length delimited. Does not implicitly {@link BoxRoomProto.GetRoomStatusReq.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof BoxRoomProto.GetRoomStatusReq
+         * @static
+         * @param {BoxRoomProto.IGetRoomStatusReq} message GetRoomStatusReq message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        GetRoomStatusReq.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a GetRoomStatusReq message from the specified reader or buffer.
+         * @function decode
+         * @memberof BoxRoomProto.GetRoomStatusReq
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {BoxRoomProto.GetRoomStatusReq} GetRoomStatusReq
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        GetRoomStatusReq.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.BoxRoomProto.GetRoomStatusReq();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a GetRoomStatusReq message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof BoxRoomProto.GetRoomStatusReq
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {BoxRoomProto.GetRoomStatusReq} GetRoomStatusReq
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        GetRoomStatusReq.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a GetRoomStatusReq message.
+         * @function verify
+         * @memberof BoxRoomProto.GetRoomStatusReq
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        GetRoomStatusReq.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            return null;
+        };
+
+        /**
+         * Creates a GetRoomStatusReq message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof BoxRoomProto.GetRoomStatusReq
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {BoxRoomProto.GetRoomStatusReq} GetRoomStatusReq
+         */
+        GetRoomStatusReq.fromObject = function fromObject(object) {
+            if (object instanceof $root.BoxRoomProto.GetRoomStatusReq)
+                return object;
+            return new $root.BoxRoomProto.GetRoomStatusReq();
+        };
+
+        /**
+         * Creates a plain object from a GetRoomStatusReq message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof BoxRoomProto.GetRoomStatusReq
+         * @static
+         * @param {BoxRoomProto.GetRoomStatusReq} message GetRoomStatusReq
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        GetRoomStatusReq.toObject = function toObject() {
+            return {};
+        };
+
+        /**
+         * Converts this GetRoomStatusReq to JSON.
+         * @function toJSON
+         * @memberof BoxRoomProto.GetRoomStatusReq
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        GetRoomStatusReq.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return GetRoomStatusReq;
+    })();
+
+    BoxRoomProto.GetRoomStatusRes = (function() {
+
+        /**
+         * Properties of a GetRoomStatusRes.
+         * @memberof BoxRoomProto
+         * @interface IGetRoomStatusRes
+         * @property {number} status GetRoomStatusRes status
+         */
+
+        /**
+         * Constructs a new GetRoomStatusRes.
+         * @memberof BoxRoomProto
+         * @classdesc Represents a GetRoomStatusRes.
+         * @implements IGetRoomStatusRes
+         * @constructor
+         * @param {BoxRoomProto.IGetRoomStatusRes=} [properties] Properties to set
+         */
+        function GetRoomStatusRes(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * GetRoomStatusRes status.
+         * @member {number} status
+         * @memberof BoxRoomProto.GetRoomStatusRes
+         * @instance
+         */
+        GetRoomStatusRes.prototype.status = 0;
+
+        /**
+         * Creates a new GetRoomStatusRes instance using the specified properties.
+         * @function create
+         * @memberof BoxRoomProto.GetRoomStatusRes
+         * @static
+         * @param {BoxRoomProto.IGetRoomStatusRes=} [properties] Properties to set
+         * @returns {BoxRoomProto.GetRoomStatusRes} GetRoomStatusRes instance
+         */
+        GetRoomStatusRes.create = function create(properties) {
+            return new GetRoomStatusRes(properties);
+        };
+
+        /**
+         * Encodes the specified GetRoomStatusRes message. Does not implicitly {@link BoxRoomProto.GetRoomStatusRes.verify|verify} messages.
+         * @function encode
+         * @memberof BoxRoomProto.GetRoomStatusRes
+         * @static
+         * @param {BoxRoomProto.IGetRoomStatusRes} message GetRoomStatusRes message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        GetRoomStatusRes.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            writer.uint32(/* id 1, wireType 0 =*/8).sint32(message.status);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified GetRoomStatusRes message, length delimited. Does not implicitly {@link BoxRoomProto.GetRoomStatusRes.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof BoxRoomProto.GetRoomStatusRes
+         * @static
+         * @param {BoxRoomProto.IGetRoomStatusRes} message GetRoomStatusRes message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        GetRoomStatusRes.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a GetRoomStatusRes message from the specified reader or buffer.
+         * @function decode
+         * @memberof BoxRoomProto.GetRoomStatusRes
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {BoxRoomProto.GetRoomStatusRes} GetRoomStatusRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        GetRoomStatusRes.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.BoxRoomProto.GetRoomStatusRes();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.status = reader.sint32();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            if (!message.hasOwnProperty("status"))
+                throw $util.ProtocolError("missing required 'status'", { instance: message });
+            return message;
+        };
+
+        /**
+         * Decodes a GetRoomStatusRes message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof BoxRoomProto.GetRoomStatusRes
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {BoxRoomProto.GetRoomStatusRes} GetRoomStatusRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        GetRoomStatusRes.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a GetRoomStatusRes message.
+         * @function verify
+         * @memberof BoxRoomProto.GetRoomStatusRes
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        GetRoomStatusRes.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (!$util.isInteger(message.status))
+                return "status: integer expected";
+            return null;
+        };
+
+        /**
+         * Creates a GetRoomStatusRes message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof BoxRoomProto.GetRoomStatusRes
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {BoxRoomProto.GetRoomStatusRes} GetRoomStatusRes
+         */
+        GetRoomStatusRes.fromObject = function fromObject(object) {
+            if (object instanceof $root.BoxRoomProto.GetRoomStatusRes)
+                return object;
+            var message = new $root.BoxRoomProto.GetRoomStatusRes();
+            if (object.status != null)
+                message.status = object.status | 0;
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a GetRoomStatusRes message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof BoxRoomProto.GetRoomStatusRes
+         * @static
+         * @param {BoxRoomProto.GetRoomStatusRes} message GetRoomStatusRes
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        GetRoomStatusRes.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults)
+                object.status = 0;
+            if (message.status != null && message.hasOwnProperty("status"))
+                object.status = message.status;
+            return object;
+        };
+
+        /**
+         * Converts this GetRoomStatusRes to JSON.
+         * @function toJSON
+         * @memberof BoxRoomProto.GetRoomStatusRes
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        GetRoomStatusRes.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return GetRoomStatusRes;
+    })();
+
+    BoxRoomProto.BackRoomReq = (function() {
+
+        /**
+         * Properties of a BackRoomReq.
+         * @memberof BoxRoomProto
+         * @interface IBackRoomReq
+         */
+
+        /**
+         * Constructs a new BackRoomReq.
+         * @memberof BoxRoomProto
+         * @classdesc Represents a BackRoomReq.
+         * @implements IBackRoomReq
+         * @constructor
+         * @param {BoxRoomProto.IBackRoomReq=} [properties] Properties to set
+         */
+        function BackRoomReq(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * Creates a new BackRoomReq instance using the specified properties.
+         * @function create
+         * @memberof BoxRoomProto.BackRoomReq
+         * @static
+         * @param {BoxRoomProto.IBackRoomReq=} [properties] Properties to set
+         * @returns {BoxRoomProto.BackRoomReq} BackRoomReq instance
+         */
+        BackRoomReq.create = function create(properties) {
+            return new BackRoomReq(properties);
+        };
+
+        /**
+         * Encodes the specified BackRoomReq message. Does not implicitly {@link BoxRoomProto.BackRoomReq.verify|verify} messages.
+         * @function encode
+         * @memberof BoxRoomProto.BackRoomReq
+         * @static
+         * @param {BoxRoomProto.IBackRoomReq} message BackRoomReq message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        BackRoomReq.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified BackRoomReq message, length delimited. Does not implicitly {@link BoxRoomProto.BackRoomReq.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof BoxRoomProto.BackRoomReq
+         * @static
+         * @param {BoxRoomProto.IBackRoomReq} message BackRoomReq message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        BackRoomReq.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a BackRoomReq message from the specified reader or buffer.
+         * @function decode
+         * @memberof BoxRoomProto.BackRoomReq
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {BoxRoomProto.BackRoomReq} BackRoomReq
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        BackRoomReq.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.BoxRoomProto.BackRoomReq();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a BackRoomReq message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof BoxRoomProto.BackRoomReq
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {BoxRoomProto.BackRoomReq} BackRoomReq
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        BackRoomReq.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a BackRoomReq message.
+         * @function verify
+         * @memberof BoxRoomProto.BackRoomReq
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        BackRoomReq.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            return null;
+        };
+
+        /**
+         * Creates a BackRoomReq message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof BoxRoomProto.BackRoomReq
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {BoxRoomProto.BackRoomReq} BackRoomReq
+         */
+        BackRoomReq.fromObject = function fromObject(object) {
+            if (object instanceof $root.BoxRoomProto.BackRoomReq)
+                return object;
+            return new $root.BoxRoomProto.BackRoomReq();
+        };
+
+        /**
+         * Creates a plain object from a BackRoomReq message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof BoxRoomProto.BackRoomReq
+         * @static
+         * @param {BoxRoomProto.BackRoomReq} message BackRoomReq
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        BackRoomReq.toObject = function toObject() {
+            return {};
+        };
+
+        /**
+         * Converts this BackRoomReq to JSON.
+         * @function toJSON
+         * @memberof BoxRoomProto.BackRoomReq
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        BackRoomReq.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return BackRoomReq;
+    })();
+
+    BoxRoomProto.BackRoomRes = (function() {
+
+        /**
+         * Properties of a BackRoomRes.
+         * @memberof BoxRoomProto
+         * @interface IBackRoomRes
+         * @property {number} status BackRoomRes status
+         */
+
+        /**
+         * Constructs a new BackRoomRes.
+         * @memberof BoxRoomProto
+         * @classdesc Represents a BackRoomRes.
+         * @implements IBackRoomRes
+         * @constructor
+         * @param {BoxRoomProto.IBackRoomRes=} [properties] Properties to set
+         */
+        function BackRoomRes(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * BackRoomRes status.
+         * @member {number} status
+         * @memberof BoxRoomProto.BackRoomRes
+         * @instance
+         */
+        BackRoomRes.prototype.status = 0;
+
+        /**
+         * Creates a new BackRoomRes instance using the specified properties.
+         * @function create
+         * @memberof BoxRoomProto.BackRoomRes
+         * @static
+         * @param {BoxRoomProto.IBackRoomRes=} [properties] Properties to set
+         * @returns {BoxRoomProto.BackRoomRes} BackRoomRes instance
+         */
+        BackRoomRes.create = function create(properties) {
+            return new BackRoomRes(properties);
+        };
+
+        /**
+         * Encodes the specified BackRoomRes message. Does not implicitly {@link BoxRoomProto.BackRoomRes.verify|verify} messages.
+         * @function encode
+         * @memberof BoxRoomProto.BackRoomRes
+         * @static
+         * @param {BoxRoomProto.IBackRoomRes} message BackRoomRes message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        BackRoomRes.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            writer.uint32(/* id 1, wireType 0 =*/8).sint32(message.status);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified BackRoomRes message, length delimited. Does not implicitly {@link BoxRoomProto.BackRoomRes.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof BoxRoomProto.BackRoomRes
+         * @static
+         * @param {BoxRoomProto.IBackRoomRes} message BackRoomRes message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        BackRoomRes.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a BackRoomRes message from the specified reader or buffer.
+         * @function decode
+         * @memberof BoxRoomProto.BackRoomRes
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {BoxRoomProto.BackRoomRes} BackRoomRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        BackRoomRes.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.BoxRoomProto.BackRoomRes();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.status = reader.sint32();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            if (!message.hasOwnProperty("status"))
+                throw $util.ProtocolError("missing required 'status'", { instance: message });
+            return message;
+        };
+
+        /**
+         * Decodes a BackRoomRes message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof BoxRoomProto.BackRoomRes
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {BoxRoomProto.BackRoomRes} BackRoomRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        BackRoomRes.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a BackRoomRes message.
+         * @function verify
+         * @memberof BoxRoomProto.BackRoomRes
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        BackRoomRes.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (!$util.isInteger(message.status))
+                return "status: integer expected";
+            return null;
+        };
+
+        /**
+         * Creates a BackRoomRes message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof BoxRoomProto.BackRoomRes
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {BoxRoomProto.BackRoomRes} BackRoomRes
+         */
+        BackRoomRes.fromObject = function fromObject(object) {
+            if (object instanceof $root.BoxRoomProto.BackRoomRes)
+                return object;
+            var message = new $root.BoxRoomProto.BackRoomRes();
+            if (object.status != null)
+                message.status = object.status | 0;
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a BackRoomRes message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof BoxRoomProto.BackRoomRes
+         * @static
+         * @param {BoxRoomProto.BackRoomRes} message BackRoomRes
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        BackRoomRes.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults)
+                object.status = 0;
+            if (message.status != null && message.hasOwnProperty("status"))
+                object.status = message.status;
+            return object;
+        };
+
+        /**
+         * Converts this BackRoomRes to JSON.
+         * @function toJSON
+         * @memberof BoxRoomProto.BackRoomRes
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        BackRoomRes.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return BackRoomRes;
+    })();
+
+    return BoxRoomProto;
+})();
+
+$root.GameHoodleProto = (function() {
+
+    /**
+     * Namespace GameHoodleProto.
+     * @exports GameHoodleProto
+     * @namespace
+     */
+    var GameHoodleProto = {};
+
+    /**
+     * Cmd enum.
+     * @name GameHoodleProto.Cmd
+     * @enum {string}
+     * @property {number} INVALED=0 INVALED value
+     * @property {number} eCheckLinkGameReq=1 eCheckLinkGameReq value
+     * @property {number} eCheckLinkGameRes=2 eCheckLinkGameRes value
+     * @property {number} eUserInfoRes=3 eUserInfoRes value
+     * @property {number} eRoomInfoRes=4 eRoomInfoRes value
+     * @property {number} eRoomIdRes=5 eRoomIdRes value
+     * @property {number} ePlayCountRes=6 ePlayCountRes value
+     * @property {number} eUserReadyReq=7 eUserReadyReq value
+     * @property {number} eUserReadyRes=8 eUserReadyRes value
+     * @property {number} eGameStartRes=9 eGameStartRes value
+     * @property {number} eGameResultRes=10 eGameResultRes value
+     * @property {number} eGameTotalResultRes=11 eGameTotalResultRes value
+     */
+    GameHoodleProto.Cmd = (function() {
+        var valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "INVALED"] = 0;
+        values[valuesById[1] = "eCheckLinkGameReq"] = 1;
+        values[valuesById[2] = "eCheckLinkGameRes"] = 2;
+        values[valuesById[3] = "eUserInfoRes"] = 3;
+        values[valuesById[4] = "eRoomInfoRes"] = 4;
+        values[valuesById[5] = "eRoomIdRes"] = 5;
+        values[valuesById[6] = "ePlayCountRes"] = 6;
+        values[valuesById[7] = "eUserReadyReq"] = 7;
+        values[valuesById[8] = "eUserReadyRes"] = 8;
+        values[valuesById[9] = "eGameStartRes"] = 9;
+        values[valuesById[10] = "eGameResultRes"] = 10;
+        values[valuesById[11] = "eGameTotalResultRes"] = 11;
+        return values;
+    })();
+
+    GameHoodleProto.UserInfo = (function() {
+
+        /**
+         * Properties of a UserInfo.
+         * @memberof GameHoodleProto
+         * @interface IUserInfo
+         * @property {string} numberid UserInfo numberid
+         * @property {string} userInfoString UserInfo userInfoString
+         */
+
+        /**
+         * Constructs a new UserInfo.
+         * @memberof GameHoodleProto
+         * @classdesc Represents a UserInfo.
+         * @implements IUserInfo
+         * @constructor
+         * @param {GameHoodleProto.IUserInfo=} [properties] Properties to set
+         */
+        function UserInfo(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * UserInfo numberid.
+         * @member {string} numberid
+         * @memberof GameHoodleProto.UserInfo
+         * @instance
+         */
+        UserInfo.prototype.numberid = "";
+
+        /**
+         * UserInfo userInfoString.
+         * @member {string} userInfoString
+         * @memberof GameHoodleProto.UserInfo
+         * @instance
+         */
+        UserInfo.prototype.userInfoString = "";
+
+        /**
+         * Creates a new UserInfo instance using the specified properties.
+         * @function create
+         * @memberof GameHoodleProto.UserInfo
+         * @static
+         * @param {GameHoodleProto.IUserInfo=} [properties] Properties to set
+         * @returns {GameHoodleProto.UserInfo} UserInfo instance
+         */
+        UserInfo.create = function create(properties) {
+            return new UserInfo(properties);
+        };
+
+        /**
+         * Encodes the specified UserInfo message. Does not implicitly {@link GameHoodleProto.UserInfo.verify|verify} messages.
+         * @function encode
+         * @memberof GameHoodleProto.UserInfo
+         * @static
+         * @param {GameHoodleProto.IUserInfo} message UserInfo message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        UserInfo.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            writer.uint32(/* id 1, wireType 2 =*/10).string(message.numberid);
+            writer.uint32(/* id 2, wireType 2 =*/18).string(message.userInfoString);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified UserInfo message, length delimited. Does not implicitly {@link GameHoodleProto.UserInfo.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof GameHoodleProto.UserInfo
+         * @static
+         * @param {GameHoodleProto.IUserInfo} message UserInfo message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        UserInfo.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a UserInfo message from the specified reader or buffer.
+         * @function decode
+         * @memberof GameHoodleProto.UserInfo
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {GameHoodleProto.UserInfo} UserInfo
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        UserInfo.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.GameHoodleProto.UserInfo();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.numberid = reader.string();
+                    break;
+                case 2:
+                    message.userInfoString = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            if (!message.hasOwnProperty("numberid"))
+                throw $util.ProtocolError("missing required 'numberid'", { instance: message });
+            if (!message.hasOwnProperty("userInfoString"))
+                throw $util.ProtocolError("missing required 'userInfoString'", { instance: message });
+            return message;
+        };
+
+        /**
+         * Decodes a UserInfo message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof GameHoodleProto.UserInfo
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {GameHoodleProto.UserInfo} UserInfo
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        UserInfo.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a UserInfo message.
+         * @function verify
+         * @memberof GameHoodleProto.UserInfo
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        UserInfo.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (!$util.isString(message.numberid))
+                return "numberid: string expected";
+            if (!$util.isString(message.userInfoString))
+                return "userInfoString: string expected";
+            return null;
+        };
+
+        /**
+         * Creates a UserInfo message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof GameHoodleProto.UserInfo
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {GameHoodleProto.UserInfo} UserInfo
+         */
+        UserInfo.fromObject = function fromObject(object) {
+            if (object instanceof $root.GameHoodleProto.UserInfo)
+                return object;
+            var message = new $root.GameHoodleProto.UserInfo();
+            if (object.numberid != null)
+                message.numberid = String(object.numberid);
+            if (object.userInfoString != null)
+                message.userInfoString = String(object.userInfoString);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a UserInfo message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof GameHoodleProto.UserInfo
+         * @static
+         * @param {GameHoodleProto.UserInfo} message UserInfo
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        UserInfo.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.numberid = "";
+                object.userInfoString = "";
+            }
+            if (message.numberid != null && message.hasOwnProperty("numberid"))
+                object.numberid = message.numberid;
+            if (message.userInfoString != null && message.hasOwnProperty("userInfoString"))
+                object.userInfoString = message.userInfoString;
+            return object;
+        };
+
+        /**
+         * Converts this UserInfo to JSON.
+         * @function toJSON
+         * @memberof GameHoodleProto.UserInfo
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        UserInfo.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return UserInfo;
+    })();
+
+    GameHoodleProto.CheckLinkGameReq = (function() {
+
+        /**
+         * Properties of a CheckLinkGameReq.
+         * @memberof GameHoodleProto
+         * @interface ICheckLinkGameReq
+         */
+
+        /**
+         * Constructs a new CheckLinkGameReq.
+         * @memberof GameHoodleProto
+         * @classdesc Represents a CheckLinkGameReq.
+         * @implements ICheckLinkGameReq
+         * @constructor
+         * @param {GameHoodleProto.ICheckLinkGameReq=} [properties] Properties to set
+         */
+        function CheckLinkGameReq(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * Creates a new CheckLinkGameReq instance using the specified properties.
+         * @function create
+         * @memberof GameHoodleProto.CheckLinkGameReq
+         * @static
+         * @param {GameHoodleProto.ICheckLinkGameReq=} [properties] Properties to set
+         * @returns {GameHoodleProto.CheckLinkGameReq} CheckLinkGameReq instance
+         */
+        CheckLinkGameReq.create = function create(properties) {
+            return new CheckLinkGameReq(properties);
+        };
+
+        /**
+         * Encodes the specified CheckLinkGameReq message. Does not implicitly {@link GameHoodleProto.CheckLinkGameReq.verify|verify} messages.
+         * @function encode
+         * @memberof GameHoodleProto.CheckLinkGameReq
+         * @static
+         * @param {GameHoodleProto.ICheckLinkGameReq} message CheckLinkGameReq message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CheckLinkGameReq.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified CheckLinkGameReq message, length delimited. Does not implicitly {@link GameHoodleProto.CheckLinkGameReq.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof GameHoodleProto.CheckLinkGameReq
+         * @static
+         * @param {GameHoodleProto.ICheckLinkGameReq} message CheckLinkGameReq message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CheckLinkGameReq.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a CheckLinkGameReq message from the specified reader or buffer.
+         * @function decode
+         * @memberof GameHoodleProto.CheckLinkGameReq
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {GameHoodleProto.CheckLinkGameReq} CheckLinkGameReq
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CheckLinkGameReq.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.GameHoodleProto.CheckLinkGameReq();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a CheckLinkGameReq message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof GameHoodleProto.CheckLinkGameReq
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {GameHoodleProto.CheckLinkGameReq} CheckLinkGameReq
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CheckLinkGameReq.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a CheckLinkGameReq message.
+         * @function verify
+         * @memberof GameHoodleProto.CheckLinkGameReq
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CheckLinkGameReq.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            return null;
+        };
+
+        /**
+         * Creates a CheckLinkGameReq message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof GameHoodleProto.CheckLinkGameReq
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {GameHoodleProto.CheckLinkGameReq} CheckLinkGameReq
+         */
+        CheckLinkGameReq.fromObject = function fromObject(object) {
+            if (object instanceof $root.GameHoodleProto.CheckLinkGameReq)
+                return object;
+            return new $root.GameHoodleProto.CheckLinkGameReq();
+        };
+
+        /**
+         * Creates a plain object from a CheckLinkGameReq message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof GameHoodleProto.CheckLinkGameReq
+         * @static
+         * @param {GameHoodleProto.CheckLinkGameReq} message CheckLinkGameReq
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CheckLinkGameReq.toObject = function toObject() {
+            return {};
+        };
+
+        /**
+         * Converts this CheckLinkGameReq to JSON.
+         * @function toJSON
+         * @memberof GameHoodleProto.CheckLinkGameReq
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CheckLinkGameReq.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return CheckLinkGameReq;
+    })();
+
+    GameHoodleProto.CheckLinkGameRes = (function() {
+
+        /**
+         * Properties of a CheckLinkGameRes.
+         * @memberof GameHoodleProto
+         * @interface ICheckLinkGameRes
+         * @property {number} status CheckLinkGameRes status
+         */
+
+        /**
+         * Constructs a new CheckLinkGameRes.
+         * @memberof GameHoodleProto
+         * @classdesc Represents a CheckLinkGameRes.
+         * @implements ICheckLinkGameRes
+         * @constructor
+         * @param {GameHoodleProto.ICheckLinkGameRes=} [properties] Properties to set
+         */
+        function CheckLinkGameRes(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * CheckLinkGameRes status.
+         * @member {number} status
+         * @memberof GameHoodleProto.CheckLinkGameRes
+         * @instance
+         */
+        CheckLinkGameRes.prototype.status = 0;
+
+        /**
+         * Creates a new CheckLinkGameRes instance using the specified properties.
+         * @function create
+         * @memberof GameHoodleProto.CheckLinkGameRes
+         * @static
+         * @param {GameHoodleProto.ICheckLinkGameRes=} [properties] Properties to set
+         * @returns {GameHoodleProto.CheckLinkGameRes} CheckLinkGameRes instance
+         */
+        CheckLinkGameRes.create = function create(properties) {
+            return new CheckLinkGameRes(properties);
+        };
+
+        /**
+         * Encodes the specified CheckLinkGameRes message. Does not implicitly {@link GameHoodleProto.CheckLinkGameRes.verify|verify} messages.
+         * @function encode
+         * @memberof GameHoodleProto.CheckLinkGameRes
+         * @static
+         * @param {GameHoodleProto.ICheckLinkGameRes} message CheckLinkGameRes message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CheckLinkGameRes.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            writer.uint32(/* id 1, wireType 0 =*/8).sint32(message.status);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified CheckLinkGameRes message, length delimited. Does not implicitly {@link GameHoodleProto.CheckLinkGameRes.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof GameHoodleProto.CheckLinkGameRes
+         * @static
+         * @param {GameHoodleProto.ICheckLinkGameRes} message CheckLinkGameRes message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CheckLinkGameRes.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a CheckLinkGameRes message from the specified reader or buffer.
+         * @function decode
+         * @memberof GameHoodleProto.CheckLinkGameRes
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {GameHoodleProto.CheckLinkGameRes} CheckLinkGameRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CheckLinkGameRes.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.GameHoodleProto.CheckLinkGameRes();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.status = reader.sint32();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            if (!message.hasOwnProperty("status"))
+                throw $util.ProtocolError("missing required 'status'", { instance: message });
+            return message;
+        };
+
+        /**
+         * Decodes a CheckLinkGameRes message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof GameHoodleProto.CheckLinkGameRes
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {GameHoodleProto.CheckLinkGameRes} CheckLinkGameRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CheckLinkGameRes.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a CheckLinkGameRes message.
+         * @function verify
+         * @memberof GameHoodleProto.CheckLinkGameRes
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CheckLinkGameRes.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (!$util.isInteger(message.status))
+                return "status: integer expected";
+            return null;
+        };
+
+        /**
+         * Creates a CheckLinkGameRes message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof GameHoodleProto.CheckLinkGameRes
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {GameHoodleProto.CheckLinkGameRes} CheckLinkGameRes
+         */
+        CheckLinkGameRes.fromObject = function fromObject(object) {
+            if (object instanceof $root.GameHoodleProto.CheckLinkGameRes)
+                return object;
+            var message = new $root.GameHoodleProto.CheckLinkGameRes();
+            if (object.status != null)
+                message.status = object.status | 0;
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a CheckLinkGameRes message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof GameHoodleProto.CheckLinkGameRes
+         * @static
+         * @param {GameHoodleProto.CheckLinkGameRes} message CheckLinkGameRes
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CheckLinkGameRes.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults)
+                object.status = 0;
+            if (message.status != null && message.hasOwnProperty("status"))
+                object.status = message.status;
+            return object;
+        };
+
+        /**
+         * Converts this CheckLinkGameRes to JSON.
+         * @function toJSON
+         * @memberof GameHoodleProto.CheckLinkGameRes
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CheckLinkGameRes.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return CheckLinkGameRes;
+    })();
+
+    return GameHoodleProto;
+})();
+
 module.exports = $root;
