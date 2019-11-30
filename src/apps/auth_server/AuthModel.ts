@@ -19,13 +19,17 @@ class AuthModel {
         return AuthModel.Instance;
     }
 
+    private decode_cmd(proto_type:number,raw_cmd:any){
+        return ProtoManager.decode_cmd(proto_type,raw_cmd);
+    }
+
     public recv_cmd_msg(session:any, stype:number, ctype:number, utag:number, proto_type:number, raw_cmd:Buffer){
         Log.info("recv_cmd_msg: ",stype,ctype,utag,proto_type,this.decode_cmd(proto_type,raw_cmd))
         
         switch(ctype){
             case Cmd.eUnameLoginReq:
                 this.uname_login(session,utag,proto_type,raw_cmd)
-                break;
+            break;
             case Cmd.eGuestLoginReq:
                 this.guest_login(session,utag,proto_type,raw_cmd);
             break;
@@ -58,10 +62,6 @@ class AuthModel {
             default:
             break;
         }
-    }
-
-    private decode_cmd(proto_type:number,raw_cmd:any){
-        return ProtoManager.decode_cmd(proto_type,raw_cmd);
     }
     
     uname_login(session:any, utag:number, proto_type:number, raw_cmd:any){

@@ -6,23 +6,106 @@ package GameHoodleProto;
 
 enum Cmd {
 	INVALED = 0;
-
-	eCheckLinkGameReq = 1; 	//进入包厢，连接到游戏服务，发送一些数据到客户端
-	eCheckLinkGameRes = 2;
-
-	eUserInfoRes = 3;		//玩家信息
-
-	eRoomInfoRes = 4; 	//房间规则
-	eRoomIdRes = 5; 	//房间号
-	ePlayCountRes = 6; 	//局数
-
-	eUserReadyReq = 7;	//玩家准备
-	eUserReadyRes = 8;
 	
-	eGameStartRes = 9;	//游戏开始
-	eGameResultRes = 10;	//游戏结束
-	eGameTotalResultRes = 11; 	//大结算
+	///////////////////////////////////
+	//房间相关协议
+	///////////////////////////////////
+
+	eCreateRoomReq = 1; //创建包厢
+	eCreateRoomRes = 2;
+
+	eJoinRoomReq = 3;	//加入包厢
+	eJoinRoomRes = 4;
+
+	eExitRoomReq = 5;	//退出包厢
+	eExitRoomRes = 6;
+
+	eDessolveReq = 7;	//解散包厢
+	eDessolveRes = 8;
+
+	eGetRoomStatusReq = 9;	//包厢状态
+	eGetRoomStatusRes = 10;
+
+	eBackRoomReq = 11;	//返回包厢
+	eBackRoomRes = 12;
+
+	///////////////////////////////////
+	//游戏相关协议
+	///////////////////////////////////
+
+	eCheckLinkGameReq = 13; 	//进入包厢，连接到游戏服务，发送一些数据到客户端
+	eCheckLinkGameRes = 14;
+
+	eUserInfoRes = 15;		//玩家信息
+
+	eRoomInfoRes = 16; 	//房间规则
+	eRoomIdRes = 17; 	//房间号
+	ePlayCountRes = 18; 	//局数
+
+	eUserReadyReq = 19;	//玩家准备
+	eUserReadyRes = 20;
+	
+	eGameStartRes = 21;	//游戏开始
+	eGameResultRes = 22;	//游戏结束
+	eGameTotalResultRes = 23; 	//大结算
 }
+
+///////////////////////////////////
+//房间相关协议
+///////////////////////////////////
+
+message CreateRoomReq {
+	required string roominfo = 1;
+}
+
+message CreateRoomRes {
+	required sint32 status = 1;
+}
+
+message JoinRoomReq {
+	required string roomid = 1;
+}
+
+message JoinRoomRes {
+	required sint32 status = 1;
+}
+
+message ExitRoomReq {
+	
+}
+
+message ExitRoomRes {
+	required sint32 status = 1;
+	optional sint32 numberid = 2;
+}
+
+message DessolveReq {
+	
+}
+
+message DessolveRes {
+	required sint32 status = 1;
+}
+
+message GetRoomStatusReq {
+	
+}
+
+message GetRoomStatusRes {
+	required sint32 status = 1;
+}
+
+message BackRoomReq {
+	
+}
+
+message BackRoomRes {
+	required sint32 status = 1;
+}
+
+///////////////////////////////////
+//游戏相关协议
+///////////////////////////////////
 
 message UserInfo {
 	required string numberid = 1;
