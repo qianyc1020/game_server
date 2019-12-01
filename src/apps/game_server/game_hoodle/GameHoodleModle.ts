@@ -23,6 +23,9 @@ class GameHoodleModle {
         Log.info("recv_cmd_msg: ",stype,ctype,utag,proto_type,this.decode_cmd(proto_type,raw_cmd))
 
         switch(ctype){
+            case Cmd.eUserLostConnectRes:
+                this.on_user_lost_connect(session,utag,proto_type,raw_cmd)
+            break;
             case Cmd.eCreateRoomReq:
                 this.create_room(session,utag,proto_type,raw_cmd)
             break;
@@ -46,8 +49,14 @@ class GameHoodleModle {
         }
     }
 
+    on_user_lost_connect(session:any, utag:number, proto_type:number, raw_cmd:any){
+        let body =  this.decode_cmd(proto_type,raw_cmd);
+        Log.info("game on_user_lost_connect utag:" ,utag , body)
+    }
+
     private create_room(session:any, utag:number, proto_type:number, raw_cmd:any){
         let body =  this.decode_cmd(proto_type,raw_cmd);
+        
         GameSendMsg.send(session, Cmd.eCreateRoomRes, utag, proto_type, {status: 1})
     }
 

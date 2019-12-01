@@ -1,5 +1,6 @@
 import ProtoManager from "./ProtoManager";
 import ArrayUtil from '../utils/ArrayUtil';
+import { Stype , StypeName } from '../apps/protocol/Stype';
 
 var Log = require("../utils/Log");
 
@@ -8,11 +9,11 @@ class ServiceManager {
 
     static register_service(stype:number, service:any) {
         if (ServiceManager.service_modules[stype]) {
-            Log.warn(ServiceManager.service_modules[stype].name + " service is registed !!!!");
+            Log.warn(StypeName[stype] , " service is registed !!!!");
         }
     
         ServiceManager.service_modules[stype] = service;
-        Log.info(ServiceManager.service_modules[stype].name + " service registed success !!!!");
+        Log.info(StypeName[stype] , " service registed success !!!!");
     }
     
     static on_recv_server_cmd(session:any, cmd_buf:Buffer) {

@@ -7,6 +7,14 @@ class ArrayUtil {
         }
         return false;
     }
+
+    static GetArrayLen(array:any){
+        let count = 0;
+        for (const key in array) {
+            count++;
+        }
+        return count;
+    }
 }
 
 export default ArrayUtil;

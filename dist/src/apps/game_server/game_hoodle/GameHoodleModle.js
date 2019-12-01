@@ -19,6 +19,9 @@ var GameHoodleModle = /** @class */ (function () {
     GameHoodleModle.prototype.recv_cmd_msg = function (session, stype, ctype, utag, proto_type, raw_cmd) {
         Log.info("recv_cmd_msg: ", stype, ctype, utag, proto_type, this.decode_cmd(proto_type, raw_cmd));
         switch (ctype) {
+            case GameHoodleProto_1.Cmd.eUserLostConnectRes:
+                this.on_user_lost_connect(session, utag, proto_type, raw_cmd);
+                break;
             case GameHoodleProto_1.Cmd.eCreateRoomReq:
                 this.create_room(session, utag, proto_type, raw_cmd);
                 break;
@@ -40,6 +43,10 @@ var GameHoodleModle = /** @class */ (function () {
             default:
                 break;
         }
+    };
+    GameHoodleModle.prototype.on_user_lost_connect = function (session, utag, proto_type, raw_cmd) {
+        var body = this.decode_cmd(proto_type, raw_cmd);
+        Log.info("game on_user_lost_connect utag:", utag, body);
     };
     GameHoodleModle.prototype.create_room = function (session, utag, proto_type, raw_cmd) {
         var body = this.decode_cmd(proto_type, raw_cmd);

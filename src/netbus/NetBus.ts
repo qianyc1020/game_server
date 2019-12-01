@@ -4,6 +4,7 @@ import ServiceManager from "./ServiceManager"
 import * as WebSocket from "ws"
 import * as TcpSocket from "net"
 import { Stype, StypeName} from '../apps/protocol/Stype';
+import ArrayUtil from '../utils/ArrayUtil';
 
 var StickPackage    = require("stickpackage")
 var Log 			= require("../utils/Log")
@@ -76,7 +77,7 @@ class NetBus {
             NetBus.session_close(session);
             // 重新连接到服务器
             setTimeout(function() {
-                Log.warn("reconnect:", StypeName[stype],host,port);
+                Log.warn("reconnect:", StypeName[stype], host, port);
                 NetBus.connect_tcp_server(stype, host, port, is_encrypt);
             }, 1000);
         });
@@ -107,10 +108,10 @@ class NetBus {
     // 有客户端的session接入进来
     static on_session_enter(session:any, is_websocket:boolean, is_encrypt:boolean) {
         if (is_websocket) {
-            Log.info("websocket session enter", session._socket.remoteAddress, session._socket.remotePort);
+            Log.info("websocket client session enter", session._socket.remoteAddress, session._socket.remotePort);
         }
         else {
-            Log.info("tcpsocket session enter", session.remoteAddress, session.remotePort);	
+            Log.info("tcpsocket client session enter", session.remoteAddress, session.remotePort);	
         }
         
         session.uid 			= 0; 					// 用户的UID
@@ -126,6 +127,7 @@ class NetBus {
         //加入到serssion 列表
         global_session_list[global_seesion_key] = session;
         session.session_key = global_seesion_key;
+        Log.info("client session enter, client count: " , ArrayUtil.GetArrayLen(global_session_list))
         global_seesion_key ++;
     }
 
@@ -202,6 +204,7 @@ class NetBus {
             delete global_session_list[session.session_key];
             session.session_key = null;
         }
+        Log.info("client session exit, client count: " , ArrayUtil.GetArrayLen(global_session_list))
     }
 
     // 关闭session
@@ -322,10 +325,10 @@ class NetBus {
     //当前作为客户端，成功连接到其他服务器
     static on_session_connected(stype:number, session:any, is_websocket:boolean, is_encrypt:boolean) {
         if (is_websocket) {
-            Log.info("session connect:", session._socket.remoteAddress, session._socket.remotePort);
+            Log.info("connect to " + StypeName[stype] , " server success!  ", session._socket.remoteAddress, session._socket.remotePort);
         }
         else {
-            Log.info("session connect:", session.remoteAddress, session.remotePort);	
+            Log.info("connect to " + StypeName[stype] + " server success! ", session.remoteAddress, session.remotePort);	
         }
         
         session.last_pkg 		= null; // 表示我们存储的上一次没有处理完的TCP包;

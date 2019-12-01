@@ -2,7 +2,7 @@ import * as TalkRoom from "./TalkProto"
 import * as Auth from "./AuthProto"
 import * as GameSystem from "./SystemProto"
 import * as GameHoodleProto from "./GameHoodleProto"
-import { Stype,StypeName } from './Stype';
+import { Stype, StypeName } from './Stype';
 
 class ProtoCmd {
 	//服务器下标->协议脚本
@@ -24,6 +24,13 @@ class ProtoCmd {
 	static getCmdName(stype:number, ctype:number):any{
 		if(ProtoCmd.StypeProtos[stype]){
 			return ProtoCmd.StypeProtos[stype].CmdName[ctype]
+		}
+		return null;
+	}
+
+	static getStypeProto(stype:number):any{
+		if(ProtoCmd.StypeProtos[stype]){
+			return ProtoCmd.StypeProtos[stype]
 		}
 		return null;
 	}

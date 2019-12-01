@@ -30,7 +30,9 @@ var Cmd;
     Cmd[Cmd["eUserReadyRes"] = 20] = "eUserReadyRes";
     Cmd[Cmd["eGameStartRes"] = 21] = "eGameStartRes";
     Cmd[Cmd["eGameResultRes"] = 22] = "eGameResultRes";
-    Cmd[Cmd["eGameTotalResultRes"] = 23] = "eGameTotalResultRes";
+    Cmd[Cmd["eUserLostConnectRes"] = 23] = "eUserLostConnectRes";
+    Cmd[Cmd["eLoginLogicReq"] = 24] = "eLoginLogicReq";
+    Cmd[Cmd["eLoginLogicRes"] = 25] = "eLoginLogicRes";
 })(Cmd = exports.Cmd || (exports.Cmd = {}));
 exports.CmdName = (_a = {},
     _a[0] = "INVALED",
@@ -59,6 +61,8 @@ exports.CmdName = (_a = {},
     _a[20] = "UserReadyRes",
     _a[21] = "GameStartRes",
     _a[22] = "GameResultRes",
-    _a[23] = "GameTotalResultRes",
+    _a[23] = "UserLostConnectRes",
+    _a[24] = "LoginLogicReq",
+    _a[25] = "LoginLogicRes",
     _a);
 //# sourceMappingURL=GameHoodleProto.js.map

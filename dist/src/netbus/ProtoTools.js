@@ -6,7 +6,6 @@ exports.__esModule = true;
 var ProtoCmd_1 = __importDefault(require("../apps/protocol/ProtoCmd"));
 var StringUtil_1 = __importDefault(require("../utils/StringUtil"));
 var Log = require("../utils/Log");
-// import protobufMsg from "../apps/protocol/protobufMsg"
 var protobufMsg = require("../apps/protocol/protobufMsg");
 var ProtoTools = /** @class */ (function () {
     function ProtoTools() {

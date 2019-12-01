@@ -16,6 +16,7 @@ var ServiceManager_1 = __importDefault(require("./ServiceManager"));
 var WebSocket = __importStar(require("ws"));
 var TcpSocket = __importStar(require("net"));
 var Stype_1 = require("../apps/protocol/Stype");
+var ArrayUtil_1 = __importDefault(require("../utils/ArrayUtil"));
 var StickPackage = require("stickpackage");
 var Log = require("../utils/Log");
 var global_session_list = {}; //客户端session
@@ -109,10 +110,10 @@ var NetBus = /** @class */ (function () {
     // 有客户端的session接入进来
     NetBus.on_session_enter = function (session, is_websocket, is_encrypt) {
         if (is_websocket) {
-            Log.info("websocket session enter", session._socket.remoteAddress, session._socket.remotePort);
+            Log.info("websocket client session enter", session._socket.remoteAddress, session._socket.remotePort);
         }
         else {
-            Log.info("tcpsocket session enter", session.remoteAddress, session.remotePort);
+            Log.info("tcpsocket client session enter", session.remoteAddress, session.remotePort);
         }
         session.uid = 0; // 用户的UID
         session.last_pkg = null; // 表示我们存储的上一次没有处理完的TCP包;
@@ -126,6 +127,7 @@ var NetBus = /** @class */ (function () {
         //加入到serssion 列表
         global_session_list[global_seesion_key] = session;
         session.session_key = global_seesion_key;
+        Log.info("client session enter, client count: ", ArrayUtil_1["default"].GetArrayLen(global_session_list));
         global_seesion_key++;
     };
     //websocket 客户端session事件
@@ -194,6 +196,7 @@ var NetBus = /** @class */ (function () {
             delete global_session_list[session.session_key];
             session.session_key = null;
         }
+        Log.info("client session exit, client count: ", ArrayUtil_1["default"].GetArrayLen(global_session_list));
     };
     // 关闭session
     NetBus.session_close = function (session) {
@@ -305,10 +308,10 @@ var NetBus = /** @class */ (function () {
     //当前作为客户端，成功连接到其他服务器
     NetBus.on_session_connected = function (stype, session, is_websocket, is_encrypt) {
         if (is_websocket) {
-            Log.info("session connect:", session._socket.remoteAddress, session._socket.remotePort);
+            Log.info("connect to " + Stype_1.StypeName[stype], " server success!  ", session._socket.remoteAddress, session._socket.remotePort);
         }
         else {
-            Log.info("session connect:", session.remoteAddress, session.remotePort);
+            Log.info("connect to " + Stype_1.StypeName[stype] + " server success! ", session.remoteAddress, session.remotePort);
         }
         session.last_pkg = null; // 表示我们存储的上一次没有处理完的TCP包;
         session.is_websocket = is_websocket;

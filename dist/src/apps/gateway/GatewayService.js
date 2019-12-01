@@ -117,7 +117,15 @@ var GatewayService = /** @class */ (function (_super) {
         }
         // 客户端被迫掉线
         var utag = session.uid;
-        NetBus_1["default"].send_cmd(server_session, stype, AuthProto_1.Cmd.eUserLostConnectRes, utag, session.proto_type);
+        var proto = ProtoCmd_1["default"].getStypeProto(stype);
+        // Log("hcc>> proto: ", proto)
+        if (proto) {
+            var cmd_tmp = proto.Cmd;
+            // Log("hcc>> cmd_tmp: ", cmd_tmp)
+            if (cmd_tmp) {
+                NetBus_1["default"].send_cmd(server_session, stype, cmd_tmp.eUserLostConnectRes, utag, session.proto_type);
+            }
+        }
     };
     //登录请求
     GatewayService.is_login_req_cmd = function (stype, ctype) {

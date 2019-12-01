@@ -3049,7 +3049,9 @@ export namespace GameHoodleProto {
         eUserReadyRes = 20,
         eGameStartRes = 21,
         eGameResultRes = 22,
-        eGameTotalResultRes = 23
+        eUserLostConnectRes = 23,
+        eLoginLogicReq = 24,
+        eLoginLogicRes = 25
     }
 
     /** Properties of a CreateRoomReq. */

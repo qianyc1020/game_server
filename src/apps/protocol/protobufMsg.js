@@ -6270,7 +6270,9 @@ $root.GameHoodleProto = (function() {
      * @property {number} eUserReadyRes=20 eUserReadyRes value
      * @property {number} eGameStartRes=21 eGameStartRes value
      * @property {number} eGameResultRes=22 eGameResultRes value
-     * @property {number} eGameTotalResultRes=23 eGameTotalResultRes value
+     * @property {number} eUserLostConnectRes=23 eUserLostConnectRes value
+     * @property {number} eLoginLogicReq=24 eLoginLogicReq value
+     * @property {number} eLoginLogicRes=25 eLoginLogicRes value
      */
     GameHoodleProto.Cmd = (function() {
         var valuesById = {}, values = Object.create(valuesById);
@@ -6297,7 +6299,9 @@ $root.GameHoodleProto = (function() {
         values[valuesById[20] = "eUserReadyRes"] = 20;
         values[valuesById[21] = "eGameStartRes"] = 21;
         values[valuesById[22] = "eGameResultRes"] = 22;
-        values[valuesById[23] = "eGameTotalResultRes"] = 23;
+        values[valuesById[23] = "eUserLostConnectRes"] = 23;
+        values[valuesById[24] = "eLoginLogicReq"] = 24;
+        values[valuesById[25] = "eLoginLogicRes"] = 25;
         return values;
     })();
 

@@ -47,7 +47,10 @@ enum Cmd {
 	
 	eGameStartRes = 21;	//游戏开始
 	eGameResultRes = 22;	//游戏结束
-	eGameTotalResultRes = 23; 	//大结算
+	eUserLostConnectRes = 23; //断开连接
+
+	eLoginLogicReq = 24;	//登录游戏服
+	eLoginLogicRes = 25;
 }
 
 ///////////////////////////////////
@@ -154,6 +157,13 @@ message GameResultRes {
 	repeated sint32 scores = 1;
 }
 
-message GameTotalResultRes {
-	repeated sint32 scores = 1;
+message UserLostConnectRes {
+}
+
+message LoginLogicReq {
+	
+}
+
+message LoginLogicRes {
+	required sint32 status = 1;
 }

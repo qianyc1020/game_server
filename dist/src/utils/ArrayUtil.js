@@ -11,6 +11,13 @@ var ArrayUtil = /** @class */ (function () {
         }
         return false;
     };
+    ArrayUtil.GetArrayLen = function (array) {
+        var count = 0;
+        for (var key in array) {
+            count++;
+        }
+        return count;
+    };
     return ArrayUtil;
 }());
 exports["default"] = ArrayUtil;

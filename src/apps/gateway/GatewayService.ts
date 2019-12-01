@@ -104,7 +104,15 @@ class GatewayService extends ServiceBase {
 
 		// 客户端被迫掉线
 		let utag = session.uid;
-		NetBus.send_cmd(server_session, stype, Cmd.eUserLostConnectRes, utag, session.proto_type)
+		let proto = ProtoCmd.getStypeProto(stype)
+		// Log("hcc>> proto: ", proto)
+		if (proto){
+			let cmd_tmp = proto.Cmd
+			// Log("hcc>> cmd_tmp: ", cmd_tmp)
+			if(cmd_tmp){
+				NetBus.send_cmd(server_session, stype, cmd_tmp.eUserLostConnectRes, utag, session.proto_type)
+			}
+		}
 	}
 	//登录请求
 	static is_login_req_cmd(stype:number, ctype:number){

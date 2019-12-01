@@ -2,7 +2,6 @@ import ProtoCmd from "../apps/protocol/ProtoCmd"
 import StringUtil from "../utils/StringUtil"
 
 var Log 	    = require("../utils/Log")
-// import protobufMsg from "../apps/protocol/protobufMsg"
 var protobufMsg = require("../apps/protocol/protobufMsg")
 
 class ProtoTools  {

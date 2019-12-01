@@ -18,6 +18,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 var ServiceBase_1 = __importDefault(require("../../netbus/ServiceBase"));
 var AuthModel_1 = __importDefault(require("./AuthModel"));
+var Log = require("../../utils/Log");
 var AuthService = /** @class */ (function (_super) {
     __extends(AuthService, _super);
     function AuthService() {
@@ -35,6 +36,8 @@ var AuthService = /** @class */ (function (_super) {
     };
     // 收到客户端断开连接，网关已经发了断开协议（eUserLostConnectRes）过来，这里不用做处理
     AuthService.on_player_disconnect = function (session) {
+        var uid = session.uid;
+        Log.info("auth: on_player_disconnect: uid: ", uid);
     };
     return AuthService;
 }(ServiceBase_1["default"]));
