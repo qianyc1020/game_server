@@ -69,6 +69,7 @@ var GameHoodleModle = /** @class */ (function () {
         }
         GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eLoginLogicRes, utag, proto_type, { status: 1 });
     };
+    //玩家检测
     GameHoodleModle.prototype.check_player = function (utag) {
         var player = PlayerManager_1["default"].getInstance().get_player(utag);
         if (player) {
