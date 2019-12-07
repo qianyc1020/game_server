@@ -18,6 +18,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 var ServiceBase_1 = __importDefault(require("../../../netbus/ServiceBase"));
 var GameHoodleModle_1 = __importDefault(require("./GameHoodleModle"));
+var Log = require("../../../utils/Log");
 var GameHoodleService = /** @class */ (function (_super) {
     __extends(GameHoodleService, _super);
     function GameHoodleService() {

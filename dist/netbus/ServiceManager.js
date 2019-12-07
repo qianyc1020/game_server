@@ -4,16 +4,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 exports.__esModule = true;
 var ProtoManager_1 = __importDefault(require("./ProtoManager"));
+var Stype_1 = require("../apps/protocol/Stype");
 var Log = require("../utils/Log");
 var ServiceManager = /** @class */ (function () {
     function ServiceManager() {
     }
     ServiceManager.register_service = function (stype, service) {
         if (ServiceManager.service_modules[stype]) {
-            Log.warn(ServiceManager.service_modules[stype].name + " service is registed !!!!");
+            Log.warn(Stype_1.StypeName[stype], " service is registed !!!!");
         }
         ServiceManager.service_modules[stype] = service;
-        Log.info(ServiceManager.service_modules[stype].name + " service registed success !!!!");
+        Log.info(Stype_1.StypeName[stype], " service registed success !!!!");
     };
     ServiceManager.on_recv_server_cmd = function (session, cmd_buf) {
         if (session.is_encrypt) {
