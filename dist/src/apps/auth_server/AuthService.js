@@ -36,8 +36,6 @@ var AuthService = /** @class */ (function (_super) {
     };
     // 收到客户端断开连接，网关已经发了断开协议（eUserLostConnectRes）过来，这里不用做处理
     AuthService.on_player_disconnect = function (session) {
-        var uid = session.uid;
-        Log.info("auth: on_player_disconnect: uid: ", uid);
     };
     return AuthService;
 }(ServiceBase_1["default"]));

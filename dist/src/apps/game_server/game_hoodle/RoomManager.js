@@ -31,6 +31,7 @@ var RoomManager = /** @class */ (function () {
         }
         var room = new Room_1["default"](roomid);
         this._room_set[roomid] = room;
+        Log.info("creat room success ,roomCount: ", this.get_room_count());
         return room;
     };
     RoomManager.prototype.get_room = function (roomid) {
@@ -39,6 +40,8 @@ var RoomManager = /** @class */ (function () {
         }
         return null;
     };
+    // is_player_already_in_room(){
+    // }
     RoomManager.prototype.delete_room = function (roomid) {
         if (this._room_set[roomid]) {
             this._room_set[roomid] = null;

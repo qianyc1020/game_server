@@ -6,6 +6,7 @@ import Response from '../Response';
 import StringUtil from '../../utils/StringUtil';
 import ProtoManager from '../../netbus/ProtoManager';
 import AuthSendMsg from './AuthSendMsg';
+import CommonProto from '../protocol/CommonProto';
 
 var Log =  require("../../utils/Log")
 
@@ -28,6 +29,9 @@ class AuthModel {
         Log.info("recv_cmd_msg: ",stype,ctype,utag,proto_type,this.decode_cmd(proto_type,raw_cmd))
         
         switch(ctype){
+            case CommonProto.eUserLostConnectRes:
+                this.on_user_lost_connect(session,utag,proto_type,raw_cmd)
+            break;
             case Cmd.eUnameLoginReq:
                 this.uname_login(session,utag,proto_type,raw_cmd)
             break;
@@ -42,9 +46,6 @@ class AuthModel {
             break;
             case Cmd.eGetUserCenterInfoReq:
                 this.get_user_center_info(session,utag,proto_type,raw_cmd);
-            break;
-            case Cmd.eUserLostConnectRes:
-                this.on_user_lost_connect(session,utag,proto_type,raw_cmd)
             break;
             case Cmd.ePhoneRegistReq:
             break;

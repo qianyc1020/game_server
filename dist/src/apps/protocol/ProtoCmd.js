@@ -30,12 +30,6 @@ var ProtoCmd = /** @class */ (function () {
         }
         return null;
     };
-    ProtoCmd.getStypeProto = function (stype) {
-        if (ProtoCmd.StypeProtos[stype]) {
-            return ProtoCmd.StypeProtos[stype];
-        }
-        return null;
-    };
     //服务器下标->协议脚本
     ProtoCmd.StypeProtos = (_a = {},
         _a[Stype_1.Stype.Auth] = Auth,

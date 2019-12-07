@@ -47,10 +47,9 @@ enum Cmd {
 	
 	eGameStartRes = 21;	//游戏开始
 	eGameResultRes = 22;	//游戏结束
-	eUserLostConnectRes = 23; //断开连接
 
-	eLoginLogicReq = 24;	//登录游戏服
-	eLoginLogicRes = 25;
+	eLoginLogicReq = 23;	//登录游戏服
+	eLoginLogicRes = 24;
 }
 
 ///////////////////////////////////
@@ -124,7 +123,7 @@ message CheckLinkGameRes {
 }
 
 message UserInfoRes {
-	repeated UserInfo = 1;
+	repeated UserInfo userinfo = 1;
 }
 
 message RoomInfoRes {
@@ -161,7 +160,6 @@ message UserLostConnectRes {
 }
 
 message LoginLogicReq {
-	
 }
 
 message LoginLogicRes {

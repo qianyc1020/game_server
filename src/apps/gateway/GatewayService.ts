@@ -6,6 +6,7 @@ import Respones from "../Response"
 import ServiceBase from "../../netbus/ServiceBase"
 import { Stype, StypeName } from '../protocol/Stype';
 import { Cmd } from '../protocol/AuthProto';
+import CommonProto from '../protocol/CommonProto';
 
 let Log = require("../../utils/Log")
 
@@ -104,15 +105,8 @@ class GatewayService extends ServiceBase {
 
 		// 客户端被迫掉线
 		let utag = session.uid;
-		let proto = ProtoCmd.getStypeProto(stype)
-		// Log("hcc>> proto: ", proto)
-		if (proto){
-			let cmd_tmp = proto.Cmd
-			// Log("hcc>> cmd_tmp: ", cmd_tmp)
-			if(cmd_tmp){
-				NetBus.send_cmd(server_session, stype, cmd_tmp.eUserLostConnectRes, utag, session.proto_type)
-			}
-		}
+		// Log.info("hcc>> ",stype, CommonProto.eUserLostConnectRes, utag, ProtoTools.ProtoType.PROTO_JSON)
+		NetBus.send_cmd(server_session, stype, CommonProto.eUserLostConnectRes, utag, ProtoTools.ProtoType.PROTO_JSON)
 	}
 	//登录请求
 	static is_login_req_cmd(stype:number, ctype:number){

@@ -115,7 +115,9 @@ class ProtoTools  {
         var total_len 	= ProtoTools.HEADER_SIZE + byte_len;
         var cmd_buf 	= ProtoTools.alloc_buffer(total_len);
         var offset 		= ProtoTools.write_cmd_header_inbuf(cmd_buf, stype, ctype, utag, proto_type);
-        ProtoTools.write_str_inbuf(cmd_buf, offset, str, byte_len);
+        if(str != ""){
+            ProtoTools.write_str_inbuf(cmd_buf, offset, str, byte_len);
+        }
         return cmd_buf;
     }
     //解码str命令 ，只解body
@@ -127,7 +129,7 @@ class ProtoTools  {
     static encode_protobuf_cmd(stype:number, ctype:number, utag:number, proto_type:number, body?:any){
         let stypeName = ProtoCmd.getProtoName(stype)
         let cmdName   = ProtoCmd.getCmdName(stype,ctype)
-        Log.info("protoinfo: ", stypeName , cmdName ,stype ,ctype)
+        Log.warn("encode_protobuf_cmd: ", stypeName , cmdName ,stype ,ctype)
         if (!stypeName || !cmdName){
             Log.error("encode stypeName or cmdName not exist")
             return;
@@ -140,7 +142,7 @@ class ProtoTools  {
     
         let msgType = protobufMsg[stypeName][cmdName]
         if (!msgType) {
-            Log.error("encode cmdName not exist")
+            Log.error("encode cmdName" , cmdName, "not exist")
             return;
         }
 
@@ -177,6 +179,7 @@ class ProtoTools  {
         if(bodyBuf){
             let stypeName = ProtoCmd.getProtoName(stype)
             let cmdName   = ProtoCmd.getCmdName(stype,ctype)
+            Log.warn("decode_protobuf_cmd: ", stypeName , cmdName ,stype ,ctype)
             if (!stypeName || !cmdName){
                 Log.error("decode stypeName or cmdName not exist")
                 return;
@@ -189,7 +192,7 @@ class ProtoTools  {
     
             let msgType = protobufMsg[stypeName][cmdName]
             if (!msgType) {
-                Log.error("decode cmdName not exist")
+                Log.error("decode cmdName" , cmdName , " not exist")
                 return;
             }
             let decodeMsg = null;

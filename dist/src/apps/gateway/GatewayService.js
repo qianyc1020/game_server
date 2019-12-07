@@ -24,6 +24,7 @@ var Response_1 = __importDefault(require("../Response"));
 var ServiceBase_1 = __importDefault(require("../../netbus/ServiceBase"));
 var Stype_1 = require("../protocol/Stype");
 var AuthProto_1 = require("../protocol/AuthProto");
+var CommonProto_1 = __importDefault(require("../protocol/CommonProto"));
 var Log = require("../../utils/Log");
 var LOGIN_ERQ_CMD = [
     AuthProto_1.Cmd.eUnameLoginReq,
@@ -117,15 +118,8 @@ var GatewayService = /** @class */ (function (_super) {
         }
         // 客户端被迫掉线
         var utag = session.uid;
-        var proto = ProtoCmd_1["default"].getStypeProto(stype);
-        // Log("hcc>> proto: ", proto)
-        if (proto) {
-            var cmd_tmp = proto.Cmd;
-            // Log("hcc>> cmd_tmp: ", cmd_tmp)
-            if (cmd_tmp) {
-                NetBus_1["default"].send_cmd(server_session, stype, cmd_tmp.eUserLostConnectRes, utag, session.proto_type);
-            }
-        }
+        // Log.info("hcc>> ",stype, CommonProto.eUserLostConnectRes, utag, ProtoTools.ProtoType.PROTO_JSON)
+        NetBus_1["default"].send_cmd(server_session, stype, CommonProto_1["default"].eUserLostConnectRes, utag, ProtoTools_1["default"].ProtoType.PROTO_JSON);
     };
     //登录请求
     GatewayService.is_login_req_cmd = function (stype, ctype) {

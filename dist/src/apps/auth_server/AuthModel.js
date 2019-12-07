@@ -9,6 +9,7 @@ var Response_1 = __importDefault(require("../Response"));
 var StringUtil_1 = __importDefault(require("../../utils/StringUtil"));
 var ProtoManager_1 = __importDefault(require("../../netbus/ProtoManager"));
 var AuthSendMsg_1 = __importDefault(require("./AuthSendMsg"));
+var CommonProto_1 = __importDefault(require("../protocol/CommonProto"));
 var Log = require("../../utils/Log");
 var AuthModel = /** @class */ (function () {
     function AuthModel() {
@@ -22,6 +23,9 @@ var AuthModel = /** @class */ (function () {
     AuthModel.prototype.recv_cmd_msg = function (session, stype, ctype, utag, proto_type, raw_cmd) {
         Log.info("recv_cmd_msg: ", stype, ctype, utag, proto_type, this.decode_cmd(proto_type, raw_cmd));
         switch (ctype) {
+            case CommonProto_1["default"].eUserLostConnectRes:
+                this.on_user_lost_connect(session, utag, proto_type, raw_cmd);
+                break;
             case AuthProto_1.Cmd.eUnameLoginReq:
                 this.uname_login(session, utag, proto_type, raw_cmd);
                 break;
@@ -36,9 +40,6 @@ var AuthModel = /** @class */ (function () {
                 break;
             case AuthProto_1.Cmd.eGetUserCenterInfoReq:
                 this.get_user_center_info(session, utag, proto_type, raw_cmd);
-                break;
-            case AuthProto_1.Cmd.eUserLostConnectRes:
-                this.on_user_lost_connect(session, utag, proto_type, raw_cmd);
                 break;
             case AuthProto_1.Cmd.ePhoneRegistReq:
                 break;

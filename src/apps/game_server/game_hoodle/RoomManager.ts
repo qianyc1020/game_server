@@ -34,6 +34,7 @@ class RoomManager {
         }
         let room = new Room(roomid);
         this._room_set[roomid] = room;
+        Log.info("creat room success ,roomCount: " , this.get_room_count())
         return room;
     }
 
@@ -43,6 +44,10 @@ class RoomManager {
         }
         return null;
     }
+
+    // is_player_already_in_room(){
+
+    // }
 
     delete_room(roomid:string){
         if(this._room_set[roomid]){

@@ -36,8 +36,6 @@ var GameHoodleService = /** @class */ (function (_super) {
     };
     // 收到客户端断开连接，网关已经发了断开协议（eUserLostConnectRes）过来，这里不用做处理
     GameHoodleService.on_player_disconnect = function (session) {
-        var uid = session.uid;
-        Log.info("game: on_player_disconnect: uid: ", uid);
     };
     return GameHoodleService;
 }(ServiceBase_1["default"]));

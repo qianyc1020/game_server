@@ -39,7 +39,6 @@ enum Cmd {
   eGetUserCenterInfoRes = 22;
 
   eReloginRes = 23; //被重复登录
-  eUserLostConnectRes = 24; //玩家掉线
 }
 
 message UnameLoginReq {  
@@ -141,7 +140,4 @@ message GetUserCenterInfoRes {
 }
 
 message ReloginRes {
-}
-
-message UserLostConnectRes {
 }

@@ -16,12 +16,14 @@ class PlayerManager {
     }
 
     alloc_player(session:any, uid:number, proto_type:number){
-        if(this._player_set[uid]){
+        let player:Player = this._player_set[uid]
+        if(player){
             Log.warn("alloc_player: user is exist!!!!");
-            return this._player_set[uid];
+            player.init_session(session, uid, proto_type);
+            return;
         }
-        let p = new Player(session, uid, proto_type);
-        return p;
+        let p:Player = new Player(session, uid, proto_type);
+        this._player_set[uid] = p;
     }
 
     get_player(uid:number){
@@ -35,6 +37,7 @@ class PlayerManager {
         if(this._player_set[uid]){
             this._player_set[uid] = null;
             delete this._player_set[uid];
+            Log.info("delete player uid: " , uid ," success, playercount: " , this.get_player_count())
         }else{
             Log.warn("delete_player:", uid, "is not in game server!!!!");
         }

@@ -17,8 +17,6 @@ class GameHoodleService extends ServiceBase {
 	
 	// 收到客户端断开连接，网关已经发了断开协议（eUserLostConnectRes）过来，这里不用做处理
 	static on_player_disconnect(session:any) {
-		var uid = session.uid;
-		Log.info("game: on_player_disconnect: uid: " , uid)
 	}
 }
 

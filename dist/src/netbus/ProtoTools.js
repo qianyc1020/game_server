@@ -96,7 +96,9 @@ var ProtoTools = /** @class */ (function () {
         var total_len = ProtoTools.HEADER_SIZE + byte_len;
         var cmd_buf = ProtoTools.alloc_buffer(total_len);
         var offset = ProtoTools.write_cmd_header_inbuf(cmd_buf, stype, ctype, utag, proto_type);
-        ProtoTools.write_str_inbuf(cmd_buf, offset, str, byte_len);
+        if (str != "") {
+            ProtoTools.write_str_inbuf(cmd_buf, offset, str, byte_len);
+        }
         return cmd_buf;
     };
     //解码str命令 ，只解body
@@ -118,7 +120,7 @@ var ProtoTools = /** @class */ (function () {
         }
         var msgType = protobufMsg[stypeName][cmdName];
         if (!msgType) {
-            Log.error("encode cmdName not exist");
+            Log.error("encode cmdName", cmdName, "not exist");
             return;
         }
         if (!body) {
@@ -162,7 +164,7 @@ var ProtoTools = /** @class */ (function () {
             }
             var msgType = protobufMsg[stypeName][cmdName];
             if (!msgType) {
-                Log.error("decode cmdName not exist");
+                Log.error("decode cmdName", cmdName, " not exist");
                 return;
             }
             var decodeMsg = null;

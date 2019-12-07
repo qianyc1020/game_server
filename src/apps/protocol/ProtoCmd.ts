@@ -27,13 +27,6 @@ class ProtoCmd {
 		}
 		return null;
 	}
-
-	static getStypeProto(stype:number):any{
-		if(ProtoCmd.StypeProtos[stype]){
-			return ProtoCmd.StypeProtos[stype]
-		}
-		return null;
-	}
 }
 
 export default ProtoCmd;
