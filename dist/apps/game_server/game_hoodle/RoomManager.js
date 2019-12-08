@@ -31,28 +31,39 @@ var RoomManager = /** @class */ (function () {
         }
         var room = new Room_1["default"](roomid);
         this._room_set[roomid] = room;
-        Log.info("creat room success ,roomCount: ", this.get_room_count());
+        Log.info("creat room success roomid: ", roomid, " ,roomCount: ", this.get_room_count());
         return room;
     };
-    RoomManager.prototype.get_room = function (roomid) {
+    //用roomid获取房间
+    RoomManager.prototype.get_room_by_roomid = function (roomid) {
         if (this._room_set[roomid]) {
             return this._room_set[roomid];
         }
         return null;
     };
-    // is_player_already_in_room(){
-    // }
     RoomManager.prototype.delete_room = function (roomid) {
         if (this._room_set[roomid]) {
-            this._room_set[roomid] = null;
             delete this._room_set[roomid];
+            Log.warn("delete_room:", roomid, "success, roomCount: ", this.get_room_count());
+            return true;
         }
         else {
             Log.warn("delete_room:", roomid, "is not in game server!!!!");
+            return false;
         }
     };
     RoomManager.prototype.get_room_count = function () {
         return ArrayUtil_1["default"].GetArrayLen(this._room_set);
+    };
+    //uid 获取room, 用来判断玩家是否在房间里，或者已经创建了一个房间
+    RoomManager.prototype.get_room_by_uid = function (uid) {
+        for (var key in this._room_set) {
+            var room = this._room_set[key];
+            if (room.is_player_in_room(uid)) {
+                return room;
+            }
+        }
+        return null;
     };
     RoomManager.Instance = new RoomManager();
     return RoomManager;

@@ -1,4 +1,9 @@
 import NetBus from '../../../netbus/NetBus';
+import MySqlAuth from '../../../database/MySqlAuth';
+import Response from '../../Response';
+import { Stype } from '../../protocol/Stype';
+
+let Log = require("../../../utils/Log")
 
 class Player{
     
@@ -9,16 +14,39 @@ class Player{
     _ugame_info:any     = null;
     _ucenter_info:any   = null;
 
-    constructor(session:any, uid:number, proto_type:number){
-        this._session = session;
-        this._uid = uid;
-        this._proto_type = proto_type;
-    }
+    _is_off_line:boolean = false;
 
-    init_session(session:any, uid:number, proto_type:number){
+    constructor(){
+    }
+    //中心数据，游戏数据
+    init_session(session:any, uid:number, proto_type:number, callback?:Function){
         this._session = session;
         this._uid = uid;        
         this._proto_type = proto_type;
+
+        let _this = this;
+        MySqlAuth.get_uinfo_by_uid(uid,function (status:number, data:any) {
+            Log.info("hcc>>init_session>>data: " , data)
+            if(status == Response.OK){
+                let sql_info = data[0];
+                _this._ucenter_info = sql_info;
+                if(callback){
+                    callback(Response.OK,sql_info)
+                }
+            }else{
+                if(callback){
+                    callback(Response.SYSTEM_ERR)
+                }
+            }
+        })
+    }
+
+    get_uid(){
+        return this._uid;
+    }
+
+    get_numberid(){
+        return this._ucenter_info.numberid;
     }
 
     set_ugame_info(ugame_info:any){
@@ -37,11 +65,20 @@ class Player{
         return this._ucenter_info;
     }
 
-    send_cmd(stype: number, ctype:number, body:any){
+    set_offline(is_offline:boolean){
+        this._is_off_line = is_offline;
+    }
+
+    get_offline(){
+        return this._is_off_line;
+    }
+
+    send_cmd(ctype:number, body:any){
         if(!this._session){
+            Log.error("session is null!!")
             return;
         }
-        NetBus.send_cmd(this._session, stype, ctype, this._uid, this._proto_type, body);
+        NetBus.send_cmd(this._session, Stype.GameHoodle, ctype, this._uid, this._proto_type, body);
     }
 
 }

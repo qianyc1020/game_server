@@ -1,6 +1,7 @@
 import Room from './Room';
 import ArrayUtil from '../../../utils/ArrayUtil';
 import StringUtil from '../../../utils/StringUtil';
+import Player from './Player';
 
 var Log =  require("../../../utils/Log")
 
@@ -34,27 +35,25 @@ class RoomManager {
         }
         let room = new Room(roomid);
         this._room_set[roomid] = room;
-        Log.info("creat room success ,roomCount: " , this.get_room_count())
+        Log.info("creat room success roomid: " , roomid , " ,roomCount: " , this.get_room_count())
         return room;
     }
-
-    get_room(roomid:string){
+    //用roomid获取房间
+    get_room_by_roomid(roomid:string){
         if(this._room_set[roomid]){
             return this._room_set[roomid];
         }
         return null;
     }
 
-    // is_player_already_in_room(){
-
-    // }
-
     delete_room(roomid:string){
         if(this._room_set[roomid]){
-            this._room_set[roomid] = null;
             delete this._room_set[roomid];
+            Log.warn("delete_room:", roomid, "success, roomCount: " , this.get_room_count());
+            return true;
         }else{
             Log.warn("delete_room:", roomid, "is not in game server!!!!");
+            return false;
         }
     }
 
@@ -62,6 +61,16 @@ class RoomManager {
         return ArrayUtil.GetArrayLen(this._room_set);
     }
 
+    //uid 获取room, 用来判断玩家是否在房间里，或者已经创建了一个房间
+    get_room_by_uid(uid:number){
+        for (const key in this._room_set) {
+            let room:Room = this._room_set[key] 
+            if(room.is_player_in_room(uid)){
+                return room;
+            }
+        }
+        return null;
+    }
 }
 
 export default RoomManager;

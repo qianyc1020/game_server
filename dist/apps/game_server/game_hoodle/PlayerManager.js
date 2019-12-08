@@ -13,15 +13,16 @@ var PlayerManager = /** @class */ (function () {
     PlayerManager.getInstance = function () {
         return PlayerManager.Instance;
     };
-    PlayerManager.prototype.alloc_player = function (session, uid, proto_type) {
+    PlayerManager.prototype.alloc_player = function (session, uid, proto_type, callback) {
         var player = this._player_set[uid];
         if (player) {
-            Log.warn("alloc_player: user is exist!!!!");
-            player.init_session(session, uid, proto_type);
+            Log.warn("alloc_player>> user: ", uid, " is exist!!!!");
+            player.init_session(session, uid, proto_type, callback);
             return;
         }
-        var p = new Player_1["default"](session, uid, proto_type);
+        var p = new Player_1["default"]();
         this._player_set[uid] = p;
+        p.init_session(session, uid, proto_type, callback);
     };
     PlayerManager.prototype.get_player = function (uid) {
         if (this._player_set[uid]) {
@@ -36,7 +37,7 @@ var PlayerManager = /** @class */ (function () {
             Log.info("delete player uid: ", uid, " success, playercount: ", this.get_player_count());
         }
         else {
-            Log.warn("delete_player:", uid, "is not in game server!!!!");
+            Log.warn("delete_player error:", uid, "is not in game server!!!!");
         }
     };
     PlayerManager.prototype.get_player_count = function () {
