@@ -29,7 +29,7 @@ export enum Cmd {
 
 	eUserInfoRes = 15,		//玩家信息
 
-	eRoomInfoRes = 16, 	//房间规则
+	eGameRuleRes = 16, 	//房间规则
 	eRoomIdRes = 17, 	//房间号
 	ePlayCountRes = 18, 	//局数
 
@@ -72,7 +72,7 @@ export let CmdName = {
 
 	[15] :"UserInfoRes",		//玩家信息
 
-	[16] :"RoomInfoRes", 	//房间规则
+	[16] :"GameRuleRes", 	//房间规则
 	[17] :"RoomIdRes", 		//房间号
 	[18] :"PlayCountRes", 	//局数
 

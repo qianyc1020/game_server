@@ -109,13 +109,13 @@ var ProtoTools = /** @class */ (function () {
     ProtoTools.encode_protobuf_cmd = function (stype, ctype, utag, proto_type, body) {
         var stypeName = ProtoCmd_1["default"].getProtoName(stype);
         var cmdName = ProtoCmd_1["default"].getCmdName(stype, ctype);
-        Log.info("encode_protobuf_cmd: ", stypeName, cmdName, stype, ctype);
+        // Log.info("encode_protobuf_cmd: ", stypeName , cmdName ,stype ,ctype)
         if (!stypeName || !cmdName) {
             Log.error("encode stypeName or cmdName not exist");
             return;
         }
         if (!protobufMsg[stypeName]) {
-            Log.error("encode stypeName not exist");
+            Log.error("encode stypeName", stypeName, " not exist");
             return;
         }
         var msgType = protobufMsg[stypeName][cmdName];
@@ -154,13 +154,13 @@ var ProtoTools = /** @class */ (function () {
         if (bodyBuf) {
             var stypeName = ProtoCmd_1["default"].getProtoName(stype);
             var cmdName = ProtoCmd_1["default"].getCmdName(stype, ctype);
-            Log.info("decode_protobuf_cmd: ", stypeName, cmdName, stype, ctype);
+            // Log.info("decode_protobuf_cmd: ", stypeName , cmdName ,stype ,ctype)
             if (!stypeName || !cmdName) {
                 Log.error("decode stypeName or cmdName not exist");
                 return;
             }
             if (!protobufMsg[stypeName]) {
-                Log.error("decode stypeName not exist");
+                Log.error("decode stypeName", stypeName, " not exist");
                 return;
             }
             var msgType = protobufMsg[stypeName][cmdName];

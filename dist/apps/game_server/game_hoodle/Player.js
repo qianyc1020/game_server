@@ -24,7 +24,7 @@ var Player = /** @class */ (function () {
         this._proto_type = proto_type;
         var _this = this;
         MySqlAuth_1["default"].get_uinfo_by_uid(uid, function (status, data) {
-            Log.info("hcc>>init_session>>data: ", data);
+            // Log.info("hcc>>init_session>>data: " , data)
             if (status == Response_1["default"].OK) {
                 var sql_info = data[0];
                 _this._ucenter_info = sql_info;
@@ -65,7 +65,7 @@ var Player = /** @class */ (function () {
     };
     Player.prototype.send_cmd = function (ctype, body) {
         if (!this._session) {
-            Log.error("session is null!!");
+            Log.error("send_cmd error, session is null!!");
             return;
         }
         NetBus_1["default"].send_cmd(this._session, Stype_1.Stype.GameHoodle, ctype, this._uid, this._proto_type, body);

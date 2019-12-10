@@ -26,7 +26,7 @@ class Player{
 
         let _this = this;
         MySqlAuth.get_uinfo_by_uid(uid,function (status:number, data:any) {
-            Log.info("hcc>>init_session>>data: " , data)
+            // Log.info("hcc>>init_session>>data: " , data)
             if(status == Response.OK){
                 let sql_info = data[0];
                 _this._ucenter_info = sql_info;
@@ -75,7 +75,7 @@ class Player{
 
     send_cmd(ctype:number, body:any){
         if(!this._session){
-            Log.error("session is null!!")
+            Log.error("send_cmd error, session is null!!")
             return;
         }
         NetBus.send_cmd(this._session, Stype.GameHoodle, ctype, this._uid, this._proto_type, body);

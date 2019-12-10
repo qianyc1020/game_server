@@ -206,8 +206,8 @@ var GameHoodleModle = /** @class */ (function () {
         player.set_offline(false);
         var body = this.decode_cmd(proto_type, raw_cmd);
         if (body) {
-            room.set_room_info(body.roominfo);
-            Log.info("create room, roominfo: ", body);
+            room.set_game_rule(body.gamerule);
+            Log.info("create room, gamerule: ", body);
         }
         GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eCreateRoomRes, utag, proto_type, { status: Response_1["default"].OK });
     };
@@ -350,7 +350,8 @@ var GameHoodleModle = /** @class */ (function () {
             player.send_cmd(GameHoodleProto_1.Cmd.ePlayCountRes, { playcount: "0", totalplaycount: "0" });
             player.send_cmd(GameHoodleProto_1.Cmd.eCheckLinkGameRes, { status: Response_1["default"].OK });
             player.send_cmd(GameHoodleProto_1.Cmd.eRoomIdRes, { roomid: room.get_room_id() });
-            // player.send_cmd(Cmd.eRoomInfoRes,{roominfo: room.get_room_info()}) //TODO error, 这条以后的协议，发送不出去？
+            var gamerule = room.get_game_rule();
+            player.send_cmd(GameHoodleProto_1.Cmd.eGameRuleRes, { gamerule: gamerule });
         }
     };
     GameHoodleModle.Instance = new GameHoodleModle();

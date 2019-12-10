@@ -2957,7 +2957,7 @@ export namespace GameHoodleProto {
         eCheckLinkGameReq = 13,
         eCheckLinkGameRes = 14,
         eUserInfoRes = 15,
-        eRoomInfoRes = 16,
+        eGameRuleRes = 16,
         eRoomIdRes = 17,
         ePlayCountRes = 18,
         eUserReadyReq = 19,
@@ -2971,8 +2971,8 @@ export namespace GameHoodleProto {
     /** Properties of a CreateRoomReq. */
     interface ICreateRoomReq {
 
-        /** CreateRoomReq roominfo */
-        roominfo: string;
+        /** CreateRoomReq gamerule */
+        gamerule: string;
     }
 
     /** Represents a CreateRoomReq. */
@@ -2984,8 +2984,8 @@ export namespace GameHoodleProto {
          */
         constructor(properties?: GameHoodleProto.ICreateRoomReq);
 
-        /** CreateRoomReq roominfo. */
-        public roominfo: string;
+        /** CreateRoomReq gamerule. */
+        public gamerule: string;
 
         /**
          * Creates a new CreateRoomReq instance using the specified properties.
@@ -4295,6 +4295,990 @@ export namespace GameHoodleProto {
 
         /**
          * Converts this CheckLinkGameRes to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): [ 'object' ].<string, any>;
+    }
+
+    /** Properties of a UserInfoRes. */
+    interface IUserInfoRes {
+
+        /** UserInfoRes userinfo */
+        userinfo?: (GameHoodleProto.IUserInfo[]|null);
+    }
+
+    /** Represents a UserInfoRes. */
+    class UserInfoRes implements IUserInfoRes {
+
+        /**
+         * Constructs a new UserInfoRes.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: GameHoodleProto.IUserInfoRes);
+
+        /** UserInfoRes userinfo. */
+        public userinfo: [ 'Array' ].<GameHoodleProto.IUserInfo>;
+
+        /**
+         * Creates a new UserInfoRes instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns UserInfoRes instance
+         */
+        public static create(properties?: GameHoodleProto.IUserInfoRes): GameHoodleProto.UserInfoRes;
+
+        /**
+         * Encodes the specified UserInfoRes message. Does not implicitly {@link GameHoodleProto.UserInfoRes.verify|verify} messages.
+         * @param message UserInfoRes message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: GameHoodleProto.IUserInfoRes, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified UserInfoRes message, length delimited. Does not implicitly {@link GameHoodleProto.UserInfoRes.verify|verify} messages.
+         * @param message UserInfoRes message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: GameHoodleProto.IUserInfoRes, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a UserInfoRes message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns UserInfoRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): GameHoodleProto.UserInfoRes;
+
+        /**
+         * Decodes a UserInfoRes message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns UserInfoRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): GameHoodleProto.UserInfoRes;
+
+        /**
+         * Verifies a UserInfoRes message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: [ 'object' ].<string, any>): (string|null);
+
+        /**
+         * Creates a UserInfoRes message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns UserInfoRes
+         */
+        public static fromObject(object: [ 'object' ].<string, any>): GameHoodleProto.UserInfoRes;
+
+        /**
+         * Creates a plain object from a UserInfoRes message. Also converts values to other types if specified.
+         * @param message UserInfoRes
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: GameHoodleProto.UserInfoRes, options?: $protobuf.IConversionOptions): [ 'object' ].<string, any>;
+
+        /**
+         * Converts this UserInfoRes to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): [ 'object' ].<string, any>;
+    }
+
+    /** Properties of a GameRuleRes. */
+    interface IGameRuleRes {
+
+        /** GameRuleRes gamerule */
+        gamerule: string;
+    }
+
+    /** Represents a GameRuleRes. */
+    class GameRuleRes implements IGameRuleRes {
+
+        /**
+         * Constructs a new GameRuleRes.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: GameHoodleProto.IGameRuleRes);
+
+        /** GameRuleRes gamerule. */
+        public gamerule: string;
+
+        /**
+         * Creates a new GameRuleRes instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns GameRuleRes instance
+         */
+        public static create(properties?: GameHoodleProto.IGameRuleRes): GameHoodleProto.GameRuleRes;
+
+        /**
+         * Encodes the specified GameRuleRes message. Does not implicitly {@link GameHoodleProto.GameRuleRes.verify|verify} messages.
+         * @param message GameRuleRes message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: GameHoodleProto.IGameRuleRes, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified GameRuleRes message, length delimited. Does not implicitly {@link GameHoodleProto.GameRuleRes.verify|verify} messages.
+         * @param message GameRuleRes message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: GameHoodleProto.IGameRuleRes, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a GameRuleRes message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns GameRuleRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): GameHoodleProto.GameRuleRes;
+
+        /**
+         * Decodes a GameRuleRes message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns GameRuleRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): GameHoodleProto.GameRuleRes;
+
+        /**
+         * Verifies a GameRuleRes message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: [ 'object' ].<string, any>): (string|null);
+
+        /**
+         * Creates a GameRuleRes message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns GameRuleRes
+         */
+        public static fromObject(object: [ 'object' ].<string, any>): GameHoodleProto.GameRuleRes;
+
+        /**
+         * Creates a plain object from a GameRuleRes message. Also converts values to other types if specified.
+         * @param message GameRuleRes
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: GameHoodleProto.GameRuleRes, options?: $protobuf.IConversionOptions): [ 'object' ].<string, any>;
+
+        /**
+         * Converts this GameRuleRes to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): [ 'object' ].<string, any>;
+    }
+
+    /** Properties of a RoomIdRes. */
+    interface IRoomIdRes {
+
+        /** RoomIdRes roomid */
+        roomid: string;
+    }
+
+    /** Represents a RoomIdRes. */
+    class RoomIdRes implements IRoomIdRes {
+
+        /**
+         * Constructs a new RoomIdRes.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: GameHoodleProto.IRoomIdRes);
+
+        /** RoomIdRes roomid. */
+        public roomid: string;
+
+        /**
+         * Creates a new RoomIdRes instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns RoomIdRes instance
+         */
+        public static create(properties?: GameHoodleProto.IRoomIdRes): GameHoodleProto.RoomIdRes;
+
+        /**
+         * Encodes the specified RoomIdRes message. Does not implicitly {@link GameHoodleProto.RoomIdRes.verify|verify} messages.
+         * @param message RoomIdRes message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: GameHoodleProto.IRoomIdRes, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified RoomIdRes message, length delimited. Does not implicitly {@link GameHoodleProto.RoomIdRes.verify|verify} messages.
+         * @param message RoomIdRes message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: GameHoodleProto.IRoomIdRes, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a RoomIdRes message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns RoomIdRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): GameHoodleProto.RoomIdRes;
+
+        /**
+         * Decodes a RoomIdRes message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns RoomIdRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): GameHoodleProto.RoomIdRes;
+
+        /**
+         * Verifies a RoomIdRes message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: [ 'object' ].<string, any>): (string|null);
+
+        /**
+         * Creates a RoomIdRes message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns RoomIdRes
+         */
+        public static fromObject(object: [ 'object' ].<string, any>): GameHoodleProto.RoomIdRes;
+
+        /**
+         * Creates a plain object from a RoomIdRes message. Also converts values to other types if specified.
+         * @param message RoomIdRes
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: GameHoodleProto.RoomIdRes, options?: $protobuf.IConversionOptions): [ 'object' ].<string, any>;
+
+        /**
+         * Converts this RoomIdRes to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): [ 'object' ].<string, any>;
+    }
+
+    /** Properties of a PlayCountRes. */
+    interface IPlayCountRes {
+
+        /** PlayCountRes playcount */
+        playcount: string;
+
+        /** PlayCountRes totalplaycount */
+        totalplaycount: string;
+    }
+
+    /** Represents a PlayCountRes. */
+    class PlayCountRes implements IPlayCountRes {
+
+        /**
+         * Constructs a new PlayCountRes.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: GameHoodleProto.IPlayCountRes);
+
+        /** PlayCountRes playcount. */
+        public playcount: string;
+
+        /** PlayCountRes totalplaycount. */
+        public totalplaycount: string;
+
+        /**
+         * Creates a new PlayCountRes instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns PlayCountRes instance
+         */
+        public static create(properties?: GameHoodleProto.IPlayCountRes): GameHoodleProto.PlayCountRes;
+
+        /**
+         * Encodes the specified PlayCountRes message. Does not implicitly {@link GameHoodleProto.PlayCountRes.verify|verify} messages.
+         * @param message PlayCountRes message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: GameHoodleProto.IPlayCountRes, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified PlayCountRes message, length delimited. Does not implicitly {@link GameHoodleProto.PlayCountRes.verify|verify} messages.
+         * @param message PlayCountRes message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: GameHoodleProto.IPlayCountRes, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a PlayCountRes message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns PlayCountRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): GameHoodleProto.PlayCountRes;
+
+        /**
+         * Decodes a PlayCountRes message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns PlayCountRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): GameHoodleProto.PlayCountRes;
+
+        /**
+         * Verifies a PlayCountRes message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: [ 'object' ].<string, any>): (string|null);
+
+        /**
+         * Creates a PlayCountRes message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns PlayCountRes
+         */
+        public static fromObject(object: [ 'object' ].<string, any>): GameHoodleProto.PlayCountRes;
+
+        /**
+         * Creates a plain object from a PlayCountRes message. Also converts values to other types if specified.
+         * @param message PlayCountRes
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: GameHoodleProto.PlayCountRes, options?: $protobuf.IConversionOptions): [ 'object' ].<string, any>;
+
+        /**
+         * Converts this PlayCountRes to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): [ 'object' ].<string, any>;
+    }
+
+    /** Properties of a UserReadyReq. */
+    interface IUserReadyReq {
+    }
+
+    /** Represents a UserReadyReq. */
+    class UserReadyReq implements IUserReadyReq {
+
+        /**
+         * Constructs a new UserReadyReq.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: GameHoodleProto.IUserReadyReq);
+
+        /**
+         * Creates a new UserReadyReq instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns UserReadyReq instance
+         */
+        public static create(properties?: GameHoodleProto.IUserReadyReq): GameHoodleProto.UserReadyReq;
+
+        /**
+         * Encodes the specified UserReadyReq message. Does not implicitly {@link GameHoodleProto.UserReadyReq.verify|verify} messages.
+         * @param message UserReadyReq message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: GameHoodleProto.IUserReadyReq, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified UserReadyReq message, length delimited. Does not implicitly {@link GameHoodleProto.UserReadyReq.verify|verify} messages.
+         * @param message UserReadyReq message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: GameHoodleProto.IUserReadyReq, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a UserReadyReq message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns UserReadyReq
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): GameHoodleProto.UserReadyReq;
+
+        /**
+         * Decodes a UserReadyReq message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns UserReadyReq
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): GameHoodleProto.UserReadyReq;
+
+        /**
+         * Verifies a UserReadyReq message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: [ 'object' ].<string, any>): (string|null);
+
+        /**
+         * Creates a UserReadyReq message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns UserReadyReq
+         */
+        public static fromObject(object: [ 'object' ].<string, any>): GameHoodleProto.UserReadyReq;
+
+        /**
+         * Creates a plain object from a UserReadyReq message. Also converts values to other types if specified.
+         * @param message UserReadyReq
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: GameHoodleProto.UserReadyReq, options?: $protobuf.IConversionOptions): [ 'object' ].<string, any>;
+
+        /**
+         * Converts this UserReadyReq to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): [ 'object' ].<string, any>;
+    }
+
+    /** Properties of a UserReadyRes. */
+    interface IUserReadyRes {
+
+        /** UserReadyRes status */
+        status: number;
+
+        /** UserReadyRes numberid */
+        numberid?: (string|null);
+    }
+
+    /** Represents a UserReadyRes. */
+    class UserReadyRes implements IUserReadyRes {
+
+        /**
+         * Constructs a new UserReadyRes.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: GameHoodleProto.IUserReadyRes);
+
+        /** UserReadyRes status. */
+        public status: number;
+
+        /** UserReadyRes numberid. */
+        public numberid: string;
+
+        /**
+         * Creates a new UserReadyRes instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns UserReadyRes instance
+         */
+        public static create(properties?: GameHoodleProto.IUserReadyRes): GameHoodleProto.UserReadyRes;
+
+        /**
+         * Encodes the specified UserReadyRes message. Does not implicitly {@link GameHoodleProto.UserReadyRes.verify|verify} messages.
+         * @param message UserReadyRes message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: GameHoodleProto.IUserReadyRes, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified UserReadyRes message, length delimited. Does not implicitly {@link GameHoodleProto.UserReadyRes.verify|verify} messages.
+         * @param message UserReadyRes message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: GameHoodleProto.IUserReadyRes, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a UserReadyRes message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns UserReadyRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): GameHoodleProto.UserReadyRes;
+
+        /**
+         * Decodes a UserReadyRes message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns UserReadyRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): GameHoodleProto.UserReadyRes;
+
+        /**
+         * Verifies a UserReadyRes message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: [ 'object' ].<string, any>): (string|null);
+
+        /**
+         * Creates a UserReadyRes message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns UserReadyRes
+         */
+        public static fromObject(object: [ 'object' ].<string, any>): GameHoodleProto.UserReadyRes;
+
+        /**
+         * Creates a plain object from a UserReadyRes message. Also converts values to other types if specified.
+         * @param message UserReadyRes
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: GameHoodleProto.UserReadyRes, options?: $protobuf.IConversionOptions): [ 'object' ].<string, any>;
+
+        /**
+         * Converts this UserReadyRes to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): [ 'object' ].<string, any>;
+    }
+
+    /** Properties of a GameStart. */
+    interface IGameStart {
+
+        /** GameStart status */
+        status: number;
+    }
+
+    /** Represents a GameStart. */
+    class GameStart implements IGameStart {
+
+        /**
+         * Constructs a new GameStart.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: GameHoodleProto.IGameStart);
+
+        /** GameStart status. */
+        public status: number;
+
+        /**
+         * Creates a new GameStart instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns GameStart instance
+         */
+        public static create(properties?: GameHoodleProto.IGameStart): GameHoodleProto.GameStart;
+
+        /**
+         * Encodes the specified GameStart message. Does not implicitly {@link GameHoodleProto.GameStart.verify|verify} messages.
+         * @param message GameStart message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: GameHoodleProto.IGameStart, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified GameStart message, length delimited. Does not implicitly {@link GameHoodleProto.GameStart.verify|verify} messages.
+         * @param message GameStart message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: GameHoodleProto.IGameStart, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a GameStart message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns GameStart
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): GameHoodleProto.GameStart;
+
+        /**
+         * Decodes a GameStart message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns GameStart
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): GameHoodleProto.GameStart;
+
+        /**
+         * Verifies a GameStart message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: [ 'object' ].<string, any>): (string|null);
+
+        /**
+         * Creates a GameStart message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns GameStart
+         */
+        public static fromObject(object: [ 'object' ].<string, any>): GameHoodleProto.GameStart;
+
+        /**
+         * Creates a plain object from a GameStart message. Also converts values to other types if specified.
+         * @param message GameStart
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: GameHoodleProto.GameStart, options?: $protobuf.IConversionOptions): [ 'object' ].<string, any>;
+
+        /**
+         * Converts this GameStart to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): [ 'object' ].<string, any>;
+    }
+
+    /** Properties of a GameResultRes. */
+    interface IGameResultRes {
+
+        /** GameResultRes scores */
+        scores?: (number[]|null);
+    }
+
+    /** Represents a GameResultRes. */
+    class GameResultRes implements IGameResultRes {
+
+        /**
+         * Constructs a new GameResultRes.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: GameHoodleProto.IGameResultRes);
+
+        /** GameResultRes scores. */
+        public scores: [ 'Array' ].<number>;
+
+        /**
+         * Creates a new GameResultRes instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns GameResultRes instance
+         */
+        public static create(properties?: GameHoodleProto.IGameResultRes): GameHoodleProto.GameResultRes;
+
+        /**
+         * Encodes the specified GameResultRes message. Does not implicitly {@link GameHoodleProto.GameResultRes.verify|verify} messages.
+         * @param message GameResultRes message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: GameHoodleProto.IGameResultRes, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified GameResultRes message, length delimited. Does not implicitly {@link GameHoodleProto.GameResultRes.verify|verify} messages.
+         * @param message GameResultRes message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: GameHoodleProto.IGameResultRes, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a GameResultRes message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns GameResultRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): GameHoodleProto.GameResultRes;
+
+        /**
+         * Decodes a GameResultRes message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns GameResultRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): GameHoodleProto.GameResultRes;
+
+        /**
+         * Verifies a GameResultRes message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: [ 'object' ].<string, any>): (string|null);
+
+        /**
+         * Creates a GameResultRes message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns GameResultRes
+         */
+        public static fromObject(object: [ 'object' ].<string, any>): GameHoodleProto.GameResultRes;
+
+        /**
+         * Creates a plain object from a GameResultRes message. Also converts values to other types if specified.
+         * @param message GameResultRes
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: GameHoodleProto.GameResultRes, options?: $protobuf.IConversionOptions): [ 'object' ].<string, any>;
+
+        /**
+         * Converts this GameResultRes to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): [ 'object' ].<string, any>;
+    }
+
+    /** Properties of a UserLostConnectRes. */
+    interface IUserLostConnectRes {
+    }
+
+    /** Represents a UserLostConnectRes. */
+    class UserLostConnectRes implements IUserLostConnectRes {
+
+        /**
+         * Constructs a new UserLostConnectRes.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: GameHoodleProto.IUserLostConnectRes);
+
+        /**
+         * Creates a new UserLostConnectRes instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns UserLostConnectRes instance
+         */
+        public static create(properties?: GameHoodleProto.IUserLostConnectRes): GameHoodleProto.UserLostConnectRes;
+
+        /**
+         * Encodes the specified UserLostConnectRes message. Does not implicitly {@link GameHoodleProto.UserLostConnectRes.verify|verify} messages.
+         * @param message UserLostConnectRes message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: GameHoodleProto.IUserLostConnectRes, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified UserLostConnectRes message, length delimited. Does not implicitly {@link GameHoodleProto.UserLostConnectRes.verify|verify} messages.
+         * @param message UserLostConnectRes message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: GameHoodleProto.IUserLostConnectRes, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a UserLostConnectRes message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns UserLostConnectRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): GameHoodleProto.UserLostConnectRes;
+
+        /**
+         * Decodes a UserLostConnectRes message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns UserLostConnectRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): GameHoodleProto.UserLostConnectRes;
+
+        /**
+         * Verifies a UserLostConnectRes message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: [ 'object' ].<string, any>): (string|null);
+
+        /**
+         * Creates a UserLostConnectRes message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns UserLostConnectRes
+         */
+        public static fromObject(object: [ 'object' ].<string, any>): GameHoodleProto.UserLostConnectRes;
+
+        /**
+         * Creates a plain object from a UserLostConnectRes message. Also converts values to other types if specified.
+         * @param message UserLostConnectRes
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: GameHoodleProto.UserLostConnectRes, options?: $protobuf.IConversionOptions): [ 'object' ].<string, any>;
+
+        /**
+         * Converts this UserLostConnectRes to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): [ 'object' ].<string, any>;
+    }
+
+    /** Properties of a LoginLogicReq. */
+    interface ILoginLogicReq {
+    }
+
+    /** Represents a LoginLogicReq. */
+    class LoginLogicReq implements ILoginLogicReq {
+
+        /**
+         * Constructs a new LoginLogicReq.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: GameHoodleProto.ILoginLogicReq);
+
+        /**
+         * Creates a new LoginLogicReq instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns LoginLogicReq instance
+         */
+        public static create(properties?: GameHoodleProto.ILoginLogicReq): GameHoodleProto.LoginLogicReq;
+
+        /**
+         * Encodes the specified LoginLogicReq message. Does not implicitly {@link GameHoodleProto.LoginLogicReq.verify|verify} messages.
+         * @param message LoginLogicReq message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: GameHoodleProto.ILoginLogicReq, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified LoginLogicReq message, length delimited. Does not implicitly {@link GameHoodleProto.LoginLogicReq.verify|verify} messages.
+         * @param message LoginLogicReq message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: GameHoodleProto.ILoginLogicReq, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a LoginLogicReq message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns LoginLogicReq
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): GameHoodleProto.LoginLogicReq;
+
+        /**
+         * Decodes a LoginLogicReq message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns LoginLogicReq
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): GameHoodleProto.LoginLogicReq;
+
+        /**
+         * Verifies a LoginLogicReq message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: [ 'object' ].<string, any>): (string|null);
+
+        /**
+         * Creates a LoginLogicReq message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns LoginLogicReq
+         */
+        public static fromObject(object: [ 'object' ].<string, any>): GameHoodleProto.LoginLogicReq;
+
+        /**
+         * Creates a plain object from a LoginLogicReq message. Also converts values to other types if specified.
+         * @param message LoginLogicReq
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: GameHoodleProto.LoginLogicReq, options?: $protobuf.IConversionOptions): [ 'object' ].<string, any>;
+
+        /**
+         * Converts this LoginLogicReq to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): [ 'object' ].<string, any>;
+    }
+
+    /** Properties of a LoginLogicRes. */
+    interface ILoginLogicRes {
+
+        /** LoginLogicRes status */
+        status: number;
+    }
+
+    /** Represents a LoginLogicRes. */
+    class LoginLogicRes implements ILoginLogicRes {
+
+        /**
+         * Constructs a new LoginLogicRes.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: GameHoodleProto.ILoginLogicRes);
+
+        /** LoginLogicRes status. */
+        public status: number;
+
+        /**
+         * Creates a new LoginLogicRes instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns LoginLogicRes instance
+         */
+        public static create(properties?: GameHoodleProto.ILoginLogicRes): GameHoodleProto.LoginLogicRes;
+
+        /**
+         * Encodes the specified LoginLogicRes message. Does not implicitly {@link GameHoodleProto.LoginLogicRes.verify|verify} messages.
+         * @param message LoginLogicRes message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: GameHoodleProto.ILoginLogicRes, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified LoginLogicRes message, length delimited. Does not implicitly {@link GameHoodleProto.LoginLogicRes.verify|verify} messages.
+         * @param message LoginLogicRes message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: GameHoodleProto.ILoginLogicRes, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a LoginLogicRes message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns LoginLogicRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): GameHoodleProto.LoginLogicRes;
+
+        /**
+         * Decodes a LoginLogicRes message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns LoginLogicRes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): GameHoodleProto.LoginLogicRes;
+
+        /**
+         * Verifies a LoginLogicRes message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: [ 'object' ].<string, any>): (string|null);
+
+        /**
+         * Creates a LoginLogicRes message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns LoginLogicRes
+         */
+        public static fromObject(object: [ 'object' ].<string, any>): GameHoodleProto.LoginLogicRes;
+
+        /**
+         * Creates a plain object from a LoginLogicRes message. Also converts values to other types if specified.
+         * @param message LoginLogicRes
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: GameHoodleProto.LoginLogicRes, options?: $protobuf.IConversionOptions): [ 'object' ].<string, any>;
+
+        /**
+         * Converts this LoginLogicRes to JSON.
          * @returns JSON object
          */
         public toJSON(): [ 'object' ].<string, any>;

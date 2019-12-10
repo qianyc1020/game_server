@@ -8,7 +8,7 @@ var Log = require("../../../utils/Log");
 var Room = /** @class */ (function () {
     function Room(roomid) {
         this._roomid = "";
-        this._room_info = "";
+        this._gamerule = "";
         this._player_set = {};
         this._host_player_uid = -1;
         this._roomid = roomid;
@@ -16,11 +16,11 @@ var Room = /** @class */ (function () {
     Room.prototype.get_room_id = function () {
         return this._roomid;
     };
-    Room.prototype.set_room_info = function (roominfo) {
-        this._room_info = roominfo;
+    Room.prototype.set_game_rule = function (gamerule) {
+        this._gamerule = gamerule;
     };
-    Room.prototype.get_room_info = function () {
-        return this._room_info;
+    Room.prototype.get_game_rule = function () {
+        return this._gamerule;
     };
     Room.prototype.add_player = function (player) {
         this._player_set[player.get_uid()] = player;

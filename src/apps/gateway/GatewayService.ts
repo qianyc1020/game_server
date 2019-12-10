@@ -7,6 +7,7 @@ import ServiceBase from "../../netbus/ServiceBase"
 import { Stype, StypeName } from '../protocol/Stype';
 import { Cmd } from '../protocol/AuthProto';
 import CommonProto from '../protocol/CommonProto';
+import ArrayUtil from '../../utils/ArrayUtil';
 
 let Log = require("../../utils/Log")
 
@@ -32,7 +33,7 @@ class GatewayService extends ServiceBase {
 	
 	//客户端发到网关，网关转发到服务器
 	static on_recv_client_player_cmd(session:any, stype:number, ctype:number, utag:number, proto_type:number, raw_cmd:any){
-		Log.info("on_recv_client_player_cmd:", ProtoCmd.getProtoName(stype)+ ",", ProtoCmd.getCmdName(stype,ctype)+ ",", "utag:" + utag)
+		Log.info("recv_client>>> ", ProtoCmd.getProtoName(stype) + "," , ProtoCmd.getCmdName(stype,ctype)+ " ,body:" ,ProtoManager.decode_cmd(proto_type, raw_cmd) )
 		let server_session = NetBus.get_server_session(stype);
 		if (!server_session) {
 			return;
@@ -53,7 +54,8 @@ class GatewayService extends ServiceBase {
 	}
 	//服务器发到网关，网关转发到客户端
 	static on_recv_server_player_cmd (session:any, stype:number, ctype:number, utag:number, proto_type:number, raw_cmd:any) {
-		Log.info("on_recv_server_player_cmd:", ProtoCmd.getProtoName(stype)+ ",", ProtoCmd.getCmdName(stype,ctype)+ ",", "utag:" + utag)
+		// Log.info("on_recv_server_player_cmd:", ProtoCmd.getProtoName(stype)+ ",", ProtoCmd.getCmdName(stype,ctype)+ ",", "utag:" + utag)
+		Log.info("recv_server>>> ", ProtoCmd.getProtoName(stype) + "," , ProtoCmd.getCmdName(stype,ctype) + " ,utag:" , utag , " ,body:", ProtoManager.decode_cmd(proto_type, raw_cmd))
 		let client_session = null;
 		if (GatewayService.is_login_res_cmd(stype, ctype)) { // 还没登录,utag == session.session_key
 			client_session = NetBus.get_client_session(utag);
@@ -61,7 +63,6 @@ class GatewayService extends ServiceBase {
 				return;
 			}
 			let body = ProtoManager.decode_cmd(proto_type, raw_cmd);
-			// Log.info("on_recv_server_player_cmd,body: " , body)
 			if (body.status == Respones.OK) {
 				// 以前你登陆过,发送一个命令给这个客户端，告诉它说以前有人登陆
 				let prev_session = GatewayService.get_session_by_uid(body.uid);
@@ -69,7 +70,7 @@ class GatewayService extends ServiceBase {
 					NetBus.send_cmd(prev_session, stype, Cmd.eReloginRes, utag, proto_type);
 					prev_session.uid = 0; // 可能会有隐患，是否通知其它的服务 TODO
 					NetBus.session_close(prev_session);
-					Log.info("on_recv_server_player_cmd: relogin: ", utag);
+					// Log.info("on_recv_server_player_cmd: relogin: ", utag);
 				}
 
 				if(body.uid){
@@ -82,11 +83,17 @@ class GatewayService extends ServiceBase {
 		}else{ //已经登录,utag == uid
 			client_session = GatewayService.get_session_by_uid(utag);
 		}
-	
+
+		// for(let uid in uid_session_map){
+		// 	Log.info("client_session map: " , uid)
+		// }
+		// Log.info("hcc>>clientSessionNum: " , ArrayUtil.GetArrayLen(uid_session_map))
+
 		if (client_session){
 			ProtoTools.clear_utag_inbuf(raw_cmd);
 			NetBus.send_encoded_cmd(client_session,raw_cmd);
-			if(ctype == Cmd.eLoginOutRes){
+			let body = ProtoManager.decode_cmd(proto_type, raw_cmd);
+			if(ctype == Cmd.eLoginOutRes && stype == Stype.Auth){
 				GatewayService.clear_session_with_uid(utag);
 			}
 		}
@@ -105,7 +112,6 @@ class GatewayService extends ServiceBase {
 
 		// 客户端被迫掉线
 		let utag = session.uid;
-		// Log.info("hcc>> ",stype, CommonProto.eUserLostConnectRes, utag, ProtoTools.ProtoType.PROTO_JSON)
 		NetBus.send_cmd(server_session, stype, CommonProto.eUserLostConnectRes, utag, ProtoTools.ProtoType.PROTO_JSON)
 	}
 	//登录请求

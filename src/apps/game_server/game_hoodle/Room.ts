@@ -5,7 +5,7 @@ let Log = require("../../../utils/Log")
 
 class Room {
     _roomid:string = "";
-    _room_info:string = "";
+    _gamerule:string = "";
     _player_set:any = {};
     _host_player_uid:number = -1;
 
@@ -17,12 +17,12 @@ class Room {
         return this._roomid;
     }
 
-    set_room_info(roominfo:string){
-        this._room_info = roominfo;
+    set_game_rule(gamerule:string){
+        this._gamerule = gamerule;
     }
 
-    get_room_info(){
-        return this._room_info;
+    get_game_rule(){
+        return this._gamerule;
     }
 
     add_player(player:Player){

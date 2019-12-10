@@ -23,7 +23,7 @@ var Cmd;
     Cmd[Cmd["eCheckLinkGameReq"] = 13] = "eCheckLinkGameReq";
     Cmd[Cmd["eCheckLinkGameRes"] = 14] = "eCheckLinkGameRes";
     Cmd[Cmd["eUserInfoRes"] = 15] = "eUserInfoRes";
-    Cmd[Cmd["eRoomInfoRes"] = 16] = "eRoomInfoRes";
+    Cmd[Cmd["eGameRuleRes"] = 16] = "eGameRuleRes";
     Cmd[Cmd["eRoomIdRes"] = 17] = "eRoomIdRes";
     Cmd[Cmd["ePlayCountRes"] = 18] = "ePlayCountRes";
     Cmd[Cmd["eUserReadyReq"] = 19] = "eUserReadyReq";
@@ -53,7 +53,7 @@ exports.CmdName = (_a = {},
     _a[13] = "CheckLinkGameReq",
     _a[14] = "CheckLinkGameRes",
     _a[15] = "UserInfoRes",
-    _a[16] = "RoomInfoRes",
+    _a[16] = "GameRuleRes",
     _a[17] = "RoomIdRes",
     _a[18] = "PlayCountRes",
     _a[19] = "UserReadyReq",

@@ -38,7 +38,7 @@ enum Cmd {
 
 	eUserInfoRes = 15;		//玩家信息
 
-	eRoomInfoRes = 16; 	//房间规则
+	eGameRuleRes = 16; 	//房间规则
 	eRoomIdRes = 17; 	//房间号
 	ePlayCountRes = 18; 	//局数
 
@@ -57,7 +57,7 @@ enum Cmd {
 ///////////////////////////////////
 
 message CreateRoomReq {
-	required string roominfo = 1;
+	required string gamerule = 1;
 }
 
 message CreateRoomRes {
@@ -126,8 +126,8 @@ message UserInfoRes {
 	repeated UserInfo userinfo = 1;
 }
 
-message RoomInfoRes {
-	required string roominfo = 1;
+message GameRuleRes {
+	required string gamerule = 1;
 }
 
 message RoomIdRes {
