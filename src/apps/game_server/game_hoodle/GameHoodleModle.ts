@@ -61,51 +61,8 @@ class GameHoodleModle {
             break;
         }
     }
-    //玩家离开逻辑服务
-    on_user_lost_connect(session:any, utag:number, proto_type:number, raw_cmd:any){
-        let body =  this.decode_cmd(proto_type,raw_cmd);
-        Log.warn("game on_user_lost_connect utag:" ,utag , body)
-        if(!this.check_player(utag)){
-            return;
-        }
-        let player:Player = PlayerManager.getInstance().get_player(utag);
-        if(player){
-            player.set_offline(true)
-            let room = RoomManager.getInstance().get_room_by_uid(utag);
-            if(room){
-                //send to room other player user lost connect
-                // room.broadcast_in_room()
-            }
-        }
-        PlayerManager.getInstance().delete_player(utag)
-        
-    }
-    //登录逻辑服务
-    private login_logic(session:any, utag:number, proto_type:number, raw_cmd:any){
-        let player:Player = PlayerManager.getInstance().get_player(utag)
-        if(player){
-            Log.info("player is exist, uid: " , utag)
-            player.init_session(session, utag, proto_type,function (status:number, data:any) {
-                if(status == Response.OK){
-                    GameSendMsg.send(session, Cmd.eLoginLogicRes, utag, proto_type, {status: Response.OK})
-                }else{
-                    GameSendMsg.send(session, Cmd.eLoginLogicRes, utag, proto_type, {status: Response.SYSTEM_ERR})
-                }
-            })
-        }else{
-            Log.info("player is not exist , new player uid: " , utag)
-            PlayerManager.getInstance().alloc_player(session, utag, proto_type,function(status:number, data:any) {
-                if(status == Response.OK){
-                    GameSendMsg.send(session, Cmd.eLoginLogicRes, utag, proto_type, {status: Response.OK})
-                }else{
-                    GameSendMsg.send(session, Cmd.eLoginLogicRes, utag, proto_type, {status: Response.SYSTEM_ERR})
-                }      
-            })
-        }
-        
-    }
 
-    ///////////////////////////////////////
+   /////////////////////////////////////// interface start
     //检测是否非法玩家
     private check_player(utag:number){
         let player = PlayerManager.getInstance().get_player(utag);
@@ -135,20 +92,20 @@ class GameHoodleModle {
          return;
        }
        let player_set = room.get_all_player();
-       Log.info("broadcast_player_info_in_rooom000")
+    //    Log.info("broadcast_player_info_in_rooom000")
        let userinfo_array = [];
        try {
            for(let key in player_set){
                let player:Player = player_set[key];
-               Log.info("broadcast_player_info_in_rooom111: " , player.get_uid())
+            //    Log.info("broadcast_player_info_in_rooom111: " , player.get_uid())
                if (player){
-                Log.info("broadcast_player_info_in_rooom222: " , player.get_uid())
+                // Log.info("broadcast_player_info_in_rooom222: " , player.get_uid())
                    let userinfo = {
                        numberid: String(player.get_numberid()),
-                       userInfoString: JSON.stringify(player.get_ucenter_info()),
+                       userInfoString: JSON.stringify(player.get_player_info()),
                    }
                    userinfo_array.push(userinfo);
-                   Log.info("broadcast_player_info_in_rooom333: len: " , userinfo_array.length)
+                //    Log.info("broadcast_player_info_in_rooom333: len: " , userinfo_array.length)
                }
            }
         room.broadcast_in_room(Cmd.eUserInfoRes,{userinfo: userinfo_array}, not_to_player)
@@ -179,7 +136,7 @@ class GameHoodleModle {
                 if (player){
                     let userinfo = {
                         numberid: String(player.get_numberid()),
-                        userInfoString: JSON.stringify(player.get_ucenter_info()),
+                        userInfoString: JSON.stringify(player.get_player_info()),
                     }
                     userinfo_array.push(userinfo);
                 }
@@ -189,7 +146,51 @@ class GameHoodleModle {
             Log.error(error);
         }
     }
-    ///////////////////////////////////////
+    /////////////////////////////////////// interface end
+
+    //玩家离开逻辑服务
+    on_user_lost_connect(session:any, utag:number, proto_type:number, raw_cmd:any){
+        let body =  this.decode_cmd(proto_type,raw_cmd);
+        Log.warn("game on_user_lost_connect utag:" ,utag , body)
+        if(!this.check_player(utag)){
+            return;
+        }
+        let player:Player = PlayerManager.getInstance().get_player(utag);
+        if(player){
+            let room = RoomManager.getInstance().get_room_by_uid(utag);
+            if(room){
+                player.set_offline(true)
+                //send to room other player user lost connect
+                this.broadcast_player_info_in_rooom(room, player);
+            }
+        }
+        PlayerManager.getInstance().delete_player(utag)
+        
+    }
+    //登录逻辑服务
+    private login_logic(session:any, utag:number, proto_type:number, raw_cmd:any){
+        let player:Player = PlayerManager.getInstance().get_player(utag)
+        if(player){
+            Log.info("player is exist, uid: " , utag)
+            player.init_session(session, utag, proto_type,function (status:number, data:any) {
+                if(status == Response.OK){
+                    GameSendMsg.send(session, Cmd.eLoginLogicRes, utag, proto_type, {status: Response.OK})
+                }else{
+                    GameSendMsg.send(session, Cmd.eLoginLogicRes, utag, proto_type, {status: Response.SYSTEM_ERR})
+                }
+            })
+        }else{
+            Log.info("player is not exist , new player uid: " , utag)
+            PlayerManager.getInstance().alloc_player(session, utag, proto_type,function(status:number, data:any) {
+                if(status == Response.OK){
+                    GameSendMsg.send(session, Cmd.eLoginLogicRes, utag, proto_type, {status: Response.OK})
+                }else{
+                    GameSendMsg.send(session, Cmd.eLoginLogicRes, utag, proto_type, {status: Response.SYSTEM_ERR})
+                }      
+            })
+        }
+        
+    }
 
     //创建房间
     private create_room(session:any, utag:number, proto_type:number, raw_cmd:any){
@@ -243,6 +244,15 @@ class GameHoodleModle {
             Log.warn("join_room error, room is not exist!")
             GameSendMsg.send(session, Cmd.eJoinRoomRes, utag, proto_type, {status: Response.SYSTEM_ERR})
             return;
+        }
+        //自己创建了一个房间，不能加入其它人的房间，只能加入自己的房间
+        let uroom = RoomManager.getInstance().get_room_by_uid(utag);
+        if(uroom){
+            if(room.get_room_id() !== uroom.get_room_id()){
+                Log.warn("join_room error, player is create one room!")
+                GameSendMsg.send(session, Cmd.eJoinRoomRes, utag, proto_type, {status: Response.INVALIDI_OPT})
+                return;
+            }
         }
 
         let player:Player = PlayerManager.getInstance().get_player(utag);
@@ -350,6 +360,7 @@ class GameHoodleModle {
 
         Log.info("back room success! roomid: " , room.get_room_id())
         player.set_offline(false);
+        room.add_player(player)
         GameSendMsg.send(session, Cmd.eBackRoomRes, utag, proto_type, {status: Response.OK})
         this.broadcast_player_info_in_rooom(room, player)
     }
@@ -369,11 +380,11 @@ class GameHoodleModle {
         let player:Player = PlayerManager.getInstance().get_player(utag);
         let room = RoomManager.getInstance().get_room_by_uid(player.get_uid())
         if(room){
+            let gamerule = room.get_game_rule();
             this.send_player_info(player);
             player.send_cmd(Cmd.ePlayCountRes, {playcount:"0", totalplaycount:"0"})
             player.send_cmd(Cmd.eCheckLinkGameRes, {status: Response.OK})
             player.send_cmd(Cmd.eRoomIdRes,{roomid: room.get_room_id()})
-            let gamerule = room.get_game_rule();
             player.send_cmd(Cmd.eGameRuleRes,{gamerule: gamerule})
         }
     }

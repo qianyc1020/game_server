@@ -33,7 +33,7 @@ class Room {
     kick_player(uid:number){
         if(this._player_set[uid]){
             delete this._player_set[uid];
-            Log.info("delete player by uid success , playercount: " , this.get_player_count())
+            Log.info("room kick player by uid success , playercount: " , this.get_player_count())
             return true;
         }
         return false;
@@ -49,7 +49,7 @@ class Room {
                 delete this._player_set[value];
             }
         });
-        Log.info("delete all player, playercount: " , this.get_player_count());
+        Log.info("room kick all player, playercount: " , this.get_player_count());
     }
 
     get_all_player(){
