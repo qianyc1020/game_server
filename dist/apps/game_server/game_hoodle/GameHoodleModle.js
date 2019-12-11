@@ -55,6 +55,89 @@ var GameHoodleModle = /** @class */ (function () {
                 break;
         }
     };
+    /////////////////////////////////////// interface start
+    //检测是否非法玩家
+    GameHoodleModle.prototype.check_player = function (utag) {
+        var player = PlayerManager_1["default"].getInstance().get_player(utag);
+        if (player) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
+    //检测是否非法房间
+    GameHoodleModle.prototype.check_room = function (utag) {
+        var player = PlayerManager_1["default"].getInstance().get_player(utag);
+        if (!player) {
+            return false;
+        }
+        var room = RoomManager_1["default"].getInstance().get_room_by_uid(player.get_uid());
+        if (!room) {
+            return false;
+        }
+        return true;
+    };
+    //向房间内所有人发送局内玩家信息
+    GameHoodleModle.prototype.broadcast_player_info_in_rooom = function (room, not_to_player) {
+        if (!room) {
+            return;
+        }
+        var player_set = room.get_all_player();
+        //    Log.info("broadcast_player_info_in_rooom000")
+        var userinfo_array = [];
+        try {
+            for (var key in player_set) {
+                var player = player_set[key];
+                //    Log.info("broadcast_player_info_in_rooom111: " , player.get_uid())
+                if (player) {
+                    // Log.info("broadcast_player_info_in_rooom222: " , player.get_uid())
+                    var userinfo = {
+                        numberid: String(player.get_numberid()),
+                        userInfoString: JSON.stringify(player.get_player_info())
+                    };
+                    userinfo_array.push(userinfo);
+                    //    Log.info("broadcast_player_info_in_rooom333: len: " , userinfo_array.length)
+                }
+            }
+            room.broadcast_in_room(GameHoodleProto_1.Cmd.eUserInfoRes, { userinfo: userinfo_array }, not_to_player);
+        }
+        catch (error) {
+            Log.error(error);
+        }
+    };
+    //向某个玩家发送局内玩家信息
+    GameHoodleModle.prototype.send_player_info = function (player) {
+        if (!player) {
+            return;
+        }
+        var room = RoomManager_1["default"].getInstance().get_room_by_uid(player.get_uid());
+        if (!room) {
+            return;
+        }
+        var player_set = room.get_all_player();
+        if (ArrayUtil_1["default"].GetArrayLen(player_set) <= 0) {
+            return;
+        }
+        var userinfo_array = [];
+        try {
+            for (var key in player_set) {
+                var player_1 = player_set[key];
+                if (player_1) {
+                    var userinfo = {
+                        numberid: String(player_1.get_numberid()),
+                        userInfoString: JSON.stringify(player_1.get_player_info())
+                    };
+                    userinfo_array.push(userinfo);
+                }
+            }
+            player.send_cmd(GameHoodleProto_1.Cmd.eUserInfoRes, { userinfo: userinfo_array });
+        }
+        catch (error) {
+            Log.error(error);
+        }
+    };
+    /////////////////////////////////////// interface end
     //玩家离开逻辑服务
     GameHoodleModle.prototype.on_user_lost_connect = function (session, utag, proto_type, raw_cmd) {
         var body = this.decode_cmd(proto_type, raw_cmd);
@@ -64,11 +147,11 @@ var GameHoodleModle = /** @class */ (function () {
         }
         var player = PlayerManager_1["default"].getInstance().get_player(utag);
         if (player) {
-            player.set_offline(true);
             var room = RoomManager_1["default"].getInstance().get_room_by_uid(utag);
             if (room) {
+                player.set_offline(true);
                 //send to room other player user lost connect
-                // room.broadcast_in_room()
+                this.broadcast_player_info_in_rooom(room, player);
             }
         }
         PlayerManager_1["default"].getInstance().delete_player(utag);
@@ -99,89 +182,6 @@ var GameHoodleModle = /** @class */ (function () {
             });
         }
     };
-    ///////////////////////////////////////
-    //检测是否非法玩家
-    GameHoodleModle.prototype.check_player = function (utag) {
-        var player = PlayerManager_1["default"].getInstance().get_player(utag);
-        if (player) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    };
-    //检测是否非法房间
-    GameHoodleModle.prototype.check_room = function (utag) {
-        var player = PlayerManager_1["default"].getInstance().get_player(utag);
-        if (!player) {
-            return false;
-        }
-        var room = RoomManager_1["default"].getInstance().get_room_by_uid(player.get_uid());
-        if (!room) {
-            return false;
-        }
-        return true;
-    };
-    //向房间内所有人发送局内玩家信息
-    GameHoodleModle.prototype.broadcast_player_info_in_rooom = function (room, not_to_player) {
-        if (!room) {
-            return;
-        }
-        var player_set = room.get_all_player();
-        Log.info("broadcast_player_info_in_rooom000");
-        var userinfo_array = [];
-        try {
-            for (var key in player_set) {
-                var player = player_set[key];
-                Log.info("broadcast_player_info_in_rooom111: ", player.get_uid());
-                if (player) {
-                    Log.info("broadcast_player_info_in_rooom222: ", player.get_uid());
-                    var userinfo = {
-                        numberid: String(player.get_numberid()),
-                        userInfoString: JSON.stringify(player.get_ucenter_info())
-                    };
-                    userinfo_array.push(userinfo);
-                    Log.info("broadcast_player_info_in_rooom333: len: ", userinfo_array.length);
-                }
-            }
-            room.broadcast_in_room(GameHoodleProto_1.Cmd.eUserInfoRes, { userinfo: userinfo_array }, not_to_player);
-        }
-        catch (error) {
-            Log.error(error);
-        }
-    };
-    //向某个玩家发送局内玩家信息
-    GameHoodleModle.prototype.send_player_info = function (player) {
-        if (!player) {
-            return;
-        }
-        var room = RoomManager_1["default"].getInstance().get_room_by_uid(player.get_uid());
-        if (!room) {
-            return;
-        }
-        var player_set = room.get_all_player();
-        if (ArrayUtil_1["default"].GetArrayLen(player_set) <= 0) {
-            return;
-        }
-        var userinfo_array = [];
-        try {
-            for (var key in player_set) {
-                var player_1 = player_set[key];
-                if (player_1) {
-                    var userinfo = {
-                        numberid: String(player_1.get_numberid()),
-                        userInfoString: JSON.stringify(player_1.get_ucenter_info())
-                    };
-                    userinfo_array.push(userinfo);
-                }
-            }
-            player.send_cmd(GameHoodleProto_1.Cmd.eUserInfoRes, { userinfo: userinfo_array });
-        }
-        catch (error) {
-            Log.error(error);
-        }
-    };
-    ///////////////////////////////////////
     //创建房间
     GameHoodleModle.prototype.create_room = function (session, utag, proto_type, raw_cmd) {
         if (!this.check_player(utag)) {
@@ -230,6 +230,15 @@ var GameHoodleModle = /** @class */ (function () {
             Log.warn("join_room error, room is not exist!");
             GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eJoinRoomRes, utag, proto_type, { status: Response_1["default"].SYSTEM_ERR });
             return;
+        }
+        //自己创建了一个房间，不能加入其它人的房间，只能加入自己的房间
+        var uroom = RoomManager_1["default"].getInstance().get_room_by_uid(utag);
+        if (uroom) {
+            if (room.get_room_id() !== uroom.get_room_id()) {
+                Log.warn("join_room error, player is create one room!");
+                GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eJoinRoomRes, utag, proto_type, { status: Response_1["default"].INVALIDI_OPT });
+                return;
+            }
         }
         var player = PlayerManager_1["default"].getInstance().get_player(utag);
         room.add_player(player);
@@ -329,6 +338,7 @@ var GameHoodleModle = /** @class */ (function () {
         }
         Log.info("back room success! roomid: ", room.get_room_id());
         player.set_offline(false);
+        room.add_player(player);
         GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eBackRoomRes, utag, proto_type, { status: Response_1["default"].OK });
         this.broadcast_player_info_in_rooom(room, player);
     };
@@ -346,11 +356,11 @@ var GameHoodleModle = /** @class */ (function () {
         var player = PlayerManager_1["default"].getInstance().get_player(utag);
         var room = RoomManager_1["default"].getInstance().get_room_by_uid(player.get_uid());
         if (room) {
+            var gamerule = room.get_game_rule();
             this.send_player_info(player);
             player.send_cmd(GameHoodleProto_1.Cmd.ePlayCountRes, { playcount: "0", totalplaycount: "0" });
             player.send_cmd(GameHoodleProto_1.Cmd.eCheckLinkGameRes, { status: Response_1["default"].OK });
             player.send_cmd(GameHoodleProto_1.Cmd.eRoomIdRes, { roomid: room.get_room_id() });
-            var gamerule = room.get_game_rule();
             player.send_cmd(GameHoodleProto_1.Cmd.eGameRuleRes, { gamerule: gamerule });
         }
     };

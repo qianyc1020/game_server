@@ -29,7 +29,7 @@ var Room = /** @class */ (function () {
     Room.prototype.kick_player = function (uid) {
         if (this._player_set[uid]) {
             delete this._player_set[uid];
-            Log.info("delete player by uid success , playercount: ", this.get_player_count());
+            Log.info("room kick player by uid success , playercount: ", this.get_player_count());
             return true;
         }
         return false;
@@ -45,7 +45,7 @@ var Room = /** @class */ (function () {
                 delete _this._player_set[value];
             }
         });
-        Log.info("delete all player, playercount: ", this.get_player_count());
+        Log.info("room kick all player, playercount: ", this.get_player_count());
     };
     Room.prototype.get_all_player = function () {
         return this._player_set;
