@@ -6,7 +6,7 @@ exports.__esModule = true;
 var Room_1 = __importDefault(require("./Room"));
 var ArrayUtil_1 = __importDefault(require("../../../utils/ArrayUtil"));
 var StringUtil_1 = __importDefault(require("../../../utils/StringUtil"));
-var Log = require("../../../utils/Log");
+var Log_1 = __importDefault(require("../../../utils/Log"));
 var RoomManager = /** @class */ (function () {
     function RoomManager() {
         this._room_set = {}; //roomid-->room
@@ -26,12 +26,12 @@ var RoomManager = /** @class */ (function () {
     RoomManager.prototype.alloc_room = function () {
         var roomid = this.generate_roomid();
         if (this._room_set[roomid]) {
-            Log.warn("alloc_room: room is exist!!!!");
+            Log_1["default"].warn("alloc_room: room is exist!!!!");
             return this._room_set[roomid];
         }
         var room = new Room_1["default"](roomid);
         this._room_set[roomid] = room;
-        Log.info("creat room success roomid: ", roomid, " ,roomCount: ", this.get_room_count());
+        Log_1["default"].info("creat room success roomid: ", roomid, " ,roomCount: ", this.get_room_count());
         return room;
     };
     //用roomid获取房间
@@ -44,11 +44,11 @@ var RoomManager = /** @class */ (function () {
     RoomManager.prototype.delete_room = function (roomid) {
         if (this._room_set[roomid]) {
             delete this._room_set[roomid];
-            Log.warn("delete_room:", roomid, "success, roomCount: ", this.get_room_count());
+            Log_1["default"].warn("delete_room:", roomid, "success, roomCount: ", this.get_room_count());
             return true;
         }
         else {
-            Log.warn("delete_room:", roomid, "is not in game server!!!!");
+            Log_1["default"].warn("delete_room:", roomid, "is not in game server!!!!");
             return false;
         }
     };

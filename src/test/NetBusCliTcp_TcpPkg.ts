@@ -1,9 +1,9 @@
-var Log = require("../utils/Log")
 var net = require("net");
 
 import ProtoManager from "../netbus/ProtoManager"
 import Platform from "../utils/Platform"
 import TcpPkg from "../netbus/TcpPkg"
+import Log from '../utils/Log';
 
 var local = "127.0.0.1"
 var remote = "www.hccfun.com"

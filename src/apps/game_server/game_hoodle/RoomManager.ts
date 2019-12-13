@@ -2,8 +2,7 @@ import Room from './Room';
 import ArrayUtil from '../../../utils/ArrayUtil';
 import StringUtil from '../../../utils/StringUtil';
 import Player from './Player';
-
-var Log =  require("../../../utils/Log")
+import Log from '../../../utils/Log';
 
 class RoomManager {
     private static readonly Instance: RoomManager = new RoomManager();

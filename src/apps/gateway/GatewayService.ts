@@ -8,8 +8,7 @@ import { Stype, StypeName } from '../protocol/Stype';
 import { Cmd } from '../protocol/AuthProto';
 import CommonProto from '../protocol/CommonProto';
 import ArrayUtil from '../../utils/ArrayUtil';
-
-let Log = require("../../utils/Log")
+import Log from '../../utils/Log';
 
 let LOGIN_ERQ_CMD = [
 	Cmd.eUnameLoginReq, 

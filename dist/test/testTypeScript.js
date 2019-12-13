@@ -1,15 +1,17 @@
 "use strict";
+// Log.info('hccccc tst ts')
+// Log.warn('hccccc tst ts')
+// Log.error('hccccc tst ts')
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-var Log = require("../utils/Log");
-Log.info('hccccc tst ts');
-Log.warn('hccccc tst ts');
-Log.error('hccccc tst ts');
-var Platform_1 = __importDefault(require("../utils/Platform"));
+// import CryptoUtil from "../utils/CryptoUtil"
+// import StringUtil from "../utils/StringUtil"
+// import TimeUtil from "../utils/TimeUtil"
+// import Platform from "../utils/Platform"
 // var Platform = require("../utils/Platform")
-Log.info(Platform_1["default"]);
+// Log.info(Platform)
 // import CryptoUtil = require("../utils/CryptoUtil")
 // Log.info(CryptoUtil)
 // var base64_encode = CryptoUtil.base64_encode("huangshucheng")
@@ -39,8 +41,13 @@ for(var stype in service_module) {
 */
 /////////////
 // import { Cmd, CmdName } from "../apps/auth_server/AuthProto"
-Log.info("---------------");
+var Log_1 = __importDefault(require("../utils/Log"));
+var info = "hccccc";
+Log_1["default"].info("---------------", info);
 // Log.info(Cmd)
-Log.info("---------------\n\n");
+Log_1["default"].info("---------------");
+Log_1["default"].info("---------------");
+console.log("ccccccccccccccc");
+console.trace("tracelog:");
 // Log.info(CmdName)
 //# sourceMappingURL=testTypeScript.js.map

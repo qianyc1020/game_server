@@ -1,7 +1,6 @@
 import MySqlAuth from '../database/MySqlAuth';
 import GameConf from '../apps/GameConf';
-
-let Log = require("../utils/Log")
+import Log from '../utils/Log';
 
 var db = GameConf.auth_database;
 MySqlAuth.connect(db.host, db.port, db.db_name, db.uname, db.upwd)

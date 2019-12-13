@@ -7,8 +7,7 @@ import StringUtil from '../../utils/StringUtil';
 import ProtoManager from '../../netbus/ProtoManager';
 import AuthSendMsg from './AuthSendMsg';
 import CommonProto from '../protocol/CommonProto';
-
-var Log =  require("../../utils/Log")
+import Log from '../../utils/Log';
 
 class AuthModel {
     private static readonly Instance: AuthModel = new AuthModel();

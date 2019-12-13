@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 exports.__esModule = true;
 var ProtoTools_1 = __importDefault(require("./ProtoTools"));
-var Log = require("../utils/Log");
 var ProtoManager = /** @class */ (function () {
     function ProtoManager() {
     }

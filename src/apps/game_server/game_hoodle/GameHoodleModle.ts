@@ -8,8 +8,7 @@ import RoomManager from './RoomManager';
 import Response from '../../Response';
 import Room from './Room';
 import ArrayUtil from '../../../utils/ArrayUtil';
-
-var Log =  require("../../../utils/Log")
+import Log from '../../../utils/Log';
 
 class GameHoodleModle {
     private static readonly Instance: GameHoodleModle = new GameHoodleModle();

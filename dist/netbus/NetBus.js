@@ -17,8 +17,8 @@ var WebSocket = __importStar(require("ws"));
 var TcpSocket = __importStar(require("net"));
 var Stype_1 = require("../apps/protocol/Stype");
 var ArrayUtil_1 = __importDefault(require("../utils/ArrayUtil"));
+var Log_1 = __importDefault(require("../utils/Log"));
 var StickPackage = require("stickpackage");
-var Log = require("../utils/Log");
 var global_session_list = {}; //客户端session
 var global_seesion_key = 1; //客户端session key
 var server_connect_list = {}; //当前作为客户端，连接到的其他服务器的session
@@ -28,7 +28,7 @@ var NetBus = /** @class */ (function () {
     }
     //开启webserver
     NetBus.start_ws_server = function (ip, port, is_encrypt) {
-        Log.info("start ws server:", ip, port);
+        Log_1["default"].info("start ws server:", ip, port);
         var server = new WebSocket.Server({ host: ip, port: port });
         server.on("connection", function (client_session) {
             NetBus.on_session_enter(client_session, true, is_encrypt);
@@ -37,22 +37,22 @@ var NetBus = /** @class */ (function () {
         server.on("error", function (err) {
         });
         server.on("close", function (err) {
-            Log.error("WebSocket server listen close!!");
+            Log_1["default"].error("WebSocket server listen close!!");
         });
     };
     //开启tcpserver
     NetBus.start_tcp_server = function (ip, port, is_encrypt) {
-        Log.info("start tcp server:", ip, port);
+        Log_1["default"].info("start tcp server:", ip, port);
         var server = TcpSocket.createServer(function (client_session) {
             NetBus.on_session_enter(client_session, false, is_encrypt);
             NetBus.tcp_add_client_session_event(client_session);
         });
         // 监听发生错误的时候调用
         server.on("error", function () {
-            Log.error("tcp server listen error");
+            Log_1["default"].error("tcp server listen error");
         });
         server.on("close", function () {
-            Log.error("tcp server listen close");
+            Log_1["default"].error("tcp server listen close");
         });
         server.listen({
             host: ip,
@@ -82,7 +82,7 @@ var NetBus = /** @class */ (function () {
             NetBus.session_close(session);
             // 重新连接到服务器
             setTimeout(function () {
-                Log.warn("reconnect:", Stype_1.StypeName[stype], host, port);
+                Log_1["default"].warn("reconnect:", Stype_1.StypeName[stype], host, port);
                 NetBus.connect_tcp_server(stype, host, port, is_encrypt);
             }, 1000);
         });
@@ -110,10 +110,10 @@ var NetBus = /** @class */ (function () {
     // 有客户端的session接入进来
     NetBus.on_session_enter = function (session, is_websocket, is_encrypt) {
         if (is_websocket) {
-            Log.info("websocket client session enter", session._socket.remoteAddress, session._socket.remotePort);
+            Log_1["default"].info("websocket client session enter", session._socket.remoteAddress, session._socket.remotePort);
         }
         else {
-            Log.info("tcpsocket client session enter", session.remoteAddress, session.remotePort);
+            Log_1["default"].info("tcpsocket client session enter", session.remoteAddress, session.remotePort);
         }
         session.uid = 0; // 用户的UID
         session.last_pkg = null; // 表示我们存储的上一次没有处理完的TCP包;
@@ -127,7 +127,7 @@ var NetBus = /** @class */ (function () {
         //加入到serssion 列表
         global_session_list[global_seesion_key] = session;
         session.session_key = global_seesion_key;
-        Log.info("client session enter, client count: ", ArrayUtil_1["default"].GetArrayLen(global_session_list));
+        Log_1["default"].info("client session enter, client count: ", ArrayUtil_1["default"].GetArrayLen(global_session_list));
         global_seesion_key++;
     };
     //websocket 客户端session事件
@@ -165,7 +165,7 @@ var NetBus = /** @class */ (function () {
                 }
             }
             else {
-                Log.info("data recv: ", data);
+                Log_1["default"].info("data recv: ", data);
                 //TODO 数据包不对，会一直堆积
                 var last_pkg = NetBus.handle_package_data(session.last_pkg, data, function (cmd_buf) {
                     // Log.info("handle_package_data888: " ,cmd_buf)
@@ -196,7 +196,7 @@ var NetBus = /** @class */ (function () {
             delete global_session_list[session.session_key];
             session.session_key = null;
         }
-        Log.info("client session exit, client count: ", ArrayUtil_1["default"].GetArrayLen(global_session_list));
+        Log_1["default"].info("client session exit, client count: ", ArrayUtil_1["default"].GetArrayLen(global_session_list));
     };
     // 关闭session
     NetBus.session_close = function (session) {
@@ -308,10 +308,10 @@ var NetBus = /** @class */ (function () {
     //当前作为客户端，成功连接到其他服务器
     NetBus.on_session_connected = function (stype, session, is_websocket, is_encrypt) {
         if (is_websocket) {
-            Log.info("connect to " + Stype_1.StypeName[stype], " server success!  ", session._socket.remoteAddress, session._socket.remotePort);
+            Log_1["default"].info("connect to " + Stype_1.StypeName[stype], " server success!  ", session._socket.remoteAddress, session._socket.remotePort);
         }
         else {
-            Log.info("connect to " + Stype_1.StypeName[stype] + " server success! ", session.remoteAddress, session.remotePort);
+            Log_1["default"].info("connect to " + Stype_1.StypeName[stype] + " server success! ", session.remoteAddress, session.remotePort);
         }
         session.last_pkg = null; // 表示我们存储的上一次没有处理完的TCP包;
         session.is_websocket = is_websocket;

@@ -1,6 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
-var Log = require("../utils/Log");
+var Log_1 = __importDefault(require("../utils/Log"));
 var ServiceBase = /** @class */ (function () {
     function ServiceBase() {
         this.service_name = "ServiceBase"; // 服务名称
@@ -8,15 +11,15 @@ var ServiceBase = /** @class */ (function () {
     }
     // 收到客户端发来的数据
     ServiceBase.on_recv_client_player_cmd = function (session, stype, ctype, utag, proto_type, raw_cmd) {
-        Log.info("base on_recv_client_player_cmd");
+        Log_1["default"].info("base on_recv_client_player_cmd");
     };
     //收到连接的服务发过来的数据;
     ServiceBase.on_recv_server_player_cmd = function (session, stype, ctype, utag, proto_type, raw_cmd) {
-        Log.info("base on_recv_server_player_cmd");
+        Log_1["default"].info("base on_recv_server_player_cmd");
     };
     // 收到客户端断开连接;
     ServiceBase.on_player_disconnect = function (session, stype) {
-        Log.info("base on_player_disconnect");
+        Log_1["default"].info("base on_player_disconnect");
     };
     return ServiceBase;
 }());

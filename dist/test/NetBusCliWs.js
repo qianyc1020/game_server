@@ -10,20 +10,20 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 exports.__esModule = true;
-var Log = require("../utils/Log");
 var ws = require("ws");
 var ProtoManager_1 = __importDefault(require("../netbus/ProtoManager"));
 var Platform_1 = __importDefault(require("../utils/Platform"));
 var Stype_1 = require("../apps/protocol/Stype");
 var AuthProto = __importStar(require("../apps/protocol/AuthProto"));
+var Log_1 = __importDefault(require("../utils/Log"));
 var local = "ws://127.0.0.1:6081";
 var remote = "ws://www.hccfun.com:6081";
 var hoststr = Platform_1["default"].isWin32() ? local : remote;
-Log.info(hoststr);
+Log_1["default"].info(hoststr);
 var sock = new ws(local);
 var proto_type = 2;
 sock.on("open", function () {
-    Log.info("connect success !!!!");
+    Log_1["default"].info("connect success !!!!");
     var stype = Stype_1.Stype.Auth;
     var ctype = AuthProto.Cmd.eUnameLoginReq;
     var utag = 0;
@@ -37,14 +37,14 @@ sock.on("open", function () {
     }, 1000);
 });
 sock.on("error", function (err) {
-    Log.info("error: ", err);
+    Log_1["default"].info("error: ", err);
 });
 sock.on("close", function () {
-    Log.info("close");
+    Log_1["default"].info("close");
 });
 sock.on("message", function (cmd_buf) {
     var cmd = ProtoManager_1["default"].decode_cmd_header(cmd_buf);
-    Log.info("head: ", cmd);
-    Log.info("receive:", ProtoManager_1["default"].decode_cmd(proto_type, cmd_buf));
+    Log_1["default"].info("head: ", cmd);
+    Log_1["default"].info("receive:", ProtoManager_1["default"].decode_cmd(proto_type, cmd_buf));
 });
 //# sourceMappingURL=NetBusCliWs.js.map

@@ -1,8 +1,7 @@
 import ProtoManager from "./ProtoManager";
 import ArrayUtil from '../utils/ArrayUtil';
 import { Stype , StypeName } from '../apps/protocol/Stype';
-
-var Log = require("../utils/Log");
+import Log from '../utils/Log';
 
 class ServiceManager {
     static service_modules:any = {};    

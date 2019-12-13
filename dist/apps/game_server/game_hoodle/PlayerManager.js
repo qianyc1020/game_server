@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 var Player_1 = __importDefault(require("./Player"));
 var ArrayUtil_1 = __importDefault(require("../../../utils/ArrayUtil"));
-var Log = require("../../../utils/Log");
+var Log_1 = __importDefault(require("../../../utils/Log"));
 var PlayerManager = /** @class */ (function () {
     function PlayerManager() {
         this._player_set = {}; //uid-->Player
@@ -16,7 +16,7 @@ var PlayerManager = /** @class */ (function () {
     PlayerManager.prototype.alloc_player = function (session, uid, proto_type, callback) {
         var player = this._player_set[uid];
         if (player) {
-            Log.warn("alloc_player>> user: ", uid, " is exist!!!!");
+            Log_1["default"].warn("alloc_player>> user: ", uid, " is exist!!!!");
             player.init_session(session, uid, proto_type, callback);
             return;
         }
@@ -34,10 +34,10 @@ var PlayerManager = /** @class */ (function () {
         if (this._player_set[uid]) {
             this._player_set[uid] = null;
             delete this._player_set[uid];
-            Log.info("delete player uid: ", uid, " success, playercount: ", this.get_player_count());
+            Log_1["default"].info("delete player uid: ", uid, " success, playercount: ", this.get_player_count());
         }
         else {
-            Log.warn("delete_player error:", uid, "is not in game server!!!!");
+            Log_1["default"].warn("delete_player error:", uid, "is not in game server!!!!");
         }
     };
     PlayerManager.prototype.get_player_count = function () {

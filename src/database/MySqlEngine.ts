@@ -1,5 +1,5 @@
 import * as mysql from "mysql"
-var Log = require("../utils/Log")
+import Log from '../utils/Log';
 
 class MySqlEngine {
     private _conn_pool:any = null;

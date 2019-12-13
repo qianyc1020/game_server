@@ -1,8 +1,6 @@
 import ServiceBase from '../../../netbus/ServiceBase';
 import GameHoodleModle from './GameHoodleModle';
 
-var Log =  require("../../../utils/Log")
-
 class GameHoodleService extends ServiceBase {
 	 service_name:string = "GameHoodleService"; // 服务名称
 	 is_transfer:boolean = false; // 是否为转发模块,

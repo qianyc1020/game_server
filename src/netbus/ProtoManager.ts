@@ -1,6 +1,5 @@
 import ProtoTools from "./ProtoTools"
 import CryptoUtil from '../utils/CryptoUtil';
-var Log = require("../utils/Log")
 
 class ProtoManager {
     //解头: stype, ctype, utag, proto_type, body

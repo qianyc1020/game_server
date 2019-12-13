@@ -5,16 +5,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 var ProtoManager_1 = __importDefault(require("./ProtoManager"));
 var Stype_1 = require("../apps/protocol/Stype");
-var Log = require("../utils/Log");
+var Log_1 = __importDefault(require("../utils/Log"));
 var ServiceManager = /** @class */ (function () {
     function ServiceManager() {
     }
     ServiceManager.register_service = function (stype, service) {
         if (ServiceManager.service_modules[stype]) {
-            Log.warn(Stype_1.StypeName[stype], " service is registed !!!!");
+            Log_1["default"].warn(Stype_1.StypeName[stype], " service is registed !!!!");
         }
         ServiceManager.service_modules[stype] = service;
-        Log.info(Stype_1.StypeName[stype], " service registed success !!!!");
+        Log_1["default"].info(Stype_1.StypeName[stype], " service registed success !!!!");
     };
     ServiceManager.on_recv_server_cmd = function (session, cmd_buf) {
         if (session.is_encrypt) {
@@ -29,11 +29,11 @@ var ServiceManager = /** @class */ (function () {
         var utag = cmd[2];
         var proto_type = cmd[3];
         if (!ServiceManager.service_modules[stype]) {
-            Log.error("ServiceManager.service_modules not exist");
+            Log_1["default"].error("ServiceManager.service_modules not exist");
             return false;
         }
         if (stype == null || ctype == null || utag == null || proto_type == null) {
-            Log.error("cmd error");
+            Log_1["default"].error("cmd error");
             return false;
         }
         ServiceManager.service_modules[stype].on_recv_server_player_cmd(session, stype, ctype, utag, proto_type, cmd_buf);
@@ -56,11 +56,11 @@ var ServiceManager = /** @class */ (function () {
         var utag = cmd[2];
         var proto_type = cmd[3];
         if (!ServiceManager.service_modules[stype]) {
-            Log.error("ServiceManager.service_modules not exist");
+            Log_1["default"].error("ServiceManager.service_modules not exist");
             return false;
         }
         if (stype == null || ctype == null || utag == null || proto_type == null) {
-            Log.error("cmd error");
+            Log_1["default"].error("cmd error");
             return false;
         }
         ServiceManager.service_modules[stype].on_recv_client_player_cmd(session, stype, ctype, utag, proto_type, cmd_buf);

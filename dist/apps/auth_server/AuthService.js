@@ -18,7 +18,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 var ServiceBase_1 = __importDefault(require("../../netbus/ServiceBase"));
 var AuthModel_1 = __importDefault(require("./AuthModel"));
-var Log = require("../../utils/Log");
 var AuthService = /** @class */ (function (_super) {
     __extends(AuthService, _super);
     function AuthService() {

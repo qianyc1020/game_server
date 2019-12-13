@@ -1,7 +1,6 @@
 import GameConf from '../apps/GameConf';
 import MySqlGame from '../database/MySqlGame';
-
-let Log = require("../utils/Log")
+import Log from '../utils/Log';
 
 var db = GameConf.game_database;
 MySqlGame.connect(db.host, db.port, db.db_name, db.uname, db.upwd)

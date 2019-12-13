@@ -1,4 +1,4 @@
-var Log = require("../utils/Log")
+import Log from '../utils/Log';
 
 class ServiceBase {
 	service_name: string = "ServiceBase" ; // 服务名称

@@ -10,7 +10,7 @@ var StringUtil_1 = __importDefault(require("../../utils/StringUtil"));
 var ProtoManager_1 = __importDefault(require("../../netbus/ProtoManager"));
 var AuthSendMsg_1 = __importDefault(require("./AuthSendMsg"));
 var CommonProto_1 = __importDefault(require("../protocol/CommonProto"));
-var Log = require("../../utils/Log");
+var Log_1 = __importDefault(require("../../utils/Log"));
 var AuthModel = /** @class */ (function () {
     function AuthModel() {
     }
@@ -21,7 +21,7 @@ var AuthModel = /** @class */ (function () {
         return ProtoManager_1["default"].decode_cmd(proto_type, raw_cmd);
     };
     AuthModel.prototype.recv_cmd_msg = function (session, stype, ctype, utag, proto_type, raw_cmd) {
-        Log.info("recv_cmd_msg: ", stype, ctype, utag, proto_type, this.decode_cmd(proto_type, raw_cmd));
+        Log_1["default"].info("recv_cmd_msg: ", stype, ctype, utag, proto_type, this.decode_cmd(proto_type, raw_cmd));
         switch (ctype) {
             case CommonProto_1["default"].eUserLostConnectRes:
                 this.on_user_lost_connect(session, utag, proto_type, raw_cmd);
@@ -65,7 +65,7 @@ var AuthModel = /** @class */ (function () {
             AuthSendMsg_1["default"].send(session, AuthProto_1.Cmd.eUnameLoginRes, utag, proto_type, { status: Response_1["default"].INVALID_PARAMS });
             return;
         }
-        Log.info("uname_login cmd: ", body);
+        Log_1["default"].info("uname_login cmd: ", body);
         if (!body.uname || !body.upwd) {
             AuthSendMsg_1["default"].send(session, AuthProto_1.Cmd.eUnameLoginRes, utag, proto_type, { status: Response_1["default"].INVALID_PARAMS });
             return;
@@ -75,7 +75,7 @@ var AuthModel = /** @class */ (function () {
             return;
         }
         MySqlAuth_1["default"].login_by_uname_upwd(body.uname, body.upwd, function (status, data) {
-            Log.info("login_by_uname_upwd ret: ", data);
+            Log_1["default"].info("login_by_uname_upwd ret: ", data);
             if (status == Response_1["default"].OK) {
                 if (data.length <= 0) {
                     AuthSendMsg_1["default"].send(session, AuthProto_1.Cmd.eUnameLoginRes, utag, proto_type, { status: Response_1["default"].UNAME_OR_UPWD_ERR });
@@ -87,7 +87,7 @@ var AuthModel = /** @class */ (function () {
                         uid: sql_info.uid,
                         userLoginInfo: JSON.stringify(sql_info)
                     };
-                    Log.info("hcc>>uname_login", JSON.stringify(sql_info));
+                    Log_1["default"].info("hcc>>uname_login", JSON.stringify(sql_info));
                     AuthSendMsg_1["default"].send(session, AuthProto_1.Cmd.eUnameLoginRes, utag, proto_type, resbody);
                 }
             }
@@ -102,7 +102,7 @@ var AuthModel = /** @class */ (function () {
             AuthSendMsg_1["default"].send(session, AuthProto_1.Cmd.eGuestLoginRes, utag, proto_type, { status: Response_1["default"].INVALID_PARAMS });
             return;
         }
-        Log.info("guest_login cmd: ", body);
+        Log_1["default"].info("guest_login cmd: ", body);
         if (!body.guestkey) {
             AuthSendMsg_1["default"].send(session, AuthProto_1.Cmd.eGuestLoginRes, utag, proto_type, { status: Response_1["default"].INVALID_PARAMS });
             return;
@@ -113,7 +113,7 @@ var AuthModel = /** @class */ (function () {
         }
         var _this = this;
         MySqlAuth_1["default"].login_by_guestkey(body.guestkey, function (status, data) {
-            Log.info("login_by_guestkey ret: ", data);
+            Log_1["default"].info("login_by_guestkey ret: ", data);
             if (status == Response_1["default"].OK) {
                 if (data.length <= 0) { //
                     var unick = "gst" + StringUtil_1["default"].random_int_str(5);
@@ -134,7 +134,7 @@ var AuthModel = /** @class */ (function () {
                         uid: sql_info.uid,
                         userLoginInfo: JSON.stringify(sql_info)
                     };
-                    Log.info("hcc>>login_by_guestkey: ", resbody);
+                    Log_1["default"].info("hcc>>login_by_guestkey: ", resbody);
                     AuthSendMsg_1["default"].send(session, AuthProto_1.Cmd.eGuestLoginRes, utag, proto_type, resbody);
                 }
             }
@@ -145,7 +145,7 @@ var AuthModel = /** @class */ (function () {
     };
     AuthModel.prototype.uname_regist = function (session, utag, proto_type, raw_cmd) {
         var body = this.decode_cmd(proto_type, raw_cmd);
-        Log.info("uname_regist cmd: ", body);
+        Log_1["default"].info("uname_regist cmd: ", body);
         if (!body) {
             AuthSendMsg_1["default"].send(session, AuthProto_1.Cmd.eUnameRegistRes, utag, proto_type, { status: Response_1["default"].INVALID_PARAMS });
             return;
@@ -187,7 +187,7 @@ var AuthModel = /** @class */ (function () {
                     status: 1,
                     userCenterInfoString: JSON.stringify(sql_info)
                 };
-                Log.info("get_user_center_info:", resbody);
+                Log_1["default"].info("get_user_center_info:", resbody);
                 AuthSendMsg_1["default"].send(session, AuthProto_1.Cmd.eGetUserCenterInfoRes, utag, proto_type, resbody);
             }
             else {
@@ -196,14 +196,14 @@ var AuthModel = /** @class */ (function () {
         });
     };
     AuthModel.prototype.on_login_out = function (session, utag, proto_type, raw_cmd) {
-        Log.info("user login out uid:", utag);
+        Log_1["default"].info("user login out uid:", utag);
         if (utag != 0) {
             AuthSendMsg_1["default"].send(session, AuthProto_1.Cmd.eLoginOutRes, utag, proto_type, { status: 1 });
         }
     };
     AuthModel.prototype.on_user_lost_connect = function (session, utag, proto_type, raw_cmd) {
         var body = this.decode_cmd(proto_type, raw_cmd);
-        Log.info("on_user_lost_connect utag:", utag, body);
+        Log_1["default"].info("on_user_lost_connect utag:", utag, body);
     };
     AuthModel.Instance = new AuthModel();
     return AuthModel;

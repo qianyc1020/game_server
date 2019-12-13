@@ -25,7 +25,7 @@ var ServiceBase_1 = __importDefault(require("../../netbus/ServiceBase"));
 var Stype_1 = require("../protocol/Stype");
 var AuthProto_1 = require("../protocol/AuthProto");
 var CommonProto_1 = __importDefault(require("../protocol/CommonProto"));
-var Log = require("../../utils/Log");
+var Log_1 = __importDefault(require("../../utils/Log"));
 var LOGIN_ERQ_CMD = [
     AuthProto_1.Cmd.eUnameLoginReq,
     AuthProto_1.Cmd.eGuestLoginReq,
@@ -49,7 +49,7 @@ var GatewayService = /** @class */ (function (_super) {
     }
     //客户端发到网关，网关转发到服务器
     GatewayService.on_recv_client_player_cmd = function (session, stype, ctype, utag, proto_type, raw_cmd) {
-        Log.info("recv_client>>> ", ProtoCmd_1["default"].getProtoName(stype) + ",", ProtoCmd_1["default"].getCmdName(stype, ctype) + " ,body:", ProtoManager_1["default"].decode_cmd(proto_type, raw_cmd));
+        Log_1["default"].info("recv_client>>> ", ProtoCmd_1["default"].getProtoName(stype) + ",", ProtoCmd_1["default"].getCmdName(stype, ctype) + " ,body:", ProtoManager_1["default"].decode_cmd(proto_type, raw_cmd));
         var server_session = NetBus_1["default"].get_server_session(stype);
         if (!server_session) {
             return;
@@ -70,7 +70,7 @@ var GatewayService = /** @class */ (function (_super) {
     //服务器发到网关，网关转发到客户端
     GatewayService.on_recv_server_player_cmd = function (session, stype, ctype, utag, proto_type, raw_cmd) {
         // Log.info("on_recv_server_player_cmd:", ProtoCmd.getProtoName(stype)+ ",", ProtoCmd.getCmdName(stype,ctype)+ ",", "utag:" + utag)
-        Log.info("recv_server>>> ", ProtoCmd_1["default"].getProtoName(stype) + ",", ProtoCmd_1["default"].getCmdName(stype, ctype) + " ,utag:", utag, " ,body:", ProtoManager_1["default"].decode_cmd(proto_type, raw_cmd));
+        Log_1["default"].info("recv_server>>> ", ProtoCmd_1["default"].getProtoName(stype) + ",", ProtoCmd_1["default"].getCmdName(stype, ctype) + " ,utag:", utag, " ,body:", ProtoManager_1["default"].decode_cmd(proto_type, raw_cmd));
         var client_session = null;
         if (GatewayService.is_login_res_cmd(stype, ctype)) { // 还没登录,utag == session.session_key
             client_session = NetBus_1["default"].get_client_session(utag);
@@ -113,7 +113,7 @@ var GatewayService = /** @class */ (function (_super) {
     };
     //玩家掉线,网关发消息给其他服务，其他服务接收eUserLostConnectRes协议进行处理就好了
     GatewayService.on_player_disconnect = function (session, stype) {
-        Log.info("on_player_disconnect");
+        Log_1["default"].info("on_player_disconnect");
         if (stype == Stype_1.Stype.Auth) { // 由Auth服务保存的，那么就由Auth清空
             GatewayService.clear_session_with_uid(session.uid);
         }

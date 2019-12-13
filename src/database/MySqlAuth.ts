@@ -2,7 +2,7 @@ import MySqlEngine from "./MySqlEngine"
 import TimeUtil from '../utils/TimeUtil';
 import * as util from "util"
 import Response from '../apps/Response';
-var Log         = require("../utils/Log")
+import Log from '../utils/Log';
 
 let MAX_NUMBER_ID = 1000000;
 

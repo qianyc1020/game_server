@@ -1,6 +1,6 @@
 import Player from './Player';
 import ArrayUtil from '../../../utils/ArrayUtil';
-var Log =  require("../../../utils/Log")
+import Log from '../../../utils/Log';
 
 class PlayerManager {
     private static readonly Instance: PlayerManager = new PlayerManager();

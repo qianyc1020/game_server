@@ -6,9 +6,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
 var mysql = __importStar(require("mysql"));
-var Log = require("../utils/Log");
+var Log_1 = __importDefault(require("../utils/Log"));
 var MySqlEngine = /** @class */ (function () {
     function MySqlEngine() {
         this._conn_pool = null;
@@ -35,7 +38,7 @@ var MySqlEngine = /** @class */ (function () {
     //查询sql，直接使用Pool.query接口，自动release
     MySqlEngine.prototype.mysql_query = function (sql, callback) {
         if (!this._conn_pool) {
-            Log.error("mysql Pool is null");
+            Log_1["default"].error("mysql Pool is null");
             return;
         }
         this._conn_pool.query(sql, function (sql_err, sql_result, fields_desic) {

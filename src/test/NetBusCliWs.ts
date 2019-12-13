@@ -1,10 +1,10 @@
-var Log = require("../utils/Log")
 var ws = require("ws");
 
 import ProtoManager from "../netbus/ProtoManager"
 import Platform from "../utils/Platform"
 import {Stype,StypeName}  from '../apps/protocol/Stype';
 import * as AuthProto from "../apps/protocol/AuthProto"
+import Log from '../utils/Log';
 
 var local = "ws://127.0.0.1:6081"
 var remote = "ws://www.hccfun.com:6081"

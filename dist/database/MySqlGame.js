@@ -13,7 +13,6 @@ exports.__esModule = true;
 var MySqlEngine_1 = __importDefault(require("./MySqlEngine"));
 var util = __importStar(require("util"));
 var Response_1 = __importDefault(require("../apps/Response"));
-var Log = require("../utils/Log");
 var MySqlGame = /** @class */ (function () {
     function MySqlGame() {
     }

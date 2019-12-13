@@ -10,18 +10,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-var Log = require("../utils/Log");
 var net = require("net");
 var AuthProto = __importStar(require("../apps/protocol/AuthProto"));
 var StickPackage = require("stickpackage");
 var ProtoManager_1 = __importDefault(require("../netbus/ProtoManager"));
 var Platform_1 = __importDefault(require("../utils/Platform"));
 var Stype_1 = require("../apps/protocol/Stype");
+var Log_1 = __importDefault(require("../utils/Log"));
 var recvMsgCenter = new StickPackage.msgCenter({ bigEndian: false });
 var local = "127.0.0.1";
 var remote = "www.hccfun.com";
 var hoststr = Platform_1["default"].isWin32() ? local : remote;
-Log.info("host:", hoststr);
+Log_1["default"].info("host:", hoststr);
 var proto_type = 2;
 var sock = net.connect({
     port: 6080,
@@ -47,13 +47,13 @@ sock.on("connect", function () {
     }, 1000);
 });
 sock.on("error", function (e) {
-    Log.info("error", e);
+    Log_1["default"].info("error", e);
 });
 sock.on("close", function () {
-    Log.info("close");
+    Log_1["default"].info("close");
 });
 sock.on("end", function () {
-    Log.info("end event");
+    Log_1["default"].info("end event");
 });
 sock.on("data", function (data) {
     recvMsgCenter.putData(data);
@@ -62,7 +62,7 @@ sock.on("data", function (data) {
 recvMsgCenter.onMsgRecv(function (cmd_buf) {
     var cmd = ProtoManager_1["default"].decode_cmd_header(cmd_buf);
     var body = ProtoManager_1["default"].decode_cmd(proto_type, cmd_buf);
-    Log.info("header: ", cmd);
-    Log.info("body: ", body);
+    Log_1["default"].info("header: ", cmd);
+    Log_1["default"].info("body: ", body);
 });
 //# sourceMappingURL=NetBusCliTcp_stickPkg.js.map

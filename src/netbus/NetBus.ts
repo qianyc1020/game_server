@@ -5,9 +5,9 @@ import * as WebSocket from "ws"
 import * as TcpSocket from "net"
 import { Stype, StypeName} from '../apps/protocol/Stype';
 import ArrayUtil from '../utils/ArrayUtil';
+import Log from '../utils/Log';
 
 var StickPackage    = require("stickpackage")
-var Log 			= require("../utils/Log")
 
 var global_session_list:any         = {}; 	//客户端session
 var global_seesion_key:number 	    = 1; 	//客户端session key

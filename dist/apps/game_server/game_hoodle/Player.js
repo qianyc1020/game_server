@@ -8,7 +8,7 @@ var MySqlAuth_1 = __importDefault(require("../../../database/MySqlAuth"));
 var Response_1 = __importDefault(require("../../Response"));
 var Stype_1 = require("../../protocol/Stype");
 var ArrayUtil_1 = __importDefault(require("../../../utils/ArrayUtil"));
-var Log = require("../../../utils/Log");
+var Log_1 = __importDefault(require("../../../utils/Log"));
 var Player = /** @class */ (function () {
     function Player() {
         this._uid = 0;
@@ -76,7 +76,7 @@ var Player = /** @class */ (function () {
     };
     Player.prototype.send_cmd = function (ctype, body) {
         if (!this._session) {
-            Log.error("send_cmd error, session is null!!");
+            Log_1["default"].error("send_cmd error, session is null!!");
             return;
         }
         NetBus_1["default"].send_cmd(this._session, Stype_1.Stype.GameHoodle, ctype, this._uid, this._proto_type, body);

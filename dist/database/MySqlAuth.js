@@ -14,7 +14,7 @@ var MySqlEngine_1 = __importDefault(require("./MySqlEngine"));
 var TimeUtil_1 = __importDefault(require("../utils/TimeUtil"));
 var util = __importStar(require("util"));
 var Response_1 = __importDefault(require("../apps/Response"));
-var Log = require("../utils/Log");
+var Log_1 = __importDefault(require("../utils/Log"));
 var MAX_NUMBER_ID = 1000000;
 var MySqlAuth = /** @class */ (function () {
     function MySqlAuth() {
@@ -80,7 +80,7 @@ var MySqlAuth = /** @class */ (function () {
         MySqlAuth.get_max_uid(function (status, maxuid) {
             if (status == Response_1["default"].OK) {
                 max_numid = max_numid + maxuid + 1;
-                Log.info("max_numid: ", max_numid);
+                Log_1["default"].info("max_numid: ", max_numid);
                 var sql = "insert into uinfo(`uname`, `upwd` ,`unick`, `uface`, `usex`, `numberid`, `guest_key`)values(\"%s\", \"%s\", \"%s\", %d, %d, %d,0)";
                 var sql_cmd = util.format(sql, uname, upwdmd5, unick, uface, usex, max_numid);
                 MySqlAuth.query(sql_cmd, function (err, sql_ret, fields_desic) {

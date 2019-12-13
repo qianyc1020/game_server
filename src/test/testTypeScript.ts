@@ -1,16 +1,14 @@
-var Log = require("../utils/Log")
+// Log.info('hccccc tst ts')
+// Log.warn('hccccc tst ts')
+// Log.error('hccccc tst ts')
 
-Log.info('hccccc tst ts')
-Log.warn('hccccc tst ts')
-Log.error('hccccc tst ts')
-
-import CryptoUtil from "../utils/CryptoUtil"
-import StringUtil from "../utils/StringUtil"
-import TimeUtil from "../utils/TimeUtil"
-import Platform from "../utils/Platform"
+// import CryptoUtil from "../utils/CryptoUtil"
+// import StringUtil from "../utils/StringUtil"
+// import TimeUtil from "../utils/TimeUtil"
+// import Platform from "../utils/Platform"
 // var Platform = require("../utils/Platform")
 
-Log.info(Platform)
+// Log.info(Platform)
 
 // import CryptoUtil = require("../utils/CryptoUtil")
 
@@ -45,8 +43,12 @@ for(var stype in service_module) {
 
 /////////////
 // import { Cmd, CmdName } from "../apps/auth_server/AuthProto"
-
-Log.info("---------------")
+import Log from '../utils/Log';
+let info = "hccccc";
+Log.info("---------------",info)
 // Log.info(Cmd)
-Log.info("---------------\n\n")
+Log.info("---------------")
+Log.info("---------------")
+console.log("ccccccccccccccc")
+console.trace("tracelog:")
 // Log.info(CmdName)

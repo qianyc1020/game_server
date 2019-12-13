@@ -1,7 +1,6 @@
 import Player from './Player';
 import ArrayUtil from '../../../utils/ArrayUtil';
-
-let Log = require("../../../utils/Log")
+import Log from '../../../utils/Log';
 
 class Room {
     _roomid:string = "";

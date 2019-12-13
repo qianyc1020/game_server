@@ -1,4 +1,3 @@
-var Log = require("../utils/Log")
 var net = require("net");
 import * as AuthProto from "../apps/protocol/AuthProto"
 var StickPackage 	 = require("stickpackage")
@@ -6,6 +5,7 @@ var StickPackage 	 = require("stickpackage")
 import ProtoManager from "../netbus/ProtoManager"
 import Platform from "../utils/Platform"
 import {Stype,StypeName}  from '../apps/protocol/Stype';
+import Log from '../utils/Log';
 
 var recvMsgCenter = new StickPackage.msgCenter({bigEndian:false})
 

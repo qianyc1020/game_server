@@ -3,8 +3,7 @@ import MySqlAuth from '../../../database/MySqlAuth';
 import Response from '../../Response';
 import { Stype } from '../../protocol/Stype';
 import ArrayUtil from '../../../utils/ArrayUtil';
-
-let Log = require("../../../utils/Log")
+import Log from '../../../utils/Log';
 
 class Player{
     

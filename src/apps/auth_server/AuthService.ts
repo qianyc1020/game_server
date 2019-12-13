@@ -1,6 +1,5 @@
 import ServiceBase from "../../netbus/ServiceBase"
 import AuthModel from './AuthModel'
-var Log =  require("../../utils/Log")
 
 class AuthService extends ServiceBase {
 	 service_name:string = "AuthService"; // 服务名称
