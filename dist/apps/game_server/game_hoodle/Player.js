@@ -9,14 +9,20 @@ var Response_1 = __importDefault(require("../../Response"));
 var Stype_1 = require("../../protocol/Stype");
 var ArrayUtil_1 = __importDefault(require("../../../utils/ArrayUtil"));
 var Log_1 = __importDefault(require("../../../utils/Log"));
+var State_1 = require("./State");
 var Player = /** @class */ (function () {
+    /////////
     function Player() {
         this._uid = 0;
         this._session = null;
         this._proto_type = -1;
         this._ugame_info = {};
         this._ucenter_info = {};
+        ///////房间相关
         this._is_off_line = false;
+        this._is_host = false;
+        this._seat_id = -1;
+        this._user_state = State_1.UserState.InView; //玩家状态
         //test
         // this._ugame_info["test_gameinfo"] = "info_test";
         // this._ugame_info["test_gameinfo2"] = "info_test2";
@@ -44,12 +50,15 @@ var Player = /** @class */ (function () {
             }
         });
     };
+    //获取uid
     Player.prototype.get_uid = function () {
         return this._uid;
     };
+    //获取numid
     Player.prototype.get_numberid = function () {
         return this._ucenter_info.numberid;
     };
+    //设置游戏局内信息
     Player.prototype.set_ugame_info = function (ugame_info) {
         this._ugame_info = ugame_info;
     };
@@ -64,16 +73,60 @@ var Player = /** @class */ (function () {
     //玩家信息汇总
     Player.prototype.get_player_info = function () {
         var info = ArrayUtil_1["default"].ObjCat(this._ugame_info, this._ucenter_info);
-        info.is_off_line = this._is_off_line;
+        info.isoffline = this._is_off_line;
+        info.ishost = this._is_host;
+        info.seatid = this._seat_id;
+        info.userstate = this._user_state;
         // Log.info("hcc>>get_player_info: " , info)
         return info;
     };
+    //重连后拷贝老玩家的信息
+    Player.prototype.set_player_info = function (uinfo) {
+        this._is_off_line = uinfo.isoffline;
+        this._is_host = uinfo.ishost;
+        this._seat_id = uinfo.seatid;
+        this._user_state = uinfo.userstate;
+    };
+    //设置是否掉线
     Player.prototype.set_offline = function (is_offline) {
         this._is_off_line = is_offline;
     };
+    //获取是否掉线
     Player.prototype.get_offline = function () {
         return this._is_off_line;
     };
+    //设置是否房主
+    Player.prototype.set_ishost = function (is_host) {
+        this._is_host = is_host;
+    };
+    //获取是否房主
+    Player.prototype.get_ishost = function () {
+        return this._is_host;
+    };
+    //设置玩家座位号
+    Player.prototype.set_seat_id = function (seatid) {
+        this._seat_id = seatid;
+    };
+    //获取玩家座位号
+    Player.prototype.get_seat_id = function () {
+        return this._seat_id;
+    };
+    //设置玩家状态
+    Player.prototype.set_user_state = function (user_state) {
+        this._user_state = user_state;
+    };
+    //获取玩家状态
+    Player.prototype.get_user_state = function () {
+        return this._user_state;
+    };
+    //清除玩家在房间内的相关信息
+    Player.prototype.clear_room_info = function () {
+        this.set_offline(false);
+        this.set_ishost(false);
+        this.set_seat_id(-1);
+        this.set_user_state(State_1.UserState.InView);
+    };
+    //发送消息
     Player.prototype.send_cmd = function (ctype, body) {
         if (!this._session) {
             Log_1["default"].error("send_cmd error, session is null!!");

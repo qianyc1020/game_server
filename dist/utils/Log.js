@@ -117,18 +117,22 @@ var Log = /** @class */ (function () {
         }
         var output = util.format('%s%s %s(%d) %s', curTime, levelString, fileName, lineNumber, message);
         if (!coloredOutput) {
-            process.stdout.write(output + '\n');
+            //process.stdout.write(output + '\n');
+            console.log(output);
         }
         else {
             switch (level) {
                 case LEVEL.INFO:
-                    process.stdout.write(COLOR.INFO + output + COLOR.RESET + '\n');
+                    // process.stdout.write(COLOR.INFO + output + COLOR.RESET + '\n');
+                    console.log(COLOR.INFO, output, COLOR.RESET);
                     break;
                 case LEVEL.WARN:
-                    process.stdout.write(COLOR.WARN + output + COLOR.RESET + '\n');
+                    // process.stdout.write(COLOR.WARN + output + COLOR.RESET + '\n');
+                    console.log(COLOR.WARN, output, COLOR.RESET);
                     break;
                 case LEVEL.ERROR:
-                    process.stdout.write(COLOR.ERROR + output + COLOR.RESET + '\n');
+                    // process.stdout.write(COLOR.ERROR + output + COLOR.RESET + '\n');
+                    console.log(COLOR.ERROR, output, COLOR.RESET);
                     break;
                 default:
                     break;

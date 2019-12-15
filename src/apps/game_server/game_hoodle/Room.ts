@@ -1,12 +1,19 @@
 import Player from './Player';
 import ArrayUtil from '../../../utils/ArrayUtil';
 import Log from '../../../utils/Log';
+import { UserState ,GameState } from './State';
 
 class Room {
-    _roomid:string = "";
-    _gamerule:string = "";
-    _player_set:any = {};
+    _roomid:string      = "";
+    _gamerule:string    = "";
+    _gamerule_obj:any   = {};
+    _player_set:any     = {};
     _host_player_uid:number = -1;
+
+    ///////
+    _game_state:number = GameState.InView; //游戏状态
+    _play_count:number   = -1; //总的配置局数
+    _player_count:number = -1; //总的配置玩家数量
 
     constructor(roomid:string){
         this._roomid = roomid;
@@ -18,15 +25,81 @@ class Room {
 
     set_game_rule(gamerule:string){
         this._gamerule = gamerule;
+        let gameruleObj:any = {};
+        try {
+            gameruleObj = JSON.parse(gamerule);
+        } catch (error) {
+            Log.error(error);
+            return;
+        }
+        this._gamerule_obj = gameruleObj;
+        this._player_count = gameruleObj.playerCount;
+        this._play_count = gameruleObj.playCount;
     }
 
     get_game_rule(){
         return this._gamerule;
     }
+    //玩家加入房间
+    //is_back: 是否本来就在房间里面，只是返回
+    add_player(player:Player, is_back?:boolean):boolean{
+        if(is_back == null || is_back == false || is_back == undefined || !is_back){
+            //不是返回房间
+            if(this._player_count <= 0 || this._player_count == null || this._player_count == undefined){
+                Log.warn("add_player error, playercount is not exist!!")
+                return false;
+            }
+            if(this.get_player_count() >= this._player_count){
+                Log.warn("add_player error, playercount is full")
+                return false;
+            }
+            let seatid = this.born_seatid();
 
-    add_player(player:Player){
+            if(seatid == -1){
+                Log.warn("add_player error,seatid is invalid")
+                return false;
+            }
+            player.set_seat_id(seatid);
+        }
+
         this._player_set[player.get_uid()] = player;
         Log.info("add player , playercount: " , this.get_player_count())
+        return true;
+    }
+
+    //生成一个seatid
+    born_seatid():number{
+        let exist_seatid = [];
+        let all_seatid   = [];
+        for(let uid in this._player_set){
+            let player:Player = this._player_set[uid];
+            let seatid = player.get_seat_id();
+            if(seatid != -1){
+                exist_seatid.push(seatid);
+            }
+        }
+
+        for(let seatid = 1 ; seatid <= this._player_count; seatid++){
+            all_seatid[seatid] = seatid;
+        }
+
+       for(let i = 0; i <= exist_seatid.length; i++){
+            let seatid = exist_seatid[i];
+            for(let j = 1; j <= this._player_count; j++ ){
+                if(seatid == all_seatid[j]){
+                    all_seatid.splice(j,1);
+                }
+            }
+       }
+       if(all_seatid.length > 0){
+            for(let i = 1; i <= all_seatid.length; i++){
+                let seatid = all_seatid[i];
+                if(seatid && seatid != -1){
+                    return seatid;
+                }
+            }
+       }
+       return -1;
     }
 
     kick_player(uid:number){
@@ -45,6 +118,7 @@ class Room {
         }
         key_set.forEach(value => {
             if(this._player_set[value]){
+                this._player_set[value].clear_room_info();
                 delete this._player_set[value];
             }
         });
@@ -65,9 +139,19 @@ class Room {
         }
         return false;
     }
-
+    //当前房间内人数
     get_player_count(){
         return ArrayUtil.GetArrayLen(this._player_set)
+    }
+
+    //房间配置的最多人数
+    get_conf_player_count(){
+        return this._player_count;
+    }
+
+    //配置的最多局数
+    get_conf_play_count(){
+        return this._play_count;
     }
 
     set_room_host_uid(uid:number){
@@ -80,6 +164,14 @@ class Room {
 
     is_room_host(uid:number){
         return this._host_player_uid === uid;
+    }
+
+    set_game_state(game_state:number){
+        this._game_state = game_state;
+    }
+
+    get_game_state(){
+        return this._game_state;
     }
 
     broadcast_in_room(ctype:number, body:any ,not_to_player?:Player){

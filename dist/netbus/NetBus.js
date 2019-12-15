@@ -244,7 +244,7 @@ var NetBus = /** @class */ (function () {
             }
         }
     };
-    //粘包处理
+    //tcp粘包处理
     NetBus.handle_package_data = function (last_package, recv_data, cmd_callback) {
         if (!recv_data) {
             return null;

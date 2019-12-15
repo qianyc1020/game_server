@@ -50,6 +50,8 @@ enum Cmd {
 
 	eLoginLogicReq = 23;	//登录游戏服
 	eLoginLogicRes = 24;
+
+	eUserOfflineRes = 25; //玩家断线
 }
 
 ///////////////////////////////////
@@ -145,10 +147,11 @@ message UserReadyReq {
 
 message UserReadyRes {
 	required sint32 status 	= 1;
-	optional string numberid = 2;
+	optional sint32 seatid = 2;
+	optional sint32 userstate = 3;
 }
 
-message GameStart {
+message GameStartRes {
 	required sint32 status = 1;
 }
 
@@ -156,7 +159,8 @@ message GameResultRes {
 	repeated sint32 scores = 1;
 }
 
-message UserLostConnectRes {
+message UserOfflineRes {
+	required sint32 seatid = 1;
 }
 
 message LoginLogicReq {

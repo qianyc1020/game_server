@@ -256,7 +256,7 @@ class NetBus {
         }
     }
 
-    //粘包处理
+    //tcp粘包处理
     static handle_package_data(last_package:Buffer, recv_data:Buffer, cmd_callback:Function){
         if(!recv_data){
             return null;

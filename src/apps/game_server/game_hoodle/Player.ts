@@ -4,6 +4,7 @@ import Response from '../../Response';
 import { Stype } from '../../protocol/Stype';
 import ArrayUtil from '../../../utils/ArrayUtil';
 import Log from '../../../utils/Log';
+import { UserState } from './State';
 
 class Player{
     
@@ -14,7 +15,13 @@ class Player{
     _ugame_info:any     = {};
     _ucenter_info:any   = {};
 
+
+    ///////房间相关
     _is_off_line:boolean = false;
+    _is_host:boolean     = false;
+    _seat_id:number      = -1;
+    _user_state:any           = UserState.InView; //玩家状态
+    /////////
 
     constructor(){
         //test
@@ -44,15 +51,15 @@ class Player{
             }
         })
     }
-
+    //获取uid
     get_uid(){
         return this._uid;
     }
-
+    //获取numid
     get_numberid(){
         return this._ucenter_info.numberid;
     }
-
+    //设置游戏局内信息
     set_ugame_info(ugame_info:any){
         this._ugame_info = ugame_info;
     }
@@ -70,19 +77,61 @@ class Player{
     //玩家信息汇总
     get_player_info(){
         let info = ArrayUtil.ObjCat(this._ugame_info,this._ucenter_info);
-        info.is_off_line = this._is_off_line;
+        info.isoffline = this._is_off_line;
+        info.ishost = this._is_host;
+        info.seatid = this._seat_id;
+        info.userstate = this._user_state;
         // Log.info("hcc>>get_player_info: " , info)
         return info;
     }
-
+    //重连后拷贝老玩家的信息
+    set_player_info(uinfo:any){
+        this._is_off_line = uinfo.isoffline;
+        this._is_host = uinfo.ishost;
+        this._seat_id = uinfo.seatid;
+        this._user_state = uinfo.userstate;
+    }
+    //设置是否掉线
     set_offline(is_offline:boolean){
         this._is_off_line = is_offline;
     }
-
+    //获取是否掉线
     get_offline(){
         return this._is_off_line;
     }
+    //设置是否房主
+    set_ishost(is_host:boolean){
+        this._is_host = is_host;
+    }
+    //获取是否房主
+    get_ishost(){
+        return this._is_host;
+    }
+    //设置玩家座位号
+    set_seat_id(seatid:number){
+        this._seat_id = seatid;
+    }
+    //获取玩家座位号
+    get_seat_id(){
+        return this._seat_id;
+    }
+    //设置玩家状态
+    set_user_state(user_state:number){
+        this._user_state = user_state;
+    }
+    //获取玩家状态
+    get_user_state(){
+        return this._user_state;
+    }
 
+    //清除玩家在房间内的相关信息
+    clear_room_info(){
+        this.set_offline(false);
+        this.set_ishost(false);
+        this.set_seat_id(-1);
+        this.set_user_state(UserState.InView);
+    }
+    //发送消息
     send_cmd(ctype:number, body:any){
         if(!this._session){
             Log.error("send_cmd error, session is null!!")
