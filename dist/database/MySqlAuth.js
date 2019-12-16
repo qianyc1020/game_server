@@ -80,18 +80,22 @@ var MySqlAuth = /** @class */ (function () {
         MySqlAuth.get_max_uid(function (status, maxuid) {
             if (status == Response_1["default"].OK) {
                 max_numid = max_numid + maxuid + 1;
-                Log_1["default"].info("max_numid: ", max_numid);
+                Log_1["default"].info("insert_uname_upwd_user>> numid: ", max_numid);
                 var sql = "insert into uinfo(`uname`, `upwd` ,`unick`, `uface`, `usex`, `numberid`, `guest_key`)values(\"%s\", \"%s\", \"%s\", %d, %d, %d,0)";
                 var sql_cmd = util.format(sql, uname, upwdmd5, unick, uface, usex, max_numid);
+                Log_1["default"].info("insert_uname_upwd_user>> sql: ", sql_cmd);
                 MySqlAuth.query(sql_cmd, function (err, sql_ret, fields_desic) {
                     if (err) {
+                        Log_1["default"].info("insert_uname_upwd_user error111");
                         callback(Response_1["default"].SYSTEM_ERR, err);
                         return;
                     }
+                    Log_1["default"].info("insert_uname_upwd_user success!!!");
                     callback(Response_1["default"].OK, sql_ret);
                 });
             }
             else {
+                Log_1["default"].info("insert_uname_upwd_user error333");
                 callback(Response_1["default"].SYSTEM_ERR);
             }
         });
@@ -139,7 +143,8 @@ var MySqlAuth = /** @class */ (function () {
         var sql = "select uid from uinfo order by uid desc";
         MySqlAuth.query(sql, function (err, sql_ret, fields_desic) {
             if (err) {
-                return callback(Response_1["default"].INVALIDI_OPT, err);
+                callback(Response_1["default"].INVALIDI_OPT, err);
+                return;
             }
             if (sql_ret.length <= 0) {
                 callback(Response_1["default"].OK, 0);

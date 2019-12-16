@@ -71,23 +71,27 @@ class MySqlAuth {
 			callback(Response.OK, sql_ret);
 		});
 	}
-
 	static insert_uname_upwd_user(uname:string , upwdmd5:string ,unick:string, uface:number, usex:number, callback:Function){
 		let max_numid = MAX_NUMBER_ID;
 		MySqlAuth.get_max_uid(function (status:number, maxuid: number) {
 			if(status == Response.OK){
 				max_numid = max_numid + maxuid + 1;
-				Log.info("max_numid: " , max_numid)
+				Log.info("insert_uname_upwd_user>> numid: " , max_numid)
 				var sql = "insert into uinfo(`uname`, `upwd` ,`unick`, `uface`, `usex`, `numberid`, `guest_key`)values(\"%s\", \"%s\", \"%s\", %d, %d, %d,0)";
 				var sql_cmd = util.format(sql, uname, upwdmd5, unick, uface, usex, max_numid);
+				Log.info("insert_uname_upwd_user>> sql: " , sql_cmd);
 				MySqlAuth.query(sql_cmd, function(err:any, sql_ret:any, fields_desic:any) {
 					if (err) {
+						Log.info("insert_uname_upwd_user error111");
 						callback(Response.SYSTEM_ERR, err);
 						return;
 					}
+					
+					Log.info("insert_uname_upwd_user success!!!");
 					callback(Response.OK,sql_ret);
 				});	
 			}else{
+				Log.info("insert_uname_upwd_user error333");
 				callback(Response.SYSTEM_ERR);
 			}
 		})
@@ -139,12 +143,13 @@ class MySqlAuth {
 		let sql = "select uid from uinfo order by uid desc"
 		MySqlAuth.query(sql,function (err:any, sql_ret:any, fields_desic:any) {
 			if(err){
-				return callback(Response.INVALIDI_OPT,err);
+				callback(Response.INVALIDI_OPT,err);
+				return;
 			}
 
 			if(sql_ret.length <= 0 ){
 				callback(Response.OK , 0)
-				return
+				return;
 			}
 			callback(Response.OK , sql_ret[0].uid);
 		})
