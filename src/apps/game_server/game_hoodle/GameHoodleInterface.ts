@@ -54,6 +54,17 @@ class GameHoodleInterface {
         return false;
     }
 
+    //设置房间内所有玩家状态
+    static set_all_player_state(room: Room ,user_state: number){
+        let player_set = room.get_all_player();
+        for(let uid in player_set){
+            let player:Player = player_set[uid];
+            if(player){
+                player.set_user_state(user_state);
+            }
+        }
+    }
+
     //向房间内所有人发送局内玩家信息
     static broadcast_player_info_in_rooom(room: Room, not_to_player?: Player){
         if(!room){
@@ -110,14 +121,15 @@ class GameHoodleInterface {
             Log.error(error);
         }
     }
+
     //向房间内所有人发送某玩家准备的消息
     static send_player_state(room:Room, src_player:Player, not_to_player?:Player){
-            let body = {
-                status: Response.OK,
-                seatid: src_player.get_seat_id(),
-                userstate: src_player.get_user_state(),
-            }
-            room.broadcast_in_room(Cmd.eUserReadyRes, body, not_to_player);
+        let body = {
+            status: Response.OK,
+            seatid: src_player.get_seat_id(),
+            userstate: src_player.get_user_state(),
+        }
+        room.broadcast_in_room(Cmd.eUserReadyRes, body, not_to_player);
     }
 }
 

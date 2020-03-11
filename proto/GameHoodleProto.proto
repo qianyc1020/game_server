@@ -30,7 +30,7 @@ enum Cmd {
 	eBackRoomRes = 12;
 
 	///////////////////////////////////
-	//游戏相关协议
+	//游戏通用协议
 	///////////////////////////////////
 
 	eCheckLinkGameReq = 13; 	//进入包厢，连接到游戏服务，发送一些数据到客户端
@@ -46,12 +46,26 @@ enum Cmd {
 	eUserReadyRes = 20;
 	
 	eGameStartRes = 21;	//游戏开始
-	eGameResultRes = 22;	//游戏结束
+	eGameEndRes = 22;	//游戏结束
 
 	eLoginLogicReq = 23;	//登录游戏服
 	eLoginLogicRes = 24;
 
 	eUserOfflineRes = 25; //玩家断线
+
+	///////////////////////////////////
+	//游戏具体玩法相关
+	///////////////////////////////////
+	ePlayerFirstBallPosRes = 26; 	// 小球开局位置
+	ePlayerPowerRes = 27;  			// 玩家权限，0 不能射击，1 能射击
+	ePlayerShootReq = 28;  			// 玩家射击
+	ePlayerShootRes = 29;  			// 玩家射击
+	ePlayerBallPosReq = 30; 		// 玩家位置
+	ePlayerBallPosRes = 31;  		// 玩家位置
+	ePlayerIsShootedReq = 32;  		// 玩家被击中
+	ePlayerIsShootedRes = 33;  		// 玩家被击中
+	eGameResultRes = 34;			// 小结算
+	eTotalGameResultRes = 35; 		// 大结算
 }
 
 ///////////////////////////////////
@@ -108,7 +122,7 @@ message BackRoomRes {
 }
 
 ///////////////////////////////////
-//游戏相关协议
+//游戏通用协议
 ///////////////////////////////////
 
 message UserInfo {
@@ -155,8 +169,8 @@ message GameStartRes {
 	required sint32 status = 1;
 }
 
-message GameResultRes {
-	repeated sint32 scores = 1;
+message GameEndRes {
+	repeated sint32 status = 1;
 }
 
 message UserOfflineRes {
@@ -168,4 +182,76 @@ message LoginLogicReq {
 
 message LoginLogicRes {
 	required sint32 status = 1;
+}
+
+///////////////////////////////////
+//游戏具体玩法相关
+///////////////////////////////////
+
+//单个玩家位置
+message OnePlayerPos {
+	required sint32 seatid = 1;
+	required string posx = 2;
+	required string posy = 3;
+}
+
+//单个玩家权限
+message OnePlayerPower {
+	required sint32 seatid = 1;
+	required sint32 power = 2;
+}
+
+//单个玩家得分
+message OnePlayerScore {
+	required sint32 seatid = 1;
+	required string score = 2;
+}
+
+message PlayerFirstBallPosRes {
+	repeated OnePlayerPos positions = 1;
+}
+
+message PlayerPowerRes {
+	repeated OnePlayerPower powers = 1;
+}
+
+message PlayerShootReq {
+	required sint32 seatid = 1;
+	required string posx = 2;
+	required string posy = 3;
+}
+
+message PlayerShootRes {
+	required sint32 status = 1;
+	required sint32 seatid = 2;
+	required string posx = 3;
+	required string posy = 4;
+}
+
+message PlayerBallPosReq {
+	repeated OnePlayerPos positions = 1;
+}
+
+message PlayerBallPosRes {
+	required sint32 status = 1;
+	repeated OnePlayerPos positions = 2;
+}
+
+message PlayerIsShootedReq {
+	required sint32 srcseatid = 1;
+	required sint32 desseatid = 2;
+}
+
+message PlayerIsShootedRes {
+	required sint32 status = 1;
+	required sint32 srcseatid = 2;
+	required sint32 desseatid = 3;
+}
+
+message GameResultRes {
+	repeated OnePlayerScore scores = 1;
+}
+
+message TotalGameResultRes {
+	repeated OnePlayerScore scores = 1;
 }

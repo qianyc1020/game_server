@@ -4,7 +4,8 @@ import GameHoodleModle from './GameHoodleModle';
 class GameHoodleService extends ServiceBase {
 	 service_name:string = "GameHoodleService"; // 服务名称
 	 is_transfer:boolean = false; // 是否为转发模块,
-	// 收到客户端，或者其他服务发来的数据
+	
+	 // 收到客户端，或者其他服务发来的数据
 	static on_recv_client_player_cmd(session:any, stype:number, ctype:number, utag:number, proto_type:number, raw_cmd:any){
 		GameHoodleModle.getInstance().recv_cmd_msg(session, stype, ctype, utag, proto_type, raw_cmd);
 	}

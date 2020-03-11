@@ -7,7 +7,7 @@ class Room {
     _roomid:string      = "";
     _gamerule:string    = "";
     _gamerule_obj:any   = {};
-    _player_set:any     = {};
+    _player_set:any     = {}; //uid->player
     _host_player_uid:number = -1;
 
     ///////

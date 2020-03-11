@@ -7,10 +7,10 @@ import Player from './Player';
 import RoomManager from './RoomManager';
 import Response from '../../Response';
 import Room from './Room';
-import ArrayUtil from '../../../utils/ArrayUtil';
 import Log from '../../../utils/Log';
 import { UserState, GameState } from './State';
 import GameHoodleInterface from './GameHoodleInterface';
+import GameHoodleLogic from './GameHoodleLogic';
 
 class GameHoodleModle {
     private static readonly Instance: GameHoodleModle = new GameHoodleModle();
@@ -60,6 +60,12 @@ class GameHoodleModle {
             break;
             case Cmd.eUserReadyReq:
                 this.on_user_ready(session,utag,proto_type,raw_cmd)
+            case Cmd.ePlayerShootReq:
+                this.on_player_shoot(session,utag,proto_type,raw_cmd);
+            case Cmd.ePlayerBallPosReq:
+                this.on_player_ball_pos(session,utag,proto_type,raw_cmd);
+            case Cmd.ePlayerIsShootedReq:
+                this.on_player_is_shooted(session,utag,proto_type,raw_cmd);
             default:
             break;
         }
@@ -351,6 +357,7 @@ class GameHoodleModle {
             player.send_cmd(Cmd.eGameRuleRes,{gamerule: gamerule})
         }
     }
+
     //玩家准备
     on_user_ready(session:any, utag:number, proto_type:number, raw_cmd:any){
         if (!GameHoodleInterface.check_player(utag)){
@@ -383,11 +390,128 @@ class GameHoodleModle {
 
             player.set_user_state(UserState.Ready);
             GameHoodleInterface.send_player_state(room, player)
-
+            
+            //游戏开始了
             let is_game_start = GameHoodleInterface.check_game_start(room);
             if(is_game_start){
+                room.set_game_state(GameState.Gameing);
                 room.broadcast_in_room(Cmd.eGameStartRes,{status : Response.OK})
+
+                GameHoodleInterface.set_all_player_state(room,UserState.Playing);
+                GameHoodleInterface.broadcast_player_info_in_rooom(room); //刷新局内玩家信息：Playing
+                
+                //游戏逻辑发送
+                GameHoodleLogic.send_player_first_pos(room);
             }
+        }
+    }
+    
+    //玩家射击
+    on_player_shoot(session:any, utag:number, proto_type:number, raw_cmd:any){
+        if (!GameHoodleInterface.check_player(utag)){
+            Log.warn("on_player_shoot player is not exist!")
+            return;
+        }
+
+        if(!GameHoodleInterface.check_room(utag)){
+            Log.warn("on_player_shoot room is not exist!")
+            return;
+        }
+
+        let player:Player = PlayerManager.getInstance().get_player(utag);
+        let userstate = player.get_user_state()
+        if(userstate != UserState.Playing){
+            Log.warn("on_player_shoot user is not in playing state!")
+            return;
+        }
+
+        let room = RoomManager.getInstance().get_room_by_uid(player.get_uid());
+        if(room){
+            if(room.get_game_state() != GameState.Gameing){
+                Log.warn("on_player_shoot room is not in playing state!")
+                return;
+            }
+            let body = this.decode_cmd(proto_type,raw_cmd);
+            GameHoodleLogic.send_player_shoot(room, body, player);
+        }
+    }
+
+    //玩家位置信息
+    on_player_ball_pos(session:any, utag:number, proto_type:number, raw_cmd:any){
+        if (!GameHoodleInterface.check_player(utag)){
+            Log.warn("on_player_ball_pos player is not exist!")
+            return;
+        }
+
+        if(!GameHoodleInterface.check_room(utag)){
+            Log.warn("on_player_ball_pos room is not exist!")
+            return;
+        }
+
+        let player:Player = PlayerManager.getInstance().get_player(utag);
+        let userstate = player.get_user_state()
+        if(userstate != UserState.Playing){
+            Log.warn("on_player_ball_pos user is not in playing state!")
+            return;
+        }
+
+        let room = RoomManager.getInstance().get_room_by_uid(player.get_uid());
+        if(room){
+            if(room.get_game_state() != GameState.Gameing){
+                Log.warn("on_player_ball_pos room is not in playing state!")
+                return;
+            }
+
+            let player_set = room.get_all_player();
+            //保存玩家位置信息
+            let body = this.decode_cmd(proto_type,raw_cmd);
+            for(let key in body){
+                let posinfo = body[key];
+                let seatid = posinfo.seatid;
+                let posx = posinfo.posx;
+                let posy = posinfo.posy;
+                for(let k in player_set){
+                    let p:Player = player_set[k];
+                    if(p.get_seat_id() == seatid){
+                        let pos_info = {posx:posx, posy: posy};
+                        p.set_user_pos(pos_info);
+                        break;
+                    }
+                }
+            }
+            GameHoodleLogic.send_player_ball_pos(room);
+        }
+    }
+
+    //玩家被射中
+    on_player_is_shooted(session:any, utag:number, proto_type:number, raw_cmd:any){
+        if (!GameHoodleInterface.check_player(utag)){
+            Log.warn("on_player_is_shooted player is not exist!")
+            return;
+        }
+
+        if(!GameHoodleInterface.check_room(utag)){
+            Log.warn("on_player_is_shooted room is not exist!")
+            return;
+        }
+
+        let player:Player = PlayerManager.getInstance().get_player(utag);
+        let userstate = player.get_user_state()
+        if(userstate != UserState.Playing){
+            Log.warn("on_player_is_shooted user is not in playing state!")
+            return;
+        }
+
+        let room = RoomManager.getInstance().get_room_by_uid(player.get_uid());
+        if(room){
+            if(room.get_game_state() != GameState.Gameing){
+                Log.warn("on_player_is_shooted room is not in playing state!")
+                return;
+            }
+            GameHoodleLogic.send_game_result(room);
+            GameHoodleInterface.set_all_player_state(room,UserState.InView);
+            GameHoodleInterface.broadcast_player_info_in_rooom(room);
+            GameHoodleLogic.clear_all_player_data(room);
         }
     }
 }
