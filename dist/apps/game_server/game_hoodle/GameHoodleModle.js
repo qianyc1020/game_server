@@ -369,10 +369,10 @@ var GameHoodleModle = /** @class */ (function () {
             //游戏开始了
             var is_game_start = GameHoodleInterface_1["default"].check_game_start(room);
             if (is_game_start) {
-                room.set_game_state(State_1.GameState.Gameing);
-                room.broadcast_in_room(GameHoodleProto_1.Cmd.eGameStartRes, { status: Response_1["default"].OK });
                 GameHoodleInterface_1["default"].set_all_player_state(room, State_1.UserState.Playing);
                 GameHoodleInterface_1["default"].broadcast_player_info_in_rooom(room); //刷新局内玩家信息：Playing
+                room.set_game_state(State_1.GameState.Gameing);
+                room.broadcast_in_room(GameHoodleProto_1.Cmd.eGameStartRes, { status: Response_1["default"].OK });
                 //游戏逻辑发送
                 GameHoodleLogic_1["default"].send_player_first_pos(room);
             }

@@ -398,12 +398,12 @@ class GameHoodleModle {
             //游戏开始了
             let is_game_start = GameHoodleInterface.check_game_start(room);
             if(is_game_start){
+                GameHoodleInterface.set_all_player_state(room,UserState.Playing);
+                GameHoodleInterface.broadcast_player_info_in_rooom(room); //刷新局内玩家信息：Playing
+
                 room.set_game_state(GameState.Gameing);
                 room.broadcast_in_room(Cmd.eGameStartRes,{status : Response.OK})
 
-                GameHoodleInterface.set_all_player_state(room,UserState.Playing);
-                GameHoodleInterface.broadcast_player_info_in_rooom(room); //刷新局内玩家信息：Playing
-                
                 //游戏逻辑发送
                 GameHoodleLogic.send_player_first_pos(room);
             }
