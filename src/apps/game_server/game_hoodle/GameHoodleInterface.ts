@@ -126,8 +126,8 @@ class GameHoodleInterface {
     static send_player_state(room:Room, src_player:Player, not_to_player?:Player){
         let body = {
             status: Response.OK,
-            seatid: src_player.get_seat_id(),
-            userstate: src_player.get_user_state(),
+            seatid: Number(src_player.get_seat_id()),
+            userstate: Number(src_player.get_user_state()),
         }
         room.broadcast_in_room(Cmd.eUserReadyRes, body, not_to_player);
     }

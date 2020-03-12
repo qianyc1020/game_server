@@ -12,7 +12,7 @@ class GameHoodleLogic {
 
     public static generate_start_pos():any{
         let posx = Math.random() * 100;
-        let posy = Math.random() * 200;
+        let posy = Math.random() * 250;
         return {posx: posx, posy: posy};
     }
 
@@ -27,6 +27,11 @@ class GameHoodleLogic {
                 player.set_user_pos({posx:0,posy:0})
             }
         }
+    }
+
+    //计算玩家权限 //TODO
+    public static cal_player_power(){
+
     }
 
     ////////////////////////////////////////
@@ -47,9 +52,9 @@ class GameHoodleLogic {
                 Log.info("hcc>>send_player_first_pos: ", pos);
                 player.set_user_pos(pos);
                 let player_pos = {
-                    seatid : player.get_seat_id(),
-                    posx : pos.posx,
-                    posy : pos.posy,
+                    seatid : Number(player.get_seat_id()),
+                    posx : String(pos.posx),
+                    posy : String(pos.posy),
                 }
                 player_pos_array.push(player_pos);
             }
@@ -70,8 +75,8 @@ class GameHoodleLogic {
             let player:Player = player_set[key];
             if (player){
                 let player_pos = {
-                    seatid : player.get_seat_id(),
-                    power: player.get_user_power(),
+                    seatid : Number(player.get_seat_id()),
+                    power: Number(player.get_user_power()),
                 }
                 player_power_array.push(player_pos);
             }
@@ -87,9 +92,9 @@ class GameHoodleLogic {
         }
         let body = {
             status: Response.OK,
-            seatid: shoot_info.seatid,
-            posx: shoot_info.posx,
-            posy: shoot_info.posy,
+            seatid: Number(shoot_info.seatid),
+            posx: String(shoot_info.posx),
+            posy: String(shoot_info.posy),
         }
         room.broadcast_in_room(Cmd.ePlayerShootRes, body, player)
         return true;
@@ -106,9 +111,9 @@ class GameHoodleLogic {
             let player:Player = player_set[key];
             if (player){
                 let player_pos = {
-                    seatid : player.get_seat_id(),
-                    posx: player.get_user_pos().posx,
-                    posy: player.get_user_pos().posy,
+                    seatid : Number(player.get_seat_id()),
+                    posx: String(player.get_user_pos().posx),
+                    posy: String(player.get_user_pos().posy),
                 }
                 player_pos_array.push(player_pos);
             }
@@ -124,8 +129,8 @@ class GameHoodleLogic {
         }
         let body = {
             status: Response.OK,
-            srcseatid: shoot_info.srcseatid,
-            desseatid: shoot_info.desseatid,
+            srcseatid: Number(shoot_info.srcseatid),
+            desseatid: Number(shoot_info.desseatid),
         }
         room.broadcast_in_room(Cmd.ePlayerIsShootedRes, body, player);
         return true;
@@ -143,7 +148,7 @@ class GameHoodleLogic {
             let player:Player = player_set[key];
             if (player){
                 let one_score = {
-                    seatid: player.get_seat_id(),
+                    seatid: Number(player.get_seat_id()),
                     score: 0, //TODO
                 }
                 player_score_array.push(one_score);
@@ -165,8 +170,8 @@ class GameHoodleLogic {
             let player:Player = player_set[key];
             if (player){
                 let one_score = {
-                    seatid: player.get_seat_id(),
-                    score: player.get_user_score(),
+                    seatid: Number(player.get_seat_id()),
+                    score: Number(player.get_user_score()),
                 }
                 player_score_array.push(one_score);
             }

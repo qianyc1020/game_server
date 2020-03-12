@@ -22,7 +22,11 @@ var Player = /** @class */ (function () {
         this._is_off_line = false;
         this._is_host = false;
         this._seat_id = -1;
+        //居内数据
         this._user_state = State_1.UserState.InView; //玩家状态
+        this._user_pos = { posx: 0, posy: 0 }; //玩家位置 
+        this._user_power = 0; // 玩家权限
+        this._user_score = 0; //玩家得分
         //test
         // this._ugame_info["test_gameinfo"] = "info_test";
         // this._ugame_info["test_gameinfo2"] = "info_test2";
@@ -77,6 +81,8 @@ var Player = /** @class */ (function () {
         info.ishost = this._is_host;
         info.seatid = this._seat_id;
         info.userstate = this._user_state;
+        info.userpos = this._user_pos;
+        info.userpower = this._user_power;
         // Log.info("hcc>>get_player_info: " , info)
         return info;
     };
@@ -86,6 +92,8 @@ var Player = /** @class */ (function () {
         this._is_host = uinfo.ishost;
         this._seat_id = uinfo.seatid;
         this._user_state = uinfo.userstate;
+        this._user_pos = uinfo.userpos;
+        this._user_power = uinfo.userpower;
     };
     //设置是否掉线
     Player.prototype.set_offline = function (is_offline) {
@@ -118,6 +126,26 @@ var Player = /** @class */ (function () {
     //获取玩家状态
     Player.prototype.get_user_state = function () {
         return this._user_state;
+    };
+    //设置位置
+    Player.prototype.set_user_pos = function (pos) {
+        this._user_pos = pos;
+    };
+    //获取位置
+    Player.prototype.get_user_pos = function () {
+        return this._user_pos;
+    };
+    Player.prototype.set_user_power = function (power) {
+        this._user_power = power;
+    };
+    Player.prototype.get_user_power = function () {
+        return this._user_power;
+    };
+    Player.prototype.set_user_score = function (score) {
+        this._user_score = score;
+    };
+    Player.prototype.get_user_score = function () {
+        return this._user_score;
     };
     //清除玩家在房间内的相关信息
     Player.prototype.clear_room_info = function () {

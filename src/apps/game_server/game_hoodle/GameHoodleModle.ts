@@ -60,12 +60,16 @@ class GameHoodleModle {
             break;
             case Cmd.eUserReadyReq:
                 this.on_user_ready(session,utag,proto_type,raw_cmd)
+                break;
             case Cmd.ePlayerShootReq:
                 this.on_player_shoot(session,utag,proto_type,raw_cmd);
+                break;
             case Cmd.ePlayerBallPosReq:
                 this.on_player_ball_pos(session,utag,proto_type,raw_cmd);
+                break;
             case Cmd.ePlayerIsShootedReq:
                 this.on_player_is_shooted(session,utag,proto_type,raw_cmd);
+                break;
             default:
             break;
         }

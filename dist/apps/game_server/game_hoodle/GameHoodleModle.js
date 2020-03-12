@@ -13,6 +13,7 @@ var Response_1 = __importDefault(require("../../Response"));
 var Log_1 = __importDefault(require("../../../utils/Log"));
 var State_1 = require("./State");
 var GameHoodleInterface_1 = __importDefault(require("./GameHoodleInterface"));
+var GameHoodleLogic_1 = __importDefault(require("./GameHoodleLogic"));
 var GameHoodleModle = /** @class */ (function () {
     function GameHoodleModle() {
     }
@@ -54,6 +55,16 @@ var GameHoodleModle = /** @class */ (function () {
                 break;
             case GameHoodleProto_1.Cmd.eUserReadyReq:
                 this.on_user_ready(session, utag, proto_type, raw_cmd);
+                break;
+            case GameHoodleProto_1.Cmd.ePlayerShootReq:
+                this.on_player_shoot(session, utag, proto_type, raw_cmd);
+                break;
+            case GameHoodleProto_1.Cmd.ePlayerBallPosReq:
+                this.on_player_ball_pos(session, utag, proto_type, raw_cmd);
+                break;
+            case GameHoodleProto_1.Cmd.ePlayerIsShootedReq:
+                this.on_player_is_shooted(session, utag, proto_type, raw_cmd);
+                break;
             default:
                 break;
         }
@@ -355,10 +366,112 @@ var GameHoodleModle = /** @class */ (function () {
             }
             player.set_user_state(State_1.UserState.Ready);
             GameHoodleInterface_1["default"].send_player_state(room, player);
+            //游戏开始了
             var is_game_start = GameHoodleInterface_1["default"].check_game_start(room);
             if (is_game_start) {
+                room.set_game_state(State_1.GameState.Gameing);
                 room.broadcast_in_room(GameHoodleProto_1.Cmd.eGameStartRes, { status: Response_1["default"].OK });
+                GameHoodleInterface_1["default"].set_all_player_state(room, State_1.UserState.Playing);
+                GameHoodleInterface_1["default"].broadcast_player_info_in_rooom(room); //刷新局内玩家信息：Playing
+                //游戏逻辑发送
+                GameHoodleLogic_1["default"].send_player_first_pos(room);
             }
+        }
+    };
+    //玩家射击
+    GameHoodleModle.prototype.on_player_shoot = function (session, utag, proto_type, raw_cmd) {
+        if (!GameHoodleInterface_1["default"].check_player(utag)) {
+            Log_1["default"].warn("on_player_shoot player is not exist!");
+            return;
+        }
+        if (!GameHoodleInterface_1["default"].check_room(utag)) {
+            Log_1["default"].warn("on_player_shoot room is not exist!");
+            return;
+        }
+        var player = PlayerManager_1["default"].getInstance().get_player(utag);
+        var userstate = player.get_user_state();
+        if (userstate != State_1.UserState.Playing) {
+            Log_1["default"].warn("on_player_shoot user is not in playing state!");
+            return;
+        }
+        var room = RoomManager_1["default"].getInstance().get_room_by_uid(player.get_uid());
+        if (room) {
+            if (room.get_game_state() != State_1.GameState.Gameing) {
+                Log_1["default"].warn("on_player_shoot room is not in playing state!");
+                return;
+            }
+            var body = this.decode_cmd(proto_type, raw_cmd);
+            GameHoodleLogic_1["default"].send_player_shoot(room, body, player);
+        }
+    };
+    //玩家位置信息
+    GameHoodleModle.prototype.on_player_ball_pos = function (session, utag, proto_type, raw_cmd) {
+        if (!GameHoodleInterface_1["default"].check_player(utag)) {
+            Log_1["default"].warn("on_player_ball_pos player is not exist!");
+            return;
+        }
+        if (!GameHoodleInterface_1["default"].check_room(utag)) {
+            Log_1["default"].warn("on_player_ball_pos room is not exist!");
+            return;
+        }
+        var player = PlayerManager_1["default"].getInstance().get_player(utag);
+        var userstate = player.get_user_state();
+        if (userstate != State_1.UserState.Playing) {
+            Log_1["default"].warn("on_player_ball_pos user is not in playing state!");
+            return;
+        }
+        var room = RoomManager_1["default"].getInstance().get_room_by_uid(player.get_uid());
+        if (room) {
+            if (room.get_game_state() != State_1.GameState.Gameing) {
+                Log_1["default"].warn("on_player_ball_pos room is not in playing state!");
+                return;
+            }
+            var player_set = room.get_all_player();
+            //保存玩家位置信息
+            var body = this.decode_cmd(proto_type, raw_cmd);
+            for (var key in body) {
+                var posinfo = body[key];
+                var seatid = posinfo.seatid;
+                var posx = posinfo.posx;
+                var posy = posinfo.posy;
+                for (var k in player_set) {
+                    var p = player_set[k];
+                    if (p.get_seat_id() == seatid) {
+                        var pos_info = { posx: posx, posy: posy };
+                        p.set_user_pos(pos_info);
+                        break;
+                    }
+                }
+            }
+            GameHoodleLogic_1["default"].send_player_ball_pos(room);
+        }
+    };
+    //玩家被射中
+    GameHoodleModle.prototype.on_player_is_shooted = function (session, utag, proto_type, raw_cmd) {
+        if (!GameHoodleInterface_1["default"].check_player(utag)) {
+            Log_1["default"].warn("on_player_is_shooted player is not exist!");
+            return;
+        }
+        if (!GameHoodleInterface_1["default"].check_room(utag)) {
+            Log_1["default"].warn("on_player_is_shooted room is not exist!");
+            return;
+        }
+        var player = PlayerManager_1["default"].getInstance().get_player(utag);
+        var userstate = player.get_user_state();
+        if (userstate != State_1.UserState.Playing) {
+            Log_1["default"].warn("on_player_is_shooted user is not in playing state!");
+            return;
+        }
+        var room = RoomManager_1["default"].getInstance().get_room_by_uid(player.get_uid());
+        if (room) {
+            if (room.get_game_state() != State_1.GameState.Gameing) {
+                Log_1["default"].warn("on_player_is_shooted room is not in playing state!");
+                return;
+            }
+            GameHoodleLogic_1["default"].send_game_result(room);
+            GameHoodleInterface_1["default"].set_all_player_state(room, State_1.UserState.InView);
+            GameHoodleInterface_1["default"].broadcast_player_info_in_rooom(room);
+            GameHoodleLogic_1["default"].clear_all_player_data(room);
         }
     };
     GameHoodleModle.Instance = new GameHoodleModle();

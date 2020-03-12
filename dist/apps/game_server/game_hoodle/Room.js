@@ -11,7 +11,7 @@ var Room = /** @class */ (function () {
         this._roomid = "";
         this._gamerule = "";
         this._gamerule_obj = {};
-        this._player_set = {};
+        this._player_set = {}; //uid->player
         this._host_player_uid = -1;
         ///////
         this._game_state = State_1.GameState.InView; //游戏状态

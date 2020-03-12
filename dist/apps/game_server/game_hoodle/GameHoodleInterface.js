@@ -54,6 +54,16 @@ var GameHoodleInterface = /** @class */ (function () {
         }
         return false;
     };
+    //设置房间内所有玩家状态
+    GameHoodleInterface.set_all_player_state = function (room, user_state) {
+        var player_set = room.get_all_player();
+        for (var uid in player_set) {
+            var player = player_set[uid];
+            if (player) {
+                player.set_user_state(user_state);
+            }
+        }
+    };
     //向房间内所有人发送局内玩家信息
     GameHoodleInterface.broadcast_player_info_in_rooom = function (room, not_to_player) {
         if (!room) {
@@ -113,8 +123,8 @@ var GameHoodleInterface = /** @class */ (function () {
     GameHoodleInterface.send_player_state = function (room, src_player, not_to_player) {
         var body = {
             status: Response_1["default"].OK,
-            seatid: src_player.get_seat_id(),
-            userstate: src_player.get_user_state()
+            seatid: Number(src_player.get_seat_id()),
+            userstate: Number(src_player.get_user_state())
         };
         room.broadcast_in_room(GameHoodleProto_1.Cmd.eUserReadyRes, body, not_to_player);
     };

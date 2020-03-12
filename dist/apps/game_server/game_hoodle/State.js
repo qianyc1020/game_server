@@ -13,4 +13,9 @@ exports.GameState = {
     Gameing: 2,
     CheckOut: 3
 };
+//玩家权限
+exports.PlayerPower = {
+    canNotPlay: 0,
+    canPlay: 1
+};
 //# sourceMappingURL=State.js.map
