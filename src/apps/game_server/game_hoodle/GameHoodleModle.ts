@@ -224,7 +224,7 @@ class GameHoodleModle {
        
         //send uinfo to other player in room
         GameHoodleInterface.broadcast_player_info_in_rooom(room, player);
-        Log.warn("join_room success, roomid: " , room.get_room_id())
+        Log.info("join_room success, roomid: " , room.get_room_id())
     }
     //离开房间
     private on_exit_room(session:any, utag:number, proto_type:number, raw_cmd:any){
@@ -298,7 +298,7 @@ class GameHoodleModle {
         let room =  RoomManager.getInstance().get_room_by_uid(player.get_uid())
         if(!room){
             GameSendMsg.send(session, Cmd.eGetRoomStatusRes, utag, proto_type, {status: Response.SYSTEM_ERR})
-            Log.warn("get_room_status , player is not in room")
+            Log.info("get_room_status , player is not in room")
             return;
         }
 
@@ -401,11 +401,17 @@ class GameHoodleModle {
                 GameHoodleInterface.set_all_player_state(room,UserState.Playing);
                 GameHoodleInterface.broadcast_player_info_in_rooom(room); //刷新局内玩家信息：Playing
 
+                //设置游戏状态为游戏中
                 room.set_game_state(GameState.Gameing);
+                //发送游戏开始
                 room.broadcast_in_room(Cmd.eGameStartRes,{status : Response.OK})
 
                 //游戏逻辑发送
                 GameHoodleLogic.send_player_first_pos(room);
+                //设置初始权限
+                let isSuc = GameHoodleLogic.set_player_start_power(room);
+                //玩家权限发送
+                GameHoodleLogic.send_player_power(room);
             }
         }
     }
@@ -435,8 +441,13 @@ class GameHoodleModle {
                 Log.warn("on_player_shoot room is not in playing state!")
                 return;
             }
+            //发送玩家射击信息
             let body = this.decode_cmd(proto_type,raw_cmd);
             GameHoodleLogic.send_player_shoot(room, body, player);
+            //设置下一个玩家射击权限
+            GameHoodleLogic.set_next_player_power(room);
+            //发送权限
+            GameHoodleLogic.send_player_power(room);
         }
     }
 
@@ -469,14 +480,15 @@ class GameHoodleModle {
             let player_set = room.get_all_player();
             //保存玩家位置信息
             let body = this.decode_cmd(proto_type,raw_cmd);
-            for(let key in body){
-                let posinfo = body[key];
+            // Log.info("hcc>>on_player_ball_pos ", body);
+            for(let key in body.positions){
+                let posinfo = body.positions[key];
                 let seatid = posinfo.seatid;
                 let posx = posinfo.posx;
                 let posy = posinfo.posy;
                 for(let k in player_set){
                     let p:Player = player_set[k];
-                    if(p.get_seat_id() == seatid){
+                    if(p && p.get_seat_id() == seatid){
                         let pos_info = {posx:posx, posy: posy};
                         p.set_user_pos(pos_info);
                         break;
@@ -512,10 +524,20 @@ class GameHoodleModle {
                 Log.warn("on_player_is_shooted room is not in playing state!")
                 return;
             }
+            
+            //先转发射中消息
+            let body = this.decode_cmd(proto_type,raw_cmd);
+            GameHoodleLogic.send_player_shooted(room,body)
+
+            //设置游戏状态为结算状态
+            room.set_game_state(GameState.InView);
+            //发送结算
             GameHoodleLogic.send_game_result(room);
+            //发送玩家状态
             GameHoodleInterface.set_all_player_state(room,UserState.InView);
             GameHoodleInterface.broadcast_player_info_in_rooom(room);
-            GameHoodleLogic.clear_all_player_data(room);
+            //清除上一局数据
+            GameHoodleLogic.clear_all_player_cur_data(room);
         }
     }
 }

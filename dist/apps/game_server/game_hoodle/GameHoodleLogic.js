@@ -7,16 +7,20 @@ var GameHoodleProto_1 = require("../../protocol/GameHoodleProto");
 var Response_1 = __importDefault(require("../../Response"));
 var Log_1 = __importDefault(require("../../../utils/Log"));
 var State_1 = require("./State");
+var StringUtil_1 = __importDefault(require("../../../utils/StringUtil"));
 var GameHoodleLogic = /** @class */ (function () {
     function GameHoodleLogic() {
     }
+    //生成初始坐标
     GameHoodleLogic.generate_start_pos = function () {
-        var posx = Math.random() * 100;
-        var posy = Math.random() * 250;
+        // let posx = StringUtil.random_int(-540 , 540);
+        // let posy = StringUtil.random_int(-960 , 960);
+        var posx = StringUtil_1["default"].random_int(-400, 400);
+        var posy = StringUtil_1["default"].random_int(-800, 800);
         return { posx: posx, posy: posy };
     };
     //清除玩家当局数据
-    GameHoodleLogic.clear_all_player_data = function (room) {
+    GameHoodleLogic.clear_all_player_cur_data = function (room) {
         var player_set = room.get_all_player();
         for (var uid in player_set) {
             var player = player_set[uid];
@@ -27,8 +31,58 @@ var GameHoodleLogic = /** @class */ (function () {
             }
         }
     };
-    //计算玩家权限 //TODO
-    GameHoodleLogic.cal_player_power = function () {
+    //设置玩家初始权限
+    GameHoodleLogic.set_player_start_power = function (room) {
+        var can_play_seatid = StringUtil_1["default"].random_int(1, room.get_player_count());
+        var player_set = room.get_all_player();
+        var player_array = [];
+        for (var key in player_set) {
+            player_array.push(player_set[key]);
+        }
+        var player = player_array[can_play_seatid - 1];
+        if (!player) {
+            Log_1["default"].error("hcc>>set_player_start_power player is null ,seatid: ", can_play_seatid);
+            return false;
+        }
+        player.set_user_power(State_1.PlayerPower.canPlay);
+        Log_1["default"].info("hcc>>set_player_start_power seatid: " + player.get_seat_id(), " ,power: " + player.get_user_power());
+        return true;
+    };
+    //计算玩家权限
+    GameHoodleLogic.set_next_player_power = function (room) {
+        var player_set = room.get_all_player();
+        var next_power_seatid = -1;
+        for (var uid in player_set) {
+            var player = player_set[uid];
+            if (player) {
+                var power = player.get_user_power();
+                if (power == State_1.PlayerPower.canPlay) {
+                    player.set_user_power(State_1.PlayerPower.canNotPlay);
+                    next_power_seatid = player.get_seat_id() + 1;
+                    if (next_power_seatid > room.get_player_count()) {
+                        next_power_seatid = next_power_seatid % room.get_player_count();
+                    }
+                    Log_1["default"].info("hcc>> cur power seat: ", player.get_seat_id());
+                    Log_1["default"].info("hcc>> next power seat: ", next_power_seatid);
+                    break;
+                }
+            }
+        }
+        if (next_power_seatid == -1) {
+            Log_1["default"].error("error: next_power_seatid is -1");
+            return;
+        }
+        for (var uid in player_set) {
+            var player = player_set[uid];
+            if (player) {
+                if (player.get_seat_id() == next_power_seatid) {
+                    player.set_user_power(State_1.PlayerPower.canPlay);
+                }
+                else {
+                    player.set_user_power(State_1.PlayerPower.canNotPlay);
+                }
+            }
+        }
     };
     ////////////////////////////////////////
     ///发送消息
@@ -114,8 +168,8 @@ var GameHoodleLogic = /** @class */ (function () {
         return true;
     };
     //发送玩家射中 ，只做转发
-    GameHoodleLogic.send_player_shooted = function (room, shoot_info, player) {
-        if (!room || !shoot_info || !player) {
+    GameHoodleLogic.send_player_shooted = function (room, shoot_info) {
+        if (!room || !shoot_info) {
             return false;
         }
         var body = {
@@ -123,7 +177,7 @@ var GameHoodleLogic = /** @class */ (function () {
             srcseatid: Number(shoot_info.srcseatid),
             desseatid: Number(shoot_info.desseatid)
         };
-        room.broadcast_in_room(GameHoodleProto_1.Cmd.ePlayerIsShootedRes, body, player);
+        room.broadcast_in_room(GameHoodleProto_1.Cmd.ePlayerIsShootedRes, body);
         return true;
     };
     //小结算 todo

@@ -4,20 +4,24 @@ import { Cmd } from "../../protocol/GameHoodleProto";
 import Response from '../../Response';
 import Log from '../../../utils/Log';
 import { UserState , GameState ,PlayerPower} from './State';
+import StringUtil from '../../../utils/StringUtil';
 
 class GameHoodleLogic {
     constructor(){
      
     }
 
+    //生成初始坐标
     public static generate_start_pos():any{
-        let posx = Math.random() * 100;
-        let posy = Math.random() * 250;
+        // let posx = StringUtil.random_int(-540 , 540);
+        // let posy = StringUtil.random_int(-960 , 960);
+        let posx = StringUtil.random_int(-400 , 400);
+        let posy = StringUtil.random_int(-800 , 800);
         return {posx: posx, posy: posy};
     }
 
     //清除玩家当局数据
-    public static clear_all_player_data(room: Room){
+    public static clear_all_player_cur_data(room: Room){
         let player_set = room.get_all_player();
         for(let uid in player_set){
             let player:Player = player_set[uid];
@@ -29,9 +33,60 @@ class GameHoodleLogic {
         }
     }
 
-    //计算玩家权限 //TODO
-    public static cal_player_power(){
+    //设置玩家初始权限
+    public static set_player_start_power(room: Room):boolean{
+        let can_play_seatid = StringUtil.random_int(1,room.get_player_count());
+        let player_set = room.get_all_player();
+        let player_array = [];
+        for(let key in player_set){
+            player_array.push(player_set[key]);
+        }
+        let player = player_array[can_play_seatid - 1];
+        if(!player){
+            Log.error("hcc>>set_player_start_power player is null ,seatid: " , can_play_seatid);
+            return false;
+        }
+        player.set_user_power(PlayerPower.canPlay);
+        Log.info("hcc>>set_player_start_power seatid: " + player.get_seat_id() , " ,power: " + player.get_user_power());
+        return true;
+    }
 
+    //计算玩家权限
+    public static set_next_player_power(room: Room){
+        let player_set = room.get_all_player();
+        let next_power_seatid = -1;
+        for(let uid in player_set){
+            let player:Player = player_set[uid];
+            if(player){
+              let power = player.get_user_power();
+              if(power == PlayerPower.canPlay){
+                 player.set_user_power(PlayerPower.canNotPlay);
+                 next_power_seatid = player.get_seat_id() + 1;
+                 if(next_power_seatid > room.get_player_count()){
+                    next_power_seatid = next_power_seatid % room.get_player_count();
+                 }
+                 Log.info("hcc>> cur power seat: " , player.get_seat_id());
+                 Log.info("hcc>> next power seat: " , next_power_seatid);
+                 break;
+              }
+            }
+        }
+        
+        if(next_power_seatid == -1){
+            Log.error("error: next_power_seatid is -1");
+            return;
+        }
+
+        for(let uid in player_set){
+            let player:Player = player_set[uid];
+            if(player){
+                if(player.get_seat_id() == next_power_seatid){
+                    player.set_user_power(PlayerPower.canPlay);
+                }else{
+                    player.set_user_power(PlayerPower.canNotPlay);
+                }
+            }
+        }
     }
 
     ////////////////////////////////////////
@@ -123,8 +178,8 @@ class GameHoodleLogic {
     }
 
     //发送玩家射中 ，只做转发
-    public static send_player_shooted(room:Room, shoot_info:any, player:Player):boolean{
-        if(!room || !shoot_info || !player){
+    public static send_player_shooted(room:Room, shoot_info:any):boolean{
+        if(!room || !shoot_info){
             return false;
         }
         let body = {
@@ -132,7 +187,7 @@ class GameHoodleLogic {
             srcseatid: Number(shoot_info.srcseatid),
             desseatid: Number(shoot_info.desseatid),
         }
-        room.broadcast_in_room(Cmd.ePlayerIsShootedRes, body, player);
+        room.broadcast_in_room(Cmd.ePlayerIsShootedRes, body);
         return true;
     }
 

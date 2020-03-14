@@ -153,6 +153,9 @@ var Player = /** @class */ (function () {
         this.set_ishost(false);
         this.set_seat_id(-1);
         this.set_user_state(State_1.UserState.InView);
+        this.set_user_power(0);
+        this.set_user_score(0);
+        this.set_user_pos({ posx: 0, posy: 0 });
     };
     //发送消息
     Player.prototype.send_cmd = function (ctype, body) {

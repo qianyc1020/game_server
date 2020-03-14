@@ -212,7 +212,7 @@ var GameHoodleModle = /** @class */ (function () {
         GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eJoinRoomRes, utag, proto_type, { status: Response_1["default"].OK });
         //send uinfo to other player in room
         GameHoodleInterface_1["default"].broadcast_player_info_in_rooom(room, player);
-        Log_1["default"].warn("join_room success, roomid: ", room.get_room_id());
+        Log_1["default"].info("join_room success, roomid: ", room.get_room_id());
     };
     //离开房间
     GameHoodleModle.prototype.on_exit_room = function (session, utag, proto_type, raw_cmd) {
@@ -282,7 +282,7 @@ var GameHoodleModle = /** @class */ (function () {
         var room = RoomManager_1["default"].getInstance().get_room_by_uid(player.get_uid());
         if (!room) {
             GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eGetRoomStatusRes, utag, proto_type, { status: Response_1["default"].SYSTEM_ERR });
-            Log_1["default"].warn("get_room_status , player is not in room");
+            Log_1["default"].info("get_room_status , player is not in room");
             return;
         }
         Log_1["default"].info("get_room_status player is in room! roomid: ", room.get_room_id());
@@ -371,10 +371,16 @@ var GameHoodleModle = /** @class */ (function () {
             if (is_game_start) {
                 GameHoodleInterface_1["default"].set_all_player_state(room, State_1.UserState.Playing);
                 GameHoodleInterface_1["default"].broadcast_player_info_in_rooom(room); //刷新局内玩家信息：Playing
+                //设置游戏状态为游戏中
                 room.set_game_state(State_1.GameState.Gameing);
+                //发送游戏开始
                 room.broadcast_in_room(GameHoodleProto_1.Cmd.eGameStartRes, { status: Response_1["default"].OK });
                 //游戏逻辑发送
                 GameHoodleLogic_1["default"].send_player_first_pos(room);
+                //设置初始权限
+                var isSuc = GameHoodleLogic_1["default"].set_player_start_power(room);
+                //玩家权限发送
+                GameHoodleLogic_1["default"].send_player_power(room);
             }
         }
     };
@@ -400,8 +406,13 @@ var GameHoodleModle = /** @class */ (function () {
                 Log_1["default"].warn("on_player_shoot room is not in playing state!");
                 return;
             }
+            //发送玩家射击信息
             var body = this.decode_cmd(proto_type, raw_cmd);
             GameHoodleLogic_1["default"].send_player_shoot(room, body, player);
+            //设置下一个玩家射击权限
+            GameHoodleLogic_1["default"].set_next_player_power(room);
+            //发送权限
+            GameHoodleLogic_1["default"].send_player_power(room);
         }
     };
     //玩家位置信息
@@ -429,14 +440,15 @@ var GameHoodleModle = /** @class */ (function () {
             var player_set = room.get_all_player();
             //保存玩家位置信息
             var body = this.decode_cmd(proto_type, raw_cmd);
-            for (var key in body) {
-                var posinfo = body[key];
+            // Log.info("hcc>>on_player_ball_pos ", body);
+            for (var key in body.positions) {
+                var posinfo = body.positions[key];
                 var seatid = posinfo.seatid;
                 var posx = posinfo.posx;
                 var posy = posinfo.posy;
                 for (var k in player_set) {
                     var p = player_set[k];
-                    if (p.get_seat_id() == seatid) {
+                    if (p && p.get_seat_id() == seatid) {
                         var pos_info = { posx: posx, posy: posy };
                         p.set_user_pos(pos_info);
                         break;
@@ -468,10 +480,18 @@ var GameHoodleModle = /** @class */ (function () {
                 Log_1["default"].warn("on_player_is_shooted room is not in playing state!");
                 return;
             }
+            //先转发射中消息
+            var body = this.decode_cmd(proto_type, raw_cmd);
+            GameHoodleLogic_1["default"].send_player_shooted(room, body);
+            //设置游戏状态为结算状态
+            room.set_game_state(State_1.GameState.InView);
+            //发送结算
             GameHoodleLogic_1["default"].send_game_result(room);
+            //发送玩家状态
             GameHoodleInterface_1["default"].set_all_player_state(room, State_1.UserState.InView);
             GameHoodleInterface_1["default"].broadcast_player_info_in_rooom(room);
-            GameHoodleLogic_1["default"].clear_all_player_data(room);
+            //清除上一局数据
+            GameHoodleLogic_1["default"].clear_all_player_cur_data(room);
         }
     };
     GameHoodleModle.Instance = new GameHoodleModle();
