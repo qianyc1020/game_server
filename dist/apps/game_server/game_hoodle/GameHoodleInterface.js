@@ -10,6 +10,9 @@ var Log_1 = __importDefault(require("../../../utils/Log"));
 var ArrayUtil_1 = __importDefault(require("../../../utils/ArrayUtil"));
 var Response_1 = __importDefault(require("../../Response"));
 var State_1 = require("./State");
+////////////////////////
+//房间相关接口
+////////////////////////
 var GameHoodleInterface = /** @class */ (function () {
     function GameHoodleInterface() {
     }
@@ -127,6 +130,14 @@ var GameHoodleInterface = /** @class */ (function () {
             userstate: Number(src_player.get_user_state())
         };
         room.broadcast_in_room(GameHoodleProto_1.Cmd.eUserReadyRes, body, not_to_player);
+    };
+    //发送局数
+    GameHoodleInterface.send_play_count = function (room, not_to_player) {
+        var body = {
+            playcount: String(room.get_play_count()),
+            totalplaycount: String(room.get_conf_play_count())
+        };
+        room.broadcast_in_room(GameHoodleProto_1.Cmd.ePlayCountRes, body, not_to_player);
     };
     return GameHoodleInterface;
 }());

@@ -8,6 +8,10 @@ import ArrayUtil from "../../../utils/ArrayUtil";
 import Response from '../../Response';
 import { UserState } from './State';
 
+////////////////////////
+//房间相关接口
+////////////////////////
+
 class GameHoodleInterface {
 
     //检测是否非法玩家
@@ -130,6 +134,15 @@ class GameHoodleInterface {
             userstate: Number(src_player.get_user_state()),
         }
         room.broadcast_in_room(Cmd.eUserReadyRes, body, not_to_player);
+    }
+
+    //发送局数
+    static send_play_count(room:Room, not_to_player?:Player){
+        let body = {
+            playcount : String(room.get_play_count()),
+            totalplaycount : String(room.get_conf_play_count()),
+        }
+        room.broadcast_in_room(Cmd.ePlayCountRes,body,not_to_player);
     }
 }
 

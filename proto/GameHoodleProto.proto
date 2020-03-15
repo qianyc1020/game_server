@@ -66,6 +66,7 @@ enum Cmd {
 	ePlayerIsShootedRes = 33;  		// 玩家被击中
 	eGameResultRes = 34;			// 小结算
 	eTotalGameResultRes = 35; 		// 大结算
+	ePlayerScoreRes = 36;			// 玩家分数
 }
 
 ///////////////////////////////////
@@ -254,4 +255,8 @@ message GameResultRes {
 
 message TotalGameResultRes {
 	repeated OnePlayerScore scores = 1;
+}
+
+message PlayerScoreRes{
+	repeated OnePlayerScore scores = 1;	
 }

@@ -6,7 +6,11 @@ import Log from '../../../utils/Log';
 import { UserState , GameState ,PlayerPower} from './State';
 import StringUtil from '../../../utils/StringUtil';
 
-class GameHoodleLogic {
+////////////////////////
+//游戏逻辑相关接口
+////////////////////////
+
+class GameHoodleLogicInterface {
     constructor(){
      
     }
@@ -26,7 +30,6 @@ class GameHoodleLogic {
         for(let uid in player_set){
             let player:Player = player_set[uid];
             if(player){
-                player.set_user_score(0);
                 player.set_user_power(PlayerPower.canNotPlay);
                 player.set_user_pos({posx:0,posy:0})
             }
@@ -94,16 +97,16 @@ class GameHoodleLogic {
     ////////////////////////////////////////
 
     //发送玩家出生位置
-    public static send_player_first_pos(room: Room):boolean{
+    public static send_player_first_pos(room: Room, not_player?: Player, only_player?: Player){
         if(!room){
-            return false;
+            return;
         }
         let player_set = room.get_all_player();
         let player_pos_array = [];
         for(let key in player_set){
             let player:Player = player_set[key];
             if (player){
-                let pos = GameHoodleLogic.generate_start_pos();
+                let pos = GameHoodleLogicInterface.generate_start_pos();
                 Log.info("hcc>>send_player_first_pos: ", pos);
                 player.set_user_pos(pos);
                 let player_pos = {
@@ -115,14 +118,17 @@ class GameHoodleLogic {
             }
         }
         Log.info("hcc>>send_player_first_pos array: ", player_pos_array);
-        room.broadcast_in_room(Cmd.ePlayerFirstBallPosRes,{positions: player_pos_array});
-        return true;
+        if(only_player){
+            only_player.send_cmd(Cmd.ePlayerFirstBallPosRes,{positions: player_pos_array});
+        }else{
+            room.broadcast_in_room(Cmd.ePlayerFirstBallPosRes,{positions: player_pos_array},not_player);
+        }
     }
 
     //发送玩家权限
-    public static send_player_power(room: Room):boolean{
+    public static send_player_power(room: Room, not_player?: Player, only_player?: Player){
         if(!room){
-            return false;
+            return;
         }
         let player_set = room.get_all_player();
         let player_power_array = [];
@@ -136,14 +142,19 @@ class GameHoodleLogic {
                 player_power_array.push(player_pos);
             }
         }
-        room.broadcast_in_room(Cmd.ePlayerPowerRes,{status: Response.OK, powers: player_power_array});
-        return true;
+
+        if(only_player){
+            only_player.send_cmd(Cmd.ePlayerPowerRes,{status: Response.OK, powers: player_power_array});
+        }
+        else{
+            room.broadcast_in_room(Cmd.ePlayerPowerRes,{status: Response.OK, powers: player_power_array},not_player);
+        }
     }
 
     //发送玩家射击 ,服务只做转发
-    public static send_player_shoot(room:Room, shoot_info:any, player:Player):boolean{
-        if(!room || !shoot_info || !player){
-            return false;
+    public static send_player_shoot(room:Room, shoot_info:any, not_player:Player){
+        if(!room || !shoot_info || !not_player){
+            return;
         }
         let body = {
             status: Response.OK,
@@ -151,14 +162,13 @@ class GameHoodleLogic {
             posx: String(shoot_info.posx),
             posy: String(shoot_info.posy),
         }
-        room.broadcast_in_room(Cmd.ePlayerShootRes, body, player)
-        return true;
+        room.broadcast_in_room(Cmd.ePlayerShootRes, body, not_player)
     }
 
     //发送玩家位置，球停下后
-    public static send_player_ball_pos(room:Room){
+    public static send_player_ball_pos(room:Room, not_player?: Player, only_player?: Player){
         if(!room){
-            return false;
+            return;
         }
         let player_set = room.get_all_player();
         let player_pos_array = [];
@@ -173,14 +183,17 @@ class GameHoodleLogic {
                 player_pos_array.push(player_pos);
             }
         }
-        room.broadcast_in_room(Cmd.ePlayerBallPosRes, {status: Response.OK, positions: player_pos_array});
-        return true;
+        if(only_player){
+            only_player.send_cmd(Cmd.ePlayerBallPosRes, {status: Response.OK, positions: player_pos_array});
+        }else{
+            room.broadcast_in_room(Cmd.ePlayerBallPosRes, {status: Response.OK, positions: player_pos_array},not_player);
+        }
     }
 
     //发送玩家射中 ，只做转发
-    public static send_player_shooted(room:Room, shoot_info:any):boolean{
+    public static send_player_is_shooted(room:Room, shoot_info:any){
         if(!room || !shoot_info){
-            return false;
+            return;
         }
         let body = {
             status: Response.OK,
@@ -188,13 +201,12 @@ class GameHoodleLogic {
             desseatid: Number(shoot_info.desseatid),
         }
         room.broadcast_in_room(Cmd.ePlayerIsShootedRes, body);
-        return true;
     }
 
-    //小结算 todo
-    public static send_game_result(room:Room):boolean{
+    //小结算
+    public static send_game_result(room:Room){
         if(!room){
-            return false;
+            return;
         }
        
         let player_set = room.get_all_player();
@@ -204,19 +216,18 @@ class GameHoodleLogic {
             if (player){
                 let one_score = {
                     seatid: Number(player.get_seat_id()),
-                    score: 0, //TODO
+                    score:  String(player.get_user_score()),
                 }
                 player_score_array.push(one_score);
             }
         }
-        room.broadcast_in_room(Cmd.eGameResultRes, player_score_array);
-        return true;
+        room.broadcast_in_room(Cmd.eGameResultRes, {scores:player_score_array});
     }
 
     //大结算
-    public static send_game_total_result(room:Room):boolean{
+    public static send_game_total_result(room:Room){
         if(!room){
-            return false;
+            return;
         }
        
         let player_set = room.get_all_player();
@@ -226,14 +237,39 @@ class GameHoodleLogic {
             if (player){
                 let one_score = {
                     seatid: Number(player.get_seat_id()),
-                    score: Number(player.get_user_score()),
+                    score: String(player.get_user_score()),
                 }
                 player_score_array.push(one_score);
             }
         }
-        room.broadcast_in_room(Cmd.eTotalGameResultRes, player_score_array);
-        return true;
+        room.broadcast_in_room(Cmd.eTotalGameResultRes, {scores:player_score_array});
+    }
+
+    //玩家得分
+    public static send_player_score(room: Room, not_player?: Player, only_player?: Player){
+        if(!room){
+            return;
+        }
+
+        let player_set = room.get_all_player();
+        let player_score_array = [];
+        for(let key in player_set){
+            let player:Player = player_set[key];
+            if (player){
+                let one_score = {
+                    seatid: Number(player.get_seat_id()),
+                    score: String(player.get_user_score()),
+                }
+                player_score_array.push(one_score);
+            }
+        }
+        
+        if(only_player){
+            only_player.send_cmd(Cmd.ePlayerScoreRes, {scores:player_score_array});
+        }else{
+            room.broadcast_in_room(Cmd.ePlayerScoreRes, {scores:player_score_array},not_player);
+        }
     }
 }
 
-export default GameHoodleLogic;
+export default GameHoodleLogicInterface;

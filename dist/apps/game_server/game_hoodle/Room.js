@@ -17,6 +17,7 @@ var Room = /** @class */ (function () {
         this._game_state = State_1.GameState.InView; //游戏状态
         this._play_count = -1; //总的配置局数
         this._player_count = -1; //总的配置玩家数量
+        this._cur_play_count = 0; //当前局数
         this._roomid = roomid;
     }
     Room.prototype.get_room_id = function () {
@@ -123,6 +124,16 @@ var Room = /** @class */ (function () {
     Room.prototype.get_player = function (uid) {
         return this._player_set[uid];
     };
+    Room.prototype.get_player_by_seatid = function (seatid) {
+        for (var key in this._player_set) {
+            var player = this._player_set[key];
+            if (player) {
+                if (player.get_seat_id() == seatid) {
+                    return player;
+                }
+            }
+        }
+    };
     Room.prototype.is_player_in_room = function (uid) {
         if (this._player_set[uid]) {
             return true;
@@ -140,6 +151,14 @@ var Room = /** @class */ (function () {
     //配置的最多局数
     Room.prototype.get_conf_play_count = function () {
         return this._play_count;
+    };
+    //当前局数
+    Room.prototype.set_play_count = function (count) {
+        this._cur_play_count = count;
+    };
+    //当前局数
+    Room.prototype.get_play_count = function () {
+        return this._cur_play_count;
     };
     Room.prototype.set_room_host_uid = function (uid) {
         this._host_player_uid = uid;

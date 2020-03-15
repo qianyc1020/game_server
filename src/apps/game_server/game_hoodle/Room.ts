@@ -14,6 +14,7 @@ class Room {
     _game_state:number = GameState.InView; //游戏状态
     _play_count:number   = -1; //总的配置局数
     _player_count:number = -1; //总的配置玩家数量
+    _cur_play_count:number = 0; //当前局数
 
     constructor(roomid:string){
         this._roomid = roomid;
@@ -133,6 +134,17 @@ class Room {
         return this._player_set[uid];
     }
 
+    get_player_by_seatid(seatid:number){
+        for(let key in this._player_set){
+            let player:Player = this._player_set[key];
+            if(player){
+                if(player.get_seat_id() == seatid){
+                    return player;
+                }
+            }
+        }
+    }
+
     is_player_in_room(uid:number){
         if(this._player_set[uid]){
             return true;
@@ -152,6 +164,16 @@ class Room {
     //配置的最多局数
     get_conf_play_count(){
         return this._play_count;
+    }
+
+    //当前局数
+    set_play_count(count:number){
+        this._cur_play_count = count;
+    }
+
+    //当前局数
+    get_play_count():number{
+        return this._cur_play_count;
     }
 
     set_room_host_uid(uid:number){

@@ -10,7 +10,7 @@ import Room from './Room';
 import Log from '../../../utils/Log';
 import { UserState, GameState } from './State';
 import GameHoodleInterface from './GameHoodleInterface';
-import GameHoodleLogic from './GameHoodleLogic';
+import GameHoodleLogicInterface from './GameHoodleLogicInterface';
 
 class GameHoodleModle {
     private static readonly Instance: GameHoodleModle = new GameHoodleModle();
@@ -60,16 +60,16 @@ class GameHoodleModle {
             break;
             case Cmd.eUserReadyReq:
                 this.on_user_ready(session,utag,proto_type,raw_cmd)
-                break;
+            break;
             case Cmd.ePlayerShootReq:
                 this.on_player_shoot(session,utag,proto_type,raw_cmd);
-                break;
+            break;
             case Cmd.ePlayerBallPosReq:
                 this.on_player_ball_pos(session,utag,proto_type,raw_cmd);
-                break;
+            break;
             case Cmd.ePlayerIsShootedReq:
                 this.on_player_is_shooted(session,utag,proto_type,raw_cmd);
-                break;
+            break;
             default:
             break;
         }
@@ -242,7 +242,14 @@ class GameHoodleModle {
             GameSendMsg.send(session, Cmd.eExitRoomRes, utag, proto_type, {status: Response.INVALIDI_OPT})
             return;
         }
-        // TODO start game
+
+        //start game
+        if(room.get_game_state() != GameState.InView){
+            Log.warn("exit_room error, game is start !");
+            GameSendMsg.send(session, Cmd.eExitRoomRes, utag, proto_type, {status: Response.INVALIDI_OPT})
+            return;
+        }
+
         if(room.is_room_host(player.get_uid())){
             player.set_offline(true);
         }else{
@@ -353,12 +360,21 @@ class GameHoodleModle {
         let player:Player = PlayerManager.getInstance().get_player(utag);
         let room = RoomManager.getInstance().get_room_by_uid(player.get_uid())
         if(room){
-            let gamerule = room.get_game_rule();
             GameHoodleInterface.send_player_info(player);
-            player.send_cmd(Cmd.ePlayCountRes, {playcount:"0", totalplaycount:"0"})
             player.send_cmd(Cmd.eCheckLinkGameRes, {status: Response.OK})
             player.send_cmd(Cmd.eRoomIdRes,{roomid: room.get_room_id()})
-            player.send_cmd(Cmd.eGameRuleRes,{gamerule: gamerule})
+            player.send_cmd(Cmd.eGameRuleRes,{gamerule: room.get_game_rule()})
+            player.send_cmd(Cmd.ePlayCountRes, {playcount: String(room.get_play_count()), totalplaycount: String(room.get_conf_play_count())})
+            
+            //处理断线重连,只发送给重连玩家
+            //玩家位置，局数，玩家权限，玩家得分
+            //TODO
+            if(room.get_game_state() == GameState.Gameing){
+                player.send_cmd(Cmd.eGameStartRes,{status : Response.OK})
+                GameHoodleLogicInterface.send_player_ball_pos(room, undefined, player);
+                GameHoodleLogicInterface.send_player_power(room, undefined, player);
+                GameHoodleLogicInterface.send_player_score(room, undefined, player);
+            }
         }
     }
 
@@ -386,12 +402,20 @@ class GameHoodleModle {
 
         let room = RoomManager.getInstance().get_room_by_uid(player.get_uid());
         if(room){
+            //已经在游戏中了
             if(room.get_game_state() == GameState.Gameing){
                 GameSendMsg.send(session, Cmd.eUserReadyRes, utag, proto_type, {status: Response.INVALIDI_OPT})
                 Log.warn("on_user_ready error ,game is playing!")
                 return;
             }
 
+            //已经大结算了
+            if(room.get_play_count() == room.get_conf_play_count()){
+                GameSendMsg.send(session, Cmd.eUserReadyRes, utag, proto_type, {status: Response.INVALIDI_OPT})
+                Log.warn("on_user_ready error ,game is over!")
+                return;
+            }
+            //有玩家准备了，发送状态
             player.set_user_state(UserState.Ready);
             GameHoodleInterface.send_player_state(room, player)
             
@@ -407,11 +431,18 @@ class GameHoodleModle {
                 room.broadcast_in_room(Cmd.eGameStartRes,{status : Response.OK})
 
                 //游戏逻辑发送
-                GameHoodleLogic.send_player_first_pos(room);
+                GameHoodleLogicInterface.send_player_first_pos(room);
                 //设置初始权限
-                let isSuc = GameHoodleLogic.set_player_start_power(room);
+                GameHoodleLogicInterface.set_player_start_power(room);
                 //玩家权限发送
-                GameHoodleLogic.send_player_power(room);
+                GameHoodleLogicInterface.send_player_power(room);
+                //发送分数
+                GameHoodleLogicInterface.send_player_score(room);
+
+                //局数自加
+                room.set_play_count(room.get_play_count() + 1);
+                //发送局数
+                GameHoodleInterface.send_play_count(room);
             }
         }
     }
@@ -443,11 +474,11 @@ class GameHoodleModle {
             }
             //发送玩家射击信息
             let body = this.decode_cmd(proto_type,raw_cmd);
-            GameHoodleLogic.send_player_shoot(room, body, player);
+            GameHoodleLogicInterface.send_player_shoot(room, body, player);
             //设置下一个玩家射击权限
-            GameHoodleLogic.set_next_player_power(room);
+            GameHoodleLogicInterface.set_next_player_power(room);
             //发送权限
-            GameHoodleLogic.send_player_power(room);
+            GameHoodleLogicInterface.send_player_power(room);
         }
     }
 
@@ -495,7 +526,7 @@ class GameHoodleModle {
                     }
                 }
             }
-            GameHoodleLogic.send_player_ball_pos(room);
+            GameHoodleLogicInterface.send_player_ball_pos(room);
         }
     }
 
@@ -524,20 +555,40 @@ class GameHoodleModle {
                 Log.warn("on_player_is_shooted room is not in playing state!")
                 return;
             }
-            
+
             //先转发射中消息
             let body = this.decode_cmd(proto_type,raw_cmd);
-            GameHoodleLogic.send_player_shooted(room,body)
+            GameHoodleLogicInterface.send_player_is_shooted(room,body)
+
+            //分数计算
+            let src_player = room.get_player_by_seatid(body.srcseatid);
+            let des_player = room.get_player_by_seatid(body.desseatid);
+            if(src_player && des_player){
+                src_player.set_user_score(src_player.get_user_score() + 1);
+                des_player.set_user_score(des_player.get_user_score() - 1);
+                Log.info("hcc>>playerScore: ", src_player.get_user_score() , des_player.get_user_score());
+            }
+            //发送分数
+            GameHoodleLogicInterface.send_player_score(room);
 
             //设置游戏状态为结算状态
-            room.set_game_state(GameState.InView);
+            room.set_game_state(GameState.CheckOut);
             //发送结算
-            GameHoodleLogic.send_game_result(room);
+            GameHoodleLogicInterface.send_game_result(room);
             //发送玩家状态
             GameHoodleInterface.set_all_player_state(room,UserState.InView);
             GameHoodleInterface.broadcast_player_info_in_rooom(room);
             //清除上一局数据
-            GameHoodleLogic.clear_all_player_cur_data(room);
+            GameHoodleLogicInterface.clear_all_player_cur_data(room);
+            //发送权限
+            GameHoodleLogicInterface.send_player_power(room);
+  
+            //大结算: 踢出所有玩家，房间解散
+            if(room.get_play_count() == room.get_conf_play_count()){
+                GameHoodleLogicInterface.send_game_total_result(room);
+                room.kick_all_player();
+                RoomManager.getInstance().delete_room(room.get_room_id());
+            }
         }
     }
 }

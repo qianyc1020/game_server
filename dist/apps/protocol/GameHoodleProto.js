@@ -49,6 +49,7 @@ var Cmd;
     Cmd[Cmd["ePlayerIsShootedRes"] = 33] = "ePlayerIsShootedRes";
     Cmd[Cmd["eGameResultRes"] = 34] = "eGameResultRes";
     Cmd[Cmd["eTotalGameResultRes"] = 35] = "eTotalGameResultRes";
+    Cmd[Cmd["ePlayerScoreRes"] = 36] = "ePlayerScoreRes";
 })(Cmd = exports.Cmd || (exports.Cmd = {}));
 exports.CmdName = (_a = {},
     ///////////////////////////////////
@@ -96,5 +97,6 @@ exports.CmdName = (_a = {},
     _a[33] = "PlayerIsShootedRes",
     _a[34] = "GameResultRes",
     _a[35] = "TotalGameResultRes",
+    _a[36] = "PlayerScoreRes",
     _a);
 //# sourceMappingURL=GameHoodleProto.js.map

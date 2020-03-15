@@ -52,6 +52,7 @@ export enum Cmd {
 	ePlayerIsShootedRes = 33,  		// 玩家被击中
 	eGameResultRes = 34,			// 小结算
 	eTotalGameResultRes = 35, 		// 大结算
+	ePlayerScoreRes = 36,			// 玩家得分
 }
 
 export let CmdName = {
@@ -106,5 +107,6 @@ export let CmdName = {
 	[33] :"PlayerIsShootedRes",  		
 	[34] :"GameResultRes",				// 小结算
 	[35] :"TotalGameResultRes", 		// 大结算
+	[36] :"PlayerScoreRes", 			// 玩家得分
 }
 
