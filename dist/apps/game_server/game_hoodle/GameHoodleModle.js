@@ -14,6 +14,7 @@ var Log_1 = __importDefault(require("../../../utils/Log"));
 var State_1 = require("./State");
 var GameHoodleInterface_1 = __importDefault(require("./GameHoodleInterface"));
 var GameHoodleLogicInterface_1 = __importDefault(require("./GameHoodleLogicInterface"));
+var MatchManager_1 = __importDefault(require("./MatchManager"));
 var GameHoodleModle = /** @class */ (function () {
     function GameHoodleModle() {
     }
@@ -64,6 +65,12 @@ var GameHoodleModle = /** @class */ (function () {
                 break;
             case GameHoodleProto_1.Cmd.ePlayerIsShootedReq:
                 this.on_player_is_shooted(session, utag, proto_type, raw_cmd);
+                break;
+            case GameHoodleProto_1.Cmd.eUserMatchReq:
+                this.on_user_match(session, utag, proto_type, raw_cmd);
+                break;
+            case GameHoodleProto_1.Cmd.eUserStopMatchReq:
+                this.on_user_stop_match(session, utag, proto_type, raw_cmd);
                 break;
             default:
                 break;
@@ -538,6 +545,47 @@ var GameHoodleModle = /** @class */ (function () {
                 RoomManager_1["default"].getInstance().delete_room(room.get_room_id());
             }
         }
+    };
+    GameHoodleModle.prototype.on_user_match = function (session, utag, proto_type, raw_cmd) {
+        if (!GameHoodleInterface_1["default"].check_player(utag)) {
+            GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eUserMatchRes, utag, proto_type, { status: Response_1["default"].INVALIDI_OPT });
+            Log_1["default"].warn("on_user_match player is not exist!");
+            return;
+        }
+        var match_mgr = MatchManager_1["default"].getInstance();
+        var player = PlayerManager_1["default"].getInstance().get_player(utag);
+        //如果在房间内，不能匹配
+        var room = RoomManager_1["default"].getInstance().get_room_by_uid(player.get_uid());
+        if (room) {
+            Log_1["default"].warn("on_user_match error user is at room!");
+            player.send_cmd(GameHoodleProto_1.Cmd.eUserMatchRes, { status: Response_1["default"].INVALIDI_OPT });
+            return;
+        }
+        var ret = match_mgr.add_player_to_match_list(player);
+        if (!ret) {
+            Log_1["default"].warn("on_user_match error user is in matching!");
+            player.send_cmd(GameHoodleProto_1.Cmd.eUserMatchRes, { status: Response_1["default"].NOT_YOUR_TURN });
+            return;
+        }
+        player.send_cmd(GameHoodleProto_1.Cmd.eUserMatchRes, { status: Response_1["default"].OK });
+        Log_1["default"].warn("on_user_match user add matching success!");
+    };
+    GameHoodleModle.prototype.on_user_stop_match = function (session, utag, proto_type, raw_cmd) {
+        if (!GameHoodleInterface_1["default"].check_player(utag)) {
+            GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eUserStopMatchRes, utag, proto_type, { status: Response_1["default"].INVALIDI_OPT });
+            Log_1["default"].warn("on_user_stop_match error player is not exist!");
+            return;
+        }
+        var match_mgr = MatchManager_1["default"].getInstance();
+        var player = PlayerManager_1["default"].getInstance().get_player(utag);
+        var ret = match_mgr.del_player_from_match_list_by_uid(player.get_uid());
+        if (!ret) {
+            Log_1["default"].warn("on_user_stop_match failed!");
+            player.send_cmd(GameHoodleProto_1.Cmd.eUserStopMatchRes, { status: Response_1["default"].INVALIDI_OPT });
+            return;
+        }
+        player.send_cmd(GameHoodleProto_1.Cmd.eUserStopMatchRes, { status: Response_1["default"].OK });
+        match_mgr.send_match_player();
     };
     GameHoodleModle.Instance = new GameHoodleModle();
     return GameHoodleModle;

@@ -11,6 +11,7 @@ import Log from '../../../utils/Log';
 import { UserState, GameState } from './State';
 import GameHoodleInterface from './GameHoodleInterface';
 import GameHoodleLogicInterface from './GameHoodleLogicInterface';
+import MatchManager from './MatchManager';
 
 class GameHoodleModle {
     private static readonly Instance: GameHoodleModle = new GameHoodleModle();
@@ -69,6 +70,12 @@ class GameHoodleModle {
             break;
             case Cmd.ePlayerIsShootedReq:
                 this.on_player_is_shooted(session,utag,proto_type,raw_cmd);
+            break;
+            case Cmd.eUserMatchReq:
+                this.on_user_match(session,utag,proto_type,raw_cmd);
+            break;
+            case Cmd.eUserStopMatchReq:
+                this.on_user_stop_match(session,utag,proto_type,raw_cmd);
             break;
             default:
             break;
@@ -591,6 +598,53 @@ class GameHoodleModle {
             }
         }
     }
+
+    on_user_match(session:any, utag:number, proto_type:number, raw_cmd:any){
+        if (!GameHoodleInterface.check_player(utag)){
+            GameSendMsg.send(session, Cmd.eUserMatchRes, utag, proto_type, {status: Response.INVALIDI_OPT})
+            Log.warn("on_user_match player is not exist!")
+            return;
+        }
+
+        let match_mgr = MatchManager.getInstance();
+        let player:Player = PlayerManager.getInstance().get_player(utag);
+        //如果在房间内，不能匹配
+        let room =  RoomManager.getInstance().get_room_by_uid(player.get_uid())
+        if(room){
+            Log.warn("on_user_match error user is at room!")
+            player.send_cmd(Cmd.eUserMatchRes,{status: Response.INVALIDI_OPT});
+            return;
+        }
+
+        let ret = match_mgr.add_player_to_match_list(player);
+        if(!ret){
+            Log.warn("on_user_match error user is in matching!")
+            player.send_cmd(Cmd.eUserMatchRes,{status: Response.NOT_YOUR_TURN});
+            return;
+        }
+        player.send_cmd(Cmd.eUserMatchRes,{status: Response.OK});
+        Log.warn("on_user_match user add matching success!")
+    }
+
+    on_user_stop_match(session:any, utag:number, proto_type:number, raw_cmd:any){
+        if (!GameHoodleInterface.check_player(utag)){
+            GameSendMsg.send(session, Cmd.eUserStopMatchRes, utag, proto_type, {status: Response.INVALIDI_OPT})
+            Log.warn("on_user_stop_match error player is not exist!")
+            return;
+        }
+
+        let match_mgr = MatchManager.getInstance();
+        let player:Player = PlayerManager.getInstance().get_player(utag);
+        let ret = match_mgr.del_player_from_match_list_by_uid(player.get_uid());
+        if(!ret){
+            Log.warn("on_user_stop_match failed!")
+            player.send_cmd(Cmd.eUserStopMatchRes,{status: Response.INVALIDI_OPT});
+            return;
+        }
+        player.send_cmd(Cmd.eUserStopMatchRes,{status: Response.OK});
+        match_mgr.send_match_player();
+    }
+
 }
 
 export default GameHoodleModle;

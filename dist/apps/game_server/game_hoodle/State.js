@@ -5,7 +5,8 @@ exports.UserState = {
     InView: 1,
     Ready: 2,
     Playing: 3,
-    CheckOut: 4
+    CheckOut: 4,
+    MatchIng: 5
 };
 //游戏状态
 exports.GameState = {

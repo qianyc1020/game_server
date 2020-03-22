@@ -81,6 +81,11 @@ class Player{
     get_ucenter_info(){
         return this._ucenter_info;
     }
+    
+    //账号
+    get_uname(){
+        return this._ucenter_info.uname;
+    }
 
     //玩家信息汇总
     get_player_info(){

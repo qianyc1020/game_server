@@ -11,6 +11,7 @@ import MySqlGame from '../../../database/MySqlGame';
 import GameHoodleService from './GameHoodleService';
 import MySqlAuth from '../../../database/MySqlAuth';
 import ArrayUtil from '../../../utils/ArrayUtil';
+import MatchManager from './MatchManager';
 
 let game_server = GameConf.game_server;
 NetBus.start_tcp_server(game_server.host, game_server.port, false);
@@ -22,6 +23,9 @@ ServiceManager.register_service(Stype.GameHoodle, GameHoodleService);
 
 var db_auth = GameConf.auth_database;
 MySqlAuth.connect(db_auth.host, db_auth.port, db_auth.db_name, db_auth.uname, db_auth.upwd)
+
+//匹配场
+MatchManager.getInstance().start_match()
 
 //test
 /*

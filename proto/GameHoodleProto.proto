@@ -11,22 +11,22 @@ enum Cmd {
 	//房间相关协议
 	///////////////////////////////////
 
-	eCreateRoomReq = 1; //创建包厢
+	eCreateRoomReq = 1; 		//创建包厢
 	eCreateRoomRes = 2;
 
-	eJoinRoomReq = 3;	//加入包厢
+	eJoinRoomReq = 3;			//加入包厢
 	eJoinRoomRes = 4;
 
-	eExitRoomReq = 5;	//退出包厢
+	eExitRoomReq = 5;			//退出包厢
 	eExitRoomRes = 6;
 
-	eDessolveReq = 7;	//解散包厢
+	eDessolveReq = 7;			//解散包厢
 	eDessolveRes = 8;
 
-	eGetRoomStatusReq = 9;	//包厢状态
+	eGetRoomStatusReq = 9;		//包厢状态
 	eGetRoomStatusRes = 10;
 
-	eBackRoomReq = 11;	//返回包厢
+	eBackRoomReq = 11;			//返回包厢
 	eBackRoomRes = 12;
 
 	///////////////////////////////////
@@ -36,22 +36,22 @@ enum Cmd {
 	eCheckLinkGameReq = 13; 	//进入包厢，连接到游戏服务，发送一些数据到客户端
 	eCheckLinkGameRes = 14;
 
-	eUserInfoRes = 15;		//玩家信息
+	eUserInfoRes = 15;			//玩家信息
 
-	eGameRuleRes = 16; 	//房间规则
-	eRoomIdRes = 17; 	//房间号
-	ePlayCountRes = 18; 	//局数
+	eGameRuleRes = 16; 			//房间规则
+	eRoomIdRes = 17; 			//房间号
+	ePlayCountRes = 18; 		//局数
 
-	eUserReadyReq = 19;	//玩家准备
+	eUserReadyReq = 19;			//玩家准备
 	eUserReadyRes = 20;
 	
-	eGameStartRes = 21;	//游戏开始
-	eGameEndRes = 22;	//游戏结束
+	eGameStartRes = 21;			//游戏开始
+	eGameEndRes = 22;			//游戏结束
 
-	eLoginLogicReq = 23;	//登录游戏服
+	eLoginLogicReq = 23;		//登录游戏服
 	eLoginLogicRes = 24;
 
-	eUserOfflineRes = 25; //玩家断线
+	eUserOfflineRes = 25; 		//玩家断线
 
 	///////////////////////////////////
 	//游戏具体玩法相关
@@ -59,14 +59,20 @@ enum Cmd {
 	ePlayerFirstBallPosRes = 26; 	// 小球开局位置
 	ePlayerPowerRes = 27;  			// 玩家权限，0 不能射击，1 能射击
 	ePlayerShootReq = 28;  			// 玩家射击
-	ePlayerShootRes = 29;  			// 玩家射击
+	ePlayerShootRes = 29;  			// 
 	ePlayerBallPosReq = 30; 		// 玩家位置
-	ePlayerBallPosRes = 31;  		// 玩家位置
+	ePlayerBallPosRes = 31;  		// 
 	ePlayerIsShootedReq = 32;  		// 玩家被击中
-	ePlayerIsShootedRes = 33;  		// 玩家被击中
+	ePlayerIsShootedRes = 33;  		// 
 	eGameResultRes = 34;			// 小结算
 	eTotalGameResultRes = 35; 		// 大结算
 	ePlayerScoreRes = 36;			// 玩家分数
+
+	eUserMatchReq = 37;				// 玩家匹配
+	eUserMatchRes = 38;
+
+	eUserStopMatchReq = 39; 		// 玩家取消匹配
+	eUserStopMatchRes = 40;
 }
 
 ///////////////////////////////////
@@ -257,6 +263,23 @@ message TotalGameResultRes {
 	repeated OnePlayerScore scores = 1;
 }
 
-message PlayerScoreRes{
+message PlayerScoreRes {
 	repeated OnePlayerScore scores = 1;	
+}
+
+message UserMatchReq {
+	required sint32 zoomid = 1;  //房间类型
+}
+
+message UserMatchRes {
+	required sint32 status = 1;
+	optional bool matchsuccess = 2;
+	repeated UserInfo userinfo = 3;
+}
+
+message UserStopMatchReq {
+}
+
+message UserStopMatchRes {
+	required sint32 status = 1;
 }

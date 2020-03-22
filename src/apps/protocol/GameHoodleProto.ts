@@ -53,6 +53,10 @@ export enum Cmd {
 	eGameResultRes = 34,			// 小结算
 	eTotalGameResultRes = 35, 		// 大结算
 	ePlayerScoreRes = 36,			// 玩家得分
+	eUserMatchReq = 37,				// 玩家匹配
+	eUserMatchRes = 38,
+	eUserStopMatchReq = 39,			// 玩家取消匹配
+	eUserStopMatchRes = 40,
 }
 
 export let CmdName = {
@@ -108,5 +112,9 @@ export let CmdName = {
 	[34] :"GameResultRes",				// 小结算
 	[35] :"TotalGameResultRes", 		// 大结算
 	[36] :"PlayerScoreRes", 			// 玩家得分
+	[37] :"UserMatchReq", 				// 玩家匹配
+	[38] :"UserMatchRes", 		
+	[39] :"UserStopMatchReq",			// 玩家取消匹配 		
+	[40] :"UserStopMatchRes", 		
 }
 

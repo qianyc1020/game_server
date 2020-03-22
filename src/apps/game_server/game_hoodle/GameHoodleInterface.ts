@@ -144,6 +144,7 @@ class GameHoodleInterface {
         }
         room.broadcast_in_room(Cmd.ePlayCountRes,body,not_to_player);
     }
+
 }
 
 export default GameHoodleInterface;

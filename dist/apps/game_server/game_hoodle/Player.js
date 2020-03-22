@@ -74,6 +74,10 @@ var Player = /** @class */ (function () {
     Player.prototype.get_ucenter_info = function () {
         return this._ucenter_info;
     };
+    //账号
+    Player.prototype.get_uname = function () {
+        return this._ucenter_info.uname;
+    };
     //玩家信息汇总
     Player.prototype.get_player_info = function () {
         var info = ArrayUtil_1["default"].ObjCat(this._ugame_info, this._ucenter_info);

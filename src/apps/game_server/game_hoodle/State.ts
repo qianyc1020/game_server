@@ -4,6 +4,7 @@ export let UserState = {
 	Ready: 2,       // 准备好了 
 	Playing: 3,     // 正在游戏
 	CheckOut: 4,    // 结算状态
+	MatchIng: 5,    // 正在匹配
 };
 
 //游戏状态
