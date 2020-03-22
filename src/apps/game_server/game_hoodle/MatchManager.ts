@@ -54,7 +54,7 @@ class MatchManager {
                     _this._in_match_list = {};
                 }
            }
-           _this.log_match_list()
+        //    _this.log_match_list()
         },MATCH_INTERVAL);
     }
 

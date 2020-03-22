@@ -50,7 +50,7 @@ var MatchManager = /** @class */ (function () {
                     _this._in_match_list = {};
                 }
             }
-            _this.log_match_list();
+            //    _this.log_match_list()
         }, MATCH_INTERVAL);
     };
     //创建房间，进入玩家，发送到发送到客户端
