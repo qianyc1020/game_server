@@ -3,7 +3,7 @@ import Player from './Player';
 import RoomManager from "./RoomManager";
 import Room from "./Room";
 import { Cmd } from "../../protocol/GameHoodleProto";
-import Log from "../../../utils/Log";
+import Log from '../../../utils/Log';
 import ArrayUtil from "../../../utils/ArrayUtil";
 import Response from '../../Response';
 import { UserState } from './State';
@@ -28,11 +28,13 @@ class GameHoodleInterface {
     static check_room(utag:number){
         let player:Player = PlayerManager.getInstance().get_player(utag);
         if(!player){
+            Log.warn("hcc>>check_room error 111")
             return false;
         }
 
         let room = RoomManager.getInstance().get_room_by_uid(player.get_uid())
         if(!room){
+            Log.warn("hcc>>check_room error 222")
             return false;
         }
         return true;

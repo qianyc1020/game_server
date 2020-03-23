@@ -47,5 +47,15 @@ let obj2 = {
 
 let obj = ArrayUtil.ObjCat(obj1, obj2)
 console.log("hcc>>>obj: " , obj)
+*/
+/*
+let array = [];
+array.push(1)
+array.push(3)
+array.push(5)
+array.push(6)
+array.forEach(value => {
+    Log.info("hcc>> value: " , value)
+})
 */ 
 //# sourceMappingURL=GameHoodleMain.js.map

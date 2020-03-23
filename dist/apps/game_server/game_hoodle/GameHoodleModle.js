@@ -349,7 +349,6 @@ var GameHoodleModle = /** @class */ (function () {
             player.send_cmd(GameHoodleProto_1.Cmd.ePlayCountRes, { playcount: String(room.get_play_count()), totalplaycount: String(room.get_conf_play_count()) });
             //处理断线重连,只发送给重连玩家
             //玩家位置，局数，玩家权限，玩家得分
-            //TODO
             if (room.get_game_state() == State_1.GameState.Gameing) {
                 player.send_cmd(GameHoodleProto_1.Cmd.eGameStartRes, { status: Response_1["default"].OK });
                 GameHoodleLogicInterface_1["default"].send_player_ball_pos(room, undefined, player);
@@ -568,7 +567,7 @@ var GameHoodleModle = /** @class */ (function () {
             return;
         }
         player.send_cmd(GameHoodleProto_1.Cmd.eUserMatchRes, { status: Response_1["default"].OK });
-        Log_1["default"].warn("on_user_match user add matching success!");
+        Log_1["default"].info("on_user_match user add matching success!");
     };
     GameHoodleModle.prototype.on_user_stop_match = function (session, utag, proto_type, raw_cmd) {
         if (!GameHoodleInterface_1["default"].check_player(utag)) {
@@ -578,7 +577,7 @@ var GameHoodleModle = /** @class */ (function () {
         }
         var match_mgr = MatchManager_1["default"].getInstance();
         var player = PlayerManager_1["default"].getInstance().get_player(utag);
-        var ret = match_mgr.del_player_from_match_list_by_uid(player.get_uid());
+        var ret = match_mgr.on_user_stop_match(player.get_uid());
         if (!ret) {
             Log_1["default"].warn("on_user_stop_match failed!");
             player.send_cmd(GameHoodleProto_1.Cmd.eUserStopMatchRes, { status: Response_1["default"].INVALIDI_OPT });

@@ -30,10 +30,12 @@ var GameHoodleInterface = /** @class */ (function () {
     GameHoodleInterface.check_room = function (utag) {
         var player = PlayerManager_1["default"].getInstance().get_player(utag);
         if (!player) {
+            Log_1["default"].warn("hcc>>check_room error 111");
             return false;
         }
         var room = RoomManager_1["default"].getInstance().get_room_by_uid(player.get_uid());
         if (!room) {
+            Log_1["default"].warn("hcc>>check_room error 222");
             return false;
         }
         return true;

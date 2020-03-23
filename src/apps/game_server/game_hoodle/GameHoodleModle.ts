@@ -375,7 +375,6 @@ class GameHoodleModle {
             
             //处理断线重连,只发送给重连玩家
             //玩家位置，局数，玩家权限，玩家得分
-            //TODO
             if(room.get_game_state() == GameState.Gameing){
                 player.send_cmd(Cmd.eGameStartRes,{status : Response.OK})
                 GameHoodleLogicInterface.send_player_ball_pos(room, undefined, player);
@@ -623,7 +622,7 @@ class GameHoodleModle {
             return;
         }
         player.send_cmd(Cmd.eUserMatchRes,{status: Response.OK});
-        Log.warn("on_user_match user add matching success!")
+        Log.info("on_user_match user add matching success!")
     }
 
     on_user_stop_match(session:any, utag:number, proto_type:number, raw_cmd:any){
@@ -635,7 +634,7 @@ class GameHoodleModle {
 
         let match_mgr = MatchManager.getInstance();
         let player:Player = PlayerManager.getInstance().get_player(utag);
-        let ret = match_mgr.del_player_from_match_list_by_uid(player.get_uid());
+        let ret = match_mgr.on_user_stop_match(player.get_uid());
         if(!ret){
             Log.warn("on_user_stop_match failed!")
             player.send_cmd(Cmd.eUserStopMatchRes,{status: Response.INVALIDI_OPT});

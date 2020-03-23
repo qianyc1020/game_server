@@ -12,6 +12,7 @@ import GameHoodleService from './GameHoodleService';
 import MySqlAuth from '../../../database/MySqlAuth';
 import ArrayUtil from '../../../utils/ArrayUtil';
 import MatchManager from './MatchManager';
+import Log from '../../../utils/Log';
 
 let game_server = GameConf.game_server;
 NetBus.start_tcp_server(game_server.host, game_server.port, false);
@@ -51,4 +52,14 @@ let obj2 = {
 
 let obj = ArrayUtil.ObjCat(obj1, obj2)
 console.log("hcc>>>obj: " , obj)
+*/
+/*
+let array = [];
+array.push(1)
+array.push(3)
+array.push(5)
+array.push(6)
+array.forEach(value => {
+    Log.info("hcc>> value: " , value)
+})
 */
