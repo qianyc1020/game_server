@@ -180,6 +180,9 @@ var MatchManager = /** @class */ (function () {
         if (player.get_user_state() != State_1.UserState.InView) {
             return false;
         }
+        if (this.get_in_match_player_count() >= MATCH_PLAYER_COUNT) {
+            return false;
+        }
         player.set_user_state(State_1.UserState.MatchIng);
         this._in_match_list[player.get_uid()] = player;
         return true;
