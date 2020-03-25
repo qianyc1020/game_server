@@ -621,7 +621,21 @@ class GameHoodleModle {
             player.send_cmd(Cmd.eUserMatchRes,{status: Response.NOT_YOUR_TURN});
             return;
         }
-        player.send_cmd(Cmd.eUserMatchRes,{status: Response.OK});
+
+        //发送匹配信息
+        let userinfo_array = [];
+        let userinfo = {
+            numberid: String(player.get_numberid()),
+            userInfoString: JSON.stringify(player.get_player_info()),
+        }
+        userinfo_array.push(userinfo);
+
+        let body = {
+            status: Response.OK,
+            matchsuccess: false,
+            userinfo: userinfo_array,
+        }
+        player.send_cmd(Cmd.eUserMatchRes,body)
         Log.info("on_user_match user add matching success!")
     }
 

@@ -566,7 +566,19 @@ var GameHoodleModle = /** @class */ (function () {
             player.send_cmd(GameHoodleProto_1.Cmd.eUserMatchRes, { status: Response_1["default"].NOT_YOUR_TURN });
             return;
         }
-        player.send_cmd(GameHoodleProto_1.Cmd.eUserMatchRes, { status: Response_1["default"].OK });
+        //发送匹配信息
+        var userinfo_array = [];
+        var userinfo = {
+            numberid: String(player.get_numberid()),
+            userInfoString: JSON.stringify(player.get_player_info())
+        };
+        userinfo_array.push(userinfo);
+        var body = {
+            status: Response_1["default"].OK,
+            matchsuccess: false,
+            userinfo: userinfo_array
+        };
+        player.send_cmd(GameHoodleProto_1.Cmd.eUserMatchRes, body);
         Log_1["default"].info("on_user_match user add matching success!");
     };
     GameHoodleModle.prototype.on_user_stop_match = function (session, utag, proto_type, raw_cmd) {
