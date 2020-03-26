@@ -8,7 +8,7 @@ import { Cmd } from '../../protocol/GameHoodleProto';
 import Response from '../../Response';
 
 const MATCH_INTERVAL        = 1000;     //0.5秒匹配一次
-const MATCH_PLAYER_COUNT    = 2;        //坐满人数
+const MATCH_PLAYER_COUNT    = 3;        //坐满人数
 const MATCH_PLAYE_NUM       = 3;        //局数
 
 //匹配房间规则
@@ -36,17 +36,22 @@ class MatchManager {
         setInterval(function() {
            let player = _this.get_matching_player();
            if(player){
-                let ret = _this.add_player_to_in_match_list(player);
-                if(!ret){
-                    Log.warn("hcc>>start_match failed");
-                    return;
-                }
-                _this.send_match_player();//匹配到一个玩家 ，发送到客户端
-                if(_this.get_in_match_player_count() >= MATCH_PLAYER_COUNT){ //匹配完成
-                    Log.info("hcc>>match success")
-                    _this.on_server_match_success();//发送到客户端，服务端已经匹配完成
-                    _this.del_match_success_player_from_math_list();//从待匹配列表删除
-                    _this.del_in_match_player(); //从匹配完成列表中删除
+                let match_count = ArrayUtil.GetArrayLen(_this._in_match_list);
+                if(match_count < MATCH_PLAYER_COUNT){
+                    let ret = _this.add_player_to_in_match_list(player);
+                    if(ret){
+                        let tmp_in_match_list = _this._in_match_list
+                        // let match_count = _this.get_in_match_player_count()
+                        let match_count = ArrayUtil.GetArrayLen(_this._in_match_list);
+                        _this.send_match_player(tmp_in_match_list);//匹配到一个玩家 ，发送到客户端
+                        Log.info("hcc>>get_in_match_player_count>> " , match_count);
+                        if(match_count >= MATCH_PLAYER_COUNT){ //匹配完成
+                            Log.info("hcc>>match success")
+                            _this.on_server_match_success(tmp_in_match_list);//发送到客户端，服务端已经匹配完成
+                            _this.del_match_success_player_from_math_list(tmp_in_match_list);//从待匹配列表删除
+                            _this.del_in_match_player(tmp_in_match_list); //从匹配完成列表中删除
+                        }
+                    }
                 }
            }
         //    _this.log_match_list()
@@ -55,11 +60,14 @@ class MatchManager {
 
     //创建房间，进入玩家，发送到发送到客户端
     //in_match_list:匹配成功玩家 Matching
-    on_server_match_success(){
-        let in_match_list = this._match_list;
+    on_server_match_success(in_match_list?:any){
+        if(!in_match_list){
+            in_match_list = this._in_match_list;
+        }
         let room:Room = RoomManager.getInstance().alloc_room();
         room.set_game_rule(JSON.stringify(MATCH_GAME_RULE));
         this.set_room_host(room);
+        Log.info("hcc>>in_match_list len: " , ArrayUtil.GetArrayLen(in_match_list))
         for(let key in in_match_list){
             let player = in_match_list[key];
             player.set_offline(false);
@@ -100,8 +108,10 @@ class MatchManager {
     }
 
     //发送匹配列表中的玩家
-    send_match_player(){
-        let in_match_list = this._match_list;
+    send_match_player(in_match_list?:any){
+        if(!in_match_list){
+            in_match_list = this._in_match_list;
+        }
         let userinfo_array = [];
         for(let key in in_match_list){
             let player:Player = in_match_list[key];
@@ -151,9 +161,12 @@ class MatchManager {
     }
 
     //从待匹配列表中将匹配完成的人删掉
-    del_match_success_player_from_math_list(){
-        for(let key in this._in_match_list){
-            let mplayer:Player = this._in_match_list[key];
+    del_match_success_player_from_math_list(in_match_list?:any){
+        if(!in_match_list){
+            in_match_list = this._in_match_list;
+        }
+        for(let key in in_match_list){
+            let mplayer:Player = in_match_list[key];
             if(mplayer){
                 this.del_player_from_match_list_by_uid(mplayer.get_uid());
             }
@@ -161,11 +174,15 @@ class MatchManager {
     }
 
     //删除匹配完成列表的人 Matching状态
-    del_in_match_player(){
+    del_in_match_player(in_match_list?:any){
+        if(!in_match_list){
+            in_match_list = this._in_match_list;
+        }
+
         let key_set = [];
         let _this = this;
-        for(let key in this._in_match_list){
-            let player:Player = this._in_match_list[key];
+        for(let key in in_match_list){
+            let player:Player = in_match_list[key];
             if(player){
                 player.set_user_state(UserState.InView);
                 key_set.push(player.get_uid())
@@ -202,8 +219,12 @@ class MatchManager {
             return false;
         }
 
-        player.set_user_state(UserState.MatchIng);
+        if(ArrayUtil.GetArrayLen(this._in_match_list) >= MATCH_PLAYER_COUNT){
+            return false;
+        }
+
         this._in_match_list[player.get_uid()] = player;
+        player.set_user_state(UserState.MatchIng);
         return true;
     }
 
@@ -231,8 +252,8 @@ class MatchManager {
         return false;
     }
 
-    //用户取消匹配
-    on_user_stop_match(uid:number):boolean{
+    //用户取消匹配,从匹配队列和匹配中删掉
+    stop_player_match(uid:number):boolean{
         let ret = this.del_player_from_match_list_by_uid(uid);
         let ret_in = this.del_player_from_in_match_list_by_uid(uid);
         return ret || ret_in;

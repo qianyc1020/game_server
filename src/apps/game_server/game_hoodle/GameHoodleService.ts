@@ -1,5 +1,6 @@
 import ServiceBase from '../../../netbus/ServiceBase';
 import GameHoodleModle from './GameHoodleModle';
+import Log from '../../../utils/Log';
 
 class GameHoodleService extends ServiceBase {
 	 service_name:string = "GameHoodleService"; // 服务名称
@@ -16,6 +17,7 @@ class GameHoodleService extends ServiceBase {
 	
 	// 收到客户端断开连接，网关已经发了断开协议（eUserLostConnectRes）过来，这里不用做处理
 	static on_player_disconnect(session:any) {
+		Log.warn("hcc>>on_player_disconnect>>GameHoodleService")
 	}
 }
 

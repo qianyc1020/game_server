@@ -100,7 +100,10 @@ class GameHoodleModle {
             }
         }
         PlayerManager.getInstance().delete_player(utag)
-        
+        let ret = MatchManager.getInstance().stop_player_match(player.get_uid());
+        if(ret){
+            Log.info(player.get_uname() , "delete from match")
+        }
     }
     //登录逻辑服务
     private on_login_logic(session:any, utag:number, proto_type:number, raw_cmd:any){
@@ -150,25 +153,33 @@ class GameHoodleModle {
             GameSendMsg.send(session, Cmd.eCreateRoomRes, utag, proto_type, {status: Response.INVALIDI_OPT})
             return;
         }
+        
         let player:Player = PlayerManager.getInstance().get_player(utag);
+        let uname = player.get_uname();
+        if(player.get_user_state() == UserState.MatchIng){
+            GameSendMsg.send(session, Cmd.eCreateRoomRes, utag, proto_type, {status: Response.INVALIDI_OPT})
+            Log.warn(uname ," create room error, player is in matching")
+            return;
+        }
+        
         let rmanager:RoomManager = RoomManager.getInstance()
         if (rmanager.get_room_by_uid(player.get_uid())){
             GameSendMsg.send(session, Cmd.eCreateRoomRes, utag, proto_type, {status: Response.INVALIDI_OPT})
-            Log.warn("create room error, already create one")
+            Log.warn(uname , "create room error, already create one")
             return;
         }
 
         let room:Room = RoomManager.getInstance().alloc_room();
         if(!room){
             GameSendMsg.send(session, Cmd.eCreateRoomRes, utag, proto_type, {status: Response.SYSTEM_ERR})
-            Log.warn("create room error, alloc room error")
+            Log.warn(uname , "create room error, alloc room error")
             return;
         }
 
         let body = this.decode_cmd(proto_type,raw_cmd);
         if(body){
             room.set_game_rule(body.gamerule)
-            Log.info("create room, gamerule: ",body)
+            Log.info(uname ,"create room, gamerule: ",body)
         }
 
         if(!room.add_player(player)){
@@ -191,16 +202,25 @@ class GameHoodleModle {
             return;
         }
 
+        let player:Player = PlayerManager.getInstance().get_player(utag);
+        let uname = player.get_uname();
+        if(player.get_user_state() == UserState.MatchIng){
+            Log.warn(uname , "join_room error, player is in matching!")
+            GameSendMsg.send(session, Cmd.eJoinRoomRes, utag, proto_type, {status: Response.INVALID_PARAMS})
+            return;
+            return;
+        }
+
         let roomid = body.roomid;
         if(!roomid || roomid == ""){
-            Log.warn("join_room error, roomid" , roomid ,"is invalid")
+            Log.warn(uname , "join_room error, roomid" , roomid ,"is invalid")
             GameSendMsg.send(session, Cmd.eJoinRoomRes, utag, proto_type, {status: Response.INVALID_PARAMS})
             return;
         }
 
         let room:Room = RoomManager.getInstance().get_room_by_roomid(roomid)
         if(!room){
-            Log.warn("join_room error, room is not exist!")
+            Log.warn(uname , "join_room error, room is not exist!")
             GameSendMsg.send(session, Cmd.eJoinRoomRes, utag, proto_type, {status: Response.SYSTEM_ERR})
             return;
         }
@@ -210,7 +230,7 @@ class GameHoodleModle {
         if(uroom){
             //自己已经创建了一个房间
             if(room.get_room_id() !== uroom.get_room_id()){
-                Log.warn("join_room error, player is create one room!")
+                Log.warn(uname , "join_room error, player is create one room!")
                 GameSendMsg.send(session, Cmd.eJoinRoomRes, utag, proto_type, {status: Response.INVALIDI_OPT})
                 return;
             }
@@ -220,9 +240,8 @@ class GameHoodleModle {
             }
         }
         
-        let player:Player = PlayerManager.getInstance().get_player(utag);
         if(!room.add_player(player, is_back_room)){
-            Log.warn("join_room error")
+            Log.warn(uname + "join_room error")
             GameSendMsg.send(session, Cmd.eJoinRoomRes, utag, proto_type, {status: Response.INVALIDI_OPT})
             return;
         } 
@@ -231,7 +250,7 @@ class GameHoodleModle {
        
         //send uinfo to other player in room
         GameHoodleInterface.broadcast_player_info_in_rooom(room, player);
-        Log.info("join_room success, roomid: " , room.get_room_id())
+        Log.info(uname , "join_room success, roomid: " , room.get_room_id())
     }
     //离开房间
     private on_exit_room(session:any, utag:number, proto_type:number, raw_cmd:any){
@@ -607,17 +626,18 @@ class GameHoodleModle {
 
         let match_mgr = MatchManager.getInstance();
         let player:Player = PlayerManager.getInstance().get_player(utag);
+        let uname = player.get_uname();
         //如果在房间内，不能匹配
         let room =  RoomManager.getInstance().get_room_by_uid(player.get_uid())
         if(room){
-            Log.warn("on_user_match error user is at room!")
+            Log.warn(uname , "on_user_match error user is at room!")
             player.send_cmd(Cmd.eUserMatchRes,{status: Response.INVALIDI_OPT});
             return;
         }
 
         let ret = match_mgr.add_player_to_match_list(player);
         if(!ret){
-            Log.warn("on_user_match error user is in matching!")
+            Log.warn(uname , "on_user_match error user is in matching!")
             player.send_cmd(Cmd.eUserMatchRes,{status: Response.NOT_YOUR_TURN});
             return;
         }
@@ -636,7 +656,7 @@ class GameHoodleModle {
             userinfo: userinfo_array,
         }
         player.send_cmd(Cmd.eUserMatchRes,body)
-        Log.info("on_user_match user add matching success!")
+        Log.info(uname , "on_user_match user add matching success!")
     }
 
     on_user_stop_match(session:any, utag:number, proto_type:number, raw_cmd:any){
@@ -648,14 +668,16 @@ class GameHoodleModle {
 
         let match_mgr = MatchManager.getInstance();
         let player:Player = PlayerManager.getInstance().get_player(utag);
-        let ret = match_mgr.on_user_stop_match(player.get_uid());
+        let uname = player.get_uname();
+        let ret = match_mgr.stop_player_match(player.get_uid());
         if(!ret){
-            Log.warn("on_user_stop_match failed!")
+            Log.warn(uname , "on_user_stop_match failed!")
             player.send_cmd(Cmd.eUserStopMatchRes,{status: Response.INVALIDI_OPT});
             return;
         }
         player.send_cmd(Cmd.eUserStopMatchRes,{status: Response.OK});
         match_mgr.send_match_player();
+        Log.warn(uname , "on_user_stop_match success!")
     }
 
 }

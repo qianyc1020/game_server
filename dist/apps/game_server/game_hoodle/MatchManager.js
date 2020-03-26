@@ -10,7 +10,7 @@ var RoomManager_1 = __importDefault(require("./RoomManager"));
 var GameHoodleProto_1 = require("../../protocol/GameHoodleProto");
 var Response_1 = __importDefault(require("../../Response"));
 var MATCH_INTERVAL = 1000; //0.5秒匹配一次
-var MATCH_PLAYER_COUNT = 2; //坐满人数
+var MATCH_PLAYER_COUNT = 3; //坐满人数
 var MATCH_PLAYE_NUM = 3; //局数
 //匹配房间规则
 var MATCH_GAME_RULE = {
@@ -31,17 +31,22 @@ var MatchManager = /** @class */ (function () {
         setInterval(function () {
             var player = _this.get_matching_player();
             if (player) {
-                var ret = _this.add_player_to_in_match_list(player);
-                if (!ret) {
-                    Log_1["default"].warn("hcc>>start_match failed");
-                    return;
-                }
-                _this.send_match_player(); //匹配到一个玩家 ，发送到客户端
-                if (_this.get_in_match_player_count() >= MATCH_PLAYER_COUNT) { //匹配完成
-                    Log_1["default"].info("hcc>>match success");
-                    _this.on_server_match_success(); //发送到客户端，服务端已经匹配完成
-                    _this.del_match_success_player_from_math_list(); //从待匹配列表删除
-                    _this.del_in_match_player(); //从匹配完成列表中删除
+                var match_count = ArrayUtil_1["default"].GetArrayLen(_this._in_match_list);
+                if (match_count < MATCH_PLAYER_COUNT) {
+                    var ret = _this.add_player_to_in_match_list(player);
+                    if (ret) {
+                        var tmp_in_match_list = _this._in_match_list;
+                        // let match_count = _this.get_in_match_player_count()
+                        var match_count_1 = ArrayUtil_1["default"].GetArrayLen(_this._in_match_list);
+                        _this.send_match_player(tmp_in_match_list); //匹配到一个玩家 ，发送到客户端
+                        Log_1["default"].info("hcc>>get_in_match_player_count>> ", match_count_1);
+                        if (match_count_1 >= MATCH_PLAYER_COUNT) { //匹配完成
+                            Log_1["default"].info("hcc>>match success");
+                            _this.on_server_match_success(tmp_in_match_list); //发送到客户端，服务端已经匹配完成
+                            _this.del_match_success_player_from_math_list(tmp_in_match_list); //从待匹配列表删除
+                            _this.del_in_match_player(tmp_in_match_list); //从匹配完成列表中删除
+                        }
+                    }
                 }
             }
             //    _this.log_match_list()
@@ -49,11 +54,14 @@ var MatchManager = /** @class */ (function () {
     };
     //创建房间，进入玩家，发送到发送到客户端
     //in_match_list:匹配成功玩家 Matching
-    MatchManager.prototype.on_server_match_success = function () {
-        var in_match_list = this._match_list;
+    MatchManager.prototype.on_server_match_success = function (in_match_list) {
+        if (!in_match_list) {
+            in_match_list = this._in_match_list;
+        }
         var room = RoomManager_1["default"].getInstance().alloc_room();
         room.set_game_rule(JSON.stringify(MATCH_GAME_RULE));
         this.set_room_host(room);
+        Log_1["default"].info("hcc>>in_match_list len: ", ArrayUtil_1["default"].GetArrayLen(in_match_list));
         for (var key in in_match_list) {
             var player = in_match_list[key];
             player.set_offline(false);
@@ -92,8 +100,10 @@ var MatchManager = /** @class */ (function () {
         }
     };
     //发送匹配列表中的玩家
-    MatchManager.prototype.send_match_player = function () {
-        var in_match_list = this._match_list;
+    MatchManager.prototype.send_match_player = function (in_match_list) {
+        if (!in_match_list) {
+            in_match_list = this._in_match_list;
+        }
         var userinfo_array = [];
         for (var key in in_match_list) {
             var player = in_match_list[key];
@@ -138,20 +148,26 @@ var MatchManager = /** @class */ (function () {
         return count;
     };
     //从待匹配列表中将匹配完成的人删掉
-    MatchManager.prototype.del_match_success_player_from_math_list = function () {
-        for (var key in this._in_match_list) {
-            var mplayer = this._in_match_list[key];
+    MatchManager.prototype.del_match_success_player_from_math_list = function (in_match_list) {
+        if (!in_match_list) {
+            in_match_list = this._in_match_list;
+        }
+        for (var key in in_match_list) {
+            var mplayer = in_match_list[key];
             if (mplayer) {
                 this.del_player_from_match_list_by_uid(mplayer.get_uid());
             }
         }
     };
     //删除匹配完成列表的人 Matching状态
-    MatchManager.prototype.del_in_match_player = function () {
+    MatchManager.prototype.del_in_match_player = function (in_match_list) {
+        if (!in_match_list) {
+            in_match_list = this._in_match_list;
+        }
         var key_set = [];
         var _this = this;
-        for (var key in this._in_match_list) {
-            var player = this._in_match_list[key];
+        for (var key in in_match_list) {
+            var player = in_match_list[key];
             if (player) {
                 player.set_user_state(State_1.UserState.InView);
                 key_set.push(player.get_uid());
@@ -183,8 +199,11 @@ var MatchManager = /** @class */ (function () {
         if (this.get_in_match_player_count() >= MATCH_PLAYER_COUNT) {
             return false;
         }
-        player.set_user_state(State_1.UserState.MatchIng);
+        if (ArrayUtil_1["default"].GetArrayLen(this._in_match_list) >= MATCH_PLAYER_COUNT) {
+            return false;
+        }
         this._in_match_list[player.get_uid()] = player;
+        player.set_user_state(State_1.UserState.MatchIng);
         return true;
     };
     //从待匹配的列表中删除 inview
@@ -209,8 +228,8 @@ var MatchManager = /** @class */ (function () {
         }
         return false;
     };
-    //用户取消匹配
-    MatchManager.prototype.on_user_stop_match = function (uid) {
+    //用户取消匹配,从匹配队列和匹配中删掉
+    MatchManager.prototype.stop_player_match = function (uid) {
         var ret = this.del_player_from_match_list_by_uid(uid);
         var ret_in = this.del_player_from_in_match_list_by_uid(uid);
         return ret || ret_in;

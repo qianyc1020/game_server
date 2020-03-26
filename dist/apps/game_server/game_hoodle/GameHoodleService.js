@@ -18,6 +18,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 var ServiceBase_1 = __importDefault(require("../../../netbus/ServiceBase"));
 var GameHoodleModle_1 = __importDefault(require("./GameHoodleModle"));
+var Log_1 = __importDefault(require("../../../utils/Log"));
 var GameHoodleService = /** @class */ (function (_super) {
     __extends(GameHoodleService, _super);
     function GameHoodleService() {
@@ -35,6 +36,7 @@ var GameHoodleService = /** @class */ (function (_super) {
     };
     // 收到客户端断开连接，网关已经发了断开协议（eUserLostConnectRes）过来，这里不用做处理
     GameHoodleService.on_player_disconnect = function (session) {
+        Log_1["default"].warn("hcc>>on_player_disconnect>>GameHoodleService");
     };
     return GameHoodleService;
 }(ServiceBase_1["default"]));
