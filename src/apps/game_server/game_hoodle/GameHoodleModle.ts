@@ -386,11 +386,11 @@ class GameHoodleModle {
         let player:Player = PlayerManager.getInstance().get_player(utag);
         let room = RoomManager.getInstance().get_room_by_uid(player.get_uid())
         if(room){
-            GameHoodleInterface.send_player_info(player);
             player.send_cmd(Cmd.eCheckLinkGameRes, {status: Response.OK})
             player.send_cmd(Cmd.eRoomIdRes,{roomid: room.get_room_id()})
             player.send_cmd(Cmd.eGameRuleRes,{gamerule: room.get_game_rule()})
             player.send_cmd(Cmd.ePlayCountRes, {playcount: String(room.get_play_count()), totalplaycount: String(room.get_conf_play_count())})
+            GameHoodleInterface.send_player_info(player);
             
             //处理断线重连,只发送给重连玩家
             //玩家位置，局数，玩家权限，玩家得分
@@ -598,8 +598,6 @@ class GameHoodleModle {
 
             //设置游戏状态为结算状态
             room.set_game_state(GameState.CheckOut);
-            //发送结算
-            GameHoodleLogicInterface.send_game_result(room);
             //发送玩家状态
             GameHoodleInterface.set_all_player_state(room,UserState.InView);
             GameHoodleInterface.broadcast_player_info_in_rooom(room);
@@ -607,7 +605,8 @@ class GameHoodleModle {
             GameHoodleLogicInterface.clear_all_player_cur_data(room);
             //发送权限
             GameHoodleLogicInterface.send_player_power(room);
-  
+            //发送结算
+            GameHoodleLogicInterface.send_game_result(room);
             //大结算: 踢出所有玩家，房间解散
             if(room.get_play_count() == room.get_conf_play_count()){
                 GameHoodleLogicInterface.send_game_total_result(room);

@@ -359,11 +359,11 @@ var GameHoodleModle = /** @class */ (function () {
         var player = PlayerManager_1["default"].getInstance().get_player(utag);
         var room = RoomManager_1["default"].getInstance().get_room_by_uid(player.get_uid());
         if (room) {
-            GameHoodleInterface_1["default"].send_player_info(player);
             player.send_cmd(GameHoodleProto_1.Cmd.eCheckLinkGameRes, { status: Response_1["default"].OK });
             player.send_cmd(GameHoodleProto_1.Cmd.eRoomIdRes, { roomid: room.get_room_id() });
             player.send_cmd(GameHoodleProto_1.Cmd.eGameRuleRes, { gamerule: room.get_game_rule() });
             player.send_cmd(GameHoodleProto_1.Cmd.ePlayCountRes, { playcount: String(room.get_play_count()), totalplaycount: String(room.get_conf_play_count()) });
+            GameHoodleInterface_1["default"].send_player_info(player);
             //处理断线重连,只发送给重连玩家
             //玩家位置，局数，玩家权限，玩家得分
             if (room.get_game_state() == State_1.GameState.Gameing) {
@@ -545,8 +545,6 @@ var GameHoodleModle = /** @class */ (function () {
             GameHoodleLogicInterface_1["default"].send_player_score(room);
             //设置游戏状态为结算状态
             room.set_game_state(State_1.GameState.CheckOut);
-            //发送结算
-            GameHoodleLogicInterface_1["default"].send_game_result(room);
             //发送玩家状态
             GameHoodleInterface_1["default"].set_all_player_state(room, State_1.UserState.InView);
             GameHoodleInterface_1["default"].broadcast_player_info_in_rooom(room);
@@ -554,6 +552,8 @@ var GameHoodleModle = /** @class */ (function () {
             GameHoodleLogicInterface_1["default"].clear_all_player_cur_data(room);
             //发送权限
             GameHoodleLogicInterface_1["default"].send_player_power(room);
+            //发送结算
+            GameHoodleLogicInterface_1["default"].send_game_result(room);
             //大结算: 踢出所有玩家，房间解散
             if (room.get_play_count() == room.get_conf_play_count()) {
                 GameHoodleLogicInterface_1["default"].send_game_total_result(room);
