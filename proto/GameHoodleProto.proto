@@ -226,6 +226,7 @@ message PlayerShootReq {
 	required sint32 seatid = 1;
 	required string posx = 2;
 	required string posy = 3;
+	optional int32 shootpower = 4;
 }
 
 message PlayerShootRes {
@@ -233,6 +234,7 @@ message PlayerShootRes {
 	required sint32 seatid = 2;
 	required string posx = 3;
 	required string posy = 4;
+	optional int32 shootpower = 5;
 }
 
 message PlayerBallPosReq {

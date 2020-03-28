@@ -161,6 +161,7 @@ class GameHoodleLogicInterface {
             seatid: Number(shoot_info.seatid),
             posx: String(shoot_info.posx),
             posy: String(shoot_info.posy),
+            shootpower:Number(shoot_info.shootpower),
         }
         room.broadcast_in_room(Cmd.ePlayerShootRes, body, not_player)
     }

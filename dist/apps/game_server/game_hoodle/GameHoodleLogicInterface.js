@@ -151,7 +151,8 @@ var GameHoodleLogicInterface = /** @class */ (function () {
             status: Response_1["default"].OK,
             seatid: Number(shoot_info.seatid),
             posx: String(shoot_info.posx),
-            posy: String(shoot_info.posy)
+            posy: String(shoot_info.posy),
+            shootpower: Number(shoot_info.shootpower)
         };
         room.broadcast_in_room(GameHoodleProto_1.Cmd.ePlayerShootRes, body, not_player);
     };

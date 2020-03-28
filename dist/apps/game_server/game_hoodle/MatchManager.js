@@ -11,7 +11,7 @@ var GameHoodleProto_1 = require("../../protocol/GameHoodleProto");
 var Response_1 = __importDefault(require("../../Response"));
 var MATCH_INTERVAL = 1000; //0.5秒匹配一次
 var MATCH_PLAYER_COUNT = 2; //坐满人数
-var MATCH_PLAYE_NUM = 3; //局数
+var MATCH_PLAYE_NUM = 5; //局数
 //匹配房间规则
 var MATCH_GAME_RULE = {
     playerCount: MATCH_PLAYER_COUNT,

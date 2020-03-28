@@ -9,7 +9,7 @@ import Response from '../../Response';
 
 const MATCH_INTERVAL        = 1000;     //0.5秒匹配一次
 const MATCH_PLAYER_COUNT    = 2;        //坐满人数
-const MATCH_PLAYE_NUM       = 3;        //局数
+const MATCH_PLAYE_NUM       = 5;        //局数
 
 //匹配房间规则
 let MATCH_GAME_RULE = {
