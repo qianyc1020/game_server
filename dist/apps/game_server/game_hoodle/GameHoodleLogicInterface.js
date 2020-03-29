@@ -8,6 +8,8 @@ var Response_1 = __importDefault(require("../../Response"));
 var Log_1 = __importDefault(require("../../../utils/Log"));
 var State_1 = require("./State");
 var StringUtil_1 = __importDefault(require("../../../utils/StringUtil"));
+var GameConf_1 = __importDefault(require("../../GameConf"));
+var MySqlGame_1 = __importDefault(require("../../../database/MySqlGame"));
 ////////////////////////
 //游戏逻辑相关接口
 ////////////////////////
@@ -84,6 +86,39 @@ var GameHoodleLogicInterface = /** @class */ (function () {
                     player.set_user_power(State_1.PlayerPower.canNotPlay);
                 }
             }
+        }
+    };
+    //计算玩家金币，设置到player，写入数据库
+    //考虑不够减的情况
+    GameHoodleLogicInterface.write_player_chip = function (room) {
+        if (!room) {
+            return;
+        }
+        var player_set = room.get_all_player();
+        var _loop_1 = function (key) {
+            var player = player_set[key];
+            if (player) {
+                var score = player.get_user_score();
+                var gold_win = score * GameConf_1["default"].KW_WIN_RATE;
+                if (gold_win != 0) {
+                    var player_cur_chip = player.get_uchip();
+                    if (gold_win < 0) {
+                        if (Math.abs(gold_win) > Math.abs(player_cur_chip)) {
+                            gold_win = (-1) * player_cur_chip;
+                        }
+                    }
+                    Log_1["default"].info(player.get_uname(), "hcc>>write_player_chip: score: ", score, " ,gold_win: ", gold_win, " ,cur_chip: ", player.get_uchip(), " ,after add: ", (player.get_uchip() + gold_win));
+                    player.set_uchip(player.get_uchip() + gold_win);
+                    MySqlGame_1["default"].add_ugame_uchip(player.get_uid(), gold_win, gold_win > 0, function (status, ret) {
+                        if (status == Response_1["default"].OK) {
+                            Log_1["default"].info("hcc>>write_player_chip success", player.get_uname());
+                        }
+                    });
+                }
+            }
+        };
+        for (var key in player_set) {
+            _loop_1(key);
         }
     };
     ////////////////////////////////////////
@@ -219,6 +254,7 @@ var GameHoodleLogicInterface = /** @class */ (function () {
         }
         var player_set = room.get_all_player();
         var player_score_array = [];
+        var player_golds_array = [];
         for (var key in player_set) {
             var player = player_set[key];
             if (player) {
@@ -226,10 +262,22 @@ var GameHoodleLogicInterface = /** @class */ (function () {
                     seatid: Number(player.get_seat_id()),
                     score: String(player.get_user_score())
                 };
+                //金币不够情况
+                var score = player.get_user_score();
+                var gold_win = score * GameConf_1["default"].KW_WIN_RATE;
+                var one_gold = {
+                    seatid: Number(player.get_seat_id()),
+                    gold: String(gold_win)
+                };
                 player_score_array.push(one_score);
+                player_golds_array.push(one_gold);
             }
         }
-        room.broadcast_in_room(GameHoodleProto_1.Cmd.eTotalGameResultRes, { scores: player_score_array });
+        var body = {
+            scores: player_score_array,
+            golds: player_golds_array
+        };
+        room.broadcast_in_room(GameHoodleProto_1.Cmd.eTotalGameResultRes, body);
     };
     //玩家得分
     GameHoodleLogicInterface.send_player_score = function (room, not_player, only_player) {

@@ -15,6 +15,9 @@ var State_1 = require("./State");
 var GameHoodleInterface_1 = __importDefault(require("./GameHoodleInterface"));
 var GameHoodleLogicInterface_1 = __importDefault(require("./GameHoodleLogicInterface"));
 var MatchManager_1 = __importDefault(require("./MatchManager"));
+var MySqlGame_1 = __importDefault(require("../../../database/MySqlGame"));
+var ArrayUtil_1 = __importDefault(require("../../../utils/ArrayUtil"));
+var GameConf_1 = __importDefault(require("../../GameConf"));
 var GameHoodleModle = /** @class */ (function () {
     function GameHoodleModle() {
     }
@@ -25,7 +28,7 @@ var GameHoodleModle = /** @class */ (function () {
         return ProtoManager_1["default"].decode_cmd(proto_type, raw_cmd);
     };
     GameHoodleModle.prototype.recv_cmd_msg = function (session, stype, ctype, utag, proto_type, raw_cmd) {
-        Log_1["default"].info("recv_cmd_msg: ", stype, ctype, utag, proto_type, this.decode_cmd(proto_type, raw_cmd));
+        // Log.info("recv_cmd_msg: ",stype,ctype,utag,proto_type,this.decode_cmd(proto_type,raw_cmd))
         switch (ctype) {
             case CommonProto_1["default"].eUserLostConnectRes:
                 this.on_user_lost_connect(session, utag, proto_type, raw_cmd);
@@ -71,6 +74,9 @@ var GameHoodleModle = /** @class */ (function () {
                 break;
             case GameHoodleProto_1.Cmd.eUserStopMatchReq:
                 this.on_user_stop_match(session, utag, proto_type, raw_cmd);
+                break;
+            case GameHoodleProto_1.Cmd.eUserGameInfoReq:
+                this.on_user_get_ugame_info(session, utag, proto_type, raw_cmd);
                 break;
             default:
                 break;
@@ -152,21 +158,29 @@ var GameHoodleModle = /** @class */ (function () {
         var player = PlayerManager_1["default"].getInstance().get_player(utag);
         var uname = player.get_uname();
         if (player.get_user_state() == State_1.UserState.MatchIng) {
-            GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eCreateRoomRes, utag, proto_type, { status: Response_1["default"].INVALIDI_OPT });
+            player.send_cmd(GameHoodleProto_1.Cmd.eCreateRoomRes, { status: Response_1["default"].INVALIDI_OPT });
             Log_1["default"].warn(uname, " create room error, player is in matching");
             return;
         }
         var rmanager = RoomManager_1["default"].getInstance();
         if (rmanager.get_room_by_uid(player.get_uid())) {
-            GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eCreateRoomRes, utag, proto_type, { status: Response_1["default"].INVALIDI_OPT });
+            player.send_cmd(GameHoodleProto_1.Cmd.eCreateRoomRes, { status: Response_1["default"].INVALIDI_OPT });
             Log_1["default"].warn(uname, "create room error, already create one");
             return;
         }
         var room = RoomManager_1["default"].getInstance().alloc_room();
         if (!room) {
-            GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eCreateRoomRes, utag, proto_type, { status: Response_1["default"].SYSTEM_ERR });
+            player.send_cmd(GameHoodleProto_1.Cmd.eCreateRoomRes, { status: Response_1["default"].SYSTEM_ERR });
             Log_1["default"].warn(uname, "create room error, alloc room error");
             return;
+        }
+        //是否金币不足
+        if (GameConf_1["default"].KW_IS_GOLD_LIMIT) {
+            if (player.get_uchip() < GameConf_1["default"].KW_MIN_GOLD_ENTER_ROOM) {
+                player.send_cmd(GameHoodleProto_1.Cmd.eCreateRoomRes, { status: Response_1["default"].SYSTEM_ERR });
+                Log_1["default"].warn(uname, "create room error, gold is not enough");
+                return;
+            }
         }
         var body = this.decode_cmd(proto_type, raw_cmd);
         if (body) {
@@ -175,14 +189,14 @@ var GameHoodleModle = /** @class */ (function () {
         }
         if (!room.add_player(player)) {
             Log_1["default"].warn("create room error,add host player error");
-            GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eCreateRoomRes, utag, proto_type, { status: Response_1["default"].INVALIDI_OPT });
+            player.send_cmd(GameHoodleProto_1.Cmd.eCreateRoomRes, { status: Response_1["default"].INVALIDI_OPT });
             RoomManager_1["default"].getInstance().delete_room(room.get_room_id());
             return;
         }
         room.set_room_host_uid(player.get_uid());
         player.set_offline(false);
         player.set_ishost(true);
-        GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eCreateRoomRes, utag, proto_type, { status: Response_1["default"].OK });
+        player.send_cmd(GameHoodleProto_1.Cmd.eCreateRoomRes, { status: Response_1["default"].OK });
     };
     //加入房间
     GameHoodleModle.prototype.on_join_room = function (session, utag, proto_type, raw_cmd) {
@@ -196,21 +210,28 @@ var GameHoodleModle = /** @class */ (function () {
         var uname = player.get_uname();
         if (player.get_user_state() == State_1.UserState.MatchIng) {
             Log_1["default"].warn(uname, "join_room error, player is in matching!");
-            GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eJoinRoomRes, utag, proto_type, { status: Response_1["default"].INVALID_PARAMS });
-            return;
+            player.send_cmd(GameHoodleProto_1.Cmd.eJoinRoomRes, { status: Response_1["default"].INVALID_PARAMS });
             return;
         }
         var roomid = body.roomid;
         if (!roomid || roomid == "") {
             Log_1["default"].warn(uname, "join_room error, roomid", roomid, "is invalid");
-            GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eJoinRoomRes, utag, proto_type, { status: Response_1["default"].INVALID_PARAMS });
+            player.send_cmd(GameHoodleProto_1.Cmd.eJoinRoomRes, { status: Response_1["default"].INVALID_PARAMS });
             return;
         }
         var room = RoomManager_1["default"].getInstance().get_room_by_roomid(roomid);
         if (!room) {
             Log_1["default"].warn(uname, "join_room error, room is not exist!");
-            GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eJoinRoomRes, utag, proto_type, { status: Response_1["default"].SYSTEM_ERR });
+            player.send_cmd(GameHoodleProto_1.Cmd.eJoinRoomRes, { status: Response_1["default"].SYSTEM_ERR });
             return;
+        }
+        //是否金币不足
+        if (GameConf_1["default"].KW_IS_GOLD_LIMIT) {
+            if (player.get_uchip() < GameConf_1["default"].KW_MIN_GOLD_ENTER_ROOM) {
+                player.send_cmd(GameHoodleProto_1.Cmd.eJoinRoomRes, { status: Response_1["default"].SYSTEM_ERR });
+                Log_1["default"].warn(uname, "join_room error, gold is not enough");
+                return;
+            }
         }
         //自己创建了一个房间，不能加入其它人的房间，只能加入自己的房间
         var uroom = RoomManager_1["default"].getInstance().get_room_by_uid(utag);
@@ -219,7 +240,7 @@ var GameHoodleModle = /** @class */ (function () {
             //自己已经创建了一个房间
             if (room.get_room_id() !== uroom.get_room_id()) {
                 Log_1["default"].warn(uname, "join_room error, player is create one room!");
-                GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eJoinRoomRes, utag, proto_type, { status: Response_1["default"].INVALIDI_OPT });
+                player.send_cmd(GameHoodleProto_1.Cmd.eJoinRoomRes, { status: Response_1["default"].INVALIDI_OPT });
                 return;
             }
             //掉线返回房间
@@ -229,11 +250,11 @@ var GameHoodleModle = /** @class */ (function () {
         }
         if (!room.add_player(player, is_back_room)) {
             Log_1["default"].warn(uname + "join_room error");
-            GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eJoinRoomRes, utag, proto_type, { status: Response_1["default"].INVALIDI_OPT });
+            player.send_cmd(GameHoodleProto_1.Cmd.eJoinRoomRes, { status: Response_1["default"].INVALIDI_OPT });
             return;
         }
         player.set_offline(false);
-        GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eJoinRoomRes, utag, proto_type, { status: Response_1["default"].OK });
+        player.send_cmd(GameHoodleProto_1.Cmd.eJoinRoomRes, { status: Response_1["default"].OK });
         //send uinfo to other player in room
         GameHoodleInterface_1["default"].broadcast_player_info_in_rooom(room, player);
         Log_1["default"].info(uname, "join_room success, roomid: ", room.get_room_id());
@@ -250,13 +271,13 @@ var GameHoodleModle = /** @class */ (function () {
         var room = rmanager.get_room_by_uid(player.get_uid());
         if (!room) {
             Log_1["default"].warn("exit_room error, room is not exist!");
-            GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eExitRoomRes, utag, proto_type, { status: Response_1["default"].INVALIDI_OPT });
+            player.send_cmd(GameHoodleProto_1.Cmd.eExitRoomRes, { status: Response_1["default"].INVALIDI_OPT });
             return;
         }
         //start game
         if (room.get_game_state() != State_1.GameState.InView) {
             Log_1["default"].warn("exit_room error, game is start !");
-            GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eExitRoomRes, utag, proto_type, { status: Response_1["default"].INVALIDI_OPT });
+            player.send_cmd(GameHoodleProto_1.Cmd.eExitRoomRes, { status: Response_1["default"].INVALIDI_OPT });
             return;
         }
         if (room.is_room_host(player.get_uid())) {
@@ -266,7 +287,7 @@ var GameHoodleModle = /** @class */ (function () {
             room.kick_player(player.get_uid());
             player.clear_room_info();
         }
-        GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eExitRoomRes, utag, proto_type, { status: Response_1["default"].OK });
+        player.send_cmd(GameHoodleProto_1.Cmd.eExitRoomRes, { status: Response_1["default"].OK });
         GameHoodleInterface_1["default"].broadcast_player_info_in_rooom(room);
     };
     //解散房间
@@ -281,24 +302,24 @@ var GameHoodleModle = /** @class */ (function () {
         var room = rmanager.get_room_by_uid(player.get_uid());
         if (!room) {
             Log_1["default"].warn("dessolve_room error, room is not exist!");
-            GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eDessolveRes, utag, proto_type, { status: Response_1["default"].INVALIDI_OPT });
+            player.send_cmd(GameHoodleProto_1.Cmd.eDessolveRes, { status: Response_1["default"].INVALIDI_OPT });
             return;
         }
         if (room.is_room_host(player.get_uid()) == false) {
             Log_1["default"].warn("dessolve_room error, player is not host!");
-            GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eDessolveRes, utag, proto_type, { status: Response_1["default"].INVALIDI_OPT });
+            player.send_cmd(GameHoodleProto_1.Cmd.eDessolveRes, { status: Response_1["default"].INVALIDI_OPT });
             return;
         }
         var roomID = room.get_room_id();
         var ret = rmanager.delete_room(roomID);
         if (ret == false) {
             Log_1["default"].warn("dessolve_room error ,roomid: ", roomID, "is not exist!");
-            GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eDessolveRes, utag, proto_type, { status: Response_1["default"].INVALIDI_OPT });
+            player.send_cmd(GameHoodleProto_1.Cmd.eDessolveRes, { status: Response_1["default"].INVALIDI_OPT });
             return;
         }
         room.broadcast_in_room(GameHoodleProto_1.Cmd.eDessolveRes, { status: Response_1["default"].OK }, player);
         room.kick_all_player();
-        GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eDessolveRes, utag, proto_type, { status: Response_1["default"].OK });
+        player.send_cmd(GameHoodleProto_1.Cmd.eDessolveRes, { status: Response_1["default"].OK });
     };
     //获取是否创建过房间
     GameHoodleModle.prototype.on_get_room_status = function (session, utag, proto_type, raw_cmd) {
@@ -310,12 +331,12 @@ var GameHoodleModle = /** @class */ (function () {
         var player = PlayerManager_1["default"].getInstance().get_player(utag);
         var room = RoomManager_1["default"].getInstance().get_room_by_uid(player.get_uid());
         if (!room) {
-            GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eGetRoomStatusRes, utag, proto_type, { status: Response_1["default"].SYSTEM_ERR });
+            player.send_cmd(GameHoodleProto_1.Cmd.eGetRoomStatusRes, { status: Response_1["default"].SYSTEM_ERR });
             Log_1["default"].info("get_room_status , player is not in room");
             return;
         }
         Log_1["default"].info("get_room_status player is in room! roomid: ", room.get_room_id());
-        GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eGetRoomStatusRes, utag, proto_type, { status: Response_1["default"].OK });
+        player.send_cmd(GameHoodleProto_1.Cmd.eGetRoomStatusRes, { status: Response_1["default"].OK });
     };
     //返回房间
     GameHoodleModle.prototype.on_back_room = function (session, utag, proto_type, raw_cmd) {
@@ -328,7 +349,7 @@ var GameHoodleModle = /** @class */ (function () {
         var rmanager = RoomManager_1["default"].getInstance();
         var room = rmanager.get_room_by_uid(player.get_uid());
         if (!room) {
-            GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eBackRoomRes, utag, proto_type, { status: Response_1["default"].INVALIDI_OPT });
+            player.send_cmd(GameHoodleProto_1.Cmd.eBackRoomRes, { status: Response_1["default"].INVALIDI_OPT });
             Log_1["default"].warn("back_room error, player is not in room");
             return;
         }
@@ -338,11 +359,11 @@ var GameHoodleModle = /** @class */ (function () {
             player.set_ishost(true);
         }
         if (!room.add_player(player, true)) {
-            GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eBackRoomRes, utag, proto_type, { status: Response_1["default"].INVALIDI_OPT });
+            player.send_cmd(GameHoodleProto_1.Cmd.eBackRoomRes, { status: Response_1["default"].INVALIDI_OPT });
             Log_1["default"].warn("back room error!");
             return;
         }
-        GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eBackRoomRes, utag, proto_type, { status: Response_1["default"].OK });
+        player.send_cmd(GameHoodleProto_1.Cmd.eBackRoomRes, { status: Response_1["default"].OK });
         GameHoodleInterface_1["default"].broadcast_player_info_in_rooom(room, player);
     };
     //进游戏房间后，服务推送房间内信息
@@ -381,29 +402,29 @@ var GameHoodleModle = /** @class */ (function () {
             GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eUserReadyRes, utag, proto_type, { status: Response_1["default"].INVALIDI_OPT });
             return;
         }
+        var player = PlayerManager_1["default"].getInstance().get_player(utag);
         if (!GameHoodleInterface_1["default"].check_room(utag)) {
             Log_1["default"].warn("on_user_ready room is not exist!");
-            GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eUserReadyRes, utag, proto_type, { status: Response_1["default"].INVALIDI_OPT });
+            player.send_cmd(GameHoodleProto_1.Cmd.eUserReadyRes, { status: Response_1["default"].INVALIDI_OPT });
             return;
         }
-        var player = PlayerManager_1["default"].getInstance().get_player(utag);
         var userstate = player.get_user_state();
         if (userstate == State_1.UserState.Ready || userstate == State_1.UserState.Playing) {
             Log_1["default"].warn("on_user_ready user is already ready or is playing!");
-            GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eUserReadyRes, utag, proto_type, { status: Response_1["default"].INVALIDI_OPT });
+            player.send_cmd(GameHoodleProto_1.Cmd.eUserReadyRes, { status: Response_1["default"].INVALIDI_OPT });
             return;
         }
         var room = RoomManager_1["default"].getInstance().get_room_by_uid(player.get_uid());
         if (room) {
             //已经在游戏中了
             if (room.get_game_state() == State_1.GameState.Gameing) {
-                GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eUserReadyRes, utag, proto_type, { status: Response_1["default"].INVALIDI_OPT });
+                player.send_cmd(GameHoodleProto_1.Cmd.eUserReadyRes, { status: Response_1["default"].INVALIDI_OPT });
                 Log_1["default"].warn("on_user_ready error ,game is playing!");
                 return;
             }
             //已经大结算了
             if (room.get_play_count() == room.get_conf_play_count()) {
-                GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eUserReadyRes, utag, proto_type, { status: Response_1["default"].INVALIDI_OPT });
+                player.send_cmd(GameHoodleProto_1.Cmd.eUserReadyRes, { status: Response_1["default"].INVALIDI_OPT });
                 Log_1["default"].warn("on_user_ready error ,game is over!");
                 return;
             }
@@ -539,7 +560,7 @@ var GameHoodleModle = /** @class */ (function () {
             if (src_player && des_player) {
                 src_player.set_user_score(src_player.get_user_score() + 1);
                 des_player.set_user_score(des_player.get_user_score() - 1);
-                Log_1["default"].info("hcc>>playerScore: ", src_player.get_user_score(), des_player.get_user_score());
+                Log_1["default"].info("hcc>>playerScore: src_player:", src_player.get_uname(), "+1", " des_player:", des_player.get_uname(), "-1");
             }
             //发送分数
             GameHoodleLogicInterface_1["default"].send_player_score(room);
@@ -556,6 +577,7 @@ var GameHoodleModle = /** @class */ (function () {
             GameHoodleLogicInterface_1["default"].send_game_result(room);
             //大结算: 踢出所有玩家，房间解散
             if (room.get_play_count() == room.get_conf_play_count()) {
+                GameHoodleLogicInterface_1["default"].write_player_chip(room);
                 GameHoodleLogicInterface_1["default"].send_game_total_result(room);
                 room.kick_all_player();
                 RoomManager_1["default"].getInstance().delete_room(room.get_room_id());
@@ -578,6 +600,15 @@ var GameHoodleModle = /** @class */ (function () {
             player.send_cmd(GameHoodleProto_1.Cmd.eUserMatchRes, { status: Response_1["default"].INVALIDI_OPT });
             return;
         }
+        //是否金币不足
+        if (GameConf_1["default"].KW_IS_GOLD_LIMIT) {
+            if (player.get_uchip() < GameConf_1["default"].KW_MIN_GOLD_ENTER_ROOM) {
+                player.send_cmd(GameHoodleProto_1.Cmd.eUserMatchRes, { status: Response_1["default"].INVALIDI_OPT });
+                Log_1["default"].warn(uname, "on_user_match error, gold is not enough");
+                return;
+            }
+        }
+        //加入匹配等待列表
         var ret = match_mgr.add_player_to_match_list(player);
         if (!ret) {
             Log_1["default"].warn(uname, "on_user_match error user is in matching!");
@@ -616,7 +647,64 @@ var GameHoodleModle = /** @class */ (function () {
         }
         player.send_cmd(GameHoodleProto_1.Cmd.eUserStopMatchRes, { status: Response_1["default"].OK });
         match_mgr.send_match_player();
-        Log_1["default"].warn(uname, "on_user_stop_match success!");
+        Log_1["default"].info(uname, "on_user_stop_match success!");
+    };
+    //游戏服信息
+    GameHoodleModle.prototype.on_user_get_ugame_info = function (session, utag, proto_type, raw_cmd) {
+        if (!GameHoodleInterface_1["default"].check_player(utag)) {
+            GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eUserGameInfoRes, utag, proto_type, { status: Response_1["default"].INVALIDI_OPT });
+            Log_1["default"].warn("on_user_match player is not exist!");
+            return;
+        }
+        var player = PlayerManager_1["default"].getInstance().get_player(utag);
+        MySqlGame_1["default"].get_ugame_info_by_uid(utag, function (status, data_game) {
+            if (status == Response_1["default"].OK) {
+                var data_game_len = ArrayUtil_1["default"].GetArrayLen(data_game);
+                if (data_game_len > 0) {
+                    // Log.info("hcc>>on_user_get_ugame_info1111>>", data_game[0] , "data_game: " , data_game);
+                    var ugameInfo = data_game[0];
+                    var ugameInfoStr = JSON.stringify(ugameInfo);
+                    var body = {
+                        status: Response_1["default"].OK,
+                        userInfoString: ugameInfoStr
+                    };
+                    player.set_ugame_info(ugameInfo);
+                    player.send_cmd(GameHoodleProto_1.Cmd.eUserGameInfoRes, body);
+                }
+                else {
+                    MySqlGame_1["default"].insert_ugame_user(utag, GameConf_1["default"].KW_BORN_EXP, GameConf_1["default"].KW_BORN_CHIP, function (status_game_ins, data_game_ins) {
+                        Log_1["default"].info("hcc>>on_user_get_ugame_info2222");
+                        if (status_game_ins == Response_1["default"].OK) {
+                            MySqlGame_1["default"].get_ugame_info_by_uid(utag, function (status_game_ins_get, data_game_ins_get) {
+                                if (status_game_ins_get == Response_1["default"].OK) {
+                                    // Log.info("hcc>>on_user_get_ugame_info3333>>", data_game_ins_get[0]);
+                                    var ugameInfo = data_game_ins_get[0];
+                                    var ugameInfoStr = JSON.stringify(ugameInfo);
+                                    var body = {
+                                        status: Response_1["default"].OK,
+                                        userInfoString: ugameInfoStr
+                                    };
+                                    player.set_ugame_info(ugameInfo);
+                                    player.send_cmd(GameHoodleProto_1.Cmd.eUserGameInfoRes, body);
+                                }
+                                else {
+                                    Log_1["default"].info("hcc>>on_user_get_ugame_info4444>>error");
+                                    player.send_cmd(GameHoodleProto_1.Cmd.eUserGameInfoRes, { status: Response_1["default"].INVALIDI_OPT });
+                                }
+                            });
+                        }
+                        else {
+                            Log_1["default"].info("hcc>>on_user_get_ugame_info5555>>error");
+                            player.send_cmd(GameHoodleProto_1.Cmd.eUserGameInfoRes, { status: Response_1["default"].INVALIDI_OPT });
+                        }
+                    });
+                }
+            }
+            else {
+                Log_1["default"].info("hcc>>on_user_get_ugame_info6666>>error");
+                player.send_cmd(GameHoodleProto_1.Cmd.eUserGameInfoRes, { status: Response_1["default"].INVALIDI_OPT });
+            }
+        });
     };
     GameHoodleModle.Instance = new GameHoodleModle();
     return GameHoodleModle;

@@ -19,9 +19,11 @@ NetBus.start_tcp_server(game_server.host, game_server.port, false);
 
 ServiceManager.register_service(Stype.GameHoodle, GameHoodleService);
 
-// var db_game = GameConf.game_database;
-// MySqlGame.connect(db_game.host, db_game.port, db_game.db_name, db_game.uname, db_game.upwd)
+//游戏服务
+var db_game = GameConf.game_database;
+MySqlGame.connect(db_game.host, db_game.port, db_game.db_name, db_game.uname, db_game.upwd)
 
+//用户中心服务
 var db_auth = GameConf.auth_database;
 MySqlAuth.connect(db_auth.host, db_auth.port, db_auth.db_name, db_auth.uname, db_auth.upwd)
 
@@ -63,3 +65,5 @@ array.forEach(value => {
     Log.info("hcc>> value: " , value)
 })
 */
+//绝对值
+// Log.info(Math.abs(-1000), Math.abs(1500))

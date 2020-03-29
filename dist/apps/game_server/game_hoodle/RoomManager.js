@@ -44,7 +44,7 @@ var RoomManager = /** @class */ (function () {
     RoomManager.prototype.delete_room = function (roomid) {
         if (this._room_set[roomid]) {
             delete this._room_set[roomid];
-            Log_1["default"].warn("delete_room:", roomid, "success, roomCount: ", this.get_room_count());
+            Log_1["default"].info("delete_room:", roomid, "success, roomCount: ", this.get_room_count());
             return true;
         }
         else {

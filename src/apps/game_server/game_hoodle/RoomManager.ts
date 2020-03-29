@@ -48,7 +48,7 @@ class RoomManager {
     delete_room(roomid:string){
         if(this._room_set[roomid]){
             delete this._room_set[roomid];
-            Log.warn("delete_room:", roomid, "success, roomCount: " , this.get_room_count());
+            Log.info("delete_room:", roomid, "success, roomCount: " , this.get_room_count());
             return true;
         }else{
             Log.warn("delete_room:", roomid, "is not in game server!!!!");

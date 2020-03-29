@@ -32,19 +32,19 @@ var Player = /** @class */ (function () {
         // this._ugame_info["test_gameinfo2"] = "info_test2";
         // this._ugame_info["test_gameinfo3"] = false;
     }
-    //中心数据，游戏数据
+    //中心数据，游戏数据 auth_center->uinfo
     Player.prototype.init_session = function (session, uid, proto_type, callback) {
         this._session = session;
         this._uid = uid;
         this._proto_type = proto_type;
         var _this = this;
+        //用户中心服数据
         MySqlAuth_1["default"].get_uinfo_by_uid(uid, function (status, data) {
             if (status == Response_1["default"].OK) {
                 var sql_info = data[0];
                 _this._ucenter_info = sql_info;
-                // Log.info("hcc>>init_session>>sql_info: " , sql_info)
                 if (callback) {
-                    callback(Response_1["default"].OK, sql_info);
+                    callback(Response_1["default"].OK, _this.get_player_info());
                 }
             }
             else {
@@ -77,6 +77,14 @@ var Player = /** @class */ (function () {
     //账号
     Player.prototype.get_uname = function () {
         return this._ucenter_info.uname;
+    };
+    //金币
+    Player.prototype.get_uchip = function () {
+        return this._ugame_info.uchip;
+    };
+    //金币
+    Player.prototype.set_uchip = function (uchip) {
+        this._ugame_info.uchip = uchip;
     };
     //玩家信息汇总
     Player.prototype.get_player_info = function () {

@@ -19,57 +19,73 @@ else if (Platform_1["default"].isLinux()) {
 // websocket wss://172.16.166.106:6061 阿里云服务内网端口
 // 6061 服务端内网端口
 // 6081 服务端wss外网端口(nginx.conf外网配置)
-var GameConf = {
-    gateway_config: {
+var GameConf = /** @class */ (function () {
+    function GameConf() {
+    }
+    GameConf.KW_BORN_EXP = 0; //出生经验
+    GameConf.KW_BORN_CHIP = 1500; //出生金币
+    GameConf.KW_WIN_RATE = 100; //输赢分数* 金币数
+    GameConf.KW_MIN_GOLD_ENTER_ROOM = 300; //最少进入房间金币
+    GameConf.KW_IS_GOLD_LIMIT = false; //是否金币不足，禁止加入房间
+    //网关服
+    GameConf.gateway_config = {
         host: localhost,
         tcp_port: 6080,
         wbsocket_port: wss_port
-    },
-    webserver: {
+    };
+    //web服务
+    GameConf.webserver = {
         host: localhost,
         port: 10001
-    },
-    game_system_server: {
+    };
+    //系统服务
+    GameConf.game_system_server = {
         host: localhost,
         port: 6087,
         stypes: [Stype_1.Stype.GameSystem]
-    },
-    game_server: {
+    };
+    //游戏服务
+    GameConf.game_server = {
         host: localhost,
         port: 6088,
         stypes: [Stype_1.Stype.GameHoodle]
-    },
-    game_database: {
+    };
+    //游戏数据库服务
+    GameConf.game_database = {
         host: localhost,
         port: 3306,
         db_name: "moba_game",
         uname: "root",
         upwd: "123456"
-    },
-    auth_server: {
+    };
+    //用户中心服务
+    GameConf.auth_server = {
         host: localhost,
         port: 6086,
         stypes: [Stype_1.Stype.Auth]
-    },
-    auth_database: {
+    };
+    //用户中心数据库
+    GameConf.auth_database = {
         host: localhost,
         port: 3306,
         db_name: "auth_center",
         uname: "root",
         upwd: "123456"
-    },
-    auth_redis: {
+    };
+    //用户中心redis
+    GameConf.auth_redis = {
         host: localhost,
         port: 6379,
         db_index: 0
-    },
-    game_redis: {
+    };
+    //游戏服务redis
+    GameConf.game_redis = {
         host: localhost,
         port: 6379,
         db_index: 1
-    },
-    // 代码来生成
-    gw_connect_servers: (_a = {},
+    };
+    //网关连接其他服务
+    GameConf.gw_connect_servers = (_a = {},
         _a[1] = {
             stype: Stype_1.Stype.Auth,
             host: localhost,
@@ -80,7 +96,8 @@ var GameConf = {
             host: localhost,
             port: 6088
         },
-        _a)
-};
+        _a);
+    return GameConf;
+}());
 exports["default"] = GameConf;
 //# sourceMappingURL=GameConf.js.map

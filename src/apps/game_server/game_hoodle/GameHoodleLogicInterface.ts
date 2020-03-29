@@ -5,6 +5,8 @@ import Response from '../../Response';
 import Log from '../../../utils/Log';
 import { UserState , GameState ,PlayerPower} from './State';
 import StringUtil from '../../../utils/StringUtil';
+import GameConf from '../../GameConf';
+import MySqlGame from '../../../database/MySqlGame';
 
 ////////////////////////
 //游戏逻辑相关接口
@@ -87,6 +89,37 @@ class GameHoodleLogicInterface {
                     player.set_user_power(PlayerPower.canPlay);
                 }else{
                     player.set_user_power(PlayerPower.canNotPlay);
+                }
+            }
+        }
+    }
+
+    //计算玩家金币，设置到player，写入数据库
+    //考虑不够减的情况
+    public static write_player_chip(room:Room){
+        if(!room){
+            return;
+        }
+        let player_set = room.get_all_player();
+        for(let key in player_set){
+            let player:Player = player_set[key];
+            if (player){
+                let score = player.get_user_score();
+                let gold_win = score * GameConf.KW_WIN_RATE;
+                if(gold_win != 0){
+                    let player_cur_chip = player.get_uchip();
+                    if(gold_win < 0){
+                        if(Math.abs(gold_win) > Math.abs(player_cur_chip)){
+                            gold_win = (-1)*player_cur_chip;
+                        }
+                    }
+                    Log.info(player.get_uname(),"hcc>>write_player_chip: score: " , score, " ,gold_win: " , gold_win, " ,cur_chip: " , player.get_uchip()," ,after add: " , (player.get_uchip() + gold_win));
+                    player.set_uchip(player.get_uchip() + gold_win);
+                    MySqlGame.add_ugame_uchip(player.get_uid(),gold_win, gold_win > 0,function(status:number, ret:any) {
+                        if(status == Response.OK){
+                            Log.info("hcc>>write_player_chip success", player.get_uname())
+                        }
+                    });
                 }
             }
         }
@@ -233,6 +266,7 @@ class GameHoodleLogicInterface {
        
         let player_set = room.get_all_player();
         let player_score_array = [];
+        let player_golds_array = [];
         for(let key in player_set){
             let player:Player = player_set[key];
             if (player){
@@ -240,10 +274,22 @@ class GameHoodleLogicInterface {
                     seatid: Number(player.get_seat_id()),
                     score: String(player.get_user_score()),
                 }
+                //金币不够情况
+                let score = player.get_user_score();
+                let gold_win = score * GameConf.KW_WIN_RATE;
+                let one_gold = {
+                    seatid: Number(player.get_seat_id()),
+                    gold:String(gold_win),
+                }
                 player_score_array.push(one_score);
+                player_golds_array.push(one_gold);
             }
         }
-        room.broadcast_in_room(Cmd.eTotalGameResultRes, {scores:player_score_array});
+        let body = {
+            scores:player_score_array,
+            golds:player_golds_array,
+        }
+        room.broadcast_in_room(Cmd.eTotalGameResultRes, body);
     }
 
     //玩家得分

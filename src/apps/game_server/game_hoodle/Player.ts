@@ -5,6 +5,7 @@ import { Stype } from '../../protocol/Stype';
 import ArrayUtil from '../../../utils/ArrayUtil';
 import Log from '../../../utils/Log';
 import { UserState } from './State';
+import MySqlGame from '../../../database/MySqlGame';
 
 class Player{
     
@@ -34,24 +35,25 @@ class Player{
         // this._ugame_info["test_gameinfo3"] = false;
     }
 
-    //中心数据，游戏数据
+    //中心数据，游戏数据 auth_center->uinfo
     init_session(session:any, uid:number, proto_type:number, callback?:Function){
         this._session = session;
         this._uid = uid;        
         this._proto_type = proto_type;
 
         let _this = this;
-        MySqlAuth.get_uinfo_by_uid(uid,function (status:number, data:any) {
-            if(status == Response.OK){
+        //用户中心服数据
+        MySqlAuth.get_uinfo_by_uid(uid, function(status:number, data:any) {
+            if(status == Response.OK)
+            {
                 let sql_info = data[0];
                 _this._ucenter_info = sql_info;
-                // Log.info("hcc>>init_session>>sql_info: " , sql_info)
                 if(callback){
-                    callback(Response.OK,sql_info)
+                    callback(Response.OK, _this.get_player_info());
                 }
             }else{
                 if(callback){
-                    callback(Response.SYSTEM_ERR)
+                    callback(Response.SYSTEM_ERR);
                 }
             }
         })
@@ -85,6 +87,15 @@ class Player{
     //账号
     get_uname(){
         return this._ucenter_info.uname;
+    }
+
+    //金币
+    get_uchip(){
+        return this._ugame_info.uchip;
+    }
+    //金币
+    set_uchip(uchip:number){
+        this._ugame_info.uchip = uchip;
     }
 
     //玩家信息汇总

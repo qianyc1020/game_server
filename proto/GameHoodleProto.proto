@@ -73,6 +73,9 @@ enum Cmd {
 
 	eUserStopMatchReq = 39; 		// 玩家取消匹配
 	eUserStopMatchRes = 40;
+
+	eUserGameInfoReq = 41; 			//玩家信息,金币等
+	eUserGameInfoRes = 42;
 }
 
 ///////////////////////////////////
@@ -214,6 +217,12 @@ message OnePlayerScore {
 	required string score = 2;
 }
 
+//玩家金币
+message OnPlayerGolds {
+	required sint32 seatid = 1;
+	required string gold = 2;
+}
+
 message PlayerFirstBallPosRes {
 	repeated OnePlayerPos positions = 1;
 }
@@ -263,6 +272,7 @@ message GameResultRes {
 
 message TotalGameResultRes {
 	repeated OnePlayerScore scores = 1;
+	repeated OnPlayerGolds golds = 2;
 }
 
 message PlayerScoreRes {
@@ -284,4 +294,13 @@ message UserStopMatchReq {
 
 message UserStopMatchRes {
 	required sint32 status = 1;
+}
+
+message UserGameInfoReq {
+
+}
+
+message UserGameInfoRes {
+	required uint32 status = 1;
+	required string userInfoString = 2;
 }
