@@ -16,12 +16,30 @@ var MySqlGame_1 = __importDefault(require("../../../database/MySqlGame"));
 var GameHoodleLogicInterface = /** @class */ (function () {
     function GameHoodleLogicInterface() {
     }
-    //生成初始坐标
-    GameHoodleLogicInterface.generate_start_pos = function () {
+    //生成初始坐标(为了不让小球开局位置在一块)
+    GameHoodleLogicInterface.generate_start_pos = function (pos_index) {
         // let posx = StringUtil.random_int(-540 , 540);
         // let posy = StringUtil.random_int(-960 , 960);
-        var posx = StringUtil_1["default"].random_int(-400, 400);
-        var posy = StringUtil_1["default"].random_int(-800, 800);
+        var posx_random = 0;
+        var posy_random = 0;
+        if (pos_index % 2 == 0) {
+            var array_len = GameHoodleLogicInterface._startx_left_array.length;
+            posx_random = GameHoodleLogicInterface._startx_left_array[StringUtil_1["default"].random_int(0, array_len - 1)];
+            array_len = GameHoodleLogicInterface._starty_up_array.length;
+            posy_random = GameHoodleLogicInterface._starty_up_array[StringUtil_1["default"].random_int(0, array_len - 1)];
+        }
+        else {
+            var array_len = GameHoodleLogicInterface._startx_right_array.length;
+            posx_random = GameHoodleLogicInterface._startx_right_array[StringUtil_1["default"].random_int(0, array_len - 1)];
+            array_len = GameHoodleLogicInterface._starty_down_array.length;
+            posy_random = GameHoodleLogicInterface._starty_down_array[StringUtil_1["default"].random_int(0, array_len - 1)];
+        }
+        var startx_pos = posx_random < 0 ? posx_random : 0;
+        var endx_pos = posx_random > 0 ? posx_random : 0;
+        var starty_pos = posy_random < 0 ? posy_random : 0;
+        var endy_pos = posy_random > 0 ? posy_random : 0;
+        var posx = StringUtil_1["default"].random_int(startx_pos, endx_pos);
+        var posy = StringUtil_1["default"].random_int(starty_pos, endy_pos);
         return { posx: posx, posy: posy };
     };
     //清除玩家当局数据
@@ -131,10 +149,11 @@ var GameHoodleLogicInterface = /** @class */ (function () {
         }
         var player_set = room.get_all_player();
         var player_pos_array = [];
+        var pos_index = 0;
         for (var key in player_set) {
             var player = player_set[key];
             if (player) {
-                var pos = GameHoodleLogicInterface.generate_start_pos();
+                var pos = GameHoodleLogicInterface.generate_start_pos(pos_index);
                 Log_1["default"].info("hcc>>send_player_first_pos: ", pos);
                 player.set_user_pos(pos);
                 var player_pos = {
@@ -143,6 +162,7 @@ var GameHoodleLogicInterface = /** @class */ (function () {
                     posy: String(pos.posy)
                 };
                 player_pos_array.push(player_pos);
+                pos_index++;
             }
         }
         Log_1["default"].info("hcc>>send_player_first_pos array: ", player_pos_array);
@@ -303,6 +323,11 @@ var GameHoodleLogicInterface = /** @class */ (function () {
             room.broadcast_in_room(GameHoodleProto_1.Cmd.ePlayerScoreRes, { scores: player_score_array }, not_player);
         }
     };
+    // _start_posx_array = [-480,480,-400,400,-300,300,-200,200];
+    GameHoodleLogicInterface._startx_left_array = [-480, -400, -300, -200, -100];
+    GameHoodleLogicInterface._startx_right_array = [480, 400, 300, 200, 100];
+    GameHoodleLogicInterface._starty_up_array = [900, 700, 500, 300, 100];
+    GameHoodleLogicInterface._starty_down_array = [-900, -700, -500, -300, -100];
     return GameHoodleLogicInterface;
 }());
 exports["default"] = GameHoodleLogicInterface;

@@ -13,16 +13,45 @@ import MySqlGame from '../../../database/MySqlGame';
 ////////////////////////
 
 class GameHoodleLogicInterface {
-    constructor(){
-     
-    }
+    // _start_posx_array = [-480,480,-400,400,-300,300,-200,200];
+    static _startx_left_array = [-480,-400,-300,-200,-100];
+    static _startx_right_array = [480,400,300,200,100];
 
-    //生成初始坐标
-    public static generate_start_pos():any{
+    static _starty_up_array = [900,700,500,300,100];
+    static _starty_down_array = [-900,-700,-500,-300,-100];
+
+    constructor(){
+
+    }
+   
+    //生成初始坐标(为了不让小球开局位置在一块)
+    public static generate_start_pos(pos_index:number):any{
         // let posx = StringUtil.random_int(-540 , 540);
         // let posy = StringUtil.random_int(-960 , 960);
-        let posx = StringUtil.random_int(-400 , 400);
-        let posy = StringUtil.random_int(-800 , 800);
+        let posx_random:number = 0;
+        let posy_random:number = 0;
+        if(pos_index %2 == 0){
+            let array_len = GameHoodleLogicInterface._startx_left_array.length;
+            posx_random = GameHoodleLogicInterface._startx_left_array[StringUtil.random_int(0,array_len-1)];
+            
+            array_len = GameHoodleLogicInterface._starty_up_array.length;
+            posy_random = GameHoodleLogicInterface._starty_up_array[StringUtil.random_int(0,array_len-1)];
+        }else{
+            let array_len = GameHoodleLogicInterface._startx_right_array.length;
+            posx_random = GameHoodleLogicInterface._startx_right_array[StringUtil.random_int(0,array_len-1)];
+
+            array_len = GameHoodleLogicInterface._starty_down_array.length;
+            posy_random = GameHoodleLogicInterface._starty_down_array[StringUtil.random_int(0,array_len-1)];
+        }
+
+        let startx_pos = posx_random < 0 ? posx_random : 0;
+        let endx_pos = posx_random > 0 ? posx_random : 0;
+
+        let starty_pos = posy_random < 0 ? posy_random : 0;
+        let endy_pos = posy_random > 0 ? posy_random : 0;
+
+        let posx = StringUtil.random_int(startx_pos, endx_pos);
+        let posy = StringUtil.random_int(starty_pos , endy_pos);
         return {posx: posx, posy: posy};
     }
 
@@ -136,10 +165,11 @@ class GameHoodleLogicInterface {
         }
         let player_set = room.get_all_player();
         let player_pos_array = [];
+        let pos_index = 0;
         for(let key in player_set){
             let player:Player = player_set[key];
             if (player){
-                let pos = GameHoodleLogicInterface.generate_start_pos();
+                let pos = GameHoodleLogicInterface.generate_start_pos(pos_index);
                 Log.info("hcc>>send_player_first_pos: ", pos);
                 player.set_user_pos(pos);
                 let player_pos = {
@@ -148,6 +178,7 @@ class GameHoodleLogicInterface {
                     posy : String(pos.posy),
                 }
                 player_pos_array.push(player_pos);
+                pos_index++;
             }
         }
         Log.info("hcc>>send_player_first_pos array: ", player_pos_array);
