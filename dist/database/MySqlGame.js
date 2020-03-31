@@ -13,6 +13,8 @@ exports.__esModule = true;
 var MySqlEngine_1 = __importDefault(require("./MySqlEngine"));
 var util = __importStar(require("util"));
 var Response_1 = __importDefault(require("../apps/Response"));
+var Log_1 = __importDefault(require("../utils/Log"));
+var querystring_1 = __importDefault(require("querystring"));
 var MySqlGame = /** @class */ (function () {
     function MySqlGame() {
     }
@@ -24,18 +26,6 @@ var MySqlGame = /** @class */ (function () {
     };
     MySqlGame.query = function (sql, callback) {
         MySqlGame.engine().mysql_query(sql, callback);
-    };
-    //uid玩家是否存在
-    MySqlGame.get_ugame_info_exist = function (uid, callback) {
-        var sql = "select uid from ugame where uid = %d limit 1";
-        var sql_cmd = util.format(sql, uid);
-        MySqlGame.query(sql_cmd, function (err, sql_ret, fields_desic) {
-            if (err) {
-                callback(Response_1["default"].SYSTEM_ERR, err);
-                return;
-            }
-            callback(Response_1["default"].OK, sql_ret);
-        });
     };
     //查找所有字段（一般不建议用这个接口，效率较低）
     MySqlGame.get_ugame_info_by_uid = function (uid, callback) {
@@ -91,6 +81,45 @@ var MySqlGame = /** @class */ (function () {
             if (callback) {
                 callback(Response_1["default"].OK);
             }
+        });
+    };
+    //获得玩家小球信息 querystring 数据对象。外层调用querystring.decode()去解码
+    //querystring 转成obj对象
+    MySqlGame.get_ugame_uball_info = function (uid, callback) {
+        var sql = "select uball_info from ugame where uid = %d limit 1";
+        var sql_cmd = util.format(sql, uid);
+        MySqlGame.query(sql_cmd, function (err, sql_ret, fields_desic) {
+            if (err) {
+                callback(Response_1["default"].SYSTEM_ERR, err);
+                return;
+            }
+            callback(Response_1["default"].OK, sql_ret);
+        });
+    };
+    //设置玩家小球信息
+    //uball_obj: 小球集合对象：uball_obj = {lv_1:1,lv_2:2,lv_3:0}
+    //querystring.encode() 转成 "lv_1=0&lv_2=1&lv_3=3&lv_4=4&lv_5=155"
+    MySqlGame.update_ugame_uball_info = function (uid, uball_obj, callback) {
+        var uball_qstring = "";
+        try {
+            uball_qstring = querystring_1["default"].encode(uball_obj);
+        }
+        catch (error) {
+            Log_1["default"].error(error);
+        }
+        if (uball_qstring == "") {
+            Log_1["default"].warn("update_ugame_uball_info quertstring error");
+            return;
+        }
+        var sql = "update ugame set uball_info = \"%s\" where uid = %d";
+        var sql_cmd = util.format(sql, uball_qstring, uid);
+        // Log.info("update_ugame_uball_info: sql: " , sql_cmd);
+        MySqlGame.query(sql_cmd, function (err, sql_ret, fields_desic) {
+            if (err) {
+                callback(Response_1["default"].SYSTEM_ERR, err);
+                return;
+            }
+            callback(Response_1["default"].OK, sql_ret);
         });
     };
     MySqlGame.mysqlEngine = new MySqlEngine_1["default"]();

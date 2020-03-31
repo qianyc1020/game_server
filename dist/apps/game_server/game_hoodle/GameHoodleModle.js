@@ -17,7 +17,7 @@ var GameHoodleLogicInterface_1 = __importDefault(require("./GameHoodleLogicInter
 var MatchManager_1 = __importDefault(require("./MatchManager"));
 var MySqlGame_1 = __importDefault(require("../../../database/MySqlGame"));
 var ArrayUtil_1 = __importDefault(require("../../../utils/ArrayUtil"));
-var GameConf_1 = __importDefault(require("../../GameConf"));
+var GameAppConfig_1 = __importDefault(require("../../GameAppConfig"));
 var GameHoodleModle = /** @class */ (function () {
     function GameHoodleModle() {
     }
@@ -175,8 +175,8 @@ var GameHoodleModle = /** @class */ (function () {
             return;
         }
         //是否金币不足
-        if (GameConf_1["default"].KW_IS_GOLD_LIMIT) {
-            if (player.get_uchip() < GameConf_1["default"].KW_MIN_GOLD_ENTER_ROOM) {
+        if (GameAppConfig_1["default"].KW_IS_GOLD_LIMIT) {
+            if (player.get_uchip() < GameAppConfig_1["default"].KW_MIN_GOLD_ENTER_ROOM) {
                 player.send_cmd(GameHoodleProto_1.Cmd.eCreateRoomRes, { status: Response_1["default"].SYSTEM_ERR });
                 Log_1["default"].warn(uname, "create room error, gold is not enough");
                 return;
@@ -226,8 +226,8 @@ var GameHoodleModle = /** @class */ (function () {
             return;
         }
         //是否金币不足
-        if (GameConf_1["default"].KW_IS_GOLD_LIMIT) {
-            if (player.get_uchip() < GameConf_1["default"].KW_MIN_GOLD_ENTER_ROOM) {
+        if (GameAppConfig_1["default"].KW_IS_GOLD_LIMIT) {
+            if (player.get_uchip() < GameAppConfig_1["default"].KW_MIN_GOLD_ENTER_ROOM) {
                 player.send_cmd(GameHoodleProto_1.Cmd.eJoinRoomRes, { status: Response_1["default"].SYSTEM_ERR });
                 Log_1["default"].warn(uname, "join_room error, gold is not enough");
                 return;
@@ -601,8 +601,8 @@ var GameHoodleModle = /** @class */ (function () {
             return;
         }
         //是否金币不足
-        if (GameConf_1["default"].KW_IS_GOLD_LIMIT) {
-            if (player.get_uchip() < GameConf_1["default"].KW_MIN_GOLD_ENTER_ROOM) {
+        if (GameAppConfig_1["default"].KW_IS_GOLD_LIMIT) {
+            if (player.get_uchip() < GameAppConfig_1["default"].KW_MIN_GOLD_ENTER_ROOM) {
                 player.send_cmd(GameHoodleProto_1.Cmd.eUserMatchRes, { status: Response_1["default"].INVALIDI_OPT });
                 Log_1["default"].warn(uname, "on_user_match error, gold is not enough");
                 return;
@@ -672,10 +672,10 @@ var GameHoodleModle = /** @class */ (function () {
                     player.send_cmd(GameHoodleProto_1.Cmd.eUserGameInfoRes, body);
                 }
                 else {
-                    MySqlGame_1["default"].insert_ugame_user(utag, GameConf_1["default"].KW_BORN_EXP, GameConf_1["default"].KW_BORN_CHIP, function (status_game_ins, data_game_ins) {
+                    MySqlGame_1["default"].insert_ugame_user(utag, GameAppConfig_1["default"].KW_BORN_EXP, GameAppConfig_1["default"].KW_BORN_CHIP, function (status_game_ins, data_game_ins) {
                         Log_1["default"].info("hcc>>on_user_get_ugame_info2222");
                         if (status_game_ins == Response_1["default"].OK) {
-                            MySqlGame_1["default"].get_ugame_info_by_uid(utag, function (status_game_ins_get, data_game_ins_get) {
+                            MySqlGame_1["default"].get_ugame_uchip_by_uid(utag, function (status_game_ins_get, data_game_ins_get) {
                                 if (status_game_ins_get == Response_1["default"].OK) {
                                     // Log.info("hcc>>on_user_get_ugame_info3333>>", data_game_ins_get[0]);
                                     var ugameInfo = data_game_ins_get[0];

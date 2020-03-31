@@ -1,14 +1,17 @@
 import {Stype,StypeName} from "./protocol/Stype"
 import Platform from "../utils/Platform"
 
-var localhost = "127.0.0.1"
-var wss_port = 6081;
+let localhost:string = "127.0.0.1"
+let wss_port:number = 6081;
+let is_use_local_ip:boolean = true; //是否启用本地ip来测试，启用后只能用当前电脑ip调试服务端程序
 
 if(Platform.isWin32()){
-	localhost = "127.0.0.1"
+	if(is_use_local_ip){
+		localhost = "192.168.0.103"; //本地电脑ip，这里主要是为了游戏在web测试用,暂时写死
+	}
 	wss_port = 6081;
 }else if(Platform.isLinux()){
-	localhost = "172.16.166.106"
+	localhost = "172.16.166.106";//阿里云外网ip
 	wss_port = 6061;
 }
 
@@ -16,7 +19,7 @@ if(Platform.isWin32()){
 // 6061 服务端内网端口
 // 6081 服务端wss外网端口(nginx.conf外网配置)
 
-class GameConf {
+class GameAppConfig {
 
 	static KW_BORN_EXP:number 		= 0;		//出生经验
 	static KW_BORN_CHIP:number 		= 1500; 	//出生金币
@@ -106,4 +109,4 @@ class GameConf {
 	}
 }
 
-export default GameConf;
+export default GameAppConfig;

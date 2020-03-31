@@ -30,7 +30,7 @@
     "ws": "^7.1.2"
   },
   "devDependencies": {
-    "@types/node": "^12.11.7"
+    "@types/node": "^12.12.34"
   },
   "description": ""
 }

@@ -1,8 +1,8 @@
 import MySqlAuth from '../database/MySqlAuth';
-import GameConf from '../apps/GameConf';
+import GameAppConfig from '../apps/GameAppConfig';
 import Log from '../utils/Log';
 
-var db = GameConf.auth_database;
+var db = GameAppConfig.auth_database;
 MySqlAuth.connect(db.host, db.port, db.db_name, db.uname, db.upwd)
 
 // setInterval(function(){

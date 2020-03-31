@@ -14,7 +14,7 @@ import GameHoodleLogicInterface from './GameHoodleLogicInterface';
 import MatchManager from './MatchManager';
 import MySqlGame from '../../../database/MySqlGame';
 import ArrayUtil from '../../../utils/ArrayUtil';
-import GameConf from '../../GameConf';
+import GameAppConfig from '../../GameAppConfig';
 
 class GameHoodleModle {
     private static readonly Instance: GameHoodleModle = new GameHoodleModle();
@@ -183,8 +183,8 @@ class GameHoodleModle {
         }
 
         //是否金币不足
-        if(GameConf.KW_IS_GOLD_LIMIT){
-            if(player.get_uchip() < GameConf.KW_MIN_GOLD_ENTER_ROOM){
+        if(GameAppConfig.KW_IS_GOLD_LIMIT){
+            if(player.get_uchip() < GameAppConfig.KW_MIN_GOLD_ENTER_ROOM){
                 player.send_cmd(Cmd.eCreateRoomRes, {status: Response.SYSTEM_ERR})
                 Log.warn(uname , "create room error, gold is not enough")
                 return;
@@ -240,8 +240,8 @@ class GameHoodleModle {
         }
 
         //是否金币不足
-        if(GameConf.KW_IS_GOLD_LIMIT){
-            if(player.get_uchip() < GameConf.KW_MIN_GOLD_ENTER_ROOM){
+        if(GameAppConfig.KW_IS_GOLD_LIMIT){
+            if(player.get_uchip() < GameAppConfig.KW_MIN_GOLD_ENTER_ROOM){
                 player.send_cmd(Cmd.eJoinRoomRes,{status: Response.SYSTEM_ERR})
                 Log.warn(uname , "join_room error, gold is not enough")
                 return;
@@ -660,8 +660,8 @@ class GameHoodleModle {
         }
 
         //是否金币不足
-        if(GameConf.KW_IS_GOLD_LIMIT){
-            if(player.get_uchip() < GameConf.KW_MIN_GOLD_ENTER_ROOM){
+        if(GameAppConfig.KW_IS_GOLD_LIMIT){
+            if(player.get_uchip() < GameAppConfig.KW_MIN_GOLD_ENTER_ROOM){
                 player.send_cmd(Cmd.eUserMatchRes,{status: Response.INVALIDI_OPT})
                 Log.warn(uname , "on_user_match error, gold is not enough")
                 return;
@@ -737,12 +737,12 @@ class GameHoodleModle {
                     player.set_ugame_info(ugameInfo);
                     player.send_cmd(Cmd.eUserGameInfoRes, body);
                 }else{
-                    MySqlGame.insert_ugame_user(utag, GameConf.KW_BORN_EXP, GameConf.KW_BORN_CHIP,function(status_game_ins:number, data_game_ins:any) 
+                    MySqlGame.insert_ugame_user(utag, GameAppConfig.KW_BORN_EXP, GameAppConfig.KW_BORN_CHIP,function(status_game_ins:number, data_game_ins:any) 
                     {
                         Log.info("hcc>>on_user_get_ugame_info2222");
                         if(status_game_ins == Response.OK)
                         {
-                            MySqlGame.get_ugame_info_by_uid(utag, function(status_game_ins_get:number, data_game_ins_get:any)
+                            MySqlGame.get_ugame_uchip_by_uid(utag, function(status_game_ins_get:number, data_game_ins_get:any)
                             {
                                 if(status_game_ins_get == Response.OK)
                                 {

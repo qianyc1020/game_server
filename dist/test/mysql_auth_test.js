@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 exports.__esModule = true;
 var MySqlAuth_1 = __importDefault(require("../database/MySqlAuth"));
-var GameConf_1 = __importDefault(require("../apps/GameConf"));
+var GameAppConfig_1 = __importDefault(require("../apps/GameAppConfig"));
 var Log_1 = __importDefault(require("../utils/Log"));
-var db = GameConf_1["default"].auth_database;
+var db = GameAppConfig_1["default"].auth_database;
 MySqlAuth_1["default"].connect(db.host, db.port, db.db_name, db.uname, db.upwd);
 // setInterval(function(){
 MySqlAuth_1["default"].get_uinfo_by_uname_upwd("hccfun", "111111", function (err, ret) {
