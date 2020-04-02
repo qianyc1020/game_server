@@ -6,19 +6,21 @@ var _a;
 exports.__esModule = true;
 var Stype_1 = require("./protocol/Stype");
 var Platform_1 = __importDefault(require("../utils/Platform"));
-var localhost = "127.0.0.1";
-var wss_port = 6081;
-var is_use_local_ip = true; //是否启用本地ip来测试，启用后只能用当前电脑ip调试服务端程序
+var Log_1 = __importDefault(require("../utils/Log"));
+var LOCAL_HOST = "127.0.0.1";
+var WSS_WEBSOCKET_PORT = 6081;
+var IS_LOCAL_DEBUG = true; //是否启用本地ip来测试，启用后只能用当前电脑ip调试服务端程序
 if (Platform_1["default"].isWin32()) {
-    if (is_use_local_ip) {
-        localhost = "192.168.0.103"; //本地电脑ip，这里主要是为了游戏在web测试用,暂时写死
+    if (IS_LOCAL_DEBUG) {
+        LOCAL_HOST = Platform_1["default"].getLocalIP(); //本地电脑ip,pc调试用
     }
-    wss_port = 6081;
+    WSS_WEBSOCKET_PORT = 6081;
 }
 else if (Platform_1["default"].isLinux()) {
-    localhost = "172.16.166.106"; //阿里云外网ip
-    wss_port = 6061;
+    LOCAL_HOST = "172.16.166.106"; //阿里云外网ip
+    WSS_WEBSOCKET_PORT = 6061;
 }
+Log_1["default"].info("hcc>>localIP: ", LOCAL_HOST);
 // websocket wss://172.16.166.106:6061 阿里云服务内网端口
 // 6061 服务端内网端口
 // 6081 服务端wss外网端口(nginx.conf外网配置)
@@ -32,30 +34,30 @@ var GameAppConfig = /** @class */ (function () {
     GameAppConfig.KW_IS_GOLD_LIMIT = false; //是否金币不足，禁止加入房间
     //网关服
     GameAppConfig.gateway_config = {
-        host: localhost,
+        host: LOCAL_HOST,
         tcp_port: 6080,
-        wbsocket_port: wss_port
+        wbsocket_port: WSS_WEBSOCKET_PORT
     };
     //web服务
     GameAppConfig.webserver = {
-        host: localhost,
+        host: LOCAL_HOST,
         port: 10001
     };
     //系统服务
     GameAppConfig.game_system_server = {
-        host: localhost,
+        host: LOCAL_HOST,
         port: 6087,
         stypes: [Stype_1.Stype.GameSystem]
     };
     //游戏服务
     GameAppConfig.game_server = {
-        host: localhost,
+        host: LOCAL_HOST,
         port: 6088,
         stypes: [Stype_1.Stype.GameHoodle]
     };
     //游戏数据库服务
     GameAppConfig.game_database = {
-        host: localhost,
+        host: LOCAL_HOST,
         port: 3306,
         db_name: "moba_game",
         uname: "root",
@@ -63,13 +65,13 @@ var GameAppConfig = /** @class */ (function () {
     };
     //用户中心服务
     GameAppConfig.auth_server = {
-        host: localhost,
+        host: LOCAL_HOST,
         port: 6086,
         stypes: [Stype_1.Stype.Auth]
     };
     //用户中心数据库
     GameAppConfig.auth_database = {
-        host: localhost,
+        host: LOCAL_HOST,
         port: 3306,
         db_name: "auth_center",
         uname: "root",
@@ -77,13 +79,13 @@ var GameAppConfig = /** @class */ (function () {
     };
     //用户中心redis
     GameAppConfig.auth_redis = {
-        host: localhost,
+        host: LOCAL_HOST,
         port: 6379,
         db_index: 0
     };
     //游戏服务redis
     GameAppConfig.game_redis = {
-        host: localhost,
+        host: LOCAL_HOST,
         port: 6379,
         db_index: 1
     };
@@ -91,12 +93,12 @@ var GameAppConfig = /** @class */ (function () {
     GameAppConfig.gw_connect_servers = (_a = {},
         _a[1] = {
             stype: Stype_1.Stype.Auth,
-            host: localhost,
+            host: LOCAL_HOST,
             port: 6086
         },
         _a[2] = {
             stype: Stype_1.Stype.GameHoodle,
-            host: localhost,
+            host: LOCAL_HOST,
             port: 6088
         },
         _a);

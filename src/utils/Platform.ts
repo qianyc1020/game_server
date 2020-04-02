@@ -1,4 +1,4 @@
-var os = require("os")
+import os from "os"
 
 class Platform{
 	static isWin32(){
@@ -7,6 +7,20 @@ class Platform{
 
 	static isLinux(){
 		return os.platform() == "linux"	
+	}
+
+	static getLocalIP():string{
+		let interfaces:any = os.networkInterfaces();
+		for (let devName in interfaces) {
+			let iface = interfaces[devName];
+			for (let i = 0; i < iface.length; i++) {
+				var alias = iface[i];
+				if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+					return alias.address;
+				}
+			}
+		}
+		return "";
 	}
 }
 

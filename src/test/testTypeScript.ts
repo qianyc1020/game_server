@@ -44,11 +44,13 @@ for(var stype in service_module) {
 /////////////
 // import { Cmd, CmdName } from "../apps/auth_server/AuthProto"
 import Log from '../utils/Log';
+import Platform from '../utils/Platform';
 let info = "hccccc";
 Log.info("---------------",info)
 // Log.info(Cmd)
 Log.info("---------------")
 Log.info("---------------")
 console.log("ccccccccccccccc")
-console.trace("tracelog:")
+// console.trace("tracelog:")
 // Log.info(CmdName)
+Log.info( "hcc:localip: ", Platform.getLocalIP())

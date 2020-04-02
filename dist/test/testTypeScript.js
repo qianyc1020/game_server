@@ -42,12 +42,14 @@ for(var stype in service_module) {
 /////////////
 // import { Cmd, CmdName } from "../apps/auth_server/AuthProto"
 var Log_1 = __importDefault(require("../utils/Log"));
+var Platform_1 = __importDefault(require("../utils/Platform"));
 var info = "hccccc";
 Log_1["default"].info("---------------", info);
 // Log.info(Cmd)
 Log_1["default"].info("---------------");
 Log_1["default"].info("---------------");
 console.log("ccccccccccccccc");
-console.trace("tracelog:");
+// console.trace("tracelog:")
 // Log.info(CmdName)
+Log_1["default"].info("hcc:localip: ", Platform_1["default"].getLocalIP());
 //# sourceMappingURL=testTypeScript.js.map
