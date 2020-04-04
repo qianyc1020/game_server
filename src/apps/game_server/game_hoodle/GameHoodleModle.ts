@@ -15,6 +15,7 @@ import MatchManager from './MatchManager';
 import MySqlGame from '../../../database/MySqlGame';
 import ArrayUtil from '../../../utils/ArrayUtil';
 import GameAppConfig from '../../GameAppConfig';
+import querystring from 'querystring';
 
 class GameHoodleModle {
     private static readonly Instance: GameHoodleModle = new GameHoodleModle();
@@ -82,6 +83,12 @@ class GameHoodleModle {
             break;
             case Cmd.eUserGameInfoReq:
                 this.on_user_get_ugame_info(session,utag,proto_type,raw_cmd);
+            break;
+            case Cmd.eUserBallInfoReq:
+                this.on_user_ball_info(session,utag,proto_type,raw_cmd);
+            break;
+            case Cmd.eUpdateUserBallReq:
+                this.on_user_update_ball_info(session,utag,proto_type,raw_cmd);
             break;
             default:
             break;
@@ -680,7 +687,7 @@ class GameHoodleModle {
         let userinfo_array = [];
         let userinfo = {
             numberid: String(player.get_numberid()),
-            userInfoString: JSON.stringify(player.get_player_info()),
+            userinfostring: JSON.stringify(player.get_player_info()),
         }
         userinfo_array.push(userinfo);
 
@@ -714,7 +721,7 @@ class GameHoodleModle {
         Log.info(uname , "on_user_stop_match success!")
     }
 
-    //游戏服信息
+    //游戏服信息,没有去创建，有就返回原来数据
     on_user_get_ugame_info(session:any, utag:number, proto_type:number, raw_cmd:any){
         if (!GameHoodleInterface.check_player(utag)){
             GameSendMsg.send(session, Cmd.eUserGameInfoRes, utag, proto_type, {status: Response.INVALIDI_OPT})
@@ -723,7 +730,7 @@ class GameHoodleModle {
         }
 
         let player:Player = PlayerManager.getInstance().get_player(utag);
-        MySqlGame.get_ugame_info_by_uid(utag,function(status:number, data_game:any) {
+        MySqlGame.get_ugame_uchip_by_uid(utag,function(status:number, data_game:any) {
             if(status == Response.OK){
                 let data_game_len = ArrayUtil.GetArrayLen(data_game);
                 if( data_game_len > 0){
@@ -732,7 +739,7 @@ class GameHoodleModle {
                     let ugameInfoStr = JSON.stringify(ugameInfo);
                     let body = {
                         status:Response.OK,
-                        userInfoString: ugameInfoStr,
+                        userinfostring: ugameInfoStr,
                     }
                     player.set_ugame_info(ugameInfo);
                     player.send_cmd(Cmd.eUserGameInfoRes, body);
@@ -751,7 +758,7 @@ class GameHoodleModle {
                                     let ugameInfoStr = JSON.stringify(ugameInfo);
                                     let body = {
                                         status:Response.OK,
-                                        userInfoString: ugameInfoStr,
+                                        userinfostring: ugameInfoStr,
                                     }
                                     player.set_ugame_info(ugameInfo);
                                     player.send_cmd(Cmd.eUserGameInfoRes,body);
@@ -772,6 +779,113 @@ class GameHoodleModle {
                 player.send_cmd(Cmd.eUserGameInfoRes,{status: Response.INVALIDI_OPT});
             }
         })
+    }
+
+    //获取小球信息
+    on_user_ball_info(session:any, utag:number, proto_type:number, raw_cmd:any){
+        if (!GameHoodleInterface.check_player(utag)){
+            GameSendMsg.send(session, Cmd.eUserBallInfoRes, utag, proto_type, {status: Response.INVALIDI_OPT})
+            Log.warn("on_user_ball_info error player is not exist!")
+            return;
+        }
+        let player:Player = PlayerManager.getInstance().get_player(utag);
+        MySqlGame.get_ugame_uball_info(utag, function (status:number, ret:any) {
+            if(status == Response.OK){
+                let ret_len = ArrayUtil.GetArrayLen(ret);
+                if(ret_len > 0){
+                    try {
+                        let info = ret[0];
+                        // Log.info("hcc>>uball_info: " , info.uball_info , typeof(info.uball_info));
+                        let uball_info_obj = querystring.decode(info.uball_info);
+                        let uball_json = JSON.stringify(uball_info_obj);
+                        let body = {
+                            status: Response.OK,
+                            userballinfostring: uball_json,
+                        }
+                        player.send_cmd(Cmd.eUserBallInfoRes, body);        
+                        player.set_uball_info(uball_json);
+                    } catch (error) {
+                        Log.error(error);
+                    }
+                }else{
+                    player.send_cmd(Cmd.eUserBallInfoRes,{status: Response.INVALIDI_OPT});    
+                }
+            }else{
+                player.send_cmd(Cmd.eUserBallInfoRes,{status: Response.INVALIDI_OPT});
+            }
+        })
+    }
+
+    //更新小球信息,合成，卖掉，赠送等
+    on_user_update_ball_info(session:any, utag:number, proto_type:number, raw_cmd:any){
+        if (!GameHoodleInterface.check_player(utag)){
+            GameSendMsg.send(session, Cmd.eUpdateUserBallRes, utag, proto_type, {status: Response.INVALIDI_OPT})
+            Log.warn("on_user_ball_info error player is not exist!")
+            return;
+        }
+
+        let player:Player = PlayerManager.getInstance().get_player(utag);
+        const updateType:any = {
+            SELL_TYPE:      0,  //卖了
+            COMPOSE_TYPE:   1,  //合成,三个一合成
+            GIVE_TYPE:      2,  //赠送
+        }
+
+        let compose_count = 3;
+        let key_str = "lv_";
+
+        let body =  this.decode_cmd(proto_type,raw_cmd);
+        let up_type:number = body.updatetype;
+        let level:number = body.level;
+        let count:number = body.count;
+        let uball_obj_player:any = {};
+        let is_success:boolean = false;
+        try {
+            uball_obj_player = JSON.parse(player.get_uball_info());
+            // Log.info("hcc>>111," , uball_obj_player);
+            let key = key_str + level;
+            
+            if(up_type == updateType.SELL_TYPE){
+                if(uball_obj_player[key] && uball_obj_player[key] >  0){
+                    uball_obj_player[key] = Number(uball_obj_player[key]) - 1; //TODO add gold
+                    is_success = true;
+                }
+            }else if(up_type == updateType.COMPOSE_TYPE){
+                if(uball_obj_player[key] && Number(uball_obj_player[key]) >= compose_count){
+                    uball_obj_player[key] = String(Number(uball_obj_player[key]) - compose_count);
+
+                    key = key_str + String(level + 1);
+                    if(uball_obj_player[key]){
+                        uball_obj_player[key] = String(Number(uball_obj_player[key]) + 1);;
+                    }else{
+                        uball_obj_player[key] = 0;
+                        uball_obj_player[key] = String(uball_obj_player[key] + 1);
+                    }
+                    is_success = true;
+                }
+            }
+        } catch (error) {
+            Log.error(error);
+        }
+
+        // Log.info("hcc>>222," , uball_obj_player);
+        if(is_success){
+            let tmp_ball_json = JSON.stringify(uball_obj_player)
+            let body_ball = {
+                status: Response.OK,
+                userballinfostring: tmp_ball_json,
+            }
+            MySqlGame.update_ugame_uball_info(utag, tmp_ball_json,function(status:number, ret:any) {
+                if(status == Response.OK){
+                    player.send_cmd(Cmd.eUpdateUserBallRes, body_ball);
+                    player.set_uball_info(tmp_ball_json);
+                }else{
+                    player.send_cmd(Cmd.eUpdateUserBallRes, {status: Response.INVALIDI_OPT});        
+                }
+            })
+        }else{
+            player.send_cmd(Cmd.eUpdateUserBallRes, {status: Response.INVALIDI_OPT});
+        }
     }
 
 }

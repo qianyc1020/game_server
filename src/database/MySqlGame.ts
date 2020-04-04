@@ -81,8 +81,9 @@ class MySqlGame {
         })
     }
 
-    //获得玩家小球信息 querystring 数据对象。外层调用querystring.decode()去解码
-    //querystring 转成obj对象
+    //获得玩家小球信息字符串。
+    //外层调用querystring.decode()去解码,解码成对象
+    //对象可以用json转成字符串
     static get_ugame_uball_info(uid:number,callback:Function){
         var sql = "select uball_info from ugame where uid = %d limit 1";
         var sql_cmd = util.format(sql, uid);
@@ -96,14 +97,15 @@ class MySqlGame {
     }
 
     //设置玩家小球信息
-    //uball_obj: 小球集合对象：uball_obj = {lv_1:1,lv_2:2,lv_3:0}
+    //uball_obj: 小球集合对象转成json字符串:uball_obj = {lv_1:1,lv_2:2,lv_3:0}
     //querystring.encode() 转成 "lv_1=0&lv_2=1&lv_3=3&lv_4=4&lv_5=155"
-    static update_ugame_uball_info(uid:number, uball_obj:any, callback:Function){
+    static update_ugame_uball_info(uid:number, uball_obj_json:string, callback:Function){
         let uball_qstring = "";
         try {
-            uball_qstring = querystring.encode(uball_obj);
+            uball_qstring = querystring.encode(JSON.parse(uball_obj_json));
         } catch (error) {
             Log.error(error);
+            return;
         }
         
         if(uball_qstring == ""){

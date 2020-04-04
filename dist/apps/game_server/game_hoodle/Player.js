@@ -27,6 +27,7 @@ var Player = /** @class */ (function () {
         this._user_pos = { posx: 0, posy: 0 }; //玩家位置 
         this._user_power = 0; // 玩家权限
         this._user_score = 0; //玩家得分
+        this._user_ball_info = ""; //json串，玩家小球信息
         //test
         // this._ugame_info["test_gameinfo"] = "info_test";
         // this._ugame_info["test_gameinfo2"] = "info_test2";
@@ -85,6 +86,13 @@ var Player = /** @class */ (function () {
     //金币
     Player.prototype.set_uchip = function (uchip) {
         this._ugame_info.uchip = uchip;
+    };
+    //小球信息
+    Player.prototype.get_uball_info = function () {
+        return this._user_ball_info;
+    };
+    Player.prototype.set_uball_info = function (info) {
+        this._user_ball_info = info;
     };
     //玩家信息汇总
     Player.prototype.get_player_info = function () {

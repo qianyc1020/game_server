@@ -118,7 +118,7 @@ class MatchManager {
             if(player){
                 let userinfo = {
                     numberid: String(player.get_numberid()),
-                    userInfoString: JSON.stringify(player.get_player_info()),
+                    userinfostring: JSON.stringify(player.get_player_info()),
                 }
                 userinfo_array.push(userinfo);
             }

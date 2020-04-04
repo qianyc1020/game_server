@@ -56,6 +56,10 @@ var Cmd;
     Cmd[Cmd["eUserStopMatchRes"] = 40] = "eUserStopMatchRes";
     Cmd[Cmd["eUserGameInfoReq"] = 41] = "eUserGameInfoReq";
     Cmd[Cmd["eUserGameInfoRes"] = 42] = "eUserGameInfoRes";
+    Cmd[Cmd["eUserBallInfoReq"] = 43] = "eUserBallInfoReq";
+    Cmd[Cmd["eUserBallInfoRes"] = 44] = "eUserBallInfoRes";
+    Cmd[Cmd["eUpdateUserBallReq"] = 45] = "eUpdateUserBallReq";
+    Cmd[Cmd["eUpdateUserBallRes"] = 46] = "eUpdateUserBallRes";
 })(Cmd = exports.Cmd || (exports.Cmd = {}));
 exports.CmdName = (_a = {},
     ///////////////////////////////////
@@ -110,5 +114,9 @@ exports.CmdName = (_a = {},
     _a[40] = "UserStopMatchRes",
     _a[41] = "UserGameInfoReq",
     _a[42] = "UserGameInfoRes",
+    _a[43] = "UserBallInfoReq",
+    _a[44] = "UserBallInfoRes",
+    _a[45] = "UpdateUserBallReq",
+    _a[46] = "UpdateUserBallRes",
     _a);
 //# sourceMappingURL=GameHoodleProto.js.map

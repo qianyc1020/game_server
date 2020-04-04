@@ -49,7 +49,7 @@ message UnameLoginReq {
 message UnameLoginRes {
   int32 status = 1;
   int32 uid = 2;
-  optional string userLoginInfo = 3;
+  optional string userlogininfo = 3;
 }
 
 message GuestLoginReq {
@@ -59,7 +59,7 @@ message GuestLoginReq {
 message GuestLoginRes {
   required int32 status = 1;
   int32 uid = 2;
-  optional string userLoginInfo = 3;
+  optional string userlogininfo = 3;
 }
 
 message UnameRegistReq {
@@ -136,7 +136,7 @@ message GetUserCenterInfoReq {
 
 message GetUserCenterInfoRes {
   required int32 status = 1;
-	optional string userCenterInfoString = 2;
+	optional string usercenterinfostring = 2;
 }
 
 message ReloginRes {

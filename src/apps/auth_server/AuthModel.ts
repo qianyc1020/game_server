@@ -93,7 +93,7 @@ class AuthModel {
                     let resbody = {
                         status: 1,
                         uid: sql_info.uid,
-                        userLoginInfo: JSON.stringify(sql_info)
+                        userlogininfo: JSON.stringify(sql_info)
                     }
                     Log.info("hcc>>uname_login",JSON.stringify(sql_info))
                     AuthSendMsg.send(session,Cmd.eUnameLoginRes, utag, proto_type, resbody)
@@ -139,7 +139,7 @@ class AuthModel {
                     let resbody = {
                         status: 1,
                         uid: sql_info.uid,
-                        userLoginInfo: JSON.stringify(sql_info)
+                        userlogininfo: JSON.stringify(sql_info)
                     }
                     Log.info("hcc>>login_by_guestkey: ",resbody)
                     AuthSendMsg.send(session, Cmd.eGuestLoginRes, utag, proto_type, resbody)
@@ -203,7 +203,7 @@ class AuthModel {
                 let sql_info = data[0]
                 let resbody = {
                     status: 1,
-                    userCenterInfoString: JSON.stringify(sql_info),
+                    usercenterinfostring: JSON.stringify(sql_info),
                 }
                 Log.info("get_user_center_info:" , resbody)
                 AuthSendMsg.send(session, Cmd.eGetUserCenterInfoRes, utag, proto_type, resbody)

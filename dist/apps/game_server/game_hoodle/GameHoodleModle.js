@@ -18,6 +18,7 @@ var MatchManager_1 = __importDefault(require("./MatchManager"));
 var MySqlGame_1 = __importDefault(require("../../../database/MySqlGame"));
 var ArrayUtil_1 = __importDefault(require("../../../utils/ArrayUtil"));
 var GameAppConfig_1 = __importDefault(require("../../GameAppConfig"));
+var querystring_1 = __importDefault(require("querystring"));
 var GameHoodleModle = /** @class */ (function () {
     function GameHoodleModle() {
     }
@@ -77,6 +78,12 @@ var GameHoodleModle = /** @class */ (function () {
                 break;
             case GameHoodleProto_1.Cmd.eUserGameInfoReq:
                 this.on_user_get_ugame_info(session, utag, proto_type, raw_cmd);
+                break;
+            case GameHoodleProto_1.Cmd.eUserBallInfoReq:
+                this.on_user_ball_info(session, utag, proto_type, raw_cmd);
+                break;
+            case GameHoodleProto_1.Cmd.eUpdateUserBallReq:
+                this.on_user_update_ball_info(session, utag, proto_type, raw_cmd);
                 break;
             default:
                 break;
@@ -619,7 +626,7 @@ var GameHoodleModle = /** @class */ (function () {
         var userinfo_array = [];
         var userinfo = {
             numberid: String(player.get_numberid()),
-            userInfoString: JSON.stringify(player.get_player_info())
+            userinfostring: JSON.stringify(player.get_player_info())
         };
         userinfo_array.push(userinfo);
         var body = {
@@ -649,7 +656,7 @@ var GameHoodleModle = /** @class */ (function () {
         match_mgr.send_match_player();
         Log_1["default"].info(uname, "on_user_stop_match success!");
     };
-    //游戏服信息
+    //游戏服信息,没有去创建，有就返回原来数据
     GameHoodleModle.prototype.on_user_get_ugame_info = function (session, utag, proto_type, raw_cmd) {
         if (!GameHoodleInterface_1["default"].check_player(utag)) {
             GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eUserGameInfoRes, utag, proto_type, { status: Response_1["default"].INVALIDI_OPT });
@@ -657,7 +664,7 @@ var GameHoodleModle = /** @class */ (function () {
             return;
         }
         var player = PlayerManager_1["default"].getInstance().get_player(utag);
-        MySqlGame_1["default"].get_ugame_info_by_uid(utag, function (status, data_game) {
+        MySqlGame_1["default"].get_ugame_uchip_by_uid(utag, function (status, data_game) {
             if (status == Response_1["default"].OK) {
                 var data_game_len = ArrayUtil_1["default"].GetArrayLen(data_game);
                 if (data_game_len > 0) {
@@ -666,7 +673,7 @@ var GameHoodleModle = /** @class */ (function () {
                     var ugameInfoStr = JSON.stringify(ugameInfo);
                     var body = {
                         status: Response_1["default"].OK,
-                        userInfoString: ugameInfoStr
+                        userinfostring: ugameInfoStr
                     };
                     player.set_ugame_info(ugameInfo);
                     player.send_cmd(GameHoodleProto_1.Cmd.eUserGameInfoRes, body);
@@ -682,7 +689,7 @@ var GameHoodleModle = /** @class */ (function () {
                                     var ugameInfoStr = JSON.stringify(ugameInfo);
                                     var body = {
                                         status: Response_1["default"].OK,
-                                        userInfoString: ugameInfoStr
+                                        userinfostring: ugameInfoStr
                                     };
                                     player.set_ugame_info(ugameInfo);
                                     player.send_cmd(GameHoodleProto_1.Cmd.eUserGameInfoRes, body);
@@ -705,6 +712,118 @@ var GameHoodleModle = /** @class */ (function () {
                 player.send_cmd(GameHoodleProto_1.Cmd.eUserGameInfoRes, { status: Response_1["default"].INVALIDI_OPT });
             }
         });
+    };
+    //获取小球信息
+    GameHoodleModle.prototype.on_user_ball_info = function (session, utag, proto_type, raw_cmd) {
+        if (!GameHoodleInterface_1["default"].check_player(utag)) {
+            GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eUserBallInfoRes, utag, proto_type, { status: Response_1["default"].INVALIDI_OPT });
+            Log_1["default"].warn("on_user_ball_info error player is not exist!");
+            return;
+        }
+        var player = PlayerManager_1["default"].getInstance().get_player(utag);
+        MySqlGame_1["default"].get_ugame_uball_info(utag, function (status, ret) {
+            if (status == Response_1["default"].OK) {
+                var ret_len = ArrayUtil_1["default"].GetArrayLen(ret);
+                if (ret_len > 0) {
+                    try {
+                        var info = ret[0];
+                        // Log.info("hcc>>uball_info: " , info.uball_info , typeof(info.uball_info));
+                        var uball_info_obj = querystring_1["default"].decode(info.uball_info);
+                        var uball_json = JSON.stringify(uball_info_obj);
+                        var body = {
+                            status: Response_1["default"].OK,
+                            userballinfostring: uball_json
+                        };
+                        player.send_cmd(GameHoodleProto_1.Cmd.eUserBallInfoRes, body);
+                        player.set_uball_info(uball_json);
+                    }
+                    catch (error) {
+                        Log_1["default"].error(error);
+                    }
+                }
+                else {
+                    player.send_cmd(GameHoodleProto_1.Cmd.eUserBallInfoRes, { status: Response_1["default"].INVALIDI_OPT });
+                }
+            }
+            else {
+                player.send_cmd(GameHoodleProto_1.Cmd.eUserBallInfoRes, { status: Response_1["default"].INVALIDI_OPT });
+            }
+        });
+    };
+    //更新小球信息
+    GameHoodleModle.prototype.on_user_update_ball_info = function (session, utag, proto_type, raw_cmd) {
+        if (!GameHoodleInterface_1["default"].check_player(utag)) {
+            GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eUpdateUserBallRes, utag, proto_type, { status: Response_1["default"].INVALIDI_OPT });
+            Log_1["default"].warn("on_user_ball_info error player is not exist!");
+            return;
+        }
+        var player = PlayerManager_1["default"].getInstance().get_player(utag);
+        var updateType = {
+            SELL_TYPE: 0,
+            COMPOSE_TYPE: 1,
+            GIVE_TYPE: 2
+        };
+        if (true) {
+            player.send_cmd(GameHoodleProto_1.Cmd.eUpdateUserBallRes, { status: Response_1["default"].INVALIDI_OPT });
+            return;
+        }
+        var compose_count = 3;
+        var key_str = "lv_";
+        var body = this.decode_cmd(proto_type, raw_cmd);
+        var up_type = body.updatetype;
+        var level = body.level;
+        var count = body.count;
+        var uball_obj_player = {};
+        var is_success = false;
+        try {
+            uball_obj_player = JSON.parse(player.get_uball_info());
+            Log_1["default"].info("hcc>>111,", uball_obj_player);
+            var key = key_str + level;
+            if (up_type == updateType.SELL_TYPE) {
+                if (uball_obj_player[key] && uball_obj_player[key] > 0) {
+                    uball_obj_player[key] = Number(uball_obj_player[key]) - 1; //TODO add gold
+                    is_success = true;
+                }
+            }
+            else if (up_type == updateType.COMPOSE_TYPE) {
+                if (uball_obj_player[key] && Number(uball_obj_player[key]) >= compose_count) {
+                    uball_obj_player[key] = String(Number(uball_obj_player[key]) - compose_count);
+                    key = key_str + String(level + 1);
+                    if (uball_obj_player[key]) {
+                        uball_obj_player[key] = String(Number(uball_obj_player[key]) + 1);
+                        ;
+                    }
+                    else {
+                        uball_obj_player[key] = 0;
+                        uball_obj_player[key] = String(uball_obj_player[key] + 1);
+                    }
+                    is_success = true;
+                }
+            }
+        }
+        catch (error) {
+            Log_1["default"].error(error);
+        }
+        Log_1["default"].info("hcc>>222,", uball_obj_player);
+        if (is_success) {
+            var tmp_ball_json_1 = JSON.stringify(uball_obj_player);
+            var body_ball_1 = {
+                status: Response_1["default"].OK,
+                userballinfostring: tmp_ball_json_1
+            };
+            MySqlGame_1["default"].update_ugame_uball_info(utag, tmp_ball_json_1, function (status, ret) {
+                if (status == Response_1["default"].OK) {
+                    player.send_cmd(GameHoodleProto_1.Cmd.eUpdateUserBallRes, body_ball_1);
+                    player.set_uball_info(tmp_ball_json_1);
+                }
+                else {
+                    player.send_cmd(GameHoodleProto_1.Cmd.eUpdateUserBallRes, { status: Response_1["default"].INVALIDI_OPT });
+                }
+            });
+        }
+        else {
+            player.send_cmd(GameHoodleProto_1.Cmd.eUpdateUserBallRes, { status: Response_1["default"].INVALIDI_OPT });
+        }
     };
     GameHoodleModle.Instance = new GameHoodleModle();
     return GameHoodleModle;

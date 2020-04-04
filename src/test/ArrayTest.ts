@@ -1,3 +1,4 @@
+import Log from '../utils/Log';
 var array:any = {};
 
 
@@ -26,3 +27,22 @@ var sites = {
  // 访问对象的值
  console.log(sites.site1) 
  console.log(sites.site2)
+
+ console.log('------------')
+
+ let obj_test:any = {}
+ let key = "lv_"
+ let num = 111;
+ let key_str:string = key + String(num);
+
+ obj_test[1] = 1;
+//  obj_test[key_str] = 3;
+ 
+ if(obj_test[key_str]){
+
+ }else{
+    // obj_test[key_str] = 0;
+    // obj_test.key_str = 0
+ }
+
+ Log.info(obj_test);

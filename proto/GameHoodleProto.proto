@@ -1,6 +1,13 @@
 //GameHoodleProto.proro
 //弹珠游戏
 
+//写协议原则：
+/*
+1.协议名字用驼峰命名
+2.协议字段统一小写（因为protobufjs 大小写不区分）
+3.先定义枚举，再定义协议内容
+*/
+
 syntax = "proto3";
 package GameHoodleProto;
 
@@ -76,6 +83,14 @@ enum Cmd {
 
 	eUserGameInfoReq = 41; 			//玩家信息,金币等
 	eUserGameInfoRes = 42;
+
+	eUserBallInfoReq = 43;			//获取玩家小球信息
+	eUserBallInfoRes = 44;
+
+	eUpdateUserBallReq = 45;		//合成，卖出小球，发起更新请求
+	eUpdateUserBallRes = 46;
+
+
 }
 
 ///////////////////////////////////
@@ -137,7 +152,7 @@ message BackRoomRes {
 
 message UserInfo {
 	required string numberid = 1;
-	required string userInfoString = 2;
+	required string userinfostring = 2;
 }
 
 message CheckLinkGameReq {
@@ -243,40 +258,40 @@ message PlayerShootRes {
 	required sint32 seatid = 2;
 	required string posx = 3;
 	required string posy = 4;
-	optional int32 shootpower = 5;
+	optional int32 shootpower = 5;		//玩家权限
 }
 
 message PlayerBallPosReq {
-	repeated OnePlayerPos positions = 1;
+	repeated OnePlayerPos positions = 1; 		//玩家位置
 }
 
 message PlayerBallPosRes {
 	required sint32 status = 1;
-	repeated OnePlayerPos positions = 2;
+	repeated OnePlayerPos positions = 2;		//玩家位置
 }
 
 message PlayerIsShootedReq {
-	required sint32 srcseatid = 1;
-	required sint32 desseatid = 2;
+	required sint32 srcseatid = 1;		//射击玩家
+	required sint32 desseatid = 2;		//被射击玩家
 }
 
 message PlayerIsShootedRes {
 	required sint32 status = 1;
-	required sint32 srcseatid = 2;
-	required sint32 desseatid = 3;
+	required sint32 srcseatid = 2;		//射击玩家
+	required sint32 desseatid = 3;		//被射击玩家
 }
 
 message GameResultRes {
-	repeated OnePlayerScore scores = 1;
+	repeated OnePlayerScore scores = 1; 	//玩家分数
 }
 
 message TotalGameResultRes {
-	repeated OnePlayerScore scores = 1;
-	repeated OnPlayerGolds golds = 2;
+	repeated OnePlayerScore scores = 1; 	//玩家分数
+	repeated OnPlayerGolds golds = 2;		//玩家金币
 }
 
 message PlayerScoreRes {
-	repeated OnePlayerScore scores = 1;	
+	repeated OnePlayerScore scores = 1;		//玩家分数
 }
 
 message UserMatchReq {
@@ -285,8 +300,8 @@ message UserMatchReq {
 
 message UserMatchRes {
 	required sint32 status = 1;
-	optional bool matchsuccess = 2;
-	repeated UserInfo userinfo = 3;
+	optional bool matchsuccess = 2;		//是否匹配成功
+	repeated UserInfo userinfo = 3;		//玩家信息
 }
 
 message UserStopMatchReq {
@@ -301,6 +316,26 @@ message UserGameInfoReq {
 }
 
 message UserGameInfoRes {
-	required uint32 status = 1;
-	required string userInfoString = 2;
+	required sint32 status = 1;
+	required string userinfostring = 2;		//玩家游戏服信息
+}
+
+message UserBallInfoReq {
+
+}
+
+message UserBallInfoRes {
+	required sint32 status = 1;
+	optional string userballinfostring = 2; //小球个数,querystring格式："lv_1=0&lv_2=1&lv_3=3&lv_4=4&lv_5=10"
+}
+
+message UpdateUserBallReq {
+	required sint32 updatetype = 1; 	//更新类型，0:卖了，1:合成, 2:赠送
+	required sint32 level = 2;			//等级
+	required sint32 count = 3;			//数量
+}
+
+message UpdateUserBallRes {
+	required sint32 status = 1;
+	optional string userballinfostring = 2;  //小球个数,querystring格式："lv_1=0&lv_2=1&lv_3=3&lv_4=4&lv_5=10"
 }

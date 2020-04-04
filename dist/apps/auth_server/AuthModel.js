@@ -85,7 +85,7 @@ var AuthModel = /** @class */ (function () {
                     var resbody = {
                         status: 1,
                         uid: sql_info.uid,
-                        userLoginInfo: JSON.stringify(sql_info)
+                        userlogininfo: JSON.stringify(sql_info)
                     };
                     Log_1["default"].info("hcc>>uname_login", JSON.stringify(sql_info));
                     AuthSendMsg_1["default"].send(session, AuthProto_1.Cmd.eUnameLoginRes, utag, proto_type, resbody);
@@ -132,7 +132,7 @@ var AuthModel = /** @class */ (function () {
                     var resbody = {
                         status: 1,
                         uid: sql_info.uid,
-                        userLoginInfo: JSON.stringify(sql_info)
+                        userlogininfo: JSON.stringify(sql_info)
                     };
                     Log_1["default"].info("hcc>>login_by_guestkey: ", resbody);
                     AuthSendMsg_1["default"].send(session, AuthProto_1.Cmd.eGuestLoginRes, utag, proto_type, resbody);
@@ -191,7 +191,7 @@ var AuthModel = /** @class */ (function () {
                 var sql_info = data[0];
                 var resbody = {
                     status: 1,
-                    userCenterInfoString: JSON.stringify(sql_info)
+                    usercenterinfostring: JSON.stringify(sql_info)
                 };
                 Log_1["default"].info("get_user_center_info:", resbody);
                 AuthSendMsg_1["default"].send(session, AuthProto_1.Cmd.eGetUserCenterInfoRes, utag, proto_type, resbody);

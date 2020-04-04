@@ -26,6 +26,7 @@ class Player{
     _user_pos:any        = {posx:0,posy:0} //玩家位置 
     _user_power:number   = 0; // 玩家权限
     _user_score:number   = 0; //玩家得分
+    _user_ball_info:string = ""; //json串，玩家小球信息
 
     /////////
     constructor(){
@@ -96,6 +97,15 @@ class Player{
     //金币
     set_uchip(uchip:number){
         this._ugame_info.uchip = uchip;
+    }
+
+    //小球信息
+    get_uball_info(){
+        return this._user_ball_info;
+    }
+
+    set_uball_info(info:string){
+        this._user_ball_info = info;
     }
 
     //玩家信息汇总
