@@ -750,7 +750,7 @@ var GameHoodleModle = /** @class */ (function () {
             }
         });
     };
-    //更新小球信息
+    //更新小球信息,合成，卖掉，赠送等
     GameHoodleModle.prototype.on_user_update_ball_info = function (session, utag, proto_type, raw_cmd) {
         if (!GameHoodleInterface_1["default"].check_player(utag)) {
             GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eUpdateUserBallRes, utag, proto_type, { status: Response_1["default"].INVALIDI_OPT });
@@ -763,10 +763,6 @@ var GameHoodleModle = /** @class */ (function () {
             COMPOSE_TYPE: 1,
             GIVE_TYPE: 2
         };
-        if (true) {
-            player.send_cmd(GameHoodleProto_1.Cmd.eUpdateUserBallRes, { status: Response_1["default"].INVALIDI_OPT });
-            return;
-        }
         var compose_count = 3;
         var key_str = "lv_";
         var body = this.decode_cmd(proto_type, raw_cmd);
@@ -777,11 +773,11 @@ var GameHoodleModle = /** @class */ (function () {
         var is_success = false;
         try {
             uball_obj_player = JSON.parse(player.get_uball_info());
-            Log_1["default"].info("hcc>>111,", uball_obj_player);
+            // Log.info("hcc>>111," , uball_obj_player);
             var key = key_str + level;
             if (up_type == updateType.SELL_TYPE) {
                 if (uball_obj_player[key] && uball_obj_player[key] > 0) {
-                    uball_obj_player[key] = Number(uball_obj_player[key]) - 1; //TODO add gold
+                    uball_obj_player[key] = Number(uball_obj_player[key]) - 1; //TODO 卖掉后金币回退
                     is_success = true;
                 }
             }
@@ -804,7 +800,7 @@ var GameHoodleModle = /** @class */ (function () {
         catch (error) {
             Log_1["default"].error(error);
         }
-        Log_1["default"].info("hcc>>222,", uball_obj_player);
+        // Log.info("hcc>>222," , uball_obj_player);
         if (is_success) {
             var tmp_ball_json_1 = JSON.stringify(uball_obj_player);
             var body_ball_1 = {

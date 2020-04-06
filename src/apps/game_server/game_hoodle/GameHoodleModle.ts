@@ -847,7 +847,7 @@ class GameHoodleModle {
             
             if(up_type == updateType.SELL_TYPE){
                 if(uball_obj_player[key] && uball_obj_player[key] >  0){
-                    uball_obj_player[key] = Number(uball_obj_player[key]) - 1; //TODO add gold
+                    uball_obj_player[key] = Number(uball_obj_player[key]) - 1; //TODO 卖掉后金币回退
                     is_success = true;
                 }
             }else if(up_type == updateType.COMPOSE_TYPE){
