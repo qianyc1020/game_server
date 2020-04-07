@@ -26,41 +26,4 @@ var db_auth = GameAppConfig_1["default"].auth_database;
 MySqlAuth_1["default"].connect(db_auth.host, db_auth.port, db_auth.db_name, db_auth.uname, db_auth.upwd);
 //匹配场
 MatchManager_1["default"].getInstance().start_match();
-//test
-/*
-let obj1 = {
-    ["h"] :1,
-    ["c"] :2,
-    ["v"] :"333",
-    ["000000"] :"@",
-    333333: 44444,
-    ["boj"]:{
-        [1]:1,
-        [3]:2222,
-        [6]:3333,
-    },
-}
-
-let obj2 = {
-    ["0"] :7,
-    ["3"] :8,
-    ["6"] :9,
-    ["a"] :"empty",
-}
-
-let obj = ArrayUtil.ObjCat(obj1, obj2)
-console.log("hcc>>>obj: " , obj)
-*/
-/*
-let array = [];
-array.push(1)
-array.push(3)
-array.push(5)
-array.push(6)
-array.forEach(value => {
-    Log.info("hcc>> value: " , value)
-})
-*/
-//绝对值
-// Log.info(Math.abs(-1000), Math.abs(1500))
 //# sourceMappingURL=GameHoodleMain.js.map

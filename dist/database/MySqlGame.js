@@ -15,6 +15,7 @@ var util = __importStar(require("util"));
 var Response_1 = __importDefault(require("../apps/Response"));
 var Log_1 = __importDefault(require("../utils/Log"));
 var querystring_1 = __importDefault(require("querystring"));
+var ArrayUtil_1 = __importDefault(require("../utils/ArrayUtil"));
 var MySqlGame = /** @class */ (function () {
     function MySqlGame() {
     }
@@ -83,7 +84,7 @@ var MySqlGame = /** @class */ (function () {
             }
         });
     };
-    //获得玩家小球信息字符串。
+    //获得玩家小球信息字符串: querystirng串
     //外层调用querystring.decode()去解码,解码成对象
     //对象可以用json转成字符串
     MySqlGame.get_ugame_uball_info = function (uid, callback) {
@@ -94,11 +95,28 @@ var MySqlGame = /** @class */ (function () {
                 callback(Response_1["default"].SYSTEM_ERR, err);
                 return;
             }
-            callback(Response_1["default"].OK, sql_ret);
+            else {
+                var ret_len = ArrayUtil_1["default"].GetArrayLen(sql_ret);
+                if (ret_len > 0) {
+                    try {
+                        var info = sql_ret[0];
+                        var uball_info_obj = querystring_1["default"].decode(info.uball_info);
+                        var uball_json = JSON.stringify(uball_info_obj);
+                        callback(Response_1["default"].OK, uball_json);
+                    }
+                    catch (error) {
+                        callback(Response_1["default"].SYSTEM_ERR);
+                        Log_1["default"].error(error);
+                    }
+                }
+                else {
+                    callback(Response_1["default"].SYSTEM_ERR);
+                }
+            }
         });
     };
-    //设置玩家小球信息
-    //uball_obj: 小球集合对象转成json字符串:uball_obj = {lv_1:1,lv_2:2,lv_3:0}
+    //设置玩家小球信息 uball_obj_json: json字符串
+    //uball_obj_json小球集合对象转成json字符串:uball_obj = {lv_1:1,lv_2:2,lv_3:0}
     //querystring.encode() 转成 "lv_1=0&lv_2=1&lv_3=3&lv_4=4&lv_5=155"
     MySqlGame.update_ugame_uball_info = function (uid, uball_obj_json, callback) {
         var uball_qstring = "";
@@ -107,10 +125,12 @@ var MySqlGame = /** @class */ (function () {
         }
         catch (error) {
             Log_1["default"].error(error);
+            callback(Response_1["default"].SYSTEM_ERR);
             return;
         }
         if (uball_qstring == "") {
             Log_1["default"].warn("update_ugame_uball_info quertstring error");
+            callback(Response_1["default"].SYSTEM_ERR);
             return;
         }
         var sql = "update ugame set uball_info = \"%s\" where uid = %d";

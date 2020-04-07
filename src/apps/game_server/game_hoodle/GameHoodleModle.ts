@@ -16,6 +16,7 @@ import MySqlGame from '../../../database/MySqlGame';
 import ArrayUtil from '../../../utils/ArrayUtil';
 import GameAppConfig from '../../GameAppConfig';
 import querystring from 'querystring';
+import GameStaticDefine from './GameStaticDefine';
 
 class GameHoodleModle {
     private static readonly Instance: GameHoodleModle = new GameHoodleModle();
@@ -37,58 +38,58 @@ class GameHoodleModle {
 
         switch(ctype){
             case CommonProto.eUserLostConnectRes:
-                this.on_user_lost_connect(session,utag,proto_type,raw_cmd)
+                this.on_user_lost_connect(session,utag,proto_type,raw_cmd) //base
             break;
             case Cmd.eLoginLogicReq:
-                this.on_login_logic(session,utag,proto_type,raw_cmd)
+                this.on_login_logic(session,utag,proto_type,raw_cmd)//base
             break;
             case Cmd.eCreateRoomReq:
-                this.on_create_room(session,utag,proto_type,raw_cmd)
+                this.on_create_room(session,utag,proto_type,raw_cmd)//room
             break;
             case Cmd.eJoinRoomReq:
-                this.on_join_room(session,utag,proto_type,raw_cmd)
+                this.on_join_room(session,utag,proto_type,raw_cmd)//room
             break;
             case Cmd.eExitRoomReq:
-                this.on_exit_room(session,utag,proto_type,raw_cmd)
+                this.on_exit_room(session,utag,proto_type,raw_cmd)//room
             break;
             case Cmd.eDessolveReq:
-                this.on_dessolve_room(session,utag,proto_type,raw_cmd)
+                this.on_dessolve_room(session,utag,proto_type,raw_cmd)//room
             break;
             case Cmd.eGetRoomStatusReq:
-                this.on_get_room_status(session,utag,proto_type,raw_cmd)
+                this.on_get_room_status(session,utag,proto_type,raw_cmd)//room
             break;
             case Cmd.eBackRoomReq:
-                this.on_back_room(session,utag,proto_type,raw_cmd)
+                this.on_back_room(session,utag,proto_type,raw_cmd)//room
             break;
             case Cmd.eCheckLinkGameReq:
-                this.on_check_link_game(session,utag,proto_type,raw_cmd)
+                this.on_check_link_game(session,utag,proto_type,raw_cmd)//base
             break;
             case Cmd.eUserReadyReq:
-                this.on_user_ready(session,utag,proto_type,raw_cmd)
+                this.on_user_ready(session,utag,proto_type,raw_cmd)//room
             break;
             case Cmd.ePlayerShootReq:
-                this.on_player_shoot(session,utag,proto_type,raw_cmd);
+                this.on_player_shoot(session,utag,proto_type,raw_cmd);//game
             break;
             case Cmd.ePlayerBallPosReq:
-                this.on_player_ball_pos(session,utag,proto_type,raw_cmd);
+                this.on_player_ball_pos(session,utag,proto_type,raw_cmd);//game
             break;
             case Cmd.ePlayerIsShootedReq:
-                this.on_player_is_shooted(session,utag,proto_type,raw_cmd);
+                this.on_player_is_shooted(session,utag,proto_type,raw_cmd);//game
             break;
             case Cmd.eUserMatchReq:
-                this.on_user_match(session,utag,proto_type,raw_cmd);
+                this.on_user_match(session,utag,proto_type,raw_cmd);//base
             break;
             case Cmd.eUserStopMatchReq:
-                this.on_user_stop_match(session,utag,proto_type,raw_cmd);
+                this.on_user_stop_match(session,utag,proto_type,raw_cmd);//base
             break;
             case Cmd.eUserGameInfoReq:
-                this.on_user_get_ugame_info(session,utag,proto_type,raw_cmd);
+                this.on_user_get_ugame_info(session,utag,proto_type,raw_cmd);//game
             break;
             case Cmd.eUserBallInfoReq:
-                this.on_user_ball_info(session,utag,proto_type,raw_cmd);
+                this.on_user_ball_info(session,utag,proto_type,raw_cmd);//game
             break;
             case Cmd.eUpdateUserBallReq:
-                this.on_user_update_ball_info(session,utag,proto_type,raw_cmd);
+                this.on_user_update_ball_info(session,utag,proto_type,raw_cmd);//game
             break;
             default:
             break;
@@ -746,7 +747,7 @@ class GameHoodleModle {
                 }else{
                     MySqlGame.insert_ugame_user(utag, GameAppConfig.KW_BORN_EXP, GameAppConfig.KW_BORN_CHIP,function(status_game_ins:number, data_game_ins:any) 
                     {
-                        Log.info("hcc>>on_user_get_ugame_info2222");
+                        // Log.info("hcc>>on_user_get_ugame_info2222");
                         if(status_game_ins == Response.OK)
                         {
                             MySqlGame.get_ugame_uchip_by_uid(utag, function(status_game_ins_get:number, data_game_ins_get:any)
@@ -764,18 +765,18 @@ class GameHoodleModle {
                                     player.send_cmd(Cmd.eUserGameInfoRes,body);
                                 }else
                                 {
-                                    Log.info("hcc>>on_user_get_ugame_info4444>>error");
+                                    // Log.info("hcc>>on_user_get_ugame_info4444>>error");
                                     player.send_cmd(Cmd.eUserGameInfoRes,{status: Response.INVALIDI_OPT});
                                 }
                             })
                         }else{
-                            Log.info("hcc>>on_user_get_ugame_info5555>>error");
+                            // Log.info("hcc>>on_user_get_ugame_info5555>>error");
                             player.send_cmd(Cmd.eUserGameInfoRes,{status: Response.INVALIDI_OPT});
                         }
                     })
                 }
             }else{
-                Log.info("hcc>>on_user_get_ugame_info6666>>error");
+                // Log.info("hcc>>on_user_get_ugame_info6666>>error");
                 player.send_cmd(Cmd.eUserGameInfoRes,{status: Response.INVALIDI_OPT});
             }
         })
@@ -791,25 +792,14 @@ class GameHoodleModle {
         let player:Player = PlayerManager.getInstance().get_player(utag);
         MySqlGame.get_ugame_uball_info(utag, function (status:number, ret:any) {
             if(status == Response.OK){
-                let ret_len = ArrayUtil.GetArrayLen(ret);
-                if(ret_len > 0){
-                    try {
-                        let info = ret[0];
-                        // Log.info("hcc>>uball_info: " , info.uball_info , typeof(info.uball_info));
-                        let uball_info_obj = querystring.decode(info.uball_info);
-                        let uball_json = JSON.stringify(uball_info_obj);
-                        let body = {
-                            status: Response.OK,
-                            userballinfostring: uball_json,
-                        }
-                        player.send_cmd(Cmd.eUserBallInfoRes, body);        
-                        player.set_uball_info(uball_json);
-                    } catch (error) {
-                        Log.error(error);
-                    }
-                }else{
-                    player.send_cmd(Cmd.eUserBallInfoRes,{status: Response.INVALIDI_OPT});    
+                let uball_json = ret;
+                let body = {
+                    status: Response.OK,
+                    userballinfostring: uball_json,
                 }
+                Log.info("hcc>>on_ser_ball_info: " , uball_json);
+                player.send_cmd(Cmd.eUserBallInfoRes, body);        
+                player.set_uball_info(uball_json);
             }else{
                 player.send_cmd(Cmd.eUserBallInfoRes,{status: Response.INVALIDI_OPT});
             }
@@ -825,14 +815,9 @@ class GameHoodleModle {
         }
 
         let player:Player = PlayerManager.getInstance().get_player(utag);
-        const updateType:any = {
-            SELL_TYPE:      0,  //卖了
-            COMPOSE_TYPE:   1,  //合成,三个一合成
-            GIVE_TYPE:      2,  //赠送
-        }
 
-        let compose_count = 3;
-        let key_str = "lv_";
+        let compose_count = GameStaticDefine.BALL_COPOSE_NUM;
+        let key_str = GameStaticDefine.BALL_SAVE_KEY_STR;
 
         let body =  this.decode_cmd(proto_type,raw_cmd);
         let up_type:number = body.updatetype;
@@ -844,21 +829,18 @@ class GameHoodleModle {
             uball_obj_player = JSON.parse(player.get_uball_info());
             // Log.info("hcc>>111," , uball_obj_player);
             let key = key_str + level;
-            
-            if(up_type == updateType.SELL_TYPE){
+            if(up_type == GameStaticDefine.BALL_UPDATE_TYPE.SELL_TYPE){
                 if(uball_obj_player[key] && uball_obj_player[key] >  0){
                     uball_obj_player[key] = Number(uball_obj_player[key]) - 1; //TODO 卖掉后金币回退
                     is_success = true;
                 }
-            }else if(up_type == updateType.COMPOSE_TYPE){
+            }else if(up_type == GameStaticDefine.BALL_UPDATE_TYPE.COMPOSE_TYPE){
                 if(uball_obj_player[key] && Number(uball_obj_player[key]) >= compose_count){
                     uball_obj_player[key] = String(Number(uball_obj_player[key]) - compose_count);
-
                     key = key_str + String(level + 1);
                     if(uball_obj_player[key]){
                         uball_obj_player[key] = String(Number(uball_obj_player[key]) + 1);;
                     }else{
-                        uball_obj_player[key] = 0;
                         uball_obj_player[key] = String(uball_obj_player[key] + 1);
                     }
                     is_success = true;

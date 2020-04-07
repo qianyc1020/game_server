@@ -18,7 +18,7 @@ var MatchManager_1 = __importDefault(require("./MatchManager"));
 var MySqlGame_1 = __importDefault(require("../../../database/MySqlGame"));
 var ArrayUtil_1 = __importDefault(require("../../../utils/ArrayUtil"));
 var GameAppConfig_1 = __importDefault(require("../../GameAppConfig"));
-var querystring_1 = __importDefault(require("querystring"));
+var GameStaticDefine_1 = __importDefault(require("./GameStaticDefine"));
 var GameHoodleModle = /** @class */ (function () {
     function GameHoodleModle() {
     }
@@ -32,58 +32,58 @@ var GameHoodleModle = /** @class */ (function () {
         // Log.info("recv_cmd_msg: ",stype,ctype,utag,proto_type,this.decode_cmd(proto_type,raw_cmd))
         switch (ctype) {
             case CommonProto_1["default"].eUserLostConnectRes:
-                this.on_user_lost_connect(session, utag, proto_type, raw_cmd);
+                this.on_user_lost_connect(session, utag, proto_type, raw_cmd); //base
                 break;
             case GameHoodleProto_1.Cmd.eLoginLogicReq:
-                this.on_login_logic(session, utag, proto_type, raw_cmd);
+                this.on_login_logic(session, utag, proto_type, raw_cmd); //base
                 break;
             case GameHoodleProto_1.Cmd.eCreateRoomReq:
-                this.on_create_room(session, utag, proto_type, raw_cmd);
+                this.on_create_room(session, utag, proto_type, raw_cmd); //room
                 break;
             case GameHoodleProto_1.Cmd.eJoinRoomReq:
-                this.on_join_room(session, utag, proto_type, raw_cmd);
+                this.on_join_room(session, utag, proto_type, raw_cmd); //room
                 break;
             case GameHoodleProto_1.Cmd.eExitRoomReq:
-                this.on_exit_room(session, utag, proto_type, raw_cmd);
+                this.on_exit_room(session, utag, proto_type, raw_cmd); //room
                 break;
             case GameHoodleProto_1.Cmd.eDessolveReq:
-                this.on_dessolve_room(session, utag, proto_type, raw_cmd);
+                this.on_dessolve_room(session, utag, proto_type, raw_cmd); //room
                 break;
             case GameHoodleProto_1.Cmd.eGetRoomStatusReq:
-                this.on_get_room_status(session, utag, proto_type, raw_cmd);
+                this.on_get_room_status(session, utag, proto_type, raw_cmd); //room
                 break;
             case GameHoodleProto_1.Cmd.eBackRoomReq:
-                this.on_back_room(session, utag, proto_type, raw_cmd);
+                this.on_back_room(session, utag, proto_type, raw_cmd); //room
                 break;
             case GameHoodleProto_1.Cmd.eCheckLinkGameReq:
-                this.on_check_link_game(session, utag, proto_type, raw_cmd);
+                this.on_check_link_game(session, utag, proto_type, raw_cmd); //base
                 break;
             case GameHoodleProto_1.Cmd.eUserReadyReq:
-                this.on_user_ready(session, utag, proto_type, raw_cmd);
+                this.on_user_ready(session, utag, proto_type, raw_cmd); //room
                 break;
             case GameHoodleProto_1.Cmd.ePlayerShootReq:
-                this.on_player_shoot(session, utag, proto_type, raw_cmd);
+                this.on_player_shoot(session, utag, proto_type, raw_cmd); //game
                 break;
             case GameHoodleProto_1.Cmd.ePlayerBallPosReq:
-                this.on_player_ball_pos(session, utag, proto_type, raw_cmd);
+                this.on_player_ball_pos(session, utag, proto_type, raw_cmd); //game
                 break;
             case GameHoodleProto_1.Cmd.ePlayerIsShootedReq:
-                this.on_player_is_shooted(session, utag, proto_type, raw_cmd);
+                this.on_player_is_shooted(session, utag, proto_type, raw_cmd); //game
                 break;
             case GameHoodleProto_1.Cmd.eUserMatchReq:
-                this.on_user_match(session, utag, proto_type, raw_cmd);
+                this.on_user_match(session, utag, proto_type, raw_cmd); //base
                 break;
             case GameHoodleProto_1.Cmd.eUserStopMatchReq:
-                this.on_user_stop_match(session, utag, proto_type, raw_cmd);
+                this.on_user_stop_match(session, utag, proto_type, raw_cmd); //base
                 break;
             case GameHoodleProto_1.Cmd.eUserGameInfoReq:
-                this.on_user_get_ugame_info(session, utag, proto_type, raw_cmd);
+                this.on_user_get_ugame_info(session, utag, proto_type, raw_cmd); //game
                 break;
             case GameHoodleProto_1.Cmd.eUserBallInfoReq:
-                this.on_user_ball_info(session, utag, proto_type, raw_cmd);
+                this.on_user_ball_info(session, utag, proto_type, raw_cmd); //game
                 break;
             case GameHoodleProto_1.Cmd.eUpdateUserBallReq:
-                this.on_user_update_ball_info(session, utag, proto_type, raw_cmd);
+                this.on_user_update_ball_info(session, utag, proto_type, raw_cmd); //game
                 break;
             default:
                 break;
@@ -680,7 +680,7 @@ var GameHoodleModle = /** @class */ (function () {
                 }
                 else {
                     MySqlGame_1["default"].insert_ugame_user(utag, GameAppConfig_1["default"].KW_BORN_EXP, GameAppConfig_1["default"].KW_BORN_CHIP, function (status_game_ins, data_game_ins) {
-                        Log_1["default"].info("hcc>>on_user_get_ugame_info2222");
+                        // Log.info("hcc>>on_user_get_ugame_info2222");
                         if (status_game_ins == Response_1["default"].OK) {
                             MySqlGame_1["default"].get_ugame_uchip_by_uid(utag, function (status_game_ins_get, data_game_ins_get) {
                                 if (status_game_ins_get == Response_1["default"].OK) {
@@ -695,20 +695,20 @@ var GameHoodleModle = /** @class */ (function () {
                                     player.send_cmd(GameHoodleProto_1.Cmd.eUserGameInfoRes, body);
                                 }
                                 else {
-                                    Log_1["default"].info("hcc>>on_user_get_ugame_info4444>>error");
+                                    // Log.info("hcc>>on_user_get_ugame_info4444>>error");
                                     player.send_cmd(GameHoodleProto_1.Cmd.eUserGameInfoRes, { status: Response_1["default"].INVALIDI_OPT });
                                 }
                             });
                         }
                         else {
-                            Log_1["default"].info("hcc>>on_user_get_ugame_info5555>>error");
+                            // Log.info("hcc>>on_user_get_ugame_info5555>>error");
                             player.send_cmd(GameHoodleProto_1.Cmd.eUserGameInfoRes, { status: Response_1["default"].INVALIDI_OPT });
                         }
                     });
                 }
             }
             else {
-                Log_1["default"].info("hcc>>on_user_get_ugame_info6666>>error");
+                // Log.info("hcc>>on_user_get_ugame_info6666>>error");
                 player.send_cmd(GameHoodleProto_1.Cmd.eUserGameInfoRes, { status: Response_1["default"].INVALIDI_OPT });
             }
         });
@@ -723,27 +723,14 @@ var GameHoodleModle = /** @class */ (function () {
         var player = PlayerManager_1["default"].getInstance().get_player(utag);
         MySqlGame_1["default"].get_ugame_uball_info(utag, function (status, ret) {
             if (status == Response_1["default"].OK) {
-                var ret_len = ArrayUtil_1["default"].GetArrayLen(ret);
-                if (ret_len > 0) {
-                    try {
-                        var info = ret[0];
-                        // Log.info("hcc>>uball_info: " , info.uball_info , typeof(info.uball_info));
-                        var uball_info_obj = querystring_1["default"].decode(info.uball_info);
-                        var uball_json = JSON.stringify(uball_info_obj);
-                        var body = {
-                            status: Response_1["default"].OK,
-                            userballinfostring: uball_json
-                        };
-                        player.send_cmd(GameHoodleProto_1.Cmd.eUserBallInfoRes, body);
-                        player.set_uball_info(uball_json);
-                    }
-                    catch (error) {
-                        Log_1["default"].error(error);
-                    }
-                }
-                else {
-                    player.send_cmd(GameHoodleProto_1.Cmd.eUserBallInfoRes, { status: Response_1["default"].INVALIDI_OPT });
-                }
+                var uball_json = ret;
+                var body = {
+                    status: Response_1["default"].OK,
+                    userballinfostring: uball_json
+                };
+                Log_1["default"].info("hcc>>on_ser_ball_info: ", uball_json);
+                player.send_cmd(GameHoodleProto_1.Cmd.eUserBallInfoRes, body);
+                player.set_uball_info(uball_json);
             }
             else {
                 player.send_cmd(GameHoodleProto_1.Cmd.eUserBallInfoRes, { status: Response_1["default"].INVALIDI_OPT });
@@ -758,13 +745,8 @@ var GameHoodleModle = /** @class */ (function () {
             return;
         }
         var player = PlayerManager_1["default"].getInstance().get_player(utag);
-        var updateType = {
-            SELL_TYPE: 0,
-            COMPOSE_TYPE: 1,
-            GIVE_TYPE: 2
-        };
-        var compose_count = 3;
-        var key_str = "lv_";
+        var compose_count = GameStaticDefine_1["default"].BALL_COPOSE_NUM;
+        var key_str = GameStaticDefine_1["default"].BALL_SAVE_KEY_STR;
         var body = this.decode_cmd(proto_type, raw_cmd);
         var up_type = body.updatetype;
         var level = body.level;
@@ -775,13 +757,13 @@ var GameHoodleModle = /** @class */ (function () {
             uball_obj_player = JSON.parse(player.get_uball_info());
             // Log.info("hcc>>111," , uball_obj_player);
             var key = key_str + level;
-            if (up_type == updateType.SELL_TYPE) {
+            if (up_type == GameStaticDefine_1["default"].BALL_UPDATE_TYPE.SELL_TYPE) {
                 if (uball_obj_player[key] && uball_obj_player[key] > 0) {
                     uball_obj_player[key] = Number(uball_obj_player[key]) - 1; //TODO 卖掉后金币回退
                     is_success = true;
                 }
             }
-            else if (up_type == updateType.COMPOSE_TYPE) {
+            else if (up_type == GameStaticDefine_1["default"].BALL_UPDATE_TYPE.COMPOSE_TYPE) {
                 if (uball_obj_player[key] && Number(uball_obj_player[key]) >= compose_count) {
                     uball_obj_player[key] = String(Number(uball_obj_player[key]) - compose_count);
                     key = key_str + String(level + 1);
@@ -790,7 +772,6 @@ var GameHoodleModle = /** @class */ (function () {
                         ;
                     }
                     else {
-                        uball_obj_player[key] = 0;
                         uball_obj_player[key] = String(uball_obj_player[key] + 1);
                     }
                     is_success = true;

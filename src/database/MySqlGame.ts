@@ -4,6 +4,7 @@ import * as util from "util"
 import Response from '../apps/Response';
 import Log from '../utils/Log';
 import querystring from "querystring"
+import ArrayUtil from "../utils/ArrayUtil";
 
 class MySqlGame {
 	private static mysqlEngine: MySqlEngine = new MySqlEngine();
@@ -81,7 +82,7 @@ class MySqlGame {
         })
     }
 
-    //获得玩家小球信息字符串。
+    //获得玩家小球信息字符串: querystirng串
     //外层调用querystring.decode()去解码,解码成对象
     //对象可以用json转成字符串
     static get_ugame_uball_info(uid:number,callback:Function){
@@ -91,13 +92,27 @@ class MySqlGame {
             if (err) {
                 callback(Response.SYSTEM_ERR, err);
                 return;
+            }else{
+                let ret_len = ArrayUtil.GetArrayLen(sql_ret);
+                if (ret_len > 0){
+                    try {
+                        let info = sql_ret[0];
+                        let uball_info_obj = querystring.decode(info.uball_info);
+                        let uball_json = JSON.stringify(uball_info_obj);
+                        callback(Response.OK, uball_json);
+                    } catch (error) {
+                        callback(Response.SYSTEM_ERR);
+                        Log.error(error);
+                    }
+                }else{
+                    callback(Response.SYSTEM_ERR);
+                }
             }
-            callback(Response.OK, sql_ret);
         });
     }
 
-    //设置玩家小球信息
-    //uball_obj: 小球集合对象转成json字符串:uball_obj = {lv_1:1,lv_2:2,lv_3:0}
+    //设置玩家小球信息 uball_obj_json: json字符串
+    //uball_obj_json小球集合对象转成json字符串:uball_obj = {lv_1:1,lv_2:2,lv_3:0}
     //querystring.encode() 转成 "lv_1=0&lv_2=1&lv_3=3&lv_4=4&lv_5=155"
     static update_ugame_uball_info(uid:number, uball_obj_json:string, callback:Function){
         let uball_qstring = "";
@@ -105,11 +120,13 @@ class MySqlGame {
             uball_qstring = querystring.encode(JSON.parse(uball_obj_json));
         } catch (error) {
             Log.error(error);
+            callback(Response.SYSTEM_ERR);
             return;
         }
         
         if(uball_qstring == ""){
             Log.warn("update_ugame_uball_info quertstring error");
+            callback(Response.SYSTEM_ERR);
             return;
         }
 
