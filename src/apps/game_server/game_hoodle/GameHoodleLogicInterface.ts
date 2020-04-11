@@ -145,7 +145,7 @@ class GameHoodleLogicInterface {
                     }
                     Log.info(player.get_uname(),"hcc>>write_player_chip: score: " , score, " ,gold_win: " , gold_win, " ,cur_chip: " , player.get_uchip()," ,after add: " , (player.get_uchip() + gold_win));
                     player.set_uchip(player.get_uchip() + gold_win);
-                    MySqlGame.add_ugame_uchip(player.get_uid(),gold_win, gold_win > 0,function(status:number, ret:any) {
+                    MySqlGame.add_ugame_uchip(player.get_uid(),gold_win,function(status:number, ret:any) {
                         if(status == Response.OK){
                             Log.info("hcc>>write_player_chip success", player.get_uname())
                         }

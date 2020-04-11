@@ -64,10 +64,11 @@ class MySqlGame {
 
     // 玩家金币修改
     // 有增加,也减少
-    static add_ugame_uchip(uid:number, uchip:number, is_add:boolean,callback?:Function) {
-        if (!is_add) { // 扣除
+    static add_ugame_uchip(uid:number, uchip:number,callback?:Function) {
+        if(uchip < 0){
             uchip = Math.abs(uchip) * (-1); // 负数
         }
+
         var sql = "update ugame set uchip = uchip + %d where uid = %d";
         var sql_cmd = util.format(sql, uchip, uid);
         MySqlGame.query(sql_cmd, function(err:any, sql_ret:any, fields_desic:any) {

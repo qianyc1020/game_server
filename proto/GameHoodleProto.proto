@@ -12,85 +12,71 @@ syntax = "proto3";
 package GameHoodleProto;
 
 enum Cmd {
-	INVALED = 0;
+	INVALED 					= 0;
 	
 	///////////////////////////////////
 	//房间相关协议
 	///////////////////////////////////
 
-	eCreateRoomReq = 1; 		//创建包厢
-	eCreateRoomRes = 2;
-
-	eJoinRoomReq = 3;			//加入包厢
-	eJoinRoomRes = 4;
-
-	eExitRoomReq = 5;			//退出包厢
-	eExitRoomRes = 6;
-
-	eDessolveReq = 7;			//解散包厢
-	eDessolveRes = 8;
-
-	eGetRoomStatusReq = 9;		//包厢状态
-	eGetRoomStatusRes = 10;
-
-	eBackRoomReq = 11;			//返回包厢
-	eBackRoomRes = 12;
+	eCreateRoomReq 				= 1; 				// 创建包厢
+	eCreateRoomRes 				= 2;
+	eJoinRoomReq 				= 3;				// 加入包厢
+	eJoinRoomRes 				= 4;
+	eExitRoomReq 				= 5;				// 退出包厢
+	eExitRoomRes 				= 6;
+	eDessolveReq 				= 7;				// 解散包厢
+	eDessolveRes 				= 8;
+	eGetRoomStatusReq 			= 9;				// 包厢状态
+	eGetRoomStatusRes 			= 10;
+	eBackRoomReq 				= 11;				// 返回包厢
+	eBackRoomRes 				= 12;
 
 	///////////////////////////////////
 	//游戏通用协议
 	///////////////////////////////////
 
-	eCheckLinkGameReq = 13; 	//进入包厢，连接到游戏服务，发送一些数据到客户端
-	eCheckLinkGameRes = 14;
-
-	eUserInfoRes = 15;			//玩家信息
-
-	eGameRuleRes = 16; 			//房间规则
-	eRoomIdRes = 17; 			//房间号
-	ePlayCountRes = 18; 		//局数
-
-	eUserReadyReq = 19;			//玩家准备
-	eUserReadyRes = 20;
-	
-	eGameStartRes = 21;			//游戏开始
-	eGameEndRes = 22;			//游戏结束
-
-	eLoginLogicReq = 23;		//登录游戏服
-	eLoginLogicRes = 24;
-
-	eUserOfflineRes = 25; 		//玩家断线
+	eCheckLinkGameReq 			= 13; 				// 进入包厢，连接到游戏服务，发送一些数据到客户端
+	eCheckLinkGameRes 			= 14;
+	eUserInfoRes 				= 15;				// 玩家信息
+	eGameRuleRes 				= 16; 				// 房间规则
+	eRoomIdRes 					= 17; 				// 房间号
+	ePlayCountRes 				= 18; 				// 局数
+	eUserReadyReq 				= 19;				// 玩家准备
+	eUserReadyRes 				= 20;
+	eGameStartRes 				= 21;				// 游戏开始
+	eGameEndRes 				= 22;				// 游戏结束
+	eLoginLogicReq 				= 23;				// 登录游戏服
+	eLoginLogicRes 				= 24;
+	eUserOfflineRes 			= 25; 				// 玩家断线
 
 	///////////////////////////////////
 	//游戏具体玩法相关
 	///////////////////////////////////
-	ePlayerFirstBallPosRes = 26; 	// 小球开局位置
-	ePlayerPowerRes = 27;  			// 玩家权限，0 不能射击，1 能射击
-	ePlayerShootReq = 28;  			// 玩家射击
-	ePlayerShootRes = 29;  			// 
-	ePlayerBallPosReq = 30; 		// 玩家位置
-	ePlayerBallPosRes = 31;  		// 
-	ePlayerIsShootedReq = 32;  		// 玩家被击中
-	ePlayerIsShootedRes = 33;  		// 
-	eGameResultRes = 34;			// 小结算
-	eTotalGameResultRes = 35; 		// 大结算
-	ePlayerScoreRes = 36;			// 玩家分数
-
-	eUserMatchReq = 37;				// 玩家匹配
-	eUserMatchRes = 38;
-
-	eUserStopMatchReq = 39; 		// 玩家取消匹配
-	eUserStopMatchRes = 40;
-
-	eUserGameInfoReq = 41; 			//玩家信息,金币等
-	eUserGameInfoRes = 42;
-
-	eUserBallInfoReq = 43;			//获取玩家小球信息
-	eUserBallInfoRes = 44;
-
-	eUpdateUserBallReq = 45;		//合成，卖出小球，发起更新请求
-	eUpdateUserBallRes = 46;
-
-
+	ePlayerFirstBallPosRes 		= 26; 				// 小球开局位置
+	ePlayerPowerRes 			= 27;  				// 玩家权限，0 不能射击，1 能射击
+	ePlayerShootReq 			= 28;  				// 玩家射击
+	ePlayerShootRes 			= 29;  			
+	ePlayerBallPosReq 			= 30; 				// 玩家位置
+	ePlayerBallPosRes 			= 31;  		
+	ePlayerIsShootedReq 		= 32;  				// 玩家被击中
+	ePlayerIsShootedRes 		= 33; 
+	eGameResultRes 				= 34;				// 小结算
+	eTotalGameResultRes 		= 35; 				// 大结算
+	ePlayerScoreRes 			= 36;				// 玩家分数
+	eUserMatchReq 				= 37;				// 玩家匹配
+	eUserMatchRes 				= 38;
+	eUserStopMatchReq 			= 39; 				// 玩家取消匹配
+	eUserStopMatchRes 			= 40;
+	eUserGameInfoReq 			= 41; 				// 玩家信息,金币等
+	eUserGameInfoRes 			= 42;
+	eUserBallInfoReq 			= 43;				// 获取玩家小球信息
+	eUserBallInfoRes 			= 44;
+	eUpdateUserBallReq 			= 45;				// 合成，卖出小球，发起更新请求
+	eUpdateUserBallRes 			= 46;
+	eStoreListReq 				= 47; 				// 获取商城列表
+	eStoreListRes				= 48;
+	eBuyThingsReq 				= 49; 				// 购买
+	eBuyThingsRes				= 50;
 }
 
 ///////////////////////////////////
@@ -338,4 +324,42 @@ message UpdateUserBallReq {
 message UpdateUserBallRes {
 	required sint32 status = 1;
 	optional string userballinfostring = 2;  //小球个数,querystring格式："lv_1=0&lv_2=1&lv_3=3&lv_4=4&lv_5=10"
+}
+
+//某一种商品的信息
+message OneStoreProp {
+	required sint32 propsvrindex = 1;
+	required sint32 propid = 2;
+	required sint32 propcount = 3;
+	required sint32 propprice = 4;
+	required sint32 propinfo = 5;
+}
+
+//获取商城列表
+message StoreListReq {
+
+}
+
+//商城列表
+message StoreListRes {
+	required sint32 status = 1;
+	repeated OneStoreProp storeprops = 2;
+}
+
+//发起购买请求
+message BuyThingsReq {
+	required sint32 propsvrindex = 1;
+	required sint32 propid = 2;
+	required sint32 propcount = 3;
+	required sint32 propprice = 4;
+	required sint32 propinfo = 5;
+}
+
+//购买返回
+message BuyThingsRes {
+	required sint32 propsvrindex = 1;
+	required sint32 propid = 2;
+	required sint32 propcount = 3;
+	required sint32 propprice = 4;
+	required sint32 propinfo = 5;
 }

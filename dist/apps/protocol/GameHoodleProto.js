@@ -60,6 +60,10 @@ var Cmd;
     Cmd[Cmd["eUserBallInfoRes"] = 44] = "eUserBallInfoRes";
     Cmd[Cmd["eUpdateUserBallReq"] = 45] = "eUpdateUserBallReq";
     Cmd[Cmd["eUpdateUserBallRes"] = 46] = "eUpdateUserBallRes";
+    Cmd[Cmd["eStoreListReq"] = 47] = "eStoreListReq";
+    Cmd[Cmd["eStoreListRes"] = 48] = "eStoreListRes";
+    Cmd[Cmd["eBuyThingsReq"] = 49] = "eBuyThingsReq";
+    Cmd[Cmd["eBuyThingsRes"] = 50] = "eBuyThingsRes";
 })(Cmd = exports.Cmd || (exports.Cmd = {}));
 exports.CmdName = (_a = {},
     ///////////////////////////////////
@@ -118,5 +122,9 @@ exports.CmdName = (_a = {},
     _a[44] = "UserBallInfoRes",
     _a[45] = "UpdateUserBallReq",
     _a[46] = "UpdateUserBallRes",
+    _a[47] = "StoreListReq",
+    _a[48] = "StoreListRes",
+    _a[49] = "BuyThingsReq",
+    _a[50] = "BuyThingsRes",
     _a);
 //# sourceMappingURL=GameHoodleProto.js.map

@@ -91,6 +91,12 @@ class GameHoodleModle {
             case Cmd.eUpdateUserBallReq:
                 this.on_user_update_ball_info(session,utag,proto_type,raw_cmd);//game
             break;
+            case Cmd.eStoreListReq:
+                this.on_user_store_list_req(session, utag, proto_type, raw_cmd);//base
+            break;
+            case Cmd.eBuyThingsReq:
+                this.on_user_buy_things_req(session, utag, proto_type, raw_cmd);//base
+            break;
             default:
             break;
         }
@@ -641,7 +647,7 @@ class GameHoodleModle {
             GameHoodleLogicInterface.send_game_result(room);
             //大结算: 踢出所有玩家，房间解散
             if(room.get_play_count() == room.get_conf_play_count()){
-                GameHoodleLogicInterface.write_player_chip(room);
+                GameHoodleLogicInterface.write_player_chip(room); //计算金币
                 GameHoodleLogicInterface.send_game_total_result(room);
                 room.kick_all_player();
                 RoomManager.getInstance().delete_room(room.get_room_id());
@@ -869,6 +875,58 @@ class GameHoodleModle {
             })
         }else{
             player.send_cmd(Cmd.eUpdateUserBallRes, {status: Response.INVALIDI_OPT});
+        }
+    }
+
+    on_user_store_list_req(session: any, utag: number, proto_type: number, raw_cmd: any) {
+        if (!GameHoodleInterface.check_player(utag)) {
+            GameSendMsg.send(session, Cmd.eStoreListRes, utag, proto_type, { status: Response.INVALIDI_OPT })
+            Log.warn("on_user_store_list_req error player is not exist!")
+            return;
+        }
+
+        let player: Player = PlayerManager.getInstance().get_player(utag);
+        let body = {
+            status:Response.OK,
+            storeprops: GameHoodleConfig.KW_STORE_LIST_CONFIG,
+        }
+        player.send_cmd(Cmd.eStoreListRes,body);
+    }
+    
+    //TODO 商城购买
+    on_user_buy_things_req(session: any, utag: number, proto_type: number, raw_cmd: any) {
+        if (!GameHoodleInterface.check_player(utag)) {
+            GameSendMsg.send(session, Cmd.eUpdateUserBallRes, utag, proto_type, { status: Response.INVALIDI_OPT })
+            Log.warn("on_user_buy_things_req error player is not exist!")
+            return;
+        }
+
+        let player: Player = PlayerManager.getInstance().get_player(utag);
+        let req_body = this.decode_cmd(proto_type,raw_cmd);
+        if(req_body){
+            let propsvrindex = req_body.propsvrindex;
+            for (let key in GameHoodleConfig.KW_STORE_LIST_CONFIG){
+                let shopInfo = GameHoodleConfig.KW_STORE_LIST_CONFIG[key];
+                if (shopInfo.propsvrindex == propsvrindex){
+                    let propprice = shopInfo.propprice;
+                    let protcount = shopInfo.protcount;
+                    let protinfo = shopInfo.shopInfo;
+                    if (Number(player.get_uchip()) >= propprice){
+                        player.set_uchip(player.get_uchip() - propprice);
+                        //减去金币
+                        MySqlGame.add_ugame_uchip(player.get_uid(), propprice*(-1), function (status: number, ret: any) {
+                            if (status == Response.OK) {
+                                Log.info("hcc>>write_player_chip success", player.get_uname());
+                            }
+                        });
+                        //加上道具
+
+                    }else{
+                        //金币不够
+                    }
+                    break;
+                }
+            }
         }
     }
 
