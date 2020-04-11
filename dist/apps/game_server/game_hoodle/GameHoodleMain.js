@@ -26,4 +26,21 @@ var db_auth = GameAppConfig_1["default"].auth_database;
 MySqlAuth_1["default"].connect(db_auth.host, db_auth.port, db_auth.db_name, db_auth.uname, db_auth.upwd);
 //匹配场
 MatchManager_1["default"].getInstance().start_match();
+/*
+//test
+function testfunc() {
+    let sss:any = null
+    let rest = null;
+    try {
+        let num = 1 + sss.aaa;
+         rest = JSON.stringify(sss);
+    } catch (error) {
+        Log.error("hccerror:", error)
+        return;
+    }
+    Log.info("hcc>>rest: ", rest);
+}
+
+testfunc();
+*/ 
 //# sourceMappingURL=GameHoodleMain.js.map

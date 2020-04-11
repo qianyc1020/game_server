@@ -5,6 +5,7 @@ import Response from '../apps/Response';
 import Log from '../utils/Log';
 import querystring from "querystring"
 import ArrayUtil from "../utils/ArrayUtil";
+import GameHoodleConfig from "../apps/game_server/game_hoodle/GameHoodleConfig";
 
 class MySqlGame {
 	private static mysqlEngine: MySqlEngine = new MySqlEngine();
@@ -49,9 +50,9 @@ class MySqlGame {
 
     //创建玩家游戏信息
     static insert_ugame_user(uid:number, uexp:number, uchip:number, callback:Function) {
-        var sql = "insert into ugame(`uid`, `uexp`, `uchip`)values(%d, %d, %d)";
-        var sql_cmd = util.format(sql, uid, uexp, uchip);
-    
+        var sql = "insert into ugame(`uid`, `uexp`, `uchip`, `uball_info`)values(%d, %d, %d, \"%s\")";
+        var sql_cmd = util.format(sql, uid, uexp, uchip, GameHoodleConfig.KW_BORN_USER_BALL);
+        Log.info("hcc>>insert: ", sql_cmd)
         MySqlGame.query(sql_cmd, function(err:any, sql_ret:any, fields_desic:any) {
             if (err) {
                 callback(Response.SYSTEM_ERR,err);
@@ -103,6 +104,7 @@ class MySqlGame {
                     } catch (error) {
                         callback(Response.SYSTEM_ERR);
                         Log.error(error);
+                        return;
                     }
                 }else{
                     callback(Response.SYSTEM_ERR);

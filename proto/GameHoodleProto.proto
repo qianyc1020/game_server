@@ -317,7 +317,7 @@ message UserGameInfoReq {
 
 message UserGameInfoRes {
 	required sint32 status = 1;
-	required string userinfostring = 2;		//玩家游戏服信息
+	optional string userinfostring = 2;		//玩家游戏服信息
 }
 
 message UserBallInfoReq {

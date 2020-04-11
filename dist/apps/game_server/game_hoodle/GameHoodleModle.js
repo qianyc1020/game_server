@@ -29,7 +29,7 @@ var GameHoodleModle = /** @class */ (function () {
         return ProtoManager_1["default"].decode_cmd(proto_type, raw_cmd);
     };
     GameHoodleModle.prototype.recv_cmd_msg = function (session, stype, ctype, utag, proto_type, raw_cmd) {
-        // Log.info("recv_cmd_msg: ",stype,ctype,utag,proto_type,this.decode_cmd(proto_type,raw_cmd))
+        Log_1["default"].info("recv_cmd_msg: ", stype, ctype, utag, proto_type, this.decode_cmd(proto_type, raw_cmd));
         switch (ctype) {
             case CommonProto_1["default"].eUserLostConnectRes:
                 this.on_user_lost_connect(session, utag, proto_type, raw_cmd); //base
@@ -772,6 +772,7 @@ var GameHoodleModle = /** @class */ (function () {
                         ;
                     }
                     else {
+                        uball_obj_player[key] = 0;
                         uball_obj_player[key] = String(uball_obj_player[key] + 1);
                     }
                     is_success = true;
@@ -780,6 +781,7 @@ var GameHoodleModle = /** @class */ (function () {
         }
         catch (error) {
             Log_1["default"].error(error);
+            return;
         }
         // Log.info("hcc>>222," , uball_obj_player);
         if (is_success) {

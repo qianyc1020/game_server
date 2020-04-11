@@ -4,17 +4,17 @@ import Log from '../../../utils/Log';
 import { UserState ,GameState } from './State';
 
 class Room {
-    _roomid:string      = "";
-    _gamerule:string    = "";
-    _gamerule_obj:any   = {};
-    _player_set:any     = {}; //uid->player
-    _host_player_uid:number = -1;
+    _roomid:string              = "";
+    _gamerule:string            = "";
+    _gamerule_obj:any           = {};
+    _player_set:any             = {}; //uid->player
+    _host_player_uid:number     = -1;
 
     ///////
-    _game_state:number = GameState.InView; //游戏状态
-    _play_count:number   = -1; //总的配置局数
-    _player_count:number = -1; //总的配置玩家数量
-    _cur_play_count:number = 0; //当前局数
+    _game_state:number          = GameState.InView; //游戏状态
+    _play_count:number          = -1; //总的配置局数
+    _player_count:number        = -1; //总的配置玩家数量
+    _cur_play_count:number      = 0; //当前局数
 
     constructor(roomid:string){
         this._roomid = roomid;

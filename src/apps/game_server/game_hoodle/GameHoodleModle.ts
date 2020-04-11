@@ -16,7 +16,7 @@ import MySqlGame from '../../../database/MySqlGame';
 import ArrayUtil from '../../../utils/ArrayUtil';
 import GameAppConfig from '../../GameAppConfig';
 import querystring from 'querystring';
-import GameStaticDefine from './GameStaticDefine';
+import GameHoodleConfig from './GameHoodleConfig';
 
 class GameHoodleModle {
     private static readonly Instance: GameHoodleModle = new GameHoodleModle();
@@ -34,7 +34,7 @@ class GameHoodleModle {
     }
 
     public recv_cmd_msg(session:any, stype:number, ctype:number, utag:number, proto_type:number, raw_cmd:Buffer){
-        // Log.info("recv_cmd_msg: ",stype,ctype,utag,proto_type,this.decode_cmd(proto_type,raw_cmd))
+        Log.info("recv_cmd_msg: ",stype,ctype,utag,proto_type,this.decode_cmd(proto_type,raw_cmd))
 
         switch(ctype){
             case CommonProto.eUserLostConnectRes:
@@ -191,8 +191,8 @@ class GameHoodleModle {
         }
 
         //是否金币不足
-        if(GameAppConfig.KW_IS_GOLD_LIMIT){
-            if(player.get_uchip() < GameAppConfig.KW_MIN_GOLD_ENTER_ROOM){
+        if (GameHoodleConfig.KW_IS_GOLD_LIMIT){
+            if (player.get_uchip() < GameHoodleConfig.KW_MIN_GOLD_ENTER_ROOM){
                 player.send_cmd(Cmd.eCreateRoomRes, {status: Response.SYSTEM_ERR})
                 Log.warn(uname , "create room error, gold is not enough")
                 return;
@@ -248,8 +248,8 @@ class GameHoodleModle {
         }
 
         //是否金币不足
-        if(GameAppConfig.KW_IS_GOLD_LIMIT){
-            if(player.get_uchip() < GameAppConfig.KW_MIN_GOLD_ENTER_ROOM){
+        if (GameHoodleConfig.KW_IS_GOLD_LIMIT){
+            if (player.get_uchip() < GameHoodleConfig.KW_MIN_GOLD_ENTER_ROOM){
                 player.send_cmd(Cmd.eJoinRoomRes,{status: Response.SYSTEM_ERR})
                 Log.warn(uname , "join_room error, gold is not enough")
                 return;
@@ -668,8 +668,8 @@ class GameHoodleModle {
         }
 
         //是否金币不足
-        if(GameAppConfig.KW_IS_GOLD_LIMIT){
-            if(player.get_uchip() < GameAppConfig.KW_MIN_GOLD_ENTER_ROOM){
+        if (GameHoodleConfig.KW_IS_GOLD_LIMIT){
+            if (player.get_uchip() < GameHoodleConfig.KW_MIN_GOLD_ENTER_ROOM){
                 player.send_cmd(Cmd.eUserMatchRes,{status: Response.INVALIDI_OPT})
                 Log.warn(uname , "on_user_match error, gold is not enough")
                 return;
@@ -745,7 +745,7 @@ class GameHoodleModle {
                     player.set_ugame_info(ugameInfo);
                     player.send_cmd(Cmd.eUserGameInfoRes, body);
                 }else{
-                    MySqlGame.insert_ugame_user(utag, GameAppConfig.KW_BORN_EXP, GameAppConfig.KW_BORN_CHIP,function(status_game_ins:number, data_game_ins:any) 
+                    MySqlGame.insert_ugame_user(utag, GameHoodleConfig.KW_BORN_EXP, GameHoodleConfig.KW_BORN_CHIP,function(status_game_ins:number, data_game_ins:any) 
                     {
                         // Log.info("hcc>>on_user_get_ugame_info2222");
                         if(status_game_ins == Response.OK)
@@ -816,8 +816,8 @@ class GameHoodleModle {
 
         let player:Player = PlayerManager.getInstance().get_player(utag);
 
-        let compose_count = GameStaticDefine.BALL_COPOSE_NUM;
-        let key_str = GameStaticDefine.BALL_SAVE_KEY_STR;
+        let compose_count = GameHoodleConfig.BALL_COPOSE_NUM;
+        let key_str = GameHoodleConfig.BALL_SAVE_KEY_STR;
 
         let body =  this.decode_cmd(proto_type,raw_cmd);
         let up_type:number = body.updatetype;
@@ -829,18 +829,19 @@ class GameHoodleModle {
             uball_obj_player = JSON.parse(player.get_uball_info());
             // Log.info("hcc>>111," , uball_obj_player);
             let key = key_str + level;
-            if(up_type == GameStaticDefine.BALL_UPDATE_TYPE.SELL_TYPE){
+            if (up_type == GameHoodleConfig.BALL_UPDATE_TYPE.SELL_TYPE){
                 if(uball_obj_player[key] && uball_obj_player[key] >  0){
                     uball_obj_player[key] = Number(uball_obj_player[key]) - 1; //TODO 卖掉后金币回退
                     is_success = true;
                 }
-            }else if(up_type == GameStaticDefine.BALL_UPDATE_TYPE.COMPOSE_TYPE){
+            } else if (up_type == GameHoodleConfig.BALL_UPDATE_TYPE.COMPOSE_TYPE){
                 if(uball_obj_player[key] && Number(uball_obj_player[key]) >= compose_count){
                     uball_obj_player[key] = String(Number(uball_obj_player[key]) - compose_count);
                     key = key_str + String(level + 1);
                     if(uball_obj_player[key]){
                         uball_obj_player[key] = String(Number(uball_obj_player[key]) + 1);;
                     }else{
+                        uball_obj_player[key] = 0;
                         uball_obj_player[key] = String(uball_obj_player[key] + 1);
                     }
                     is_success = true;
@@ -848,6 +849,7 @@ class GameHoodleModle {
             }
         } catch (error) {
             Log.error(error);
+            return;
         }
 
         // Log.info("hcc>>222," , uball_obj_player);

@@ -16,6 +16,7 @@ var Response_1 = __importDefault(require("../apps/Response"));
 var Log_1 = __importDefault(require("../utils/Log"));
 var querystring_1 = __importDefault(require("querystring"));
 var ArrayUtil_1 = __importDefault(require("../utils/ArrayUtil"));
+var GameAppConfig_1 = __importDefault(require("../apps/GameAppConfig"));
 var MySqlGame = /** @class */ (function () {
     function MySqlGame() {
     }
@@ -54,8 +55,9 @@ var MySqlGame = /** @class */ (function () {
     };
     //创建玩家游戏信息
     MySqlGame.insert_ugame_user = function (uid, uexp, uchip, callback) {
-        var sql = "insert into ugame(`uid`, `uexp`, `uchip`)values(%d, %d, %d)";
-        var sql_cmd = util.format(sql, uid, uexp, uchip);
+        var sql = "insert into ugame(`uid`, `uexp`, `uchip`, `uball_info`)values(%d, %d, %d, \"%s\")";
+        var sql_cmd = util.format(sql, uid, uexp, uchip, GameAppConfig_1["default"].KW_BORN_USER_BALL);
+        Log_1["default"].info("hcc>>insert: ", sql_cmd);
         MySqlGame.query(sql_cmd, function (err, sql_ret, fields_desic) {
             if (err) {
                 callback(Response_1["default"].SYSTEM_ERR, err);

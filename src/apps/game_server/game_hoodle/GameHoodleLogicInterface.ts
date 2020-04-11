@@ -7,6 +7,7 @@ import { UserState , GameState ,PlayerPower} from './State';
 import StringUtil from '../../../utils/StringUtil';
 import GameAppConfig from '../../GameAppConfig';
 import MySqlGame from '../../../database/MySqlGame';
+import GameHoodleConfig from "./GameHoodleConfig";
 
 ////////////////////////
 //游戏逻辑相关接口
@@ -134,7 +135,7 @@ class GameHoodleLogicInterface {
             let player:Player = player_set[key];
             if (player){
                 let score = player.get_user_score();
-                let gold_win = score * GameAppConfig.KW_WIN_RATE;
+                let gold_win = score * GameHoodleConfig.KW_WIN_RATE;
                 if(gold_win != 0){
                     let player_cur_chip = player.get_uchip();
                     if(gold_win < 0){
@@ -307,7 +308,7 @@ class GameHoodleLogicInterface {
                 }
                 //金币不够情况
                 let score = player.get_user_score();
-                let gold_win = score * GameAppConfig.KW_WIN_RATE;
+                let gold_win = score * GameHoodleConfig.KW_WIN_RATE;
                 let one_gold = {
                     seatid: Number(player.get_seat_id()),
                     gold:String(gold_win),

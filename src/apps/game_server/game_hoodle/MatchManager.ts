@@ -6,16 +6,7 @@ import { UserState, PlayerPower } from './State';
 import RoomManager from './RoomManager';
 import { Cmd } from '../../protocol/GameHoodleProto';
 import Response from '../../Response';
-
-const MATCH_INTERVAL        = 1000;     //0.5秒匹配一次
-const MATCH_PLAYER_COUNT    = 2;        //坐满人数
-const MATCH_PLAYE_NUM       = 3;        //局数
-
-//匹配房间规则
-let MATCH_GAME_RULE = {
-    playerCount : MATCH_PLAYER_COUNT,
-    playCount : MATCH_PLAYE_NUM,
-}
+import GameHoodleConfig from './GameHoodleConfig';
 
 class MatchManager {
     private static readonly Instance: MatchManager = new MatchManager();
@@ -37,15 +28,14 @@ class MatchManager {
            let player = _this.get_matching_player();
            if(player){
                 let match_count = ArrayUtil.GetArrayLen(_this._in_match_list);
-                if(match_count < MATCH_PLAYER_COUNT){
+               if (match_count < GameHoodleConfig.MATCH_GAME_RULE.playerCount){
                     let ret = _this.add_player_to_in_match_list(player);
                     if(ret){
                         let tmp_in_match_list = _this._in_match_list
-                        // let match_count = _this.get_in_match_player_count()
                         let match_count = ArrayUtil.GetArrayLen(_this._in_match_list);
                         _this.send_match_player(tmp_in_match_list);//匹配到一个玩家 ，发送到客户端
                         Log.info("hcc>>get_in_match_player_count>> " , match_count);
-                        if(match_count >= MATCH_PLAYER_COUNT){ //匹配完成
+                        if (match_count >= GameHoodleConfig.MATCH_GAME_RULE.playerCount){ //匹配完成
                             Log.info("hcc>>match success")
                             _this.on_server_match_success(tmp_in_match_list);//发送到客户端，服务端已经匹配完成
                             _this.del_match_success_player_from_math_list(tmp_in_match_list);//从待匹配列表删除
@@ -55,7 +45,7 @@ class MatchManager {
                 }
            }
         //    _this.log_match_list()
-        },MATCH_INTERVAL);
+        }, GameHoodleConfig.MATCH_INTERVAL);
     }
 
     //创建房间，进入玩家，发送到发送到客户端
@@ -65,7 +55,7 @@ class MatchManager {
             in_match_list = this._in_match_list;
         }
         let room:Room = RoomManager.getInstance().alloc_room();
-        room.set_game_rule(JSON.stringify(MATCH_GAME_RULE));
+        room.set_game_rule(JSON.stringify(GameHoodleConfig.MATCH_GAME_RULE));
         this.set_room_host(room);
         Log.info("hcc>>in_match_list len: " , ArrayUtil.GetArrayLen(in_match_list))
         for(let key in in_match_list){
@@ -215,11 +205,11 @@ class MatchManager {
             return false;
         }
 
-        if(this.get_in_match_player_count() >= MATCH_PLAYER_COUNT){
+        if (this.get_in_match_player_count() >= GameHoodleConfig.MATCH_GAME_RULE.playerCount){
             return false;
         }
 
-        if(ArrayUtil.GetArrayLen(this._in_match_list) >= MATCH_PLAYER_COUNT){
+        if (ArrayUtil.GetArrayLen(this._in_match_list) >= GameHoodleConfig.MATCH_GAME_RULE.playerCount){
             return false;
         }
 

@@ -9,26 +9,25 @@ import MySqlGame from '../../../database/MySqlGame';
 
 class Player{
     
-    _uid:number         = 0;
-    _session:any        = null;
-    _proto_type:number  = -1;
-    _ugame_info:any     = {};
-    _ucenter_info:any   = {};
+    //玩家基础信息
+    _uid:number                     = 0;
+    _session:any                    = null;
+    _proto_type:number              = -1;
+    _ugame_info:any                 = {};
+    _ucenter_info:any               = {};
 
-
-    ///////房间相关
-    _is_off_line:boolean = false;
-    _is_host:boolean     = false;
-    _seat_id:number      = -1;
+    //房间相关
+    _is_off_line:boolean            = false;
+    _is_host:boolean                = false;
+    _seat_id:number                 = -1;
 
     //居内数据
-    _user_state:any      = UserState.InView; //玩家状态
-    _user_pos:any        = {posx:0,posy:0} //玩家位置 
-    _user_power:number   = 0; // 玩家权限
-    _user_score:number   = 0; //玩家得分
-    _user_ball_info:string = ""; //json串，玩家小球信息
+    _user_state:any                 = UserState.InView; //玩家状态
+    _user_pos:any                   = {posx:0,posy:0} //玩家位置 
+    _user_power:number              = 0; // 玩家权限
+    _user_score:number              = 0; //玩家得分
+    _user_ball_info:string          = ""; //json串，玩家小球信息
 
-    /////////
     constructor(){
         //test
         // this._ugame_info["test_gameinfo"] = "info_test";
@@ -111,24 +110,24 @@ class Player{
     //玩家信息汇总
     get_player_info(){
         let info = ArrayUtil.ObjCat(this._ugame_info,this._ucenter_info);
-        info.isoffline = this._is_off_line;
-        info.ishost = this._is_host;
-        info.seatid = this._seat_id;
-        info.userstate = this._user_state;
-        info.userpos = this._user_pos;
-        info.userpower = this._user_power;
+        info.isoffline          = this._is_off_line;
+        info.ishost             = this._is_host;
+        info.seatid             = this._seat_id;
+        info.userstate          = this._user_state;
+        info.userpos            = this._user_pos;
+        info.userpower          = this._user_power;
         // Log.info("hcc>>get_player_info: " , info)
         return info;
     }
 
     //重连后拷贝老玩家的信息
     set_player_info(uinfo:any){
-        this._is_off_line = uinfo.isoffline;
-        this._is_host = uinfo.ishost;
-        this._seat_id = uinfo.seatid;
-        this._user_state = uinfo.userstate;
-        this._user_pos = uinfo.userpos;
-        this._user_power = uinfo.userpower;
+        this._is_off_line       = uinfo.isoffline;
+        this._is_host           = uinfo.ishost;
+        this._seat_id           = uinfo.seatid;
+        this._user_state        = uinfo.userstate;
+        this._user_pos          = uinfo.userpos;
+        this._user_power        = uinfo.userpower;
     }
 
     //设置是否掉线

@@ -23,13 +23,6 @@ Log.info("hcc>>localIP: " , LOCAL_HOST);
 // 6081 服务端wss外网端口(nginx.conf外网配置)
 
 class GameAppConfig {
-
-	static KW_BORN_EXP:number 		= 0;		//出生经验
-	static KW_BORN_CHIP:number 		= 1500; 	//出生金币
-	static KW_WIN_RATE:number 		= 100; 		//输赢分数* 金币数
-	static KW_MIN_GOLD_ENTER_ROOM:number = 300; //最少进入房间金币
-	static KW_IS_GOLD_LIMIT:boolean = false; 	//是否金币不足，禁止加入房间
-	
 	//网关服
 	static gateway_config:any  ={
 		host: LOCAL_HOST,
