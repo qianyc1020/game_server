@@ -8,8 +8,8 @@ var Response_1 = __importDefault(require("../../Response"));
 var Log_1 = __importDefault(require("../../../utils/Log"));
 var State_1 = require("./State");
 var StringUtil_1 = __importDefault(require("../../../utils/StringUtil"));
-var GameAppConfig_1 = __importDefault(require("../../GameAppConfig"));
 var MySqlGame_1 = __importDefault(require("../../../database/MySqlGame"));
+var GameHoodleConfig_1 = __importDefault(require("./GameHoodleConfig"));
 ////////////////////////
 //游戏逻辑相关接口
 ////////////////////////
@@ -117,7 +117,7 @@ var GameHoodleLogicInterface = /** @class */ (function () {
             var player = player_set[key];
             if (player) {
                 var score = player.get_user_score();
-                var gold_win = score * GameAppConfig_1["default"].KW_WIN_RATE;
+                var gold_win = score * GameHoodleConfig_1["default"].KW_WIN_RATE;
                 if (gold_win != 0) {
                     var player_cur_chip = player.get_uchip();
                     if (gold_win < 0) {
@@ -284,7 +284,7 @@ var GameHoodleLogicInterface = /** @class */ (function () {
                 };
                 //金币不够情况
                 var score = player.get_user_score();
-                var gold_win = score * GameAppConfig_1["default"].KW_WIN_RATE;
+                var gold_win = score * GameHoodleConfig_1["default"].KW_WIN_RATE;
                 var one_gold = {
                     seatid: Number(player.get_seat_id()),
                     gold: String(gold_win)

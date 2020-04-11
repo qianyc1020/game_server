@@ -17,8 +17,7 @@ var GameHoodleLogicInterface_1 = __importDefault(require("./GameHoodleLogicInter
 var MatchManager_1 = __importDefault(require("./MatchManager"));
 var MySqlGame_1 = __importDefault(require("../../../database/MySqlGame"));
 var ArrayUtil_1 = __importDefault(require("../../../utils/ArrayUtil"));
-var GameAppConfig_1 = __importDefault(require("../../GameAppConfig"));
-var GameStaticDefine_1 = __importDefault(require("./GameStaticDefine"));
+var GameHoodleConfig_1 = __importDefault(require("./GameHoodleConfig"));
 var GameHoodleModle = /** @class */ (function () {
     function GameHoodleModle() {
     }
@@ -182,8 +181,8 @@ var GameHoodleModle = /** @class */ (function () {
             return;
         }
         //是否金币不足
-        if (GameAppConfig_1["default"].KW_IS_GOLD_LIMIT) {
-            if (player.get_uchip() < GameAppConfig_1["default"].KW_MIN_GOLD_ENTER_ROOM) {
+        if (GameHoodleConfig_1["default"].KW_IS_GOLD_LIMIT) {
+            if (player.get_uchip() < GameHoodleConfig_1["default"].KW_MIN_GOLD_ENTER_ROOM) {
                 player.send_cmd(GameHoodleProto_1.Cmd.eCreateRoomRes, { status: Response_1["default"].SYSTEM_ERR });
                 Log_1["default"].warn(uname, "create room error, gold is not enough");
                 return;
@@ -233,8 +232,8 @@ var GameHoodleModle = /** @class */ (function () {
             return;
         }
         //是否金币不足
-        if (GameAppConfig_1["default"].KW_IS_GOLD_LIMIT) {
-            if (player.get_uchip() < GameAppConfig_1["default"].KW_MIN_GOLD_ENTER_ROOM) {
+        if (GameHoodleConfig_1["default"].KW_IS_GOLD_LIMIT) {
+            if (player.get_uchip() < GameHoodleConfig_1["default"].KW_MIN_GOLD_ENTER_ROOM) {
                 player.send_cmd(GameHoodleProto_1.Cmd.eJoinRoomRes, { status: Response_1["default"].SYSTEM_ERR });
                 Log_1["default"].warn(uname, "join_room error, gold is not enough");
                 return;
@@ -608,8 +607,8 @@ var GameHoodleModle = /** @class */ (function () {
             return;
         }
         //是否金币不足
-        if (GameAppConfig_1["default"].KW_IS_GOLD_LIMIT) {
-            if (player.get_uchip() < GameAppConfig_1["default"].KW_MIN_GOLD_ENTER_ROOM) {
+        if (GameHoodleConfig_1["default"].KW_IS_GOLD_LIMIT) {
+            if (player.get_uchip() < GameHoodleConfig_1["default"].KW_MIN_GOLD_ENTER_ROOM) {
                 player.send_cmd(GameHoodleProto_1.Cmd.eUserMatchRes, { status: Response_1["default"].INVALIDI_OPT });
                 Log_1["default"].warn(uname, "on_user_match error, gold is not enough");
                 return;
@@ -679,7 +678,7 @@ var GameHoodleModle = /** @class */ (function () {
                     player.send_cmd(GameHoodleProto_1.Cmd.eUserGameInfoRes, body);
                 }
                 else {
-                    MySqlGame_1["default"].insert_ugame_user(utag, GameAppConfig_1["default"].KW_BORN_EXP, GameAppConfig_1["default"].KW_BORN_CHIP, function (status_game_ins, data_game_ins) {
+                    MySqlGame_1["default"].insert_ugame_user(utag, GameHoodleConfig_1["default"].KW_BORN_EXP, GameHoodleConfig_1["default"].KW_BORN_CHIP, function (status_game_ins, data_game_ins) {
                         // Log.info("hcc>>on_user_get_ugame_info2222");
                         if (status_game_ins == Response_1["default"].OK) {
                             MySqlGame_1["default"].get_ugame_uchip_by_uid(utag, function (status_game_ins_get, data_game_ins_get) {
@@ -745,8 +744,8 @@ var GameHoodleModle = /** @class */ (function () {
             return;
         }
         var player = PlayerManager_1["default"].getInstance().get_player(utag);
-        var compose_count = GameStaticDefine_1["default"].BALL_COPOSE_NUM;
-        var key_str = GameStaticDefine_1["default"].BALL_SAVE_KEY_STR;
+        var compose_count = GameHoodleConfig_1["default"].BALL_COPOSE_NUM;
+        var key_str = GameHoodleConfig_1["default"].BALL_SAVE_KEY_STR;
         var body = this.decode_cmd(proto_type, raw_cmd);
         var up_type = body.updatetype;
         var level = body.level;
@@ -757,13 +756,13 @@ var GameHoodleModle = /** @class */ (function () {
             uball_obj_player = JSON.parse(player.get_uball_info());
             // Log.info("hcc>>111," , uball_obj_player);
             var key = key_str + level;
-            if (up_type == GameStaticDefine_1["default"].BALL_UPDATE_TYPE.SELL_TYPE) {
+            if (up_type == GameHoodleConfig_1["default"].BALL_UPDATE_TYPE.SELL_TYPE) {
                 if (uball_obj_player[key] && uball_obj_player[key] > 0) {
                     uball_obj_player[key] = Number(uball_obj_player[key]) - 1; //TODO 卖掉后金币回退
                     is_success = true;
                 }
             }
-            else if (up_type == GameStaticDefine_1["default"].BALL_UPDATE_TYPE.COMPOSE_TYPE) {
+            else if (up_type == GameHoodleConfig_1["default"].BALL_UPDATE_TYPE.COMPOSE_TYPE) {
                 if (uball_obj_player[key] && Number(uball_obj_player[key]) >= compose_count) {
                     uball_obj_player[key] = String(Number(uball_obj_player[key]) - compose_count);
                     key = key_str + String(level + 1);

@@ -11,14 +11,14 @@ var ArrayUtil_1 = __importDefault(require("../../../utils/ArrayUtil"));
 var Log_1 = __importDefault(require("../../../utils/Log"));
 var State_1 = require("./State");
 var Player = /** @class */ (function () {
-    /////////
     function Player() {
+        //玩家基础信息
         this._uid = 0;
         this._session = null;
         this._proto_type = -1;
         this._ugame_info = {};
         this._ucenter_info = {};
-        ///////房间相关
+        //房间相关
         this._is_off_line = false;
         this._is_host = false;
         this._seat_id = -1;
