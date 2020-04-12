@@ -12,11 +12,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
 exports.__esModule = true;
 var MySqlEngine_1 = __importDefault(require("./MySqlEngine"));
 var util = __importStar(require("util"));
-var Response_1 = __importDefault(require("../apps/Response"));
+var Response_1 = __importDefault(require("../apps/protocol/Response"));
 var Log_1 = __importDefault(require("../utils/Log"));
 var querystring_1 = __importDefault(require("querystring"));
 var ArrayUtil_1 = __importDefault(require("../utils/ArrayUtil"));
-var GameHoodleConfig_1 = __importDefault(require("../apps/game_server/game_hoodle/GameHoodleConfig"));
+var GameHoodleConfig_1 = __importDefault(require("../apps/game_server/game_hoodle/config/GameHoodleConfig"));
 var MySqlGame = /** @class */ (function () {
     function MySqlGame() {
     }
@@ -68,8 +68,8 @@ var MySqlGame = /** @class */ (function () {
     };
     // 玩家金币修改
     // 有增加,也减少
-    MySqlGame.add_ugame_uchip = function (uid, uchip, is_add, callback) {
-        if (!is_add) { // 扣除
+    MySqlGame.add_ugame_uchip = function (uid, uchip, callback) {
+        if (uchip < 0) {
             uchip = Math.abs(uchip) * (-1); // 负数
         }
         var sql = "update ugame set uchip = uchip + %d where uid = %d";

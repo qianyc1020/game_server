@@ -2,7 +2,7 @@ import NetBus from '../../netbus/NetBus';
 import ProtoTools from "../../netbus/ProtoTools"
 import ProtoCmd from "../protocol/ProtoCmd"
 import ProtoManager from "../../netbus/ProtoManager"
-import Respones from "../Response"
+import Respones from "../protocol/Response"
 import ServiceBase from "../../netbus/ServiceBase"
 import { Stype, StypeName } from '../protocol/Stype';
 import { Cmd } from '../protocol/AuthProto';
@@ -28,7 +28,7 @@ let uid_session_map:any = {}; //保存已经登录过的玩家 uid-> session
 
 class GatewayService extends ServiceBase {
 	service_name: string = "GatewayService"; // 服务名称
-	is_transfer: boolean = true; 		// 是否为转发模块,
+	is_transfer: boolean = true; 			// 是否为转发模块,
 	
 	//客户端发到网关，网关转发到服务器
 	static on_recv_client_player_cmd(session:any, stype:number, ctype:number, utag:number, proto_type:number, raw_cmd:any){
@@ -40,8 +40,7 @@ class GatewayService extends ServiceBase {
 		// 打入能够标识client的utag, uid, session.session_key,
 		if(GatewayService.is_login_req_cmd(stype, ctype)) { //还没登录
 			utag = session.session_key;	
-		}
-		else { //登录过了
+		}else { //登录过了
 			if(session.uid === 0) {
 				return;
 			}
@@ -51,10 +50,10 @@ class GatewayService extends ServiceBase {
 		ProtoTools.write_utag_inbuf(raw_cmd, utag);
 		NetBus.send_encoded_cmd(server_session,raw_cmd);
 	}
+	
 	//服务器发到网关，网关转发到客户端
 	static on_recv_server_player_cmd (session:any, stype:number, ctype:number, utag:number, proto_type:number, raw_cmd:any) {
-		// Log.info("on_recv_server_player_cmd:", ProtoCmd.getProtoName(stype)+ ",", ProtoCmd.getCmdName(stype,ctype)+ ",", "utag:" + utag)
-		Log.info("recv_server>>> ", ProtoCmd.getProtoName(stype) + "," , ProtoCmd.getCmdName(stype,ctype) + " ,utag:" , utag , " ,body:", ProtoManager.decode_cmd(proto_type, raw_cmd))
+		Log.info("recv_server>>> ", ProtoCmd.getProtoName(stype) + "," , ProtoCmd.getCmdName(stype,ctype) + " ,utag:" , utag , " ,body:", ProtoManager.decode_cmd(proto_type, raw_cmd));
 		let client_session = null;
 		if (GatewayService.is_login_res_cmd(stype, ctype)) { // 还没登录,utag == session.session_key
 			client_session = NetBus.get_client_session(utag);
@@ -69,7 +68,6 @@ class GatewayService extends ServiceBase {
 					NetBus.send_cmd(prev_session, stype, Cmd.eReloginRes, utag, proto_type);
 					prev_session.uid = 0; // 可能会有隐患，是否通知其它的服务 TODO
 					NetBus.session_close(prev_session);
-					// Log.info("on_recv_server_player_cmd: relogin: ", utag);
 				}
 
 				if(body.uid){
@@ -91,18 +89,18 @@ class GatewayService extends ServiceBase {
 		if (client_session){
 			ProtoTools.clear_utag_inbuf(raw_cmd);
 			NetBus.send_encoded_cmd(client_session,raw_cmd);
-			let body = ProtoManager.decode_cmd(proto_type, raw_cmd);
 			if(ctype == Cmd.eLoginOutRes && stype == Stype.Auth){
 				GatewayService.clear_session_with_uid(utag);
 			}
 		}
 	}
+
 	//玩家掉线,网关发消息给其他服务，其他服务接收eUserLostConnectRes协议进行处理就好了
 	static on_player_disconnect(session:any, stype:number) {
 		Log.info("on_player_disconnect")
 		if (stype == Stype.Auth) { // 由Auth服务保存的，那么就由Auth清空
-				GatewayService.clear_session_with_uid(session.uid);
-			}
+			GatewayService.clear_session_with_uid(session.uid);
+		}
 	
 		let server_session = NetBus.get_server_session(stype);
 		if (!server_session) {
@@ -113,6 +111,7 @@ class GatewayService extends ServiceBase {
 		let utag = session.uid;
 		NetBus.send_cmd(server_session, stype, CommonProto.eUserLostConnectRes, utag, ProtoTools.ProtoType.PROTO_JSON)
 	}
+
 	//登录请求
 	static is_login_req_cmd(stype:number, ctype:number){
 		if(stype != Stype.Auth){
@@ -126,6 +125,7 @@ class GatewayService extends ServiceBase {
 		}
 		return false;
 	}
+
 	//登录返回
 	static is_login_res_cmd(stype:number, ctype:number){
 		if(stype != Stype.Auth){
@@ -144,11 +144,13 @@ class GatewayService extends ServiceBase {
 	static get_session_by_uid(uid:number) {
 		return uid_session_map[uid];
 	}
+
 	//保存登录过的玩家的 uid->session
 	static save_session_with_uid(uid:number, session:any, proto_type:number) {
 		uid_session_map[uid] = session;
 		session.proto_type = proto_type;
 	}
+
 	//清理session
 	static clear_session_with_uid(uid:number) {
 		uid_session_map[uid] = null;

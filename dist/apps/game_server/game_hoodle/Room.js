@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 var ArrayUtil_1 = __importDefault(require("../../../utils/ArrayUtil"));
 var Log_1 = __importDefault(require("../../../utils/Log"));
-var State_1 = require("./State");
+var State_1 = require("./config/State");
 var Room = /** @class */ (function () {
     function Room(roomid) {
         this._roomid = "";

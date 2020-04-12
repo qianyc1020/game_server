@@ -2,11 +2,11 @@ import Room from './Room';
 import ArrayUtil from '../../../utils/ArrayUtil';
 import Player from './Player';
 import Log from '../../../utils/Log';
-import { UserState, PlayerPower } from './State';
+import { UserState, PlayerPower } from './config/State';
 import RoomManager from './RoomManager';
 import { Cmd } from '../../protocol/GameHoodleProto';
-import Response from '../../Response';
-import GameHoodleConfig from './GameHoodleConfig';
+import GameHoodleConfig from './config/GameHoodleConfig';
+import Response from '../../protocol/Response';
 
 class MatchManager {
     private static readonly Instance: MatchManager = new MatchManager();

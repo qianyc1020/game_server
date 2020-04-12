@@ -1,19 +1,22 @@
-import PlayerManager from "./PlayerManager";
-import Player from './Player';
-import RoomManager from "./RoomManager";
-import Room from "./Room";
-import { Cmd } from "../../protocol/GameHoodleProto";
-import Log from '../../../utils/Log';
-import ArrayUtil from "../../../utils/ArrayUtil";
-import Response from '../../Response';
-import { UserState } from './State';
+import PlayerManager from "../PlayerManager";
+import Player from '../Player';
+import RoomManager from "../RoomManager";
+import Room from "../Room";
+import { Cmd } from "../../../protocol/GameHoodleProto";
+import Log from '../../../../utils/Log';
+import ArrayUtil from "../../../../utils/ArrayUtil";
+import { UserState } from '../config/State';
+import Response from '../../../protocol/Response';
 
 ////////////////////////
 //房间相关接口
 ////////////////////////
 
-class GameHoodleInterface {
+class GameHoodleBaseInterface {
 
+    ////////////////////////////////////////
+    ///对外接口 start
+    ////////////////////////////////////////
     //检测是否非法玩家
     static check_player(utag:number){
         let player = PlayerManager.getInstance().get_player(utag);
@@ -71,6 +74,13 @@ class GameHoodleInterface {
         }
     }
 
+    ////////////////////////////////////////
+    ///对外接口 end
+    ////////////////////////////////////////
+
+    ////////////////////////////////////////
+    ///发送消息 start
+    ////////////////////////////////////////
     //向房间内所有人发送局内玩家信息
     static broadcast_player_info_in_rooom(room: Room, not_to_player?: Player){
         if(!room){
@@ -147,6 +157,10 @@ class GameHoodleInterface {
         room.broadcast_in_room(Cmd.ePlayCountRes,body,not_to_player);
     }
 
+   ////////////////////////////////////////
+    ///发送消息 end
+    ////////////////////////////////////////
+
 }
 
-export default GameHoodleInterface;
+export default GameHoodleBaseInterface;

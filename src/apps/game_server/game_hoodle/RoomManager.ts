@@ -1,7 +1,6 @@
 import Room from './Room';
 import ArrayUtil from '../../../utils/ArrayUtil';
 import StringUtil from '../../../utils/StringUtil';
-import Player from './Player';
 import Log from '../../../utils/Log';
 
 class RoomManager {
@@ -37,6 +36,7 @@ class RoomManager {
         Log.info("creat room success roomid: " , roomid , " ,roomCount: " , this.get_room_count())
         return room;
     }
+
     //用roomid获取房间
     get_room_by_roomid(roomid:string){
         if(this._room_set[roomid]){

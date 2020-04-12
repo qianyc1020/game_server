@@ -1,12 +1,13 @@
 "use strict";
+//服务器配置
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 var _a;
 exports.__esModule = true;
-var Stype_1 = require("./protocol/Stype");
-var Platform_1 = __importDefault(require("../utils/Platform"));
-var Log_1 = __importDefault(require("../utils/Log"));
+var Platform_1 = __importDefault(require("../../utils/Platform"));
+var Log_1 = __importDefault(require("../../utils/Log"));
+var Stype_1 = require("../protocol/Stype");
 var LOCAL_HOST = "127.0.0.1";
 var WSS_WEBSOCKET_PORT = 6081;
 var IS_LOCAL_DEBUG = true; //是否启用本地ip来测试，启用后只能用当前电脑ip调试服务端程序

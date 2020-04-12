@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-var GameAppConfig_1 = __importDefault(require("../apps/GameAppConfig"));
+var GameAppConfig_1 = __importDefault(require("../apps/config/GameAppConfig"));
 var MySqlGame_1 = __importDefault(require("../database/MySqlGame"));
 var Log_1 = __importDefault(require("../utils/Log"));
 var querystring_1 = __importDefault(require("querystring"));

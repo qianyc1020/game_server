@@ -13,8 +13,8 @@ exports.__esModule = true;
 var MySqlEngine_1 = __importDefault(require("./MySqlEngine"));
 var TimeUtil_1 = __importDefault(require("../utils/TimeUtil"));
 var util = __importStar(require("util"));
-var Response_1 = __importDefault(require("../apps/Response"));
 var Log_1 = __importDefault(require("../utils/Log"));
+var Response_1 = __importDefault(require("../apps/protocol/Response"));
 var MAX_NUMBER_ID = 1000000;
 var MySqlAuth = /** @class */ (function () {
     function MySqlAuth() {

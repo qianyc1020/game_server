@@ -332,7 +332,7 @@ message OneStoreProp {
 	required sint32 propid = 2;
 	required sint32 propcount = 3;
 	required sint32 propprice = 4;
-	required sint32 propinfo = 5;
+	required string propinfo = 5;
 }
 
 //获取商城列表
@@ -352,14 +352,15 @@ message BuyThingsReq {
 	required sint32 propid = 2;
 	required sint32 propcount = 3;
 	required sint32 propprice = 4;
-	required sint32 propinfo = 5;
+	required string propinfo = 5;
 }
 
 //购买返回
 message BuyThingsRes {
-	required sint32 propsvrindex = 1;
-	required sint32 propid = 2;
-	required sint32 propcount = 3;
-	required sint32 propprice = 4;
-	required sint32 propinfo = 5;
+	required sint32 status = 1;
+	optional sint32 propsvrindex = 2;
+	optional sint32 propid = 3;
+	optional sint32 propcount = 4;
+	optional sint32 propprice = 5;
+	optional string propinfo = 6;
 }

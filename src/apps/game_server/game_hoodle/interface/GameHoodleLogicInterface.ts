@@ -1,30 +1,30 @@
-import Room from "./Room";
-import Player from "./Player";
-import { Cmd } from "../../protocol/GameHoodleProto";
-import Response from '../../Response';
-import Log from '../../../utils/Log';
-import { UserState , GameState ,PlayerPower} from './State';
-import StringUtil from '../../../utils/StringUtil';
-import GameAppConfig from '../../GameAppConfig';
-import MySqlGame from '../../../database/MySqlGame';
-import GameHoodleConfig from "./GameHoodleConfig";
+import Room from "../Room";
+import Player from "../Player";
+import { Cmd } from "../../../protocol/GameHoodleProto";
+import Log from '../../../../utils/Log';
+import {PlayerPower} from '../config/State';
+import StringUtil from '../../../../utils/StringUtil';
+import MySqlGame from '../../../../database/MySqlGame';
+import GameHoodleConfig from "../config/GameHoodleConfig";
+import Response from '../../../protocol/Response';
 
 ////////////////////////
 //游戏逻辑相关接口
 ////////////////////////
 
 class GameHoodleLogicInterface {
-    // _start_posx_array = [-480,480,-400,400,-300,300,-200,200];
-    static _startx_left_array = [-480,-400,-300,-200,-100];
-    static _startx_right_array = [480,400,300,200,100];
 
-    static _starty_up_array = [900,700,500,300,100];
-    static _starty_down_array = [-900,-700,-500,-300,-100];
+    static _startx_left_array   = [-480,-400,-300,-200,-100];
+    static _startx_right_array  = [480,400,300,200,100];
+    static _starty_up_array     = [900,700,500,300,100];
+    static _starty_down_array   = [-900,-700,-500,-300,-100];
 
     constructor(){
-
     }
    
+    ////////////////////////////////////////
+    ///对外接口 start
+    ////////////////////////////////////////
     //生成初始坐标(为了不让小球开局位置在一块)
     public static generate_start_pos(pos_index:number):any{
         // let posx = StringUtil.random_int(-540 , 540);
@@ -154,6 +154,10 @@ class GameHoodleLogicInterface {
             }
         }
     }
+
+    ////////////////////////////////////////
+    ///对外接口 end
+    ////////////////////////////////////////
 
     ////////////////////////////////////////
     ///发送消息
@@ -349,6 +353,10 @@ class GameHoodleLogicInterface {
             room.broadcast_in_room(Cmd.ePlayerScoreRes, {scores:player_score_array},not_player);
         }
     }
+
+    ////////////////////////////////////////
+    ///发送消息 end
+    ////////////////////////////////////////
 }
 
 export default GameHoodleLogicInterface;

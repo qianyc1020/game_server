@@ -1,8 +1,8 @@
 import MySqlEngine from "./MySqlEngine"
 import TimeUtil from '../utils/TimeUtil';
 import * as util from "util"
-import Response from '../apps/Response';
 import Log from '../utils/Log';
+import Response from '../apps/protocol/Response';
 
 let MAX_NUMBER_ID = 1000000;
 

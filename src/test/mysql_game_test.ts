@@ -1,7 +1,7 @@
-import GameAppConfig from '../apps/GameAppConfig';
+import GameAppConfig from '../apps/config/GameAppConfig';
 import MySqlGame from '../database/MySqlGame';
 import Log from '../utils/Log';
-import Response from '../apps/Response';
+import Response from '../apps/protocol/Response';
 import querystring from "querystring"
 
 

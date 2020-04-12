@@ -5,18 +5,17 @@ import CommonProto from '../../protocol/CommonProto';
 import PlayerManager from './PlayerManager';
 import Player from './Player';
 import RoomManager from './RoomManager';
-import Response from '../../Response';
+import Response from '../../protocol/Response';
 import Room from './Room';
 import Log from '../../../utils/Log';
-import { UserState, GameState } from './State';
-import GameHoodleInterface from './GameHoodleInterface';
-import GameHoodleLogicInterface from './GameHoodleLogicInterface';
+import { UserState, GameState } from './config/State';
+import GameHoodleBaseInterface from './interface/GameHoodleBaseInterface';
+import GameHoodleLogicInterface from './interface/GameHoodleLogicInterface';
 import MatchManager from './MatchManager';
 import MySqlGame from '../../../database/MySqlGame';
 import ArrayUtil from '../../../utils/ArrayUtil';
-import GameAppConfig from '../../GameAppConfig';
-import querystring from 'querystring';
-import GameHoodleConfig from './GameHoodleConfig';
+import GameHoodleConfig from './config/GameHoodleConfig';
+import GameInfoInterface from './interface/GameInfoInterface';
 
 class GameHoodleModle {
     private static readonly Instance: GameHoodleModle = new GameHoodleModle();
@@ -106,7 +105,7 @@ class GameHoodleModle {
     on_user_lost_connect(session:any, utag:number, proto_type:number, raw_cmd:any){
         let body =  this.decode_cmd(proto_type,raw_cmd);
         Log.warn("game on_user_lost_connect utag:" ,utag , body)
-        if(!GameHoodleInterface.check_player(utag)){
+        if(!GameHoodleBaseInterface.check_player(utag)){
             return;
         }
         let player:Player = PlayerManager.getInstance().get_player(utag);
@@ -116,7 +115,7 @@ class GameHoodleModle {
                 player.set_offline(true)
                 //send to room other player user lost connect
                 room.broadcast_in_room(Cmd.eUserOfflineRes,{seatid: player.get_seat_id()},player);
-                GameHoodleInterface.broadcast_player_info_in_rooom(room, player);
+                GameHoodleBaseInterface.broadcast_player_info_in_rooom(room, player);
             }
         }
         PlayerManager.getInstance().delete_player(utag)
@@ -168,7 +167,7 @@ class GameHoodleModle {
 
     //创建房间
     private on_create_room(session:any, utag:number, proto_type:number, raw_cmd:any){
-        if (!GameHoodleInterface.check_player(utag)){
+        if (!GameHoodleBaseInterface.check_player(utag)){
             Log.warn("create_room player is not exist!")
             GameSendMsg.send(session, Cmd.eCreateRoomRes, utag, proto_type, {status: Response.INVALIDI_OPT})
             return;
@@ -225,7 +224,7 @@ class GameHoodleModle {
     //加入房间
     private on_join_room(session:any, utag:number, proto_type:number, raw_cmd:any){
         let body =  this.decode_cmd(proto_type,raw_cmd);
-        if (!GameHoodleInterface.check_player(utag)){
+        if (!GameHoodleBaseInterface.check_player(utag)){
             Log.warn("join_room error, player is not exist!")
             GameSendMsg.send(session, Cmd.eJoinRoomRes, utag, proto_type, {status: Response.INVALIDI_OPT})
             return;
@@ -287,12 +286,12 @@ class GameHoodleModle {
         player.send_cmd(Cmd.eJoinRoomRes, {status: Response.OK})
        
         //send uinfo to other player in room
-        GameHoodleInterface.broadcast_player_info_in_rooom(room, player);
+        GameHoodleBaseInterface.broadcast_player_info_in_rooom(room, player);
         Log.info(uname , "join_room success, roomid: " , room.get_room_id())
     }
     //离开房间
     private on_exit_room(session:any, utag:number, proto_type:number, raw_cmd:any){
-        if (!GameHoodleInterface.check_player(utag)){
+        if (!GameHoodleBaseInterface.check_player(utag)){
             Log.warn("exit_room player is not exist!")
             GameSendMsg.send(session, Cmd.eExitRoomRes, utag, proto_type, {status: Response.INVALIDI_OPT})
             return;
@@ -321,11 +320,11 @@ class GameHoodleModle {
             player.clear_room_info();
         }
         player.send_cmd(Cmd.eExitRoomRes,{status: Response.OK})
-        GameHoodleInterface.broadcast_player_info_in_rooom(room);
+        GameHoodleBaseInterface.broadcast_player_info_in_rooom(room);
     }
     //解散房间
     private on_dessolve_room(session:any, utag:number, proto_type:number, raw_cmd:any){
-        if (!GameHoodleInterface.check_player(utag)){
+        if (!GameHoodleBaseInterface.check_player(utag)){
             Log.warn("dessolve_room error, player is not exist!")
             GameSendMsg.send(session, Cmd.eDessolveRes, utag, proto_type, {status: Response.INVALIDI_OPT})
             return;
@@ -359,7 +358,7 @@ class GameHoodleModle {
     }
     //获取是否创建过房间
     private on_get_room_status(session:any, utag:number, proto_type:number, raw_cmd:any){
-        if (!GameHoodleInterface.check_player(utag)){
+        if (!GameHoodleBaseInterface.check_player(utag)){
             Log.warn("get_room_status player is not exist!")
             GameSendMsg.send(session, Cmd.eGetRoomStatusRes, utag, proto_type, {status: Response.SYSTEM_ERR})
             return;
@@ -379,7 +378,7 @@ class GameHoodleModle {
 
     //返回房间
     private on_back_room(session:any, utag:number, proto_type:number, raw_cmd:any){
-        if (!GameHoodleInterface.check_player(utag)){
+        if (!GameHoodleBaseInterface.check_player(utag)){
             Log.warn("back_room player is not exist!")
             GameSendMsg.send(session, Cmd.eBackRoomRes, utag, proto_type, {status: Response.INVALIDI_OPT})
             return;
@@ -405,18 +404,18 @@ class GameHoodleModle {
             return;
         }
         player.send_cmd(Cmd.eBackRoomRes,{status: Response.OK})
-        GameHoodleInterface.broadcast_player_info_in_rooom(room, player)
+        GameHoodleBaseInterface.broadcast_player_info_in_rooom(room, player)
     }
 
     //进游戏房间后，服务推送房间内信息
     on_check_link_game(session:any, utag:number, proto_type:number, raw_cmd:any){
-        if (!GameHoodleInterface.check_player(utag)){
+        if (!GameHoodleBaseInterface.check_player(utag)){
             Log.warn("check_link_game player is not exist!")
             GameSendMsg.send(session, Cmd.eCheckLinkGameRes, utag, proto_type, {status: Response.INVALIDI_OPT})
             return;
         }
 
-        if(!GameHoodleInterface.check_room(utag)){
+        if(!GameHoodleBaseInterface.check_room(utag)){
             Log.warn("check_link_game room is not exist!")
             return;
         }
@@ -428,7 +427,7 @@ class GameHoodleModle {
             player.send_cmd(Cmd.eRoomIdRes,{roomid: room.get_room_id()})
             player.send_cmd(Cmd.eGameRuleRes,{gamerule: room.get_game_rule()})
             player.send_cmd(Cmd.ePlayCountRes, {playcount: String(room.get_play_count()), totalplaycount: String(room.get_conf_play_count())})
-            GameHoodleInterface.send_player_info(player);
+            GameHoodleBaseInterface.send_player_info(player);
             
             //处理断线重连,只发送给重连玩家
             //玩家位置，局数，玩家权限，玩家得分
@@ -443,14 +442,14 @@ class GameHoodleModle {
 
     //玩家准备
     on_user_ready(session:any, utag:number, proto_type:number, raw_cmd:any){
-        if (!GameHoodleInterface.check_player(utag)){
+        if (!GameHoodleBaseInterface.check_player(utag)){
             Log.warn("on_user_ready player is not exist!")
             GameSendMsg.send(session, Cmd.eUserReadyRes, utag, proto_type, {status: Response.INVALIDI_OPT})
             return;
         }
 
         let player:Player = PlayerManager.getInstance().get_player(utag);
-        if(!GameHoodleInterface.check_room(utag)){
+        if(!GameHoodleBaseInterface.check_room(utag)){
             Log.warn("on_user_ready room is not exist!")
             player.send_cmd(Cmd.eUserReadyRes,{status: Response.INVALIDI_OPT})
             return;
@@ -480,19 +479,18 @@ class GameHoodleModle {
             }
             //有玩家准备了，发送状态
             player.set_user_state(UserState.Ready);
-            GameHoodleInterface.send_player_state(room, player)
+            GameHoodleBaseInterface.send_player_state(room, player)
             
             //游戏开始了
-            let is_game_start = GameHoodleInterface.check_game_start(room);
+            let is_game_start = GameHoodleBaseInterface.check_game_start(room);
             if(is_game_start){
-                GameHoodleInterface.set_all_player_state(room,UserState.Playing);
-                GameHoodleInterface.broadcast_player_info_in_rooom(room); //刷新局内玩家信息：Playing
+                GameHoodleBaseInterface.set_all_player_state(room,UserState.Playing);
+                GameHoodleBaseInterface.broadcast_player_info_in_rooom(room); //刷新局内玩家信息：Playing
 
                 //设置游戏状态为游戏中
                 room.set_game_state(GameState.Gameing);
                 //发送游戏开始
                 room.broadcast_in_room(Cmd.eGameStartRes,{status : Response.OK})
-
                 //游戏逻辑发送
                 GameHoodleLogicInterface.send_player_first_pos(room);
                 //设置初始权限
@@ -501,23 +499,22 @@ class GameHoodleModle {
                 GameHoodleLogicInterface.send_player_power(room);
                 //发送分数
                 GameHoodleLogicInterface.send_player_score(room);
-
                 //局数自加
                 room.set_play_count(room.get_play_count() + 1);
                 //发送局数
-                GameHoodleInterface.send_play_count(room);
+                GameHoodleBaseInterface.send_play_count(room);
             }
         }
     }
     
     //玩家射击
     on_player_shoot(session:any, utag:number, proto_type:number, raw_cmd:any){
-        if (!GameHoodleInterface.check_player(utag)){
+        if (!GameHoodleBaseInterface.check_player(utag)){
             Log.warn("on_player_shoot player is not exist!")
             return;
         }
 
-        if(!GameHoodleInterface.check_room(utag)){
+        if(!GameHoodleBaseInterface.check_room(utag)){
             Log.warn("on_player_shoot room is not exist!")
             return;
         }
@@ -547,12 +544,12 @@ class GameHoodleModle {
 
     //玩家位置信息
     on_player_ball_pos(session:any, utag:number, proto_type:number, raw_cmd:any){
-        if (!GameHoodleInterface.check_player(utag)){
+        if (!GameHoodleBaseInterface.check_player(utag)){
             Log.warn("on_player_ball_pos player is not exist!")
             return;
         }
 
-        if(!GameHoodleInterface.check_room(utag)){
+        if(!GameHoodleBaseInterface.check_room(utag)){
             Log.warn("on_player_ball_pos room is not exist!")
             return;
         }
@@ -595,12 +592,12 @@ class GameHoodleModle {
 
     //玩家被射中
     on_player_is_shooted(session:any, utag:number, proto_type:number, raw_cmd:any){
-        if (!GameHoodleInterface.check_player(utag)){
+        if (!GameHoodleBaseInterface.check_player(utag)){
             Log.warn("on_player_is_shooted player is not exist!")
             return;
         }
 
-        if(!GameHoodleInterface.check_room(utag)){
+        if(!GameHoodleBaseInterface.check_room(utag)){
             Log.warn("on_player_is_shooted room is not exist!")
             return;
         }
@@ -637,8 +634,8 @@ class GameHoodleModle {
             //设置游戏状态为结算状态
             room.set_game_state(GameState.CheckOut);
             //发送玩家状态
-            GameHoodleInterface.set_all_player_state(room,UserState.InView);
-            GameHoodleInterface.broadcast_player_info_in_rooom(room);
+            GameHoodleBaseInterface.set_all_player_state(room,UserState.InView);
+            GameHoodleBaseInterface.broadcast_player_info_in_rooom(room);
             //清除上一局数据
             GameHoodleLogicInterface.clear_all_player_cur_data(room);
             //发送权限
@@ -656,7 +653,7 @@ class GameHoodleModle {
     }
 
     on_user_match(session:any, utag:number, proto_type:number, raw_cmd:any){
-        if (!GameHoodleInterface.check_player(utag)){
+        if (!GameHoodleBaseInterface.check_player(utag)){
             GameSendMsg.send(session, Cmd.eUserMatchRes, utag, proto_type, {status: Response.INVALIDI_OPT})
             Log.warn("on_user_match player is not exist!")
             return;
@@ -708,7 +705,7 @@ class GameHoodleModle {
     }
 
     on_user_stop_match(session:any, utag:number, proto_type:number, raw_cmd:any){
-        if (!GameHoodleInterface.check_player(utag)){
+        if (!GameHoodleBaseInterface.check_player(utag)){
             GameSendMsg.send(session, Cmd.eUserStopMatchRes, utag, proto_type, {status: Response.INVALIDI_OPT})
             Log.warn("on_user_stop_match error player is not exist!")
             return;
@@ -730,204 +727,65 @@ class GameHoodleModle {
 
     //游戏服信息,没有去创建，有就返回原来数据
     on_user_get_ugame_info(session:any, utag:number, proto_type:number, raw_cmd:any){
-        if (!GameHoodleInterface.check_player(utag)){
+        if (!GameHoodleBaseInterface.check_player(utag)){
             GameSendMsg.send(session, Cmd.eUserGameInfoRes, utag, proto_type, {status: Response.INVALIDI_OPT})
             Log.warn("on_user_match player is not exist!")
             return;
         }
-
         let player:Player = PlayerManager.getInstance().get_player(utag);
-        MySqlGame.get_ugame_uchip_by_uid(utag,function(status:number, data_game:any) {
-            if(status == Response.OK){
-                let data_game_len = ArrayUtil.GetArrayLen(data_game);
-                if( data_game_len > 0){
-                    // Log.info("hcc>>on_user_get_ugame_info1111>>", data_game[0] , "data_game: " , data_game);
-                    let ugameInfo = data_game[0];
-                    let ugameInfoStr = JSON.stringify(ugameInfo);
-                    let body = {
-                        status:Response.OK,
-                        userinfostring: ugameInfoStr,
-                    }
-                    player.set_ugame_info(ugameInfo);
-                    player.send_cmd(Cmd.eUserGameInfoRes, body);
-                }else{
-                    MySqlGame.insert_ugame_user(utag, GameHoodleConfig.KW_BORN_EXP, GameHoodleConfig.KW_BORN_CHIP,function(status_game_ins:number, data_game_ins:any) 
-                    {
-                        // Log.info("hcc>>on_user_get_ugame_info2222");
-                        if(status_game_ins == Response.OK)
-                        {
-                            MySqlGame.get_ugame_uchip_by_uid(utag, function(status_game_ins_get:number, data_game_ins_get:any)
-                            {
-                                if(status_game_ins_get == Response.OK)
-                                {
-                                    // Log.info("hcc>>on_user_get_ugame_info3333>>", data_game_ins_get[0]);
-                                    let ugameInfo = data_game_ins_get[0];
-                                    let ugameInfoStr = JSON.stringify(ugameInfo);
-                                    let body = {
-                                        status:Response.OK,
-                                        userinfostring: ugameInfoStr,
-                                    }
-                                    player.set_ugame_info(ugameInfo);
-                                    player.send_cmd(Cmd.eUserGameInfoRes,body);
-                                }else
-                                {
-                                    // Log.info("hcc>>on_user_get_ugame_info4444>>error");
-                                    player.send_cmd(Cmd.eUserGameInfoRes,{status: Response.INVALIDI_OPT});
-                                }
-                            })
-                        }else{
-                            // Log.info("hcc>>on_user_get_ugame_info5555>>error");
-                            player.send_cmd(Cmd.eUserGameInfoRes,{status: Response.INVALIDI_OPT});
-                        }
-                    })
-                }
-            }else{
-                // Log.info("hcc>>on_user_get_ugame_info6666>>error");
-                player.send_cmd(Cmd.eUserGameInfoRes,{status: Response.INVALIDI_OPT});
-            }
-        })
+        GameInfoInterface.do_user_get_ugame_info(player);
     }
 
     //获取小球信息
     on_user_ball_info(session:any, utag:number, proto_type:number, raw_cmd:any){
-        if (!GameHoodleInterface.check_player(utag)){
+        if (!GameHoodleBaseInterface.check_player(utag)){
             GameSendMsg.send(session, Cmd.eUserBallInfoRes, utag, proto_type, {status: Response.INVALIDI_OPT})
             Log.warn("on_user_ball_info error player is not exist!")
             return;
         }
         let player:Player = PlayerManager.getInstance().get_player(utag);
-        MySqlGame.get_ugame_uball_info(utag, function (status:number, ret:any) {
-            if(status == Response.OK){
-                let uball_json = ret;
-                let body = {
-                    status: Response.OK,
-                    userballinfostring: uball_json,
-                }
-                Log.info("hcc>>on_ser_ball_info: " , uball_json);
-                player.send_cmd(Cmd.eUserBallInfoRes, body);        
-                player.set_uball_info(uball_json);
-            }else{
-                player.send_cmd(Cmd.eUserBallInfoRes,{status: Response.INVALIDI_OPT});
-            }
-        })
+        GameInfoInterface.do_user_get_ball_info(player);
     }
 
     //更新小球信息,合成，卖掉，赠送等
     on_user_update_ball_info(session:any, utag:number, proto_type:number, raw_cmd:any){
-        if (!GameHoodleInterface.check_player(utag)){
+        if (!GameHoodleBaseInterface.check_player(utag)){
             GameSendMsg.send(session, Cmd.eUpdateUserBallRes, utag, proto_type, {status: Response.INVALIDI_OPT})
-            Log.warn("on_user_ball_info error player is not exist!")
+            Log.warn("on_user_update_ball_info error player is not exist!")
             return;
         }
-
         let player:Player = PlayerManager.getInstance().get_player(utag);
-
-        let compose_count = GameHoodleConfig.BALL_COPOSE_NUM;
-        let key_str = GameHoodleConfig.BALL_SAVE_KEY_STR;
-
-        let body =  this.decode_cmd(proto_type,raw_cmd);
-        let up_type:number = body.updatetype;
-        let level:number = body.level;
-        let count:number = body.count;
-        let uball_obj_player:any = {};
-        let is_success:boolean = false;
-        try {
-            uball_obj_player = JSON.parse(player.get_uball_info());
-            // Log.info("hcc>>111," , uball_obj_player);
-            let key = key_str + level;
-            if (up_type == GameHoodleConfig.BALL_UPDATE_TYPE.SELL_TYPE){
-                if(uball_obj_player[key] && uball_obj_player[key] >  0){
-                    uball_obj_player[key] = Number(uball_obj_player[key]) - 1; //TODO 卖掉后金币回退
-                    is_success = true;
-                }
-            } else if (up_type == GameHoodleConfig.BALL_UPDATE_TYPE.COMPOSE_TYPE){
-                if(uball_obj_player[key] && Number(uball_obj_player[key]) >= compose_count){
-                    uball_obj_player[key] = String(Number(uball_obj_player[key]) - compose_count);
-                    key = key_str + String(level + 1);
-                    if(uball_obj_player[key]){
-                        uball_obj_player[key] = String(Number(uball_obj_player[key]) + 1);;
-                    }else{
-                        uball_obj_player[key] = 0;
-                        uball_obj_player[key] = String(uball_obj_player[key] + 1);
-                    }
-                    is_success = true;
-                }
-            }
-        } catch (error) {
-            Log.error(error);
-            return;
-        }
-
-        // Log.info("hcc>>222," , uball_obj_player);
-        if(is_success){
-            let tmp_ball_json = JSON.stringify(uball_obj_player)
-            let body_ball = {
-                status: Response.OK,
-                userballinfostring: tmp_ball_json,
-            }
-            MySqlGame.update_ugame_uball_info(utag, tmp_ball_json,function(status:number, ret:any) {
-                if(status == Response.OK){
-                    player.send_cmd(Cmd.eUpdateUserBallRes, body_ball);
-                    player.set_uball_info(tmp_ball_json);
-                }else{
-                    player.send_cmd(Cmd.eUpdateUserBallRes, {status: Response.INVALIDI_OPT});        
-                }
-            })
-        }else{
-            player.send_cmd(Cmd.eUpdateUserBallRes, {status: Response.INVALIDI_OPT});
-        }
+        let body = this.decode_cmd(proto_type, raw_cmd);
+        GameInfoInterface.do_user_update_ball_info(player, body);
     }
-
+    
+    //请求商城列表
     on_user_store_list_req(session: any, utag: number, proto_type: number, raw_cmd: any) {
-        if (!GameHoodleInterface.check_player(utag)) {
+        if (!GameHoodleBaseInterface.check_player(utag)) {
             GameSendMsg.send(session, Cmd.eStoreListRes, utag, proto_type, { status: Response.INVALIDI_OPT })
             Log.warn("on_user_store_list_req error player is not exist!")
             return;
         }
 
         let player: Player = PlayerManager.getInstance().get_player(utag);
-        let body = {
+        let res_body = {
             status:Response.OK,
             storeprops: GameHoodleConfig.KW_STORE_LIST_CONFIG,
         }
-        player.send_cmd(Cmd.eStoreListRes,body);
+        Log.info("hcc>>res_body", res_body);
+        player.send_cmd(Cmd.eStoreListRes, res_body);
     }
     
     //TODO 商城购买
     on_user_buy_things_req(session: any, utag: number, proto_type: number, raw_cmd: any) {
-        if (!GameHoodleInterface.check_player(utag)) {
+        if (!GameHoodleBaseInterface.check_player(utag)) {
             GameSendMsg.send(session, Cmd.eUpdateUserBallRes, utag, proto_type, { status: Response.INVALIDI_OPT })
             Log.warn("on_user_buy_things_req error player is not exist!")
             return;
         }
-
         let player: Player = PlayerManager.getInstance().get_player(utag);
         let req_body = this.decode_cmd(proto_type,raw_cmd);
-        if(req_body){
-            let propsvrindex = req_body.propsvrindex;
-            for (let key in GameHoodleConfig.KW_STORE_LIST_CONFIG){
-                let shopInfo = GameHoodleConfig.KW_STORE_LIST_CONFIG[key];
-                if (shopInfo.propsvrindex == propsvrindex){
-                    let propprice = shopInfo.propprice;
-                    let protcount = shopInfo.protcount;
-                    let protinfo = shopInfo.shopInfo;
-                    if (Number(player.get_uchip()) >= propprice){
-                        player.set_uchip(player.get_uchip() - propprice);
-                        //减去金币
-                        MySqlGame.add_ugame_uchip(player.get_uid(), propprice*(-1), function (status: number, ret: any) {
-                            if (status == Response.OK) {
-                                Log.info("hcc>>write_player_chip success", player.get_uname());
-                            }
-                        });
-                        //加上道具
-
-                    }else{
-                        //金币不够
-                    }
-                    break;
-                }
-            }
-        }
+        GameInfoInterface.do_user_buy_things_req(player, req_body);
     }
 
 }

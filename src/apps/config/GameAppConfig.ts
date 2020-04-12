@@ -1,6 +1,8 @@
-import {Stype,StypeName} from "./protocol/Stype"
-import Platform from "../utils/Platform"
-import Log from '../utils/Log';
+//服务器配置
+
+import Platform from "../../utils/Platform"
+import Log from '../../utils/Log';
+import { Stype } from '../protocol/Stype';
 
 let LOCAL_HOST:string = "127.0.0.1"
 let WSS_WEBSOCKET_PORT:number = 6081;

@@ -1,7 +1,7 @@
 import Player from './Player';
 import ArrayUtil from '../../../utils/ArrayUtil';
 import Log from '../../../utils/Log';
-import { UserState ,GameState } from './State';
+import { GameState } from './config/State';
 
 class Room {
     _roomid:string              = "";

@@ -1,5 +1,5 @@
 import MySqlAuth from '../database/MySqlAuth';
-import GameAppConfig from '../apps/GameAppConfig';
+import GameAppConfig from '../apps/config/GameAppConfig';
 import Log from '../utils/Log';
 
 var db = GameAppConfig.auth_database;

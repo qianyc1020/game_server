@@ -1,11 +1,10 @@
 import NetBus from '../../../netbus/NetBus';
 import MySqlAuth from '../../../database/MySqlAuth';
-import Response from '../../Response';
-import { Stype } from '../../protocol/Stype';
 import ArrayUtil from '../../../utils/ArrayUtil';
 import Log from '../../../utils/Log';
-import { UserState } from './State';
-import MySqlGame from '../../../database/MySqlGame';
+import Response from '../../protocol/Response';
+import { Stype } from '../../protocol/Stype';
+import { UserState } from './config/State';
 
 class Player{
     
@@ -62,6 +61,10 @@ class Player{
     //获取uid
     get_uid(){
         return this._uid;
+    }
+
+    get_proto_type(){
+        return this._proto_type;
     }
 
     //获取numid

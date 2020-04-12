@@ -5,11 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 var NetBus_1 = __importDefault(require("../../../netbus/NetBus"));
 var MySqlAuth_1 = __importDefault(require("../../../database/MySqlAuth"));
-var Response_1 = __importDefault(require("../../Response"));
-var Stype_1 = require("../../protocol/Stype");
 var ArrayUtil_1 = __importDefault(require("../../../utils/ArrayUtil"));
 var Log_1 = __importDefault(require("../../../utils/Log"));
-var State_1 = require("./State");
+var Response_1 = __importDefault(require("../../protocol/Response"));
+var Stype_1 = require("../../protocol/Stype");
+var State_1 = require("./config/State");
 var Player = /** @class */ (function () {
     function Player() {
         //玩家基础信息
@@ -58,6 +58,9 @@ var Player = /** @class */ (function () {
     //获取uid
     Player.prototype.get_uid = function () {
         return this._uid;
+    };
+    Player.prototype.get_proto_type = function () {
+        return this._proto_type;
     };
     //获取numid
     Player.prototype.get_numberid = function () {

@@ -3,19 +3,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-var GameHoodleProto_1 = require("../../protocol/GameHoodleProto");
-var Response_1 = __importDefault(require("../../Response"));
-var Log_1 = __importDefault(require("../../../utils/Log"));
-var State_1 = require("./State");
-var StringUtil_1 = __importDefault(require("../../../utils/StringUtil"));
-var MySqlGame_1 = __importDefault(require("../../../database/MySqlGame"));
-var GameHoodleConfig_1 = __importDefault(require("./GameHoodleConfig"));
+var GameHoodleProto_1 = require("../../../protocol/GameHoodleProto");
+var Log_1 = __importDefault(require("../../../../utils/Log"));
+var State_1 = require("../config/State");
+var StringUtil_1 = __importDefault(require("../../../../utils/StringUtil"));
+var MySqlGame_1 = __importDefault(require("../../../../database/MySqlGame"));
+var GameHoodleConfig_1 = __importDefault(require("../config/GameHoodleConfig"));
+var Response_1 = __importDefault(require("../../../protocol/Response"));
 ////////////////////////
 //游戏逻辑相关接口
 ////////////////////////
 var GameHoodleLogicInterface = /** @class */ (function () {
     function GameHoodleLogicInterface() {
     }
+    ////////////////////////////////////////
+    ///对外接口 start
+    ////////////////////////////////////////
     //生成初始坐标(为了不让小球开局位置在一块)
     GameHoodleLogicInterface.generate_start_pos = function (pos_index) {
         // let posx = StringUtil.random_int(-540 , 540);
@@ -127,7 +130,7 @@ var GameHoodleLogicInterface = /** @class */ (function () {
                     }
                     Log_1["default"].info(player.get_uname(), "hcc>>write_player_chip: score: ", score, " ,gold_win: ", gold_win, " ,cur_chip: ", player.get_uchip(), " ,after add: ", (player.get_uchip() + gold_win));
                     player.set_uchip(player.get_uchip() + gold_win);
-                    MySqlGame_1["default"].add_ugame_uchip(player.get_uid(), gold_win, gold_win > 0, function (status, ret) {
+                    MySqlGame_1["default"].add_ugame_uchip(player.get_uid(), gold_win, function (status, ret) {
                         if (status == Response_1["default"].OK) {
                             Log_1["default"].info("hcc>>write_player_chip success", player.get_uname());
                         }
@@ -139,6 +142,9 @@ var GameHoodleLogicInterface = /** @class */ (function () {
             _loop_1(key);
         }
     };
+    ////////////////////////////////////////
+    ///对外接口 end
+    ////////////////////////////////////////
     ////////////////////////////////////////
     ///发送消息
     ////////////////////////////////////////
@@ -323,7 +329,6 @@ var GameHoodleLogicInterface = /** @class */ (function () {
             room.broadcast_in_room(GameHoodleProto_1.Cmd.ePlayerScoreRes, { scores: player_score_array }, not_player);
         }
     };
-    // _start_posx_array = [-480,480,-400,400,-300,300,-200,200];
     GameHoodleLogicInterface._startx_left_array = [-480, -400, -300, -200, -100];
     GameHoodleLogicInterface._startx_right_array = [480, 400, 300, 200, 100];
     GameHoodleLogicInterface._starty_up_array = [900, 700, 500, 300, 100];

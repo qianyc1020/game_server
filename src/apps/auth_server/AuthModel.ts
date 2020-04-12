@@ -1,8 +1,7 @@
 import NetBus from '../../netbus/NetBus';
 import {Cmd,CmdName} from "../protocol/AuthProto"
-import { Stype , StypeName } from '../protocol/Stype';
 import MySqlAuth from '../../database/MySqlAuth';
-import Response from '../Response';
+import Response from '../protocol/Response';
 import StringUtil from '../../utils/StringUtil';
 import ProtoManager from '../../netbus/ProtoManager';
 import AuthSendMsg from './AuthSendMsg';

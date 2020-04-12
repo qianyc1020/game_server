@@ -3,7 +3,7 @@
 	注意： vscode调试服务器: 先用compile_src.bat编译成js, 再找到服务器的xxxxMain.ts文件打开，f5调试，看到日志后才算成功。
 */
 
-import GameAppConfig from "../GameAppConfig"
+import GameAppConfig from "../config/GameAppConfig"
 import NetBus from "../../netbus/NetBus"
 import AuthService from "./AuthService"
 import ServiceManager from "../../netbus/ServiceManager"

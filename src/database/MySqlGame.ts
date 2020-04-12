@@ -1,11 +1,10 @@
 import MySqlEngine from "./MySqlEngine"
-import TimeUtil from '../utils/TimeUtil';
 import * as util from "util"
-import Response from '../apps/Response';
+import Response from '../apps/protocol/Response';
 import Log from '../utils/Log';
 import querystring from "querystring"
 import ArrayUtil from "../utils/ArrayUtil";
-import GameHoodleConfig from "../apps/game_server/game_hoodle/GameHoodleConfig";
+import GameHoodleConfig from '../apps/game_server/game_hoodle/config/GameHoodleConfig';
 
 class MySqlGame {
 	private static mysqlEngine: MySqlEngine = new MySqlEngine();

@@ -3,21 +3,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-var PlayerManager_1 = __importDefault(require("./PlayerManager"));
-var RoomManager_1 = __importDefault(require("./RoomManager"));
-var GameHoodleProto_1 = require("../../protocol/GameHoodleProto");
-var Log_1 = __importDefault(require("../../../utils/Log"));
-var ArrayUtil_1 = __importDefault(require("../../../utils/ArrayUtil"));
-var Response_1 = __importDefault(require("../../Response"));
-var State_1 = require("./State");
+var PlayerManager_1 = __importDefault(require("../PlayerManager"));
+var RoomManager_1 = __importDefault(require("../RoomManager"));
+var GameHoodleProto_1 = require("../../../protocol/GameHoodleProto");
+var Log_1 = __importDefault(require("../../../../utils/Log"));
+var ArrayUtil_1 = __importDefault(require("../../../../utils/ArrayUtil"));
+var State_1 = require("../config/State");
+var Response_1 = __importDefault(require("../../../protocol/Response"));
 ////////////////////////
 //房间相关接口
 ////////////////////////
-var GameHoodleInterface = /** @class */ (function () {
-    function GameHoodleInterface() {
+var GameHoodleBaseInterface = /** @class */ (function () {
+    function GameHoodleBaseInterface() {
     }
+    ////////////////////////////////////////
+    ///对外接口 start
+    ////////////////////////////////////////
     //检测是否非法玩家
-    GameHoodleInterface.check_player = function (utag) {
+    GameHoodleBaseInterface.check_player = function (utag) {
         var player = PlayerManager_1["default"].getInstance().get_player(utag);
         if (player) {
             return true;
@@ -27,7 +30,7 @@ var GameHoodleInterface = /** @class */ (function () {
         }
     };
     //检测是否非法房间
-    GameHoodleInterface.check_room = function (utag) {
+    GameHoodleBaseInterface.check_room = function (utag) {
         var player = PlayerManager_1["default"].getInstance().get_player(utag);
         if (!player) {
             Log_1["default"].warn("hcc>>check_room error 111");
@@ -41,7 +44,7 @@ var GameHoodleInterface = /** @class */ (function () {
         return true;
     };
     //检测游戏开始
-    GameHoodleInterface.check_game_start = function (room) {
+    GameHoodleBaseInterface.check_game_start = function (room) {
         var player_set = room.get_all_player();
         var ready_player_count = 0;
         for (var uid in player_set) {
@@ -60,7 +63,7 @@ var GameHoodleInterface = /** @class */ (function () {
         return false;
     };
     //设置房间内所有玩家状态
-    GameHoodleInterface.set_all_player_state = function (room, user_state) {
+    GameHoodleBaseInterface.set_all_player_state = function (room, user_state) {
         var player_set = room.get_all_player();
         for (var uid in player_set) {
             var player = player_set[uid];
@@ -69,8 +72,14 @@ var GameHoodleInterface = /** @class */ (function () {
             }
         }
     };
+    ////////////////////////////////////////
+    ///对外接口 end
+    ////////////////////////////////////////
+    ////////////////////////////////////////
+    ///发送消息 start
+    ////////////////////////////////////////
     //向房间内所有人发送局内玩家信息
-    GameHoodleInterface.broadcast_player_info_in_rooom = function (room, not_to_player) {
+    GameHoodleBaseInterface.broadcast_player_info_in_rooom = function (room, not_to_player) {
         if (!room) {
             return;
         }
@@ -94,7 +103,7 @@ var GameHoodleInterface = /** @class */ (function () {
         }
     };
     //向某个玩家发送局内玩家信息
-    GameHoodleInterface.send_player_info = function (player) {
+    GameHoodleBaseInterface.send_player_info = function (player) {
         if (!player) {
             return;
         }
@@ -125,7 +134,7 @@ var GameHoodleInterface = /** @class */ (function () {
         }
     };
     //向房间内所有人发送某玩家准备的消息
-    GameHoodleInterface.send_player_state = function (room, src_player, not_to_player) {
+    GameHoodleBaseInterface.send_player_state = function (room, src_player, not_to_player) {
         var body = {
             status: Response_1["default"].OK,
             seatid: Number(src_player.get_seat_id()),
@@ -134,14 +143,14 @@ var GameHoodleInterface = /** @class */ (function () {
         room.broadcast_in_room(GameHoodleProto_1.Cmd.eUserReadyRes, body, not_to_player);
     };
     //发送局数
-    GameHoodleInterface.send_play_count = function (room, not_to_player) {
+    GameHoodleBaseInterface.send_play_count = function (room, not_to_player) {
         var body = {
             playcount: String(room.get_play_count()),
             totalplaycount: String(room.get_conf_play_count())
         };
         room.broadcast_in_room(GameHoodleProto_1.Cmd.ePlayCountRes, body, not_to_player);
     };
-    return GameHoodleInterface;
+    return GameHoodleBaseInterface;
 }());
-exports["default"] = GameHoodleInterface;
-//# sourceMappingURL=GameHoodleInterface.js.map
+exports["default"] = GameHoodleBaseInterface;
+//# sourceMappingURL=GameHoodleBaseInterface.js.map

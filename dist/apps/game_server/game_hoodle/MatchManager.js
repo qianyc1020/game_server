@@ -5,11 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 var ArrayUtil_1 = __importDefault(require("../../../utils/ArrayUtil"));
 var Log_1 = __importDefault(require("../../../utils/Log"));
-var State_1 = require("./State");
+var State_1 = require("./config/State");
 var RoomManager_1 = __importDefault(require("./RoomManager"));
 var GameHoodleProto_1 = require("../../protocol/GameHoodleProto");
-var Response_1 = __importDefault(require("../../Response"));
-var GameHoodleConfig_1 = __importDefault(require("./GameHoodleConfig"));
+var GameHoodleConfig_1 = __importDefault(require("./config/GameHoodleConfig"));
+var Response_1 = __importDefault(require("../../protocol/Response"));
 var MatchManager = /** @class */ (function () {
     function MatchManager() {
         this._match_list = {}; // uid->player  匹配列表，还没进入匹配的人， inview状态

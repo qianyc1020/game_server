@@ -20,7 +20,7 @@ var NetBus_1 = __importDefault(require("../../netbus/NetBus"));
 var ProtoTools_1 = __importDefault(require("../../netbus/ProtoTools"));
 var ProtoCmd_1 = __importDefault(require("../protocol/ProtoCmd"));
 var ProtoManager_1 = __importDefault(require("../../netbus/ProtoManager"));
-var Response_1 = __importDefault(require("../Response"));
+var Response_1 = __importDefault(require("../protocol/Response"));
 var ServiceBase_1 = __importDefault(require("../../netbus/ServiceBase"));
 var Stype_1 = require("../protocol/Stype");
 var AuthProto_1 = require("../protocol/AuthProto");
@@ -69,7 +69,6 @@ var GatewayService = /** @class */ (function (_super) {
     };
     //服务器发到网关，网关转发到客户端
     GatewayService.on_recv_server_player_cmd = function (session, stype, ctype, utag, proto_type, raw_cmd) {
-        // Log.info("on_recv_server_player_cmd:", ProtoCmd.getProtoName(stype)+ ",", ProtoCmd.getCmdName(stype,ctype)+ ",", "utag:" + utag)
         Log_1["default"].info("recv_server>>> ", ProtoCmd_1["default"].getProtoName(stype) + ",", ProtoCmd_1["default"].getCmdName(stype, ctype) + " ,utag:", utag, " ,body:", ProtoManager_1["default"].decode_cmd(proto_type, raw_cmd));
         var client_session = null;
         if (GatewayService.is_login_res_cmd(stype, ctype)) { // 还没登录,utag == session.session_key
@@ -85,7 +84,6 @@ var GatewayService = /** @class */ (function (_super) {
                     NetBus_1["default"].send_cmd(prev_session, stype, AuthProto_1.Cmd.eReloginRes, utag, proto_type);
                     prev_session.uid = 0; // 可能会有隐患，是否通知其它的服务 TODO
                     NetBus_1["default"].session_close(prev_session);
-                    // Log.info("on_recv_server_player_cmd: relogin: ", utag);
                 }
                 if (body.uid) {
                     client_session.uid = body.uid;
@@ -105,7 +103,6 @@ var GatewayService = /** @class */ (function (_super) {
         if (client_session) {
             ProtoTools_1["default"].clear_utag_inbuf(raw_cmd);
             NetBus_1["default"].send_encoded_cmd(client_session, raw_cmd);
-            var body = ProtoManager_1["default"].decode_cmd(proto_type, raw_cmd);
             if (ctype == AuthProto_1.Cmd.eLoginOutRes && stype == Stype_1.Stype.Auth) {
                 GatewayService.clear_session_with_uid(utag);
             }

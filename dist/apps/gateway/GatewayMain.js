@@ -7,7 +7,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-var GameAppConfig_1 = __importDefault(require("../GameAppConfig"));
+var GameAppConfig_1 = __importDefault(require("../config/GameAppConfig"));
 var NetBus_1 = __importDefault(require("../../netbus/NetBus"));
 var GatewayService_1 = __importDefault(require("./GatewayService"));
 var ServiceManager_1 = __importDefault(require("../../netbus/ServiceManager"));
