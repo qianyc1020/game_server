@@ -9,6 +9,9 @@ var MySqlGame_1 = __importDefault(require("../../../../database/MySqlGame"));
 var GameHoodleConfig_1 = __importDefault(require("../config/GameHoodleConfig"));
 var Response_1 = __importDefault(require("../../../protocol/Response"));
 var ArrayUtil_1 = __importDefault(require("../../../../utils/ArrayUtil"));
+var PlayerManager_1 = __importDefault(require("../PlayerManager"));
+var ProtoManager_1 = __importDefault(require("../../../../netbus/ProtoManager"));
+var playerMgr = PlayerManager_1["default"].getInstance();
 var GameInfoInterface = /** @class */ (function () {
     function GameInfoInterface() {
     }
@@ -79,8 +82,8 @@ var GameInfoInterface = /** @class */ (function () {
     ///对外接口
     ////////////////////////////////////////
     //获取有游戏服务信息
-    GameInfoInterface.do_user_get_ugame_info = function (player) {
-        var utag = player.get_uid();
+    GameInfoInterface.do_player_get_ugame_info = function (utag) {
+        var player = playerMgr.get_player(utag);
         MySqlGame_1["default"].get_ugame_uchip_by_uid(utag, function (status, data_game) {
             if (status == Response_1["default"].OK) {
                 var data_game_len = ArrayUtil_1["default"].GetArrayLen(data_game);
@@ -131,7 +134,8 @@ var GameInfoInterface = /** @class */ (function () {
         });
     };
     //获取弹珠信息
-    GameInfoInterface.do_user_get_ball_info = function (player) {
+    GameInfoInterface.do_player_get_ball_info = function (utag) {
+        var player = playerMgr.get_player(utag);
         MySqlGame_1["default"].get_ugame_uball_info(player.get_uid(), function (status, ret) {
             if (status == Response_1["default"].OK) {
                 var uball_json = ret;
@@ -149,11 +153,13 @@ var GameInfoInterface = /** @class */ (function () {
         });
     };
     //兑换，卖出，等更新弹珠
-    GameInfoInterface.do_user_update_ball_info = function (player, data_body) {
+    GameInfoInterface.do_player_update_ball_info = function (utag, proto_type, raw_cmd) {
+        var player = playerMgr.get_player(utag);
+        var data_body = ProtoManager_1["default"].decode_cmd(proto_type, raw_cmd);
         var up_type = data_body.updatetype;
         var level = data_body.level;
         var count = data_body.count;
-        if (up_type == GameHoodleConfig_1["default"].BALL_UPDATE_TYPE.SELL_TYPE) { //卖出TODO, 需要定义价格表
+        if (up_type == GameHoodleConfig_1["default"].BALL_UPDATE_TYPE.SELL_TYPE) { //卖出TODO, 需要定义价格表,暂时还不做
         }
         else if (up_type == GameHoodleConfig_1["default"].BALL_UPDATE_TYPE.COMPOSE_TYPE) { //合成
             var is_success = GameInfoInterface.user_update_ball_info(player, up_type, level, count);
@@ -178,10 +184,21 @@ var GameInfoInterface = /** @class */ (function () {
             }
         }
     };
+    //获取商城列表
+    GameInfoInterface.do_player_store_list = function (utag) {
+        var player = playerMgr.get_player(utag);
+        var res_body = {
+            status: Response_1["default"].OK,
+            storeprops: GameHoodleConfig_1["default"].KW_STORE_LIST_CONFIG
+        };
+        player.send_cmd(GameHoodleProto_1.Cmd.eStoreListRes, res_body);
+    };
     //玩家购买
-    GameInfoInterface.do_user_buy_things_req = function (player, data_body) {
-        if (data_body) {
-            var propsvrindex = data_body.propsvrindex;
+    GameInfoInterface.do_player_buy_things = function (utag, proto_type, raw_cmd) {
+        var player = playerMgr.get_player(utag);
+        var req_body = ProtoManager_1["default"].decode_cmd(proto_type, raw_cmd);
+        if (req_body) {
+            var propsvrindex = req_body.propsvrindex;
             var _loop_1 = function (key) {
                 var shopInfo = GameHoodleConfig_1["default"].KW_STORE_LIST_CONFIG[key];
                 if (shopInfo.propsvrindex == propsvrindex) {

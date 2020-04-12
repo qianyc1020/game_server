@@ -1,3 +1,4 @@
+//游戏相关辅助函数
 import Room from "../Room";
 import Player from "../Player";
 import { Cmd } from "../../../protocol/GameHoodleProto";
@@ -7,12 +8,10 @@ import StringUtil from '../../../../utils/StringUtil';
 import MySqlGame from '../../../../database/MySqlGame';
 import GameHoodleConfig from "../config/GameHoodleConfig";
 import Response from '../../../protocol/Response';
+import RoomManager from "../RoomManager";
+import ArrayUtil from "../../../../utils/ArrayUtil";
 
-////////////////////////
-//游戏逻辑相关接口
-////////////////////////
-
-class GameHoodleLogicInterface {
+class GameFunction {
 
     static _startx_left_array   = [-480,-400,-300,-200,-100];
     static _startx_right_array  = [480,400,300,200,100];
@@ -23,8 +22,20 @@ class GameHoodleLogicInterface {
     }
    
     ////////////////////////////////////////
-    ///对外接口 start
+    ///对外接口
     ////////////////////////////////////////
+
+    //设置房间内所有玩家状态
+    static set_all_player_state(room: Room, user_state: number) {
+        let player_set = room.get_all_player();
+        for (let uid in player_set) {
+            let player: Player = player_set[uid];
+            if (player) {
+                player.set_user_state(user_state);
+            }
+        }
+    }
+
     //生成初始坐标(为了不让小球开局位置在一块)
     public static generate_start_pos(pos_index:number):any{
         // let posx = StringUtil.random_int(-540 , 540);
@@ -32,17 +43,17 @@ class GameHoodleLogicInterface {
         let posx_random:number = 0;
         let posy_random:number = 0;
         if(pos_index %2 == 0){
-            let array_len = GameHoodleLogicInterface._startx_left_array.length;
-            posx_random = GameHoodleLogicInterface._startx_left_array[StringUtil.random_int(0,array_len-1)];
+            let array_len = GameFunction._startx_left_array.length;
+            posx_random = GameFunction._startx_left_array[StringUtil.random_int(0,array_len-1)];
             
-            array_len = GameHoodleLogicInterface._starty_up_array.length;
-            posy_random = GameHoodleLogicInterface._starty_up_array[StringUtil.random_int(0,array_len-1)];
+            array_len = GameFunction._starty_up_array.length;
+            posy_random = GameFunction._starty_up_array[StringUtil.random_int(0,array_len-1)];
         }else{
-            let array_len = GameHoodleLogicInterface._startx_right_array.length;
-            posx_random = GameHoodleLogicInterface._startx_right_array[StringUtil.random_int(0,array_len-1)];
+            let array_len = GameFunction._startx_right_array.length;
+            posx_random = GameFunction._startx_right_array[StringUtil.random_int(0,array_len-1)];
 
-            array_len = GameHoodleLogicInterface._starty_down_array.length;
-            posy_random = GameHoodleLogicInterface._starty_down_array[StringUtil.random_int(0,array_len-1)];
+            array_len = GameFunction._starty_down_array.length;
+            posy_random = GameFunction._starty_down_array[StringUtil.random_int(0,array_len-1)];
         }
 
         let startx_pos = posx_random < 0 ? posx_random : 0;
@@ -126,7 +137,7 @@ class GameHoodleLogicInterface {
 
     //计算玩家金币，设置到player，写入数据库
     //考虑不够减的情况
-    public static write_player_chip(room:Room){
+    public static cal_player_chip_and_write(room:Room){
         if(!room){
             return;
         }
@@ -143,11 +154,11 @@ class GameHoodleLogicInterface {
                             gold_win = (-1)*player_cur_chip;
                         }
                     }
-                    Log.info(player.get_uname(),"hcc>>write_player_chip: score: " , score, " ,gold_win: " , gold_win, " ,cur_chip: " , player.get_uchip()," ,after add: " , (player.get_uchip() + gold_win));
+                    Log.info(player.get_uname(),"hcc>>cal_player_chip_and_write: score: " , score, " ,gold_win: " , gold_win, " ,cur_chip: " , player.get_uchip()," ,after add: " , (player.get_uchip() + gold_win));
                     player.set_uchip(player.get_uchip() + gold_win);
                     MySqlGame.add_ugame_uchip(player.get_uid(),gold_win,function(status:number, ret:any) {
                         if(status == Response.OK){
-                            Log.info("hcc>>write_player_chip success", player.get_uname())
+                            Log.info("hcc>>cal_player_chip_and_write success", player.get_uname())
                         }
                     });
                 }
@@ -156,13 +167,87 @@ class GameHoodleLogicInterface {
     }
 
     ////////////////////////////////////////
-    ///对外接口 end
+    ///发送消息，房间相关
     ////////////////////////////////////////
+    //向房间内所有人发送局内玩家信息
+    static broadcast_player_info_in_rooom(room: Room, not_to_player?: Player) {
+        if (!room) {
+            return;
+        }
+        let player_set = room.get_all_player();
+        let userinfo_array = [];
+        try {
+            for (let key in player_set) {
+                let player: Player = player_set[key];
+                if (player) {
+                    let userinfo = {
+                        numberid: String(player.get_numberid()),
+                        userinfostring: JSON.stringify(player.get_player_info()),
+                    }
+                    userinfo_array.push(userinfo);
+                }
+            }
+            room.broadcast_in_room(Cmd.eUserInfoRes, { userinfo: userinfo_array }, not_to_player)
+        } catch (error) {
+            Log.error(error);
+        }
+    }
 
-    ////////////////////////////////////////
-    ///发送消息
-    ////////////////////////////////////////
+    //向某个玩家发送局内玩家信息
+    static send_player_info(player: Player) {
+        if (!player) {
+            return;
+        }
+        let room = RoomManager.getInstance().get_room_by_uid(player.get_uid());
+        if (!room) {
+            return;
+        }
 
+        let player_set = room.get_all_player();
+        if (ArrayUtil.GetArrayLen(player_set) <= 0) {
+            return;
+        }
+
+        let userinfo_array = [];
+        try {
+            for (let key in player_set) {
+                let player = player_set[key];
+                if (player) {
+                    let userinfo = {
+                        numberid: String(player.get_numberid()),
+                        userinfostring: JSON.stringify(player.get_player_info()),
+                    }
+                    userinfo_array.push(userinfo);
+                }
+            }
+            player.send_cmd(Cmd.eUserInfoRes, { userinfo: userinfo_array });
+        } catch (error) {
+            Log.error(error);
+        }
+    }
+
+    //向房间内所有人发送某玩家准备的消息
+    static send_player_state(room: Room, src_player: Player, not_to_player?: Player) {
+        let body = {
+            status: Response.OK,
+            seatid: Number(src_player.get_seat_id()),
+            userstate: Number(src_player.get_user_state()),
+        }
+        room.broadcast_in_room(Cmd.eUserReadyRes, body, not_to_player);
+    }
+
+    //发送局数
+    static send_play_count(room: Room, not_to_player?: Player) {
+        let body = {
+            playcount: String(room.get_play_count()),
+            totalplaycount: String(room.get_conf_play_count()),
+        }
+        room.broadcast_in_room(Cmd.ePlayCountRes, body, not_to_player);
+    }
+
+    ////////////////////////////////////
+    /////发送消息,游戏逻辑相关
+    ////////////////////////////////////
     //发送玩家出生位置
     public static send_player_first_pos(room: Room, not_player?: Player, only_player?: Player){
         if(!room){
@@ -174,7 +259,7 @@ class GameHoodleLogicInterface {
         for(let key in player_set){
             let player:Player = player_set[key];
             if (player){
-                let pos = GameHoodleLogicInterface.generate_start_pos(pos_index);
+                let pos = GameFunction.generate_start_pos(pos_index);
                 Log.info("hcc>>send_player_first_pos: ", pos);
                 player.set_user_pos(pos);
                 let player_pos = {
@@ -273,7 +358,7 @@ class GameHoodleLogicInterface {
         room.broadcast_in_room(Cmd.ePlayerIsShootedRes, body);
     }
 
-    //小结算
+    //发送小结算
     public static send_game_result(room:Room){
         if(!room){
             return;
@@ -294,7 +379,7 @@ class GameHoodleLogicInterface {
         room.broadcast_in_room(Cmd.eGameResultRes, {scores:player_score_array});
     }
 
-    //大结算
+    //发送大结算
     public static send_game_total_result(room:Room){
         if(!room){
             return;
@@ -328,7 +413,7 @@ class GameHoodleLogicInterface {
         room.broadcast_in_room(Cmd.eTotalGameResultRes, body);
     }
 
-    //玩家得分
+    //发送玩家得分
     public static send_player_score(room: Room, not_player?: Player, only_player?: Player){
         if(!room){
             return;
@@ -353,10 +438,6 @@ class GameHoodleLogicInterface {
             room.broadcast_in_room(Cmd.ePlayerScoreRes, {scores:player_score_array},not_player);
         }
     }
-
-    ////////////////////////////////////////
-    ///发送消息 end
-    ////////////////////////////////////////
 }
 
-export default GameHoodleLogicInterface;
+export default GameFunction;

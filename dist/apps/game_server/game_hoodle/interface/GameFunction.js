@@ -10,32 +10,41 @@ var StringUtil_1 = __importDefault(require("../../../../utils/StringUtil"));
 var MySqlGame_1 = __importDefault(require("../../../../database/MySqlGame"));
 var GameHoodleConfig_1 = __importDefault(require("../config/GameHoodleConfig"));
 var Response_1 = __importDefault(require("../../../protocol/Response"));
-////////////////////////
-//游戏逻辑相关接口
-////////////////////////
-var GameHoodleLogicInterface = /** @class */ (function () {
-    function GameHoodleLogicInterface() {
+var RoomManager_1 = __importDefault(require("../RoomManager"));
+var ArrayUtil_1 = __importDefault(require("../../../../utils/ArrayUtil"));
+var GameFunction = /** @class */ (function () {
+    function GameFunction() {
     }
     ////////////////////////////////////////
-    ///对外接口 start
+    ///对外接口
     ////////////////////////////////////////
+    //设置房间内所有玩家状态
+    GameFunction.set_all_player_state = function (room, user_state) {
+        var player_set = room.get_all_player();
+        for (var uid in player_set) {
+            var player = player_set[uid];
+            if (player) {
+                player.set_user_state(user_state);
+            }
+        }
+    };
     //生成初始坐标(为了不让小球开局位置在一块)
-    GameHoodleLogicInterface.generate_start_pos = function (pos_index) {
+    GameFunction.generate_start_pos = function (pos_index) {
         // let posx = StringUtil.random_int(-540 , 540);
         // let posy = StringUtil.random_int(-960 , 960);
         var posx_random = 0;
         var posy_random = 0;
         if (pos_index % 2 == 0) {
-            var array_len = GameHoodleLogicInterface._startx_left_array.length;
-            posx_random = GameHoodleLogicInterface._startx_left_array[StringUtil_1["default"].random_int(0, array_len - 1)];
-            array_len = GameHoodleLogicInterface._starty_up_array.length;
-            posy_random = GameHoodleLogicInterface._starty_up_array[StringUtil_1["default"].random_int(0, array_len - 1)];
+            var array_len = GameFunction._startx_left_array.length;
+            posx_random = GameFunction._startx_left_array[StringUtil_1["default"].random_int(0, array_len - 1)];
+            array_len = GameFunction._starty_up_array.length;
+            posy_random = GameFunction._starty_up_array[StringUtil_1["default"].random_int(0, array_len - 1)];
         }
         else {
-            var array_len = GameHoodleLogicInterface._startx_right_array.length;
-            posx_random = GameHoodleLogicInterface._startx_right_array[StringUtil_1["default"].random_int(0, array_len - 1)];
-            array_len = GameHoodleLogicInterface._starty_down_array.length;
-            posy_random = GameHoodleLogicInterface._starty_down_array[StringUtil_1["default"].random_int(0, array_len - 1)];
+            var array_len = GameFunction._startx_right_array.length;
+            posx_random = GameFunction._startx_right_array[StringUtil_1["default"].random_int(0, array_len - 1)];
+            array_len = GameFunction._starty_down_array.length;
+            posy_random = GameFunction._starty_down_array[StringUtil_1["default"].random_int(0, array_len - 1)];
         }
         var startx_pos = posx_random < 0 ? posx_random : 0;
         var endx_pos = posx_random > 0 ? posx_random : 0;
@@ -46,7 +55,7 @@ var GameHoodleLogicInterface = /** @class */ (function () {
         return { posx: posx, posy: posy };
     };
     //清除玩家当局数据
-    GameHoodleLogicInterface.clear_all_player_cur_data = function (room) {
+    GameFunction.clear_all_player_cur_data = function (room) {
         var player_set = room.get_all_player();
         for (var uid in player_set) {
             var player = player_set[uid];
@@ -57,7 +66,7 @@ var GameHoodleLogicInterface = /** @class */ (function () {
         }
     };
     //设置玩家初始权限
-    GameHoodleLogicInterface.set_player_start_power = function (room) {
+    GameFunction.set_player_start_power = function (room) {
         var can_play_seatid = StringUtil_1["default"].random_int(1, room.get_player_count());
         var player_set = room.get_all_player();
         var player_array = [];
@@ -74,7 +83,7 @@ var GameHoodleLogicInterface = /** @class */ (function () {
         return true;
     };
     //计算玩家权限
-    GameHoodleLogicInterface.set_next_player_power = function (room) {
+    GameFunction.set_next_player_power = function (room) {
         var player_set = room.get_all_player();
         var next_power_seatid = -1;
         for (var uid in player_set) {
@@ -111,7 +120,7 @@ var GameHoodleLogicInterface = /** @class */ (function () {
     };
     //计算玩家金币，设置到player，写入数据库
     //考虑不够减的情况
-    GameHoodleLogicInterface.write_player_chip = function (room) {
+    GameFunction.cal_player_chip_and_write = function (room) {
         if (!room) {
             return;
         }
@@ -128,11 +137,11 @@ var GameHoodleLogicInterface = /** @class */ (function () {
                             gold_win = (-1) * player_cur_chip;
                         }
                     }
-                    Log_1["default"].info(player.get_uname(), "hcc>>write_player_chip: score: ", score, " ,gold_win: ", gold_win, " ,cur_chip: ", player.get_uchip(), " ,after add: ", (player.get_uchip() + gold_win));
+                    Log_1["default"].info(player.get_uname(), "hcc>>cal_player_chip_and_write: score: ", score, " ,gold_win: ", gold_win, " ,cur_chip: ", player.get_uchip(), " ,after add: ", (player.get_uchip() + gold_win));
                     player.set_uchip(player.get_uchip() + gold_win);
                     MySqlGame_1["default"].add_ugame_uchip(player.get_uid(), gold_win, function (status, ret) {
                         if (status == Response_1["default"].OK) {
-                            Log_1["default"].info("hcc>>write_player_chip success", player.get_uname());
+                            Log_1["default"].info("hcc>>cal_player_chip_and_write success", player.get_uname());
                         }
                     });
                 }
@@ -143,13 +152,85 @@ var GameHoodleLogicInterface = /** @class */ (function () {
         }
     };
     ////////////////////////////////////////
-    ///对外接口 end
+    ///发送消息，房间相关
     ////////////////////////////////////////
-    ////////////////////////////////////////
-    ///发送消息
-    ////////////////////////////////////////
+    //向房间内所有人发送局内玩家信息
+    GameFunction.broadcast_player_info_in_rooom = function (room, not_to_player) {
+        if (!room) {
+            return;
+        }
+        var player_set = room.get_all_player();
+        var userinfo_array = [];
+        try {
+            for (var key in player_set) {
+                var player = player_set[key];
+                if (player) {
+                    var userinfo = {
+                        numberid: String(player.get_numberid()),
+                        userinfostring: JSON.stringify(player.get_player_info())
+                    };
+                    userinfo_array.push(userinfo);
+                }
+            }
+            room.broadcast_in_room(GameHoodleProto_1.Cmd.eUserInfoRes, { userinfo: userinfo_array }, not_to_player);
+        }
+        catch (error) {
+            Log_1["default"].error(error);
+        }
+    };
+    //向某个玩家发送局内玩家信息
+    GameFunction.send_player_info = function (player) {
+        if (!player) {
+            return;
+        }
+        var room = RoomManager_1["default"].getInstance().get_room_by_uid(player.get_uid());
+        if (!room) {
+            return;
+        }
+        var player_set = room.get_all_player();
+        if (ArrayUtil_1["default"].GetArrayLen(player_set) <= 0) {
+            return;
+        }
+        var userinfo_array = [];
+        try {
+            for (var key in player_set) {
+                var player_1 = player_set[key];
+                if (player_1) {
+                    var userinfo = {
+                        numberid: String(player_1.get_numberid()),
+                        userinfostring: JSON.stringify(player_1.get_player_info())
+                    };
+                    userinfo_array.push(userinfo);
+                }
+            }
+            player.send_cmd(GameHoodleProto_1.Cmd.eUserInfoRes, { userinfo: userinfo_array });
+        }
+        catch (error) {
+            Log_1["default"].error(error);
+        }
+    };
+    //向房间内所有人发送某玩家准备的消息
+    GameFunction.send_player_state = function (room, src_player, not_to_player) {
+        var body = {
+            status: Response_1["default"].OK,
+            seatid: Number(src_player.get_seat_id()),
+            userstate: Number(src_player.get_user_state())
+        };
+        room.broadcast_in_room(GameHoodleProto_1.Cmd.eUserReadyRes, body, not_to_player);
+    };
+    //发送局数
+    GameFunction.send_play_count = function (room, not_to_player) {
+        var body = {
+            playcount: String(room.get_play_count()),
+            totalplaycount: String(room.get_conf_play_count())
+        };
+        room.broadcast_in_room(GameHoodleProto_1.Cmd.ePlayCountRes, body, not_to_player);
+    };
+    ////////////////////////////////////
+    /////发送消息,游戏逻辑相关
+    ////////////////////////////////////
     //发送玩家出生位置
-    GameHoodleLogicInterface.send_player_first_pos = function (room, not_player, only_player) {
+    GameFunction.send_player_first_pos = function (room, not_player, only_player) {
         if (!room) {
             return;
         }
@@ -159,7 +240,7 @@ var GameHoodleLogicInterface = /** @class */ (function () {
         for (var key in player_set) {
             var player = player_set[key];
             if (player) {
-                var pos = GameHoodleLogicInterface.generate_start_pos(pos_index);
+                var pos = GameFunction.generate_start_pos(pos_index);
                 Log_1["default"].info("hcc>>send_player_first_pos: ", pos);
                 player.set_user_pos(pos);
                 var player_pos = {
@@ -180,7 +261,7 @@ var GameHoodleLogicInterface = /** @class */ (function () {
         }
     };
     //发送玩家权限
-    GameHoodleLogicInterface.send_player_power = function (room, not_player, only_player) {
+    GameFunction.send_player_power = function (room, not_player, only_player) {
         if (!room) {
             return;
         }
@@ -204,7 +285,7 @@ var GameHoodleLogicInterface = /** @class */ (function () {
         }
     };
     //发送玩家射击 ,服务只做转发
-    GameHoodleLogicInterface.send_player_shoot = function (room, shoot_info, not_player) {
+    GameFunction.send_player_shoot = function (room, shoot_info, not_player) {
         if (!room || !shoot_info || !not_player) {
             return;
         }
@@ -218,7 +299,7 @@ var GameHoodleLogicInterface = /** @class */ (function () {
         room.broadcast_in_room(GameHoodleProto_1.Cmd.ePlayerShootRes, body, not_player);
     };
     //发送玩家位置，球停下后
-    GameHoodleLogicInterface.send_player_ball_pos = function (room, not_player, only_player) {
+    GameFunction.send_player_ball_pos = function (room, not_player, only_player) {
         if (!room) {
             return;
         }
@@ -243,7 +324,7 @@ var GameHoodleLogicInterface = /** @class */ (function () {
         }
     };
     //发送玩家射中 ，只做转发
-    GameHoodleLogicInterface.send_player_is_shooted = function (room, shoot_info) {
+    GameFunction.send_player_is_shooted = function (room, shoot_info) {
         if (!room || !shoot_info) {
             return;
         }
@@ -254,8 +335,8 @@ var GameHoodleLogicInterface = /** @class */ (function () {
         };
         room.broadcast_in_room(GameHoodleProto_1.Cmd.ePlayerIsShootedRes, body);
     };
-    //小结算
-    GameHoodleLogicInterface.send_game_result = function (room) {
+    //发送小结算
+    GameFunction.send_game_result = function (room) {
         if (!room) {
             return;
         }
@@ -273,8 +354,8 @@ var GameHoodleLogicInterface = /** @class */ (function () {
         }
         room.broadcast_in_room(GameHoodleProto_1.Cmd.eGameResultRes, { scores: player_score_array });
     };
-    //大结算
-    GameHoodleLogicInterface.send_game_total_result = function (room) {
+    //发送大结算
+    GameFunction.send_game_total_result = function (room) {
         if (!room) {
             return;
         }
@@ -305,8 +386,8 @@ var GameHoodleLogicInterface = /** @class */ (function () {
         };
         room.broadcast_in_room(GameHoodleProto_1.Cmd.eTotalGameResultRes, body);
     };
-    //玩家得分
-    GameHoodleLogicInterface.send_player_score = function (room, not_player, only_player) {
+    //发送玩家得分
+    GameFunction.send_player_score = function (room, not_player, only_player) {
         if (!room) {
             return;
         }
@@ -329,11 +410,11 @@ var GameHoodleLogicInterface = /** @class */ (function () {
             room.broadcast_in_room(GameHoodleProto_1.Cmd.ePlayerScoreRes, { scores: player_score_array }, not_player);
         }
     };
-    GameHoodleLogicInterface._startx_left_array = [-480, -400, -300, -200, -100];
-    GameHoodleLogicInterface._startx_right_array = [480, 400, 300, 200, 100];
-    GameHoodleLogicInterface._starty_up_array = [900, 700, 500, 300, 100];
-    GameHoodleLogicInterface._starty_down_array = [-900, -700, -500, -300, -100];
-    return GameHoodleLogicInterface;
+    GameFunction._startx_left_array = [-480, -400, -300, -200, -100];
+    GameFunction._startx_right_array = [480, 400, 300, 200, 100];
+    GameFunction._starty_up_array = [900, 700, 500, 300, 100];
+    GameFunction._starty_down_array = [-900, -700, -500, -300, -100];
+    return GameFunction;
 }());
-exports["default"] = GameHoodleLogicInterface;
-//# sourceMappingURL=GameHoodleLogicInterface.js.map
+exports["default"] = GameFunction;
+//# sourceMappingURL=GameFunction.js.map

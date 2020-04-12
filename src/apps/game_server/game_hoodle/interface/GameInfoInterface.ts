@@ -1,16 +1,15 @@
-////////////////////////
-//游戏服务信息,商城,兑换,相关接口
-////////////////////////
-import Room from "../Room";
+//游戏服务信息,商城,兑换,相关协议处理
 import Player from '../Player';
 import { Cmd } from "../../../protocol/GameHoodleProto";
 import Log from '../../../../utils/Log';
-import { PlayerPower } from '../config/State';
-import StringUtil from '../../../../utils/StringUtil';
 import MySqlGame from '../../../../database/MySqlGame';
 import GameHoodleConfig from "../config/GameHoodleConfig";
 import Response from '../../../protocol/Response';
 import ArrayUtil from "../../../../utils/ArrayUtil";
+import PlayerManager from '../PlayerManager';
+import ProtoManager from '../../../../netbus/ProtoManager';
+
+let playerMgr: PlayerManager = PlayerManager.getInstance();
 
 class GameInfoInterface {
 
@@ -78,8 +77,8 @@ class GameInfoInterface {
     ////////////////////////////////////////
     
     //获取有游戏服务信息
-    static do_user_get_ugame_info(player:Player){
-        let utag = player.get_uid()
+    static do_player_get_ugame_info(utag:number){
+        let player: Player = playerMgr.get_player(utag);
         MySqlGame.get_ugame_uchip_by_uid(utag, function (status: number, data_game: any) {
             if (status == Response.OK) {
                 let data_game_len = ArrayUtil.GetArrayLen(data_game);
@@ -127,7 +126,8 @@ class GameInfoInterface {
     }
 
     //获取弹珠信息
-    static do_user_get_ball_info(player: Player) {
+    static do_player_get_ball_info(utag:number) {
+        let player:Player = playerMgr.get_player(utag);
         MySqlGame.get_ugame_uball_info(player.get_uid(), function (status: number, ret: any) {
             if (status == Response.OK) {
                 let uball_json = ret;
@@ -145,12 +145,13 @@ class GameInfoInterface {
     }
 
     //兑换，卖出，等更新弹珠
-    static do_user_update_ball_info(player:Player, data_body:any){
+    static do_player_update_ball_info(utag: number, proto_type: number, raw_cmd: any){
+        let player: Player = playerMgr.get_player(utag);
+        let data_body:any = ProtoManager.decode_cmd(proto_type, raw_cmd);
         let up_type: number = data_body.updatetype;
         let level: number   = data_body.level;
         let count: number   = data_body.count;
-
-        if (up_type == GameHoodleConfig.BALL_UPDATE_TYPE.SELL_TYPE){//卖出TODO, 需要定义价格表
+        if (up_type == GameHoodleConfig.BALL_UPDATE_TYPE.SELL_TYPE){//卖出TODO, 需要定义价格表,暂时还不做
             
         } else if (up_type == GameHoodleConfig.BALL_UPDATE_TYPE.COMPOSE_TYPE){ //合成
             let is_success: boolean = GameInfoInterface.user_update_ball_info(player, up_type, level, count);
@@ -174,10 +175,22 @@ class GameInfoInterface {
         }
     }
 
+    //获取商城列表
+    static do_player_store_list(utag:number){
+        let player: Player = playerMgr.get_player(utag);
+        let res_body = {
+            status: Response.OK,
+            storeprops: GameHoodleConfig.KW_STORE_LIST_CONFIG,
+        }
+        player.send_cmd(Cmd.eStoreListRes, res_body);
+    }
+
     //玩家购买
-    static do_user_buy_things_req(player:Player, data_body:any){
-        if (data_body) {
-            let propsvrindex = data_body.propsvrindex;
+    static do_player_buy_things(utag:number, proto_type:number, raw_cmd:any){
+        let player: Player = playerMgr.get_player(utag);
+        let req_body = ProtoManager.decode_cmd(proto_type, raw_cmd);
+        if (req_body) {
+            let propsvrindex = req_body.propsvrindex;
             for (let key in GameHoodleConfig.KW_STORE_LIST_CONFIG) {
                 let shopInfo = GameHoodleConfig.KW_STORE_LIST_CONFIG[key];
                 if (shopInfo.propsvrindex == propsvrindex) {
@@ -226,11 +239,6 @@ class GameInfoInterface {
             }
         }
     }
-
-    ////////////////////////////////////////
-    ///发送消息
-    ////////////////////////////////////////
-
 }
 
 export default GameInfoInterface;
