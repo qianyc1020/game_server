@@ -18,6 +18,30 @@ var GameLogicInterface_1 = __importDefault(require("./interface/GameLogicInterfa
 var GameCheck_1 = __importDefault(require("./interface/GameCheck"));
 var GameHoodleModle = /** @class */ (function () {
     function GameHoodleModle() {
+        var _a;
+        this._cmd_handler_map = {};
+        this._cmd_handler_map = (_a = {},
+            _a[CommonProto_1["default"].eUserLostConnectRes] = this.on_player_lost_connect,
+            _a[GameHoodleProto_1.Cmd.eLoginLogicReq] = this.on_player_login_logic_server,
+            _a[GameHoodleProto_1.Cmd.eCreateRoomReq] = this.on_player_create_room,
+            _a[GameHoodleProto_1.Cmd.eJoinRoomReq] = this.on_player_join_room,
+            _a[GameHoodleProto_1.Cmd.eExitRoomReq] = this.on_pleyr_exit_room,
+            _a[GameHoodleProto_1.Cmd.eDessolveReq] = this.on_player_dessolve_room,
+            _a[GameHoodleProto_1.Cmd.eGetRoomStatusReq] = this.on_player_get_room_status,
+            _a[GameHoodleProto_1.Cmd.eBackRoomReq] = this.on_player_back_room,
+            _a[GameHoodleProto_1.Cmd.eCheckLinkGameReq] = this.on_check_link_game,
+            _a[GameHoodleProto_1.Cmd.eUserReadyReq] = this.on_player_ready,
+            _a[GameHoodleProto_1.Cmd.ePlayerShootReq] = this.on_player_shoot,
+            _a[GameHoodleProto_1.Cmd.ePlayerBallPosReq] = this.on_player_ball_pos,
+            _a[GameHoodleProto_1.Cmd.ePlayerIsShootedReq] = this.on_player_is_shooted,
+            _a[GameHoodleProto_1.Cmd.eUserMatchReq] = this.on_player_match,
+            _a[GameHoodleProto_1.Cmd.eUserStopMatchReq] = this.on_player_stop_match,
+            _a[GameHoodleProto_1.Cmd.eUserGameInfoReq] = this.on_player_get_ugame_info,
+            _a[GameHoodleProto_1.Cmd.eUserBallInfoReq] = this.on_player_get_ball_info,
+            _a[GameHoodleProto_1.Cmd.eUpdateUserBallReq] = this.on_player_update_ball_info,
+            _a[GameHoodleProto_1.Cmd.eStoreListReq] = this.on_player_store_list,
+            _a[GameHoodleProto_1.Cmd.eBuyThingsReq] = this.on_player_buy_things,
+            _a);
     }
     GameHoodleModle.getInstance = function () {
         return GameHoodleModle.Instance;
@@ -27,69 +51,8 @@ var GameHoodleModle = /** @class */ (function () {
     };
     GameHoodleModle.prototype.recv_cmd_msg = function (session, stype, ctype, utag, proto_type, raw_cmd) {
         Log_1["default"].info("recv_cmd_msg: ", stype, ctype, utag, proto_type, this.decode_cmd(proto_type, raw_cmd));
-        switch (ctype) {
-            case CommonProto_1["default"].eUserLostConnectRes:
-                this.on_player_lost_connect(session, utag, proto_type, raw_cmd); //link
-                break;
-            case GameHoodleProto_1.Cmd.eLoginLogicReq:
-                this.on_player_login_logic_server(session, utag, proto_type, raw_cmd); //link
-                break;
-            case GameHoodleProto_1.Cmd.eCreateRoomReq:
-                this.on_player_create_room(session, utag, proto_type, raw_cmd); //room
-                break;
-            case GameHoodleProto_1.Cmd.eJoinRoomReq:
-                this.on_player_join_room(session, utag, proto_type, raw_cmd); //room
-                break;
-            case GameHoodleProto_1.Cmd.eExitRoomReq:
-                this.on_pleyr_exit_room(session, utag, proto_type, raw_cmd); //room
-                break;
-            case GameHoodleProto_1.Cmd.eDessolveReq:
-                this.on_player_dessolve_room(session, utag, proto_type, raw_cmd); //room
-                break;
-            case GameHoodleProto_1.Cmd.eGetRoomStatusReq:
-                this.on_player_get_room_status(session, utag, proto_type, raw_cmd); //room
-                break;
-            case GameHoodleProto_1.Cmd.eBackRoomReq:
-                this.on_player_back_room(session, utag, proto_type, raw_cmd); //room
-                break;
-            case GameHoodleProto_1.Cmd.eCheckLinkGameReq:
-                this.on_check_link_game(session, utag, proto_type, raw_cmd); //process
-                break;
-            case GameHoodleProto_1.Cmd.eUserReadyReq:
-                this.on_player_ready(session, utag, proto_type, raw_cmd); //process
-                break;
-            case GameHoodleProto_1.Cmd.ePlayerShootReq:
-                this.on_player_shoot(session, utag, proto_type, raw_cmd); //game
-                break;
-            case GameHoodleProto_1.Cmd.ePlayerBallPosReq:
-                this.on_player_ball_pos(session, utag, proto_type, raw_cmd); //game
-                break;
-            case GameHoodleProto_1.Cmd.ePlayerIsShootedReq:
-                this.on_player_is_shooted(session, utag, proto_type, raw_cmd); //game
-                break;
-            case GameHoodleProto_1.Cmd.eUserMatchReq:
-                this.on_player_match(session, utag, proto_type, raw_cmd); //match
-                break;
-            case GameHoodleProto_1.Cmd.eUserStopMatchReq:
-                this.on_player_stop_match(session, utag, proto_type, raw_cmd); //match
-                break;
-            case GameHoodleProto_1.Cmd.eUserGameInfoReq:
-                this.on_player_get_ugame_info(session, utag, proto_type, raw_cmd); //gameinfo
-                break;
-            case GameHoodleProto_1.Cmd.eUserBallInfoReq:
-                this.on_player_get_ball_info(session, utag, proto_type, raw_cmd); //gameinfo
-                break;
-            case GameHoodleProto_1.Cmd.eUpdateUserBallReq:
-                this.on_player_update_ball_info(session, utag, proto_type, raw_cmd); //gameinfo
-                break;
-            case GameHoodleProto_1.Cmd.eStoreListReq:
-                this.on_player_store_list(session, utag, proto_type, raw_cmd); //gameinfo
-                break;
-            case GameHoodleProto_1.Cmd.eBuyThingsReq:
-                this.on_player_buy_things(session, utag, proto_type, raw_cmd); //gameinfo
-                break;
-            default:
-                break;
+        if (this._cmd_handler_map[ctype]) {
+            this._cmd_handler_map[ctype].call(this, session, utag, proto_type, raw_cmd);
         }
     };
     //玩家离开逻辑服务

@@ -12,10 +12,37 @@ import GameProcessInterface from './interface/GameProcessInterface';
 import GameLogicInterface from './interface/GameLogicInterface';
 import GameCheck from './interface/GameCheck';
 
+interface CmdHandlerMap {
+    [cmdtype: number]: Function;
+}
+
 class GameHoodleModle {
     private static readonly Instance: GameHoodleModle = new GameHoodleModle();
+    _cmd_handler_map: CmdHandlerMap = {};
 
     private constructor(){
+        this._cmd_handler_map = {
+            [CommonProto.eUserLostConnectRes]:      this.on_player_lost_connect,
+            [Cmd.eLoginLogicReq]:                   this.on_player_login_logic_server,
+            [Cmd.eCreateRoomReq]:                   this.on_player_create_room,
+            [Cmd.eJoinRoomReq]:                     this.on_player_join_room,
+            [Cmd.eExitRoomReq]:                     this.on_pleyr_exit_room,
+            [Cmd.eDessolveReq]:                     this.on_player_dessolve_room,
+            [Cmd.eGetRoomStatusReq]:                this.on_player_get_room_status,
+            [Cmd.eBackRoomReq]:                     this.on_player_back_room,
+            [Cmd.eCheckLinkGameReq]:                this.on_check_link_game,
+            [Cmd.eUserReadyReq]:                    this.on_player_ready,
+            [Cmd.ePlayerShootReq]:                  this.on_player_shoot,
+            [Cmd.ePlayerBallPosReq]:                this.on_player_ball_pos,
+            [Cmd.ePlayerIsShootedReq]:              this.on_player_is_shooted,
+            [Cmd.eUserMatchReq]:                    this.on_player_match,
+            [Cmd.eUserStopMatchReq]:                this.on_player_stop_match,
+            [Cmd.eUserGameInfoReq]:                 this.on_player_get_ugame_info,
+            [Cmd.eUserBallInfoReq]:                 this.on_player_get_ball_info,
+            [Cmd.eUpdateUserBallReq]:               this.on_player_update_ball_info,
+            [Cmd.eStoreListReq]:                    this.on_player_store_list,
+            [Cmd.eBuyThingsReq]:                    this.on_player_buy_things,
+        }
     }
 
     public static getInstance(){
@@ -28,69 +55,8 @@ class GameHoodleModle {
 
     public recv_cmd_msg(session:any, stype:number, ctype:number, utag:number, proto_type:number, raw_cmd:Buffer){
         Log.info("recv_cmd_msg: ",stype, ctype, utag, proto_type, this.decode_cmd(proto_type,raw_cmd))
-        switch(ctype){
-            case CommonProto.eUserLostConnectRes:
-                this.on_player_lost_connect(session,utag,proto_type,raw_cmd) //link
-            break;
-            case Cmd.eLoginLogicReq:
-                this.on_player_login_logic_server(session,utag,proto_type,raw_cmd)//link
-            break;
-            case Cmd.eCreateRoomReq:
-                this.on_player_create_room(session,utag,proto_type,raw_cmd)//room
-            break;
-            case Cmd.eJoinRoomReq:
-                this.on_player_join_room(session,utag,proto_type,raw_cmd)//room
-            break;
-            case Cmd.eExitRoomReq:
-                this.on_pleyr_exit_room(session,utag,proto_type,raw_cmd)//room
-            break;
-            case Cmd.eDessolveReq:
-                this.on_player_dessolve_room(session,utag,proto_type,raw_cmd)//room
-            break;
-            case Cmd.eGetRoomStatusReq:
-                this.on_player_get_room_status(session,utag,proto_type,raw_cmd)//room
-            break;
-            case Cmd.eBackRoomReq:
-                this.on_player_back_room(session,utag,proto_type,raw_cmd)//room
-            break;
-            case Cmd.eCheckLinkGameReq:
-                this.on_check_link_game(session,utag,proto_type,raw_cmd)//process
-            break;
-            case Cmd.eUserReadyReq:
-                this.on_player_ready(session, utag, proto_type, raw_cmd)//process
-            break;
-            case Cmd.ePlayerShootReq:
-                this.on_player_shoot(session,utag,proto_type,raw_cmd);//game
-            break;
-            case Cmd.ePlayerBallPosReq:
-                this.on_player_ball_pos(session,utag,proto_type,raw_cmd);//game
-            break;
-            case Cmd.ePlayerIsShootedReq:
-                this.on_player_is_shooted(session,utag,proto_type,raw_cmd);//game
-            break;
-            case Cmd.eUserMatchReq:
-                this.on_player_match(session,utag,proto_type,raw_cmd);//match
-            break;
-            case Cmd.eUserStopMatchReq:
-                this.on_player_stop_match(session,utag,proto_type,raw_cmd);//match
-            break;
-            case Cmd.eUserGameInfoReq:
-                this.on_player_get_ugame_info(session,utag,proto_type,raw_cmd);//gameinfo
-            break;
-            case Cmd.eUserBallInfoReq:
-                this.on_player_get_ball_info(session, utag, proto_type, raw_cmd);//gameinfo
-            break;
-            case Cmd.eUpdateUserBallReq:
-                this.on_player_update_ball_info(session, utag, proto_type, raw_cmd);//gameinfo
-            break;
-            case Cmd.eStoreListReq:
-                this.on_player_store_list(session, utag, proto_type, raw_cmd);//gameinfo
-            break;
-            case Cmd.eBuyThingsReq:
-                this.on_player_buy_things(session, utag, proto_type, raw_cmd);//gameinfo
-            break;
-            default:
-            break;
+        if (this._cmd_handler_map[ctype]){
+            this._cmd_handler_map[ctype].call(this, session, utag, proto_type, raw_cmd);
         }
     }
 

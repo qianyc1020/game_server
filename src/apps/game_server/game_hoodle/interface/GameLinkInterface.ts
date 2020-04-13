@@ -26,13 +26,15 @@ class GameLinkInterface {
                 room.broadcast_in_room(Cmd.eUserOfflineRes, { seatid: player.get_seat_id() }, player);
                 GameFunction.broadcast_player_info_in_rooom(room, player);
             }
+            let uname = player.get_uname();
+            let numid = player.get_numberid();
             let issuccess = playerMgr.delete_player(utag);
             if(issuccess){
-                Log.warn(player.get_uname() + " ,numid:" + player.get_numberid() + " is lostconnect,totalPlyaerCount: " + playerMgr.get_player_count());
+                Log.warn(uname + " ,numid:" + numid + " is lostconnect,totalPlyaerCount: " + playerMgr.get_player_count());
             }
             let ret = matchMgr.stop_player_match(player.get_uid());
             if (ret) {
-                Log.info(player.get_uname(), "delete from match")
+                Log.info(uname, "delete from match")
             }
         }
     }

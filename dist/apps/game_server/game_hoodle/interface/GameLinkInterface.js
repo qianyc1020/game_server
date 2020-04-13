@@ -28,13 +28,15 @@ var GameLinkInterface = /** @class */ (function () {
                 room.broadcast_in_room(GameHoodleProto_1.Cmd.eUserOfflineRes, { seatid: player.get_seat_id() }, player);
                 GameFunction_1["default"].broadcast_player_info_in_rooom(room, player);
             }
+            var uname = player.get_uname();
+            var numid = player.get_numberid();
             var issuccess = playerMgr.delete_player(utag);
             if (issuccess) {
-                Log_1["default"].warn(player.get_uname() + " ,numid:" + player.get_numberid() + " is lostconnect,totalPlyaerCount: " + playerMgr.get_player_count());
+                Log_1["default"].warn(uname + " ,numid:" + numid + " is lostconnect,totalPlyaerCount: " + playerMgr.get_player_count());
             }
             var ret = matchMgr.stop_player_match(player.get_uid());
             if (ret) {
-                Log_1["default"].info(player.get_uname(), "delete from match");
+                Log_1["default"].info(uname, "delete from match");
             }
         }
     };

@@ -1,11 +1,12 @@
 class ArrayUtil {
     //删除数组[]内元素，不适用对象{}
     static ArrayRemove(array:any,obj:any):boolean{
-        //TODO ,array 用typeof判断类型，分对象或者数组
-        var idx = array.indexOf(obj)
-        if (idx > -1){
-            array.splice(idx,1)
-            return true;
+        if (Array.isArray(array)) {
+            var idx = array.indexOf(obj)
+            if (idx > -1) {
+                array.splice(idx, 1)
+                return true;
+            }
         }
         return false;
     }
