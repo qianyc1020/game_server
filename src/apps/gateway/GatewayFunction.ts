@@ -19,7 +19,7 @@ let LOGIN_OR_REGIST_ERS_CMD = [
     Cmd.ePhoneRegistRes,
 ]
 
-let uid_session_map: USMap = {} //保存已经登录过的玩家 uid-> session
+let uid_session_map: USMap = {}  //保存已经登录过的玩家 uid-> session
 
 class GateWayFunction {
 
