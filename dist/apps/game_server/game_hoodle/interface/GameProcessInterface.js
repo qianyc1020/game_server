@@ -17,7 +17,7 @@ var GameProcessInterface = /** @class */ (function () {
     function GameProcessInterface() {
     }
     //玩家进入房间收到，服务主动推送相关局内数据
-    GameProcessInterface.do_check_link_game = function (utag) {
+    GameProcessInterface.do_player_check_link_game = function (utag) {
         var player = playerMgr.get_player(utag);
         if (!GameCheck_1["default"].check_room(utag)) {
             Log_1["default"].warn(player.get_uname(), "check_link_game room is not exist!");

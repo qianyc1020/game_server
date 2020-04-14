@@ -46,3 +46,16 @@ var sites = {
  }
 
  Log.info(obj_test);
+
+
+ let arraytest = [1,2,3,4,5]
+
+if (arraytest.indexOf(8) != -1){
+   Log.info("have 0000");
+   
+}else{
+   Log.info("not have 0000");
+}
+
+Log.info(arraytest.indexOf(0));
+Log.info(arraytest.indexOf(2));

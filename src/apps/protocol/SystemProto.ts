@@ -5,6 +5,6 @@ export enum Cmd {
 	
 }
 
-export let CmdName = {
+export let CmdName:any = {
 	[0] : "INVALED",
 }

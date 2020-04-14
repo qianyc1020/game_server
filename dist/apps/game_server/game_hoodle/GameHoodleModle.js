@@ -25,11 +25,11 @@ var GameHoodleModle = /** @class */ (function () {
             _a[GameHoodleProto_1.Cmd.eLoginLogicReq] = this.on_player_login_logic_server,
             _a[GameHoodleProto_1.Cmd.eCreateRoomReq] = this.on_player_create_room,
             _a[GameHoodleProto_1.Cmd.eJoinRoomReq] = this.on_player_join_room,
-            _a[GameHoodleProto_1.Cmd.eExitRoomReq] = this.on_pleyr_exit_room,
+            _a[GameHoodleProto_1.Cmd.eExitRoomReq] = this.on_player_exit_room,
             _a[GameHoodleProto_1.Cmd.eDessolveReq] = this.on_player_dessolve_room,
             _a[GameHoodleProto_1.Cmd.eGetRoomStatusReq] = this.on_player_get_room_status,
             _a[GameHoodleProto_1.Cmd.eBackRoomReq] = this.on_player_back_room,
-            _a[GameHoodleProto_1.Cmd.eCheckLinkGameReq] = this.on_check_link_game,
+            _a[GameHoodleProto_1.Cmd.eCheckLinkGameReq] = this.on_player_check_link_game,
             _a[GameHoodleProto_1.Cmd.eUserReadyReq] = this.on_player_ready,
             _a[GameHoodleProto_1.Cmd.ePlayerShootReq] = this.on_player_shoot,
             _a[GameHoodleProto_1.Cmd.ePlayerBallPosReq] = this.on_player_ball_pos,
@@ -85,13 +85,13 @@ var GameHoodleModle = /** @class */ (function () {
         GameRoomInterface_1["default"].do_player_join_room(utag, proto_type, raw_cmd);
     };
     //离开房间
-    GameHoodleModle.prototype.on_pleyr_exit_room = function (session, utag, proto_type, raw_cmd) {
+    GameHoodleModle.prototype.on_player_exit_room = function (session, utag, proto_type, raw_cmd) {
         if (!GameCheck_1["default"].check_player(utag)) {
             Log_1["default"].warn("exit_room player is not exist!");
             GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eExitRoomRes, utag, proto_type, { status: Response_1["default"].INVALIDI_OPT });
             return;
         }
-        GameRoomInterface_1["default"].do_pleyr_exit_room(utag);
+        GameRoomInterface_1["default"].do_player_exit_room(utag);
     };
     //解散房间
     GameHoodleModle.prototype.on_player_dessolve_room = function (session, utag, proto_type, raw_cmd) {
@@ -121,13 +121,13 @@ var GameHoodleModle = /** @class */ (function () {
         GameRoomInterface_1["default"].do_player_back_room(utag);
     };
     //进游戏房间后，服务推送房间内信息
-    GameHoodleModle.prototype.on_check_link_game = function (session, utag, proto_type, raw_cmd) {
+    GameHoodleModle.prototype.on_player_check_link_game = function (session, utag, proto_type, raw_cmd) {
         if (!GameCheck_1["default"].check_player(utag)) {
             Log_1["default"].warn("check_link_game player is not exist!");
             GameSendMsg_1["default"].send(session, GameHoodleProto_1.Cmd.eCheckLinkGameRes, utag, proto_type, { status: Response_1["default"].INVALIDI_OPT });
             return;
         }
-        GameProcessInterface_1["default"].do_check_link_game(utag);
+        GameProcessInterface_1["default"].do_player_check_link_game(utag);
     };
     //玩家准备
     GameHoodleModle.prototype.on_player_ready = function (session, utag, proto_type, raw_cmd) {

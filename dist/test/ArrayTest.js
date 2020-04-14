@@ -38,4 +38,13 @@ else {
     // obj_test.key_str = 0
 }
 Log_1["default"].info(obj_test);
+var arraytest = [1, 2, 3, 4, 5];
+if (arraytest.indexOf(8) != -1) {
+    Log_1["default"].info("have 0000");
+}
+else {
+    Log_1["default"].info("not have 0000");
+}
+Log_1["default"].info(arraytest.indexOf(0));
+Log_1["default"].info(arraytest.indexOf(2));
 //# sourceMappingURL=ArrayTest.js.map

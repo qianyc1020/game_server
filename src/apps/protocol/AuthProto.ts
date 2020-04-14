@@ -27,7 +27,7 @@ export enum Cmd {
 	eReloginRes = 23,				//用户被挤号
 }
 
-export let CmdName = {
+export let CmdName:any = {
 	[0] : "INVALED",
 	[1] : "UnameLoginReq",
 	[2] : "UnameLoginRes",

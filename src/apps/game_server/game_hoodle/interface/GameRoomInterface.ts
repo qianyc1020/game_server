@@ -124,7 +124,7 @@ class GameRoomInterface {
         Log.info(player.get_uname(), "join_room success, roomid: ", room.get_room_id())
     }
 
-    static do_pleyr_exit_room(utag: number) {
+    static do_player_exit_room(utag: number) {
         let player: Player = playerMgr.get_player(utag);
         let room = roomMgr.get_room_by_uid(player.get_uid())
         if (!room) {

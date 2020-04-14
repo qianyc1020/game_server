@@ -26,11 +26,11 @@ class GameHoodleModle {
             [Cmd.eLoginLogicReq]:                   this.on_player_login_logic_server,
             [Cmd.eCreateRoomReq]:                   this.on_player_create_room,
             [Cmd.eJoinRoomReq]:                     this.on_player_join_room,
-            [Cmd.eExitRoomReq]:                     this.on_pleyr_exit_room,
+            [Cmd.eExitRoomReq]:                     this.on_player_exit_room,
             [Cmd.eDessolveReq]:                     this.on_player_dessolve_room,
             [Cmd.eGetRoomStatusReq]:                this.on_player_get_room_status,
             [Cmd.eBackRoomReq]:                     this.on_player_back_room,
-            [Cmd.eCheckLinkGameReq]:                this.on_check_link_game,
+            [Cmd.eCheckLinkGameReq]:                this.on_player_check_link_game,
             [Cmd.eUserReadyReq]:                    this.on_player_ready,
             [Cmd.ePlayerShootReq]:                  this.on_player_shoot,
             [Cmd.ePlayerBallPosReq]:                this.on_player_ball_pos,
@@ -91,13 +91,13 @@ class GameHoodleModle {
         GameRoomInterface.do_player_join_room(utag, proto_type, raw_cmd);
     }
     //离开房间
-    private on_pleyr_exit_room(session:any, utag:number, proto_type:number, raw_cmd:any){
+    private on_player_exit_room(session:any, utag:number, proto_type:number, raw_cmd:any){
         if (!GameCheck.check_player(utag)){
             Log.warn("exit_room player is not exist!")
             GameSendMsg.send(session, Cmd.eExitRoomRes, utag, proto_type, {status: Response.INVALIDI_OPT})
             return;
         }
-        GameRoomInterface.do_pleyr_exit_room(utag);
+        GameRoomInterface.do_player_exit_room(utag);
     }
     //解散房间
     private on_player_dessolve_room(session:any, utag:number, proto_type:number, raw_cmd:any){
@@ -129,13 +129,13 @@ class GameHoodleModle {
     }
 
     //进游戏房间后，服务推送房间内信息
-    on_check_link_game(session:any, utag:number, proto_type:number, raw_cmd:any){
+    on_player_check_link_game(session:any, utag:number, proto_type:number, raw_cmd:any){
         if (!GameCheck.check_player(utag)){
             Log.warn("check_link_game player is not exist!")
             GameSendMsg.send(session, Cmd.eCheckLinkGameRes, utag, proto_type, {status: Response.INVALIDI_OPT})
             return;
         }
-        GameProcessInterface.do_check_link_game(utag);
+        GameProcessInterface.do_player_check_link_game(utag);
     }
 
     //玩家准备

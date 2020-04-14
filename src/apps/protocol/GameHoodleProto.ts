@@ -69,7 +69,7 @@ export enum Cmd {
 	eBuyThingsRes 					= 50,
 }
 
-export let CmdName = {
+export let CmdName:any = {
 	
 	///////////////////////////////////
 	//房间相关协议

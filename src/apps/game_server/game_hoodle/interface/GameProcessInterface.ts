@@ -15,7 +15,7 @@ let roomMgr: RoomManager     = RoomManager.getInstance();
 class GameProcessInterface {
 
     //玩家进入房间收到，服务主动推送相关局内数据
-    static do_check_link_game(utag:number){
+    static do_player_check_link_game(utag:number){
 
         let player: Player = playerMgr.get_player(utag);
         if (!GameCheck.check_room(utag)) {

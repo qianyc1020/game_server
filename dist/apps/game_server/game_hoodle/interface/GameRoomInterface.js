@@ -113,7 +113,7 @@ var GameRoomInterface = /** @class */ (function () {
         GameFunction_1["default"].broadcast_player_info_in_rooom(room, player);
         Log_1["default"].info(player.get_uname(), "join_room success, roomid: ", room.get_room_id());
     };
-    GameRoomInterface.do_pleyr_exit_room = function (utag) {
+    GameRoomInterface.do_player_exit_room = function (utag) {
         var player = playerMgr.get_player(utag);
         var room = roomMgr.get_room_by_uid(player.get_uid());
         if (!room) {

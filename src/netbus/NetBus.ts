@@ -170,7 +170,7 @@ class NetBus {
                     session.msgCenter.putData(data)
                 }
             }else{
-                Log.info("data recv: " , data)
+                // Log.info("data recv: " , data)
                 //TODO 数据包不对，会一直堆积
                 var last_pkg = NetBus.handle_package_data(session.last_pkg, data, function(cmd_buf:Buffer){
                     // Log.info("handle_package_data888: " ,cmd_buf)
