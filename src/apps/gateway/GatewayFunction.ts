@@ -21,7 +21,7 @@ let LOGIN_OR_REGIST_ERS_CMD = [
 
 let uid_session_map: USMap = {}  //保存已经登录过的玩家 uid-> session
 
-class GateWayFunction {
+class GatewayFunction {
 
     //登录请求
     static is_login_req_cmd(stype: number, ctype: number):boolean {
@@ -60,4 +60,4 @@ class GateWayFunction {
 
 }
 
-export default GateWayFunction;
+export default GatewayFunction;
