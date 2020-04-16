@@ -1,0 +1,10 @@
+1. 安装ts提示代码
+
+例如:
+
+全局：
+node: npm install --save -g @types/node
+
+本地目录：
+express： npm install @types/express --save
+node:     npm install @types/node --save
