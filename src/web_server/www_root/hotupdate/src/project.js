@@ -1,13 +1,13 @@
 window.__require = function e(t, o, n) {
-function r(s, c) {
+function r(s, a) {
 if (!o[s]) {
 if (!t[s]) {
-var a = s.split("/");
-a = a[a.length - 1];
-if (!t[a]) {
+var c = s.split("/");
+c = c[c.length - 1];
+if (!t[c]) {
 var u = "function" == typeof __require && __require;
-if (!c && u) return u(a, !0);
-if (i) return i(a, !0);
+if (!a && u) return u(c, !0);
+if (i) return i(c, !0);
 throw new Error("Cannot find module '" + s + "'");
 }
 }
@@ -213,13 +213,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = cc._decorator, s = i.ccclass, c = (i.property, i.executeInEditMode), a = [], u = function(e) {
+var i = cc._decorator, s = i.ccclass, a = (i.property, i.executeInEditMode), c = [], u = function(e) {
 n(t, e);
 function t() {
 return null !== e && e.apply(this, arguments) || this;
@@ -235,7 +235,7 @@ return t.bindProperty(e);
 t.prototype.bindAssets = function() {
 var e = this;
 o._assets.forEach(function(t) {
-var o = a.find(function(e) {
+var o = c.find(function(e) {
 return e.url.endsWith(t.name + ".prefab");
 });
 o && cc.loader.load({
@@ -253,7 +253,7 @@ this.bindAssets();
 var o;
 t._members = {};
 t._assets = [];
-return t = o = r([ s, c ], t);
+return t = o = r([ s, a ], t);
 }(cc.Component);
 o.default = u;
 0;
@@ -281,13 +281,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../framework/uibase/UIDialog"), s = e("../../framework/manager/EventManager"), c = e("../../framework/protocol/GameHoodleProto"), a = e("../../framework/protocol/Response"), u = e("../scene/gameScene/sendMsg/GameSendGameHoodle"), l = e("../../framework/manager/ResourceManager"), f = e("../../framework/utils/ArrayUtil"), d = e("../../framework/manager/DialogManager"), p = e("../../framework/config/GameHoodleConfig"), h = cc._decorator, _ = h.ccclass, g = (h.property, 
+var i = e("../../framework/uibase/UIDialog"), s = e("../../framework/manager/EventManager"), a = e("../../framework/protocol/GameHoodleProto"), c = e("../../framework/protocol/Response"), u = e("../scene/gameScene/sendMsg/GameSendGameHoodle"), l = e("../../framework/manager/ResourceManager"), f = e("../../framework/utils/ArrayUtil"), d = e("../../framework/manager/DialogManager"), p = e("../../framework/config/GameHoodleConfig"), h = cc._decorator, _ = h.ccclass, g = (h.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -305,8 +305,8 @@ this.initUI();
 u.default.send_get_player_ball_info();
 };
 t.prototype.add_event_dispatcher = function() {
-s.default.on(c.CmdName[c.Cmd.eUserBallInfoRes], this, this.on_event_user_ball_info);
-s.default.on(c.CmdName[c.Cmd.eUpdateUserBallRes], this, this.on_event_update_user_ball_info);
+s.default.on(a.CmdName[a.Cmd.eUserBallInfoRes], this, this.on_event_user_ball_info);
+s.default.on(a.CmdName[a.Cmd.eUpdateUserBallRes], this, this.on_event_update_user_ball_info);
 };
 t.prototype.add_button_event_listener = function() {
 this.add_click_event(this.view.KW_BTN_CLOSE, this.on_click_close.bind(this));
@@ -350,13 +350,13 @@ var t = e.children, o = [];
 for (var n in t) {
 var r = t[n], i = this.seek_child_by_name(r, "KW_TEXT_LEVEL"), s = this.get_string(i).split("级");
 if (f.default.GetArrayLen(s) > 0) {
-var c = s[0];
-o.push(c);
+var a = s[0];
+o.push(a);
 }
 }
 if (o.length == p.default.BALL_COMPOSE_COUNT) {
-for (var a = {}, u = 0; u < o.length; u++) a[o[u]] = u;
-if (1 == f.default.GetArrayLen(a)) return o;
+for (var c = {}, u = 0; u < o.length; u++) c[o[u]] = u;
+if (1 == f.default.GetArrayLen(c)) return o;
 d.default.getInstance().show_weak_hint("不能同时合成多种小球，只能放置一种!");
 } else d.default.getInstance().show_weak_hint("小球合成需要3个，目前不足!");
 }
@@ -367,7 +367,7 @@ return e.split("_")[1];
 t.prototype.on_event_user_ball_info = function(e) {
 var t = e.getUserData();
 if (t) {
-if (t.status == a.default.OK) {
+if (t.status == c.default.OK) {
 this._ball_info_str = t.userballinfostring;
 this.show_user_ball_info(t.userballinfostring);
 }
@@ -376,7 +376,7 @@ this.show_user_ball_info(t.userballinfostring);
 t.prototype.on_event_update_user_ball_info = function(e) {
 var t = e.getUserData();
 if (t) {
-if (t.status == a.default.OK) {
+if (t.status == c.default.OK) {
 this._ball_info_str = t.userballinfostring;
 this.show_user_ball_info(t.userballinfostring);
 d.default.getInstance().show_weak_hint("合成成功!");
@@ -404,10 +404,10 @@ o++;
 n = s;
 }
 }
-var c = this.seek_child_by_name(e, "content"), a = this.seek_child_by_name(c, "KW_LAYOUT");
-if (c && a && o > 30) {
+var a = this.seek_child_by_name(e, "content"), c = this.seek_child_by_name(a, "KW_LAYOUT");
+if (a && c && o > 30) {
 var u = n.height * Math.ceil(o / 5) + 200;
-c.setContentSize(c.getContentSize().width, u);
+a.setContentSize(a.getContentSize().width, u);
 }
 }
 };
@@ -425,21 +425,21 @@ var o = this.view.KW_SCROLLVIEW_NEW, n = this.seek_child_by_name(o, "KW_LAYOUT")
 if (o) {
 cc.log("hcc>>ball_info_obj: ", t);
 for (var s in t) {
-var c = t[s], a = this.get_ball_level(s);
-if (c && 0 != Number(c) && a) {
+var a = t[s], c = this.get_ball_level(s);
+if (a && 0 != Number(a) && c) {
 var u = l.ResourceManager.getInstance().getRes("ui_prefabs/games/HoodleBallShow", cc.Prefab);
 if (u) {
 var f = this.add_to_node(n, u);
 if (f) {
 f.info_obj = {
-level: a,
-count: c
+level: c,
+count: a
 };
-this.set_string(this.seek_child_by_name(f, "KW_TEXT_COUNT"), c);
-this.set_string(this.seek_child_by_name(f, "KW_TEXT_LEVEL"), String(a) + "级");
+this.set_string(this.seek_child_by_name(f, "KW_TEXT_COUNT"), a);
+this.set_string(this.seek_child_by_name(f, "KW_TEXT_LEVEL"), String(c) + "级");
 this.add_click_evenet_with_data(f, "on_click_ball_select", {
-level: a,
-count: c
+level: c,
+count: a
 });
 }
 var d = f.getContentSize();
@@ -460,15 +460,15 @@ t.prototype.on_click_ball_select = function(e, t) {
 var o = e.target.getComponent(cc.Button);
 cc.log("hcc>>on_click_ball_select", o.node.name, t);
 if (t) {
-var n = Number(t.level), r = Number(t.count), i = this.view.KW_LAYOUT_COMPOSE, s = this.seek_child_by_name(o.node, "KW_TEXT_COUNT"), c = Number(this.get_string(s));
-if (n && r && i && c && c > 0 && r > 0 && i.childrenCount < p.default.BALL_COMPOSE_COUNT) {
-c -= 1;
-this.set_string(this.seek_child_by_name(o.node, "KW_TEXT_COUNT"), String(c));
-var a = cc.instantiate(e.target);
-i.addChild(a);
-a.y = 0;
-this.set_string(this.seek_child_by_name(a, "KW_TEXT_COUNT"), "1");
-this.add_click_evenet_with_data(a, "on_click_ball_unselect", t);
+var n = Number(t.level), r = Number(t.count), i = this.view.KW_LAYOUT_COMPOSE, s = this.seek_child_by_name(o.node, "KW_TEXT_COUNT"), a = Number(this.get_string(s));
+if (n && r && i && a && a > 0 && r > 0 && i.childrenCount < p.default.BALL_COMPOSE_COUNT) {
+a -= 1;
+this.set_string(this.seek_child_by_name(o.node, "KW_TEXT_COUNT"), String(a));
+var c = cc.instantiate(e.target);
+i.addChild(c);
+c.y = 0;
+this.set_string(this.seek_child_by_name(c, "KW_TEXT_COUNT"), "1");
+this.add_click_evenet_with_data(c, "on_click_ball_unselect", t);
 this.set_visible(this.view.KW_TEXT_TITLE_UNDO, !0);
 }
 }
@@ -481,10 +481,10 @@ var n = this.view.KW_SCROLLVIEW_NEW, r = this.seek_child_by_name(n, "KW_LAYOUT")
 if (r) {
 var i = r.children;
 for (var s in i) {
-var c = i[s], a = c.info_obj;
-if (a && a.level == t.level && a.count == t.count) {
-var u = this.get_string(this.seek_child_by_name(c, "KW_TEXT_COUNT")), l = Number(u) + 1;
-this.set_string(this.seek_child_by_name(c, "KW_TEXT_COUNT"), String(l));
+var a = i[s], c = a.info_obj;
+if (c && c.level == t.level && c.count == t.count) {
+var u = this.get_string(this.seek_child_by_name(a, "KW_TEXT_COUNT")), l = Number(u) + 1;
+this.set_string(this.seek_child_by_name(a, "KW_TEXT_COUNT"), String(l));
 e.target.destroy();
 break;
 }
@@ -672,13 +672,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../framework/uibase/UIDialog"), s = cc._decorator, c = s.ccclass, a = (s.property, 
+var i = e("../../framework/uibase/UIDialog"), s = cc._decorator, a = s.ccclass, c = (s.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -746,9 +746,9 @@ t.prototype.on_click_right = function(e) {
 this._rightBtnCallback && this._rightBtnCallback();
 this.close();
 };
-return t = r([ c ], t);
+return t = r([ a ], t);
 }(i.default));
-o.default = a;
+o.default = c;
 cc._RF.pop();
 }, {
 "../../framework/uibase/UIDialog": "UIDialog"
@@ -808,7 +808,7 @@ n++;
 }
 }
 static read_utf8(e, t, o) {
-let n, r, i, s, c, a;
+let n, r, i, s, a, c;
 n = "";
 i = t + o;
 r = t;
@@ -829,17 +829,17 @@ break;
 
 case 12:
 case 13:
-c = e.getUint8(r);
+a = e.getUint8(r);
 r++;
-n += String.fromCharCode((31 & s) << 6 | 63 & c);
+n += String.fromCharCode((31 & s) << 6 | 63 & a);
 break;
 
 case 14:
-c = e.getUint8(r);
-r++;
 a = e.getUint8(r);
 r++;
-n += String.fromCharCode((15 & s) << 12 | (63 & c) << 6 | (63 & a) << 0);
+c = e.getUint8(r);
+r++;
+n += String.fromCharCode((15 & s) << 12 | (63 & a) << 6 | (63 & c) << 0);
 }
 }
 return n;
@@ -1024,13 +1024,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../../../framework/uibase/UIController"), s = cc._decorator, c = s.ccclass, a = (s.property, 
+var i = e("../../../../framework/uibase/UIController"), s = cc._decorator, a = s.ccclass, c = (s.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -1053,9 +1053,9 @@ t.prototype.close_phy = function() {
 cc.director.getPhysicsManager().enabled = !1;
 cc.director.getPhysicsManager().debugDrawFlags = 0;
 };
-return t = r([ c ], t);
+return t = r([ a ], t);
 }(i.default));
-o.default = a;
+o.default = c;
 cc._RF.pop();
 }, {
 "../../../../framework/uibase/UIController": "UIController"
@@ -1142,6 +1142,8 @@ e.REMOTE_IP = "www.hccfun.com";
 e.REMOTE_WECHAT_PORT = "6081";
 e.NATIVE_PLATFORM_PORT = "6061";
 e.PROTO_TYPE = n.default.PROTO_BUF;
+e.REMORE_HTTP_PORT = "7000";
+e.HOT_UPDATE_ADDRESS = "http://" + e.LOCAL_HOST + ":" + e.REMORE_HTTP_PORT;
 return e;
 }();
 o.default = r;
@@ -1171,13 +1173,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../framework/utils/Log"), s = e("../framework/manager/SceneManager"), c = e("./scene/hotfixScene/HotFixScene"), a = e("../framework/manager/EventManager"), u = e("../framework/config/EventDefine"), l = e("../framework/network/NetWork"), f = e("../framework/manager/DialogManager"), d = e("../framework/config/PlatForm"), p = cc._decorator, h = p.ccclass, _ = (p.property, 
+var i = e("../framework/utils/Log"), s = e("../framework/manager/SceneManager"), a = e("./scene/hotfixScene/HotFixScene"), c = e("../framework/manager/EventManager"), u = e("../framework/config/EventDefine"), l = e("../framework/network/NetWork"), f = e("../framework/manager/DialogManager"), d = e("../framework/config/PlatForm"), p = cc._decorator, h = p.ccclass, _ = (p.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -1185,14 +1187,14 @@ return null !== e && e.apply(this, arguments) || this;
 }
 t.prototype.onLoad = function() {
 this.node.addComponent("EnablePhysics");
-a.default.on(u.default.EVENT_NET_CONNECTED, this, this.on_net_connected.bind(this));
-a.default.on(u.default.EVENT_NET_CLOSED, this, this.on_net_closed.bind(this));
-a.default.on(u.default.EVENT_NET_ERROR, this, this.on_net_error.bind(this));
+c.default.on(u.default.EVENT_NET_CONNECTED, this, this.on_net_connected.bind(this));
+c.default.on(u.default.EVENT_NET_CLOSED, this, this.on_net_closed.bind(this));
+c.default.on(u.default.EVENT_NET_ERROR, this, this.on_net_error.bind(this));
 l.default.getInstance().connect();
 cc.debug.setDisplayStats(!1);
 };
 t.prototype.start = function() {
-var e = new c.default();
+var e = new a.default();
 s.default.getInstance().enter_scene_asyc(e);
 d.default.printPlatForm();
 this.test_func();
@@ -1212,10 +1214,7 @@ t.prototype.on_net_error = function(e) {
 i.default.info("GameApp hcc>>>on_net_error");
 f.default.getInstance().show_weak_hint("网络断开!");
 };
-t.prototype.test_func = function() {
-cc.log("hcc>>yuming: ", d.default.getCurDomain());
-cc.js.getClassByName("");
-};
+t.prototype.test_func = function() {};
 return t = r([ h ], t);
 }(cc.Component));
 o.default = _;
@@ -1276,13 +1275,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../../../framework/uibase/UIController"), s = cc._decorator, c = s.ccclass, a = (s.property, 
+var i = e("../../../../framework/uibase/UIController"), s = cc._decorator, a = s.ccclass, c = (s.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -1295,9 +1294,9 @@ this.add_script("GameHoodleRecvMsg");
 this.add_script("GameHoodleShowUI");
 };
 t.prototype.start = function() {};
-return t = r([ c ], t);
+return t = r([ a ], t);
 }(i.default));
-o.default = a;
+o.default = c;
 cc._RF.pop();
 }, {
 "../../../../framework/uibase/UIController": "UIController"
@@ -1428,13 +1427,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../../../framework/uibase/UIController"), s = e("../../../../framework/manager/EventManager"), c = e("../../../../framework/protocol/GameHoodleProto"), a = e("./GameHoodleData"), u = e("../../../../framework/protocol/Response"), l = e("../../../common/RoomData"), f = e("./HoodleBallManager"), d = e("../../../../framework/manager/DialogManager"), p = cc._decorator, h = p.ccclass, _ = (p.property, 
+var i = e("../../../../framework/uibase/UIController"), s = e("../../../../framework/manager/EventManager"), a = e("../../../../framework/protocol/GameHoodleProto"), c = e("./GameHoodleData"), u = e("../../../../framework/protocol/Response"), l = e("../../../common/RoomData"), f = e("./HoodleBallManager"), d = e("../../../../framework/manager/DialogManager"), p = cc._decorator, h = p.ccclass, _ = (p.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -1447,14 +1446,14 @@ t.prototype.start = function() {
 this.add_event_dispatcher();
 };
 t.prototype.add_event_dispatcher = function() {
-s.default.on(c.CmdName[c.Cmd.eGameStartRes], this, this.on_event_game_start);
-s.default.on(c.CmdName[c.Cmd.ePlayerFirstBallPosRes], this, this.on_event_first_ball_pos);
-s.default.on(c.CmdName[c.Cmd.ePlayerPowerRes], this, this.on_event_player_power);
-s.default.on(c.CmdName[c.Cmd.ePlayerShootRes], this, this.on_event_player_shoot);
-s.default.on(c.CmdName[c.Cmd.ePlayerBallPosRes], this, this.on_event_ball_pos);
-s.default.on(c.CmdName[c.Cmd.ePlayerIsShootedRes], this, this.on_event_player_is_shooted);
-s.default.on(c.CmdName[c.Cmd.eGameResultRes], this, this.on_event_game_result);
-s.default.on(c.CmdName[c.Cmd.eTotalGameResultRes], this, this.on_event_game_total_result);
+s.default.on(a.CmdName[a.Cmd.eGameStartRes], this, this.on_event_game_start);
+s.default.on(a.CmdName[a.Cmd.ePlayerFirstBallPosRes], this, this.on_event_first_ball_pos);
+s.default.on(a.CmdName[a.Cmd.ePlayerPowerRes], this, this.on_event_player_power);
+s.default.on(a.CmdName[a.Cmd.ePlayerShootRes], this, this.on_event_player_shoot);
+s.default.on(a.CmdName[a.Cmd.ePlayerBallPosRes], this, this.on_event_ball_pos);
+s.default.on(a.CmdName[a.Cmd.ePlayerIsShootedRes], this, this.on_event_player_is_shooted);
+s.default.on(a.CmdName[a.Cmd.eGameResultRes], this, this.on_event_game_result);
+s.default.on(a.CmdName[a.Cmd.eTotalGameResultRes], this, this.on_event_game_total_result);
 };
 t.prototype.on_event_game_start = function(e) {
 var t = this.get_script("GameHoodleShowUI");
@@ -1469,8 +1468,8 @@ var t = e.getUserData();
 if (t) {
 var o = t.positions;
 for (var n in o) {
-var r = o[n], i = r.seatid, s = r.posx, c = r.posy;
-this.get_script("GameHoodleShowUI").set_ball_pos(i, Number(s), Number(c));
+var r = o[n], i = r.seatid, s = r.posx, a = r.posy;
+this.get_script("GameHoodleShowUI").set_ball_pos(i, Number(s), Number(a));
 }
 }
 };
@@ -1480,10 +1479,10 @@ if (t) {
 var o = t.powers;
 for (var n in o) {
 var r = o[n], i = r.seatid, s = r.power;
-a.default.getInstance().set_power(i, s);
-var c = f.default.getInstance().get_ball(i);
-if (c) {
-var u = c.getComponent("HoodleBallCtrl");
+c.default.getInstance().set_power(i, s);
+var a = f.default.getInstance().get_ball(i);
+if (a) {
+var u = a.getComponent("HoodleBallCtrl");
 u && u.set_shoot_power_ui(s);
 }
 }
@@ -1495,8 +1494,8 @@ if (t) {
 if (t.status == u.default.OK) {
 var o = t.seatid, n = Number(t.posx), r = Number(t.posy), i = Number(t.shootpower), s = this.view.KW_GAME_TABLE;
 if (!s) return;
-var c = s.convertToWorldSpaceAR(cc.v2(n, r)), a = this.get_script("GameHoodleShowUI");
-a && a.show_player_shoot(o, c.x, c.y, i);
+var a = s.convertToWorldSpaceAR(cc.v2(n, r)), c = this.get_script("GameHoodleShowUI");
+c && c.show_player_shoot(o, a.x, a.y, i);
 }
 }
 };
@@ -1506,8 +1505,8 @@ if (t) {
 if (t.status == u.default.OK) {
 var o = t.positions;
 for (var n in o) {
-var r = o[n], i = r.seatid, s = Number(r.posx), c = Number(r.posy);
-this.get_script("GameHoodleShowUI").set_ball_pos(i, s, c);
+var r = o[n], i = r.seatid, s = Number(r.posx), a = Number(r.posy);
+this.get_script("GameHoodleShowUI").set_ball_pos(i, s, a);
 }
 }
 }
@@ -1531,7 +1530,7 @@ t.prototype.on_event_game_total_result = function(e) {
 console.log("hcc>>on_event_game_total_result", e.getUserData());
 var t = e.getUserData(), o = "";
 if (t) for (var n = t.scores, r = t.golds, i = 0; i < n.length; i++) {
-var s = n[i], c = r[i], a = s.seatid, u = Number(s.score), f = Number(c.gold), p = l.default.getInstance().get_player(a);
+var s = n[i], a = r[i], c = s.seatid, u = Number(s.score), f = Number(a.gold), p = l.default.getInstance().get_player(c);
 if (p) {
 var h = p.get_uname();
 o = o + h + ": 分数 " + (u > 0 ? "+" + u : u) + "   金币:" + (f > 0 ? "+" + f : f) + "\n";
@@ -1589,18 +1588,18 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../../../framework/uibase/UIController"), s = e("../../../../framework/common/UIFunciton"), c = e("../../../common/RoomData"), a = e("./HoodleBallManager"), u = e("../../../../framework/config/GameHoodleConfig"), l = cc._decorator, f = l.ccclass, d = (l.property, 
+var i = e("../../../../framework/uibase/UIController"), s = e("../../../../framework/common/UIFunciton"), a = e("../../../common/RoomData"), c = e("./HoodleBallManager"), u = e("../../../../framework/config/GameHoodleConfig"), l = cc._decorator, f = l.ccclass, d = (l.property, 
 function(e) {
 n(t, e);
 function t() {
 var t = null !== e && e.apply(this, arguments) || this;
-t._hoodleManager = a.default.getInstance();
+t._hoodleManager = c.default.getInstance();
 t._percent_control = 1;
 return t;
 }
@@ -1611,14 +1610,14 @@ this.set_power_percent_visible(!1);
 };
 t.prototype.start = function() {};
 t.prototype.show_all_ball = function() {
-var e = c.default.getInstance().get_all_player();
+var e = a.default.getInstance().get_all_player();
 for (var t in e) {
 var o = e[t];
 this.boarn_ball(o);
 }
 };
 t.prototype.clear_all_ball = function() {
-var e = c.default.getInstance().get_all_player();
+var e = a.default.getInstance().get_all_player();
 for (var t in e) {
 var o = e[t];
 o && this._hoodleManager.delete_ball(o.get_seatid());
@@ -1757,13 +1756,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../../../framework/uibase/UIController"), s = e("../../../common/RoomData"), c = e("./GameHoodleData"), a = e("../sendMsg/GameSendGameHoodle"), u = e("../../../common/State"), l = e("../../../../framework/manager/DialogManager"), f = e("./HoodleBallManager"), d = e("../../../../framework/config/GameHoodleConfig"), p = cc._decorator, h = p.ccclass, _ = (p.property, 
+var i = e("../../../../framework/uibase/UIController"), s = e("../../../common/RoomData"), a = e("./GameHoodleData"), c = e("../sendMsg/GameSendGameHoodle"), u = e("../../../common/State"), l = e("../../../../framework/manager/DialogManager"), f = e("./HoodleBallManager"), d = e("../../../../framework/config/GameHoodleConfig"), p = cc._decorator, h = p.ccclass, _ = (p.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -1786,7 +1785,7 @@ this._graphic_line.node.on(cc.Node.EventType.TOUCH_CANCEL, this.onTouchEnd, this
 };
 t.prototype.can_shoot = function() {
 if (d.default.IS_TEST_BALL) return !0;
-if (c.default.getInstance().get_power(s.default.getInstance().get_self_seatid()) != u.PlayerPower.canPlay) return !1;
+if (a.default.getInstance().get_power(s.default.getInstance().get_self_seatid()) != u.PlayerPower.canPlay) return !1;
 var e = f.default.getInstance().get_all_ball();
 for (var t in e) {
 var o = e[t];
@@ -1831,10 +1830,10 @@ var n = o.convertToNodeSpaceAR(t), r = this.get_self_ball();
 if (r) {
 var i = r.getComponent("HoodleBallCtrl");
 if (i) {
-var c = this.get_shoot_pwer();
-i.shoot_at(t, c);
+var a = this.get_shoot_pwer();
+i.shoot_at(t, a);
 i.set_src_shoot_seatid(s.default.getInstance().get_self_seatid());
-a.default.send_player_shoot(s.default.getInstance().get_self_seatid(), n.x, n.y, c);
+c.default.send_player_shoot(s.default.getInstance().get_self_seatid(), n.x, n.y, a);
 }
 }
 }
@@ -1848,9 +1847,9 @@ var n = e.add(t.mul(o)), r = cc.director.getPhysicsManager().rayCast(e, n, cc.Ra
 if (r.length > 0) {
 var i = r[0], s = i.point;
 this.drawAimLine(e, s);
-var c = s.sub(e).mag();
-this._cur_length += c;
-var a = i.normal, u = t, l = u.sub(a.mul(2 * u.dot(a)));
+var a = s.sub(e).mag();
+this._cur_length += a;
+var c = i.normal, u = t, l = u.sub(c.mul(2 * u.dot(c)));
 this.drawRayCast(s, l);
 } else this.drawAimLine(e, n);
 }
@@ -1916,13 +1915,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../framework/uibase/UIDialog"), s = cc._decorator, c = s.ccclass, a = (s.property, 
+var i = e("../../framework/uibase/UIDialog"), s = cc._decorator, a = s.ccclass, c = (s.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -1960,9 +1959,9 @@ this.close();
 t.prototype.onKeyDown = function(t) {
 e.prototype.onKeyDown.call(this, t);
 };
-return t = r([ c ], t);
+return t = r([ a ], t);
 }(i.default));
-o.default = a;
+o.default = c;
 cc._RF.pop();
 }, {
 "../../framework/uibase/UIDialog": "UIDialog"
@@ -1989,13 +1988,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../../framework/uibase/UIController"), s = cc._decorator, c = s.ccclass, a = (s.property, 
+var i = e("../../../framework/uibase/UIController"), s = cc._decorator, a = s.ccclass, c = (s.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -2010,9 +2009,9 @@ this.add_script("GameSceneRecvAuthMsg");
 this.add_script("GameSceneInit");
 };
 t.prototype.start = function() {};
-return t = r([ c ], t);
+return t = r([ a ], t);
 }(i.default));
-o.default = a;
+o.default = c;
 cc._RF.pop();
 }, {
 "../../../framework/uibase/UIController": "UIController"
@@ -2039,13 +2038,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../../framework/uibase/UIController"), s = e("./sendMsg/GameSendGameHoodle"), c = cc._decorator, a = c.ccclass, u = (c.property, 
+var i = e("../../../framework/uibase/UIController"), s = e("./sendMsg/GameSendGameHoodle"), a = cc._decorator, c = a.ccclass, u = (a.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -2057,7 +2056,7 @@ e.prototype.onLoad.call(this);
 t.prototype.start = function() {
 s.default.send_check_link_game();
 };
-return t = r([ a ], t);
+return t = r([ c ], t);
 }(i.default));
 o.default = u;
 cc._RF.pop();
@@ -2087,13 +2086,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../../framework/uibase/UIController"), s = e("../../../framework/manager/EventManager"), c = e("../../../framework/protocol/AuthProto"), a = e("../../../framework/protocol/Response"), u = e("../../../framework/manager/SceneManager"), l = e("../LoginScene/LoginScene"), f = e("../../../framework/utils/Storage"), d = e("../../../framework/config/LSDefine"), p = e("../../../framework/manager/DialogManager"), h = e("../../../framework/config/EventDefine"), _ = e("../LoginScene/sendMsg/LoginSendAuthMsg"), g = e("../lobbyScene/sendMsg/LobbySendGameHoodle"), y = cc._decorator, m = y.ccclass, v = (y.property, 
+var i = e("../../../framework/uibase/UIController"), s = e("../../../framework/manager/EventManager"), a = e("../../../framework/protocol/AuthProto"), c = e("../../../framework/protocol/Response"), u = e("../../../framework/manager/SceneManager"), l = e("../LoginScene/LoginScene"), f = e("../../../framework/utils/Storage"), d = e("../../../framework/config/LSDefine"), p = e("../../../framework/manager/DialogManager"), h = e("../../../framework/config/EventDefine"), _ = e("../LoginScene/sendMsg/LoginSendAuthMsg"), g = e("../lobbyScene/sendMsg/LobbySendGameHoodle"), y = cc._decorator, m = y.ccclass, v = (y.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -2107,9 +2106,9 @@ this.add_event_dispatcher();
 };
 t.prototype.add_event_dispatcher = function() {
 s.default.on(h.default.EVENT_NET_CONNECTED, this, this.on_net_connected);
-s.default.on(c.CmdName[c.Cmd.eUnameLoginRes], this, this.on_event_uname_login);
-s.default.on(c.CmdName[c.Cmd.eGuestLoginRes], this, this.on_event_guest_login);
-s.default.on(c.CmdName[c.Cmd.eReloginRes], this, this.on_event_relogin);
+s.default.on(a.CmdName[a.Cmd.eUnameLoginRes], this, this.on_event_uname_login);
+s.default.on(a.CmdName[a.Cmd.eGuestLoginRes], this, this.on_event_guest_login);
+s.default.on(a.CmdName[a.Cmd.eReloginRes], this, this.on_event_relogin);
 };
 t.prototype.on_net_connected = function(e) {
 var t = f.default.get(d.default.USER_LOGIN_TYPE);
@@ -2124,7 +2123,7 @@ n && _.default.send_guest_login(n);
 t.prototype.on_event_guest_login = function(e) {
 var t = e.getUserData();
 cc.log("guestlogin udata: ", t);
-if (t.status == a.default.OK) {
+if (t.status == c.default.OK) {
 try {
 var o = JSON.parse(t.userlogininfo);
 f.default.set(d.default.USER_LOGIN_TYPE, d.default.LOGIN_TYPE_GUEST);
@@ -2140,7 +2139,7 @@ p.default.getInstance().show_weak_hint("游客登录成功!");
 t.prototype.on_event_uname_login = function(e) {
 var t = e.getUserData();
 cc.log("unamelogin udata: ", t);
-if (t.status == a.default.OK) {
+if (t.status == c.default.OK) {
 try {
 var o = JSON.parse(t.userlogininfo);
 f.default.set(d.default.USER_LOGIN_TYPE, d.default.LOGIN_TYPE_UNAME);
@@ -2201,13 +2200,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../../framework/uibase/UIController"), s = e("../../../framework/manager/EventManager"), c = e("../../../framework/protocol/GameHoodleProto"), a = e("../../../framework/protocol/Response"), u = e("../../../framework/manager/SceneManager"), l = e("../../../framework/manager/DialogManager"), f = e("../lobbyScene/LobbyScene"), d = e("../../common/RoomData"), p = e("../../common/State"), h = cc._decorator, _ = h.ccclass, g = (h.property, 
+var i = e("../../../framework/uibase/UIController"), s = e("../../../framework/manager/EventManager"), a = e("../../../framework/protocol/GameHoodleProto"), c = e("../../../framework/protocol/Response"), u = e("../../../framework/manager/SceneManager"), l = e("../../../framework/manager/DialogManager"), f = e("../lobbyScene/LobbyScene"), d = e("../../common/RoomData"), p = e("../../common/State"), h = cc._decorator, _ = h.ccclass, g = (h.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -2220,21 +2219,21 @@ t.prototype.start = function() {
 this.add_event_dispatcher();
 };
 t.prototype.add_event_dispatcher = function() {
-s.default.on(c.CmdName[c.Cmd.eLoginLogicRes], this, this.on_event_login_logic);
-s.default.on(c.CmdName[c.Cmd.eDessolveRes], this, this.on_event_dessolve);
-s.default.on(c.CmdName[c.Cmd.eJoinRoomRes], this, this.on_event_exit_room);
-s.default.on(c.CmdName[c.Cmd.eCheckLinkGameRes], this, this.on_event_check_link);
-s.default.on(c.CmdName[c.Cmd.eUserInfoRes], this, this.on_event_user_info);
-s.default.on(c.CmdName[c.Cmd.eGameRuleRes], this, this.on_event_game_rule);
-s.default.on(c.CmdName[c.Cmd.eRoomIdRes], this, this.on_event_room_id);
-s.default.on(c.CmdName[c.Cmd.ePlayCountRes], this, this.on_event_play_count);
-s.default.on(c.CmdName[c.Cmd.eUserReadyRes], this, this.on_event_user_ready);
-s.default.on(c.CmdName[c.Cmd.eGameStartRes], this, this.on_event_game_start);
-s.default.on(c.CmdName[c.Cmd.eGameEndRes], this, this.on_event_game_end);
-s.default.on(c.CmdName[c.Cmd.eUserOfflineRes], this, this.on_event_user_offline);
-s.default.on(c.CmdName[c.Cmd.ePlayerScoreRes], this, this.on_event_play_score);
-s.default.on(c.CmdName[c.Cmd.eGameResultRes], this, this.on_event_game_result);
-s.default.on(c.CmdName[c.Cmd.eTotalGameResultRes], this, this.on_event_game_total_result);
+s.default.on(a.CmdName[a.Cmd.eLoginLogicRes], this, this.on_event_login_logic);
+s.default.on(a.CmdName[a.Cmd.eDessolveRes], this, this.on_event_dessolve);
+s.default.on(a.CmdName[a.Cmd.eJoinRoomRes], this, this.on_event_exit_room);
+s.default.on(a.CmdName[a.Cmd.eCheckLinkGameRes], this, this.on_event_check_link);
+s.default.on(a.CmdName[a.Cmd.eUserInfoRes], this, this.on_event_user_info);
+s.default.on(a.CmdName[a.Cmd.eGameRuleRes], this, this.on_event_game_rule);
+s.default.on(a.CmdName[a.Cmd.eRoomIdRes], this, this.on_event_room_id);
+s.default.on(a.CmdName[a.Cmd.ePlayCountRes], this, this.on_event_play_count);
+s.default.on(a.CmdName[a.Cmd.eUserReadyRes], this, this.on_event_user_ready);
+s.default.on(a.CmdName[a.Cmd.eGameStartRes], this, this.on_event_game_start);
+s.default.on(a.CmdName[a.Cmd.eGameEndRes], this, this.on_event_game_end);
+s.default.on(a.CmdName[a.Cmd.eUserOfflineRes], this, this.on_event_user_offline);
+s.default.on(a.CmdName[a.Cmd.ePlayerScoreRes], this, this.on_event_play_score);
+s.default.on(a.CmdName[a.Cmd.eGameResultRes], this, this.on_event_game_result);
+s.default.on(a.CmdName[a.Cmd.eTotalGameResultRes], this, this.on_event_game_total_result);
 };
 t.prototype.on_event_login_logic = function(e) {
 var t = e.getUserData();
@@ -2242,7 +2241,7 @@ cc.log("hcc>>on_event_login_logic>>udata: ", t);
 };
 t.prototype.on_event_dessolve = function(e) {
 var t = e.getUserData();
-if (t) if (t.status == a.default.OK) {
+if (t) if (t.status == c.default.OK) {
 l.default.getInstance().show_weak_hint("房间已解散!");
 u.default.getInstance().enter_scene_asyc(new f.default());
 d.default.getInstance().clear_room_data();
@@ -2251,13 +2250,13 @@ d.default.getInstance().clear_room_data();
 t.prototype.on_event_exit_room = function(e) {
 var t = e.getUserData();
 if (t) {
-t.status == a.default.OK ? l.default.getInstance().show_weak_hint("退出房间成功!") : l.default.getInstance().show_weak_hint("退出房间失败!");
+t.status == c.default.OK ? l.default.getInstance().show_weak_hint("退出房间成功!") : l.default.getInstance().show_weak_hint("退出房间失败!");
 }
 };
 t.prototype.on_event_check_link = function(e) {
 var t = e.getUserData();
 if (t) {
-t.status == a.default.OK ? l.default.getInstance().show_weak_hint("进入游戏成功!") : l.default.getInstance().show_weak_hint("进入游戏失败!");
+t.status == c.default.OK ? l.default.getInstance().show_weak_hint("进入游戏成功!") : l.default.getInstance().show_weak_hint("进入游戏失败!");
 }
 };
 t.prototype.on_event_user_info = function(e) {
@@ -2305,9 +2304,9 @@ var t = e.getUserData();
 if (t) {
 var o = t.scores, n = "";
 for (var r in o) {
-var i = o[r], s = i.score, c = d.default.getInstance().get_player(i.seatid);
-if (c) {
-n += c.get_uname() + ": " + s + "\n";
+var i = o[r], s = i.score, a = d.default.getInstance().get_player(i.seatid);
+if (a) {
+n += a.get_uname() + ": " + s + "\n";
 }
 }
 console.log("hcc>>score_str: ", n);
@@ -2329,7 +2328,7 @@ cc.log("on_event_user_ready", t);
 if (t) {
 var o = t.status, n = t.seatid;
 t.userstate;
-if (o == a.default.OK) {
+if (o == c.default.OK) {
 var r = d.default.getInstance().get_player(n);
 if (r) {
 r.set_user_state(p.UserState.Ready);
@@ -2399,13 +2398,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../../framework/uibase/UIController"), s = e("../../common/State"), c = e("../../common/RoomData"), a = e("../../../framework/common/UIFunciton"), u = e("../../../framework/manager/ResourceManager"), l = cc._decorator, f = l.ccclass, d = (l.property, 
+var i = e("../../../framework/uibase/UIController"), s = e("../../common/State"), a = e("../../common/RoomData"), c = e("../../../framework/common/UIFunciton"), u = e("../../../framework/manager/ResourceManager"), l = cc._decorator, f = l.ccclass, d = (l.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -2454,7 +2453,7 @@ this.set_visible(e.getChildByName("KW_IMG_OFFINLE"), t.isoffline);
 this.set_visible(e.getChildByName("KW_IMG_MASTER"), 1 == t.ishost);
 this.set_visible(e.getChildByName("KW_IMG_READY"), t.userstate == s.UserState.Ready);
 this.set_visible(e.getChildByName("KW_TEXT_GOLD"), !0);
-if (Number(t.seatid) == Number(c.default.getInstance().get_self_seatid())) {
+if (Number(t.seatid) == Number(a.default.getInstance().get_self_seatid())) {
 var n = Number(t.userstate);
 n == s.UserState.Ready || n == s.UserState.Playing ? this.set_visible(this.view.KW_BTN_READY, !1) : this.set_visible(this.view.KW_BTN_READY, !0);
 }
@@ -2470,11 +2469,11 @@ if (o) {
 var n = "KW_PANEL_USER_INFO_" + e, r = o.getChildByName(n);
 r && this.set_visible(r.getChildByName("KW_IMG_READY"), t);
 }
-e == c.default.getInstance().get_self_seatid() && this.set_visible(this.view.KW_BTN_READY, !1);
+e == a.default.getInstance().get_self_seatid() && this.set_visible(this.view.KW_BTN_READY, !1);
 };
 t.prototype.show_gamehoodle = function(e) {
 if (this._gamehoodle) this._gamehoodle.active = e; else {
-this._gamehoodle = a.default.getInstance().add_prefab_to_node(this.view.KW_GAME_NODE, "ui_prefabs/games/GameHoodle", "GameHoodleCtrl");
+this._gamehoodle = c.default.getInstance().add_prefab_to_node(this.view.KW_GAME_NODE, "ui_prefabs/games/GameHoodle", "GameHoodleCtrl");
 this._gamehoodle && (this._gamehoodle.active = e);
 }
 };
@@ -2516,13 +2515,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../../framework/uibase/UIController"), s = e("../../../framework/manager/DialogManager"), c = e("./sendMsg/GameSendGameHoodle"), a = e("../../../framework/manager/SceneManager"), u = e("../lobbyScene/LobbyScene"), l = cc._decorator, f = l.ccclass, d = (l.property, 
+var i = e("../../../framework/uibase/UIController"), s = e("../../../framework/manager/DialogManager"), a = e("./sendMsg/GameSendGameHoodle"), c = e("../../../framework/manager/SceneManager"), u = e("../lobbyScene/LobbyScene"), l = cc._decorator, f = l.ccclass, d = (l.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -2556,10 +2555,10 @@ t.set_score_text("text1111:+1\ntest2222:-1");
 });
 };
 t.prototype.on_click_ready = function(e) {
-c.default.send_user_ready();
+a.default.send_user_ready();
 };
 t.prototype.on_click_back_lobby = function(e) {
-a.default.getInstance().enter_scene_asyc(new u.default());
+c.default.getInstance().enter_scene_asyc(new u.default());
 };
 return t = r([ f ], t);
 }(i.default));
@@ -2621,7 +2620,7 @@ cc._RF.push(t, "2b503CZ0fNM965bUcLteNQu", "GameSendGameHoodle");
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var n = e("../../../../framework/network/NetWork"), r = e("../../../../framework/protocol/Stype"), i = e("../../../../framework/protocol/GameHoodleProto"), s = e("../../../../framework/config/GameHoodleConfig"), c = e("../../../../framework/utils/ArrayUtil"), a = function() {
+var n = e("../../../../framework/network/NetWork"), r = e("../../../../framework/protocol/Stype"), i = e("../../../../framework/protocol/GameHoodleProto"), s = e("../../../../framework/config/GameHoodleConfig"), a = e("../../../../framework/utils/ArrayUtil"), c = function() {
 function e() {}
 e.send = function(e, t) {
 n.default.getInstance().send_msg(r.Stype.GameHoodle, e, t);
@@ -2660,7 +2659,7 @@ e.send_store_list_req = function() {
 e.send(i.Cmd.eStoreListReq);
 };
 e.send_buy_product = function(t) {
-!t || c.default.GetArrayLen(t) <= 0 || e.send(i.Cmd.eBuyThingsReq, t);
+!t || a.default.GetArrayLen(t) <= 0 || e.send(i.Cmd.eBuyThingsReq, t);
 };
 e.send_player_shoot = function(t, o, n, r) {
 var s = {
@@ -2686,7 +2685,7 @@ e.send(i.Cmd.ePlayerIsShootedReq, n);
 };
 return e;
 }();
-o.default = a;
+o.default = c;
 cc._RF.pop();
 }, {
 "../../../../framework/config/GameHoodleConfig": "GameHoodleConfig",
@@ -2717,13 +2716,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../../../framework/uibase/UIController"), s = e("../../../common/State"), c = e("../sendMsg/GameSendGameHoodle"), a = e("./GameHoodleData"), u = e("../../../common/RoomData"), l = cc._decorator, f = l.ccclass, d = (l.property, 
+var i = e("../../../../framework/uibase/UIController"), s = e("../../../common/State"), a = e("../sendMsg/GameSendGameHoodle"), c = e("./GameHoodleData"), u = e("../../../common/RoomData"), l = cc._decorator, f = l.ccclass, d = (l.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -2744,9 +2743,9 @@ t.prototype.shoot_at = function(e, t) {
 t || (t = 50);
 var o = this.node.parent.convertToNodeSpaceAR(e), n = cc.v2(this.node.x, this.node.y), r = o.sub(n);
 if (this._rigid_body) {
-var i = r.normalizeSelf(), s = 380 * i.x * t, c = 380 * i.y * t;
-console.log("hcc>>shoot_at: ", s, c, " ,power: ", t);
-this._rigid_body.applyLinearImpulse(cc.v2(s, c), this.node.convertToWorldSpaceAR(cc.v2(0, 0)), !0);
+var i = r.normalizeSelf(), s = 380 * i.x * t, a = 380 * i.y * t;
+console.log("hcc>>shoot_at: ", s, a, " ,power: ", t);
+this._rigid_body.applyLinearImpulse(cc.v2(s, a), this.node.convertToWorldSpaceAR(cc.v2(0, 0)), !0);
 }
 };
 t.prototype.set_name = function(e) {
@@ -2781,7 +2780,7 @@ var n = -1, r = -1, i = t.getComponent("HoodleBallCtrl"), l = o.getComponent("Ho
 if (i && l && i.get_ball_id && l.get_ball_id) {
 var f = i.get_ball_id(), d = l.get_ball_id();
 console.log("hcc>>selfballid: ", f, " ,otherballid: ", d);
-var p = a.default.getInstance().get_power(f), h = a.default.getInstance().get_power(d);
+var p = c.default.getInstance().get_power(f), h = c.default.getInstance().get_power(d);
 if (f == this.get_src_shoot_seatid()) {
 n = f;
 r = d;
@@ -2791,7 +2790,7 @@ r = f;
 }
 var _ = u.default.getInstance().get_player(n), g = u.default.getInstance().get_player(r);
 console.log("hcc>>src_player:", _.get_uname(), " ,des_player: ", g.get_uname());
--1 != n && -1 != r && c.default.send_player_is_shooted(n, r);
+-1 != n && -1 != r && a.default.send_player_is_shooted(n, r);
 var y = t.getComponent(cc.MotionStreak), m = t.getComponent(cc.MotionStreak);
 if (y && m) if (p == s.PlayerPower.canPlay) {
 y.enabled = !0;
@@ -2818,7 +2817,7 @@ posx: String(this.node.getPosition().x),
 posy: String(this.node.getPosition().y)
 };
 t.push(o);
-c.default.send_all_player_ball_pos(t);
+a.default.send_all_player_ball_pos(t);
 }
 }
 if (this._rigid_body) {
@@ -2899,19 +2898,19 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../../framework/uibase/UIController"), s = e("../../../framework/manager/ResourceManager"), c = e("../../../framework/utils/StringUtil"), a = e("../../../framework/manager/SceneManager"), u = e("../LoginScene/LoginScene"), l = cc._decorator, f = l.ccclass, d = (l.property, 
+var i = e("../../../framework/uibase/UIController"), s = e("../../../framework/manager/ResourceManager"), a = e("../../../framework/utils/StringUtil"), c = e("../../../framework/manager/SceneManager"), u = e("../LoginScene/LoginScene"), l = e("../../../framework/hotfix/HotUpdateNew"), f = cc._decorator, d = f.ccclass, p = (f.property, 
 function(e) {
 n(t, e);
 function t() {
 var t = null !== e && e.apply(this, arguments) || this;
 t._progressbar = null;
-t._urlArray = [ "ui_prefabs/login/", "ui_prefabs/lobby/", "ui_prefabs/dialog/", "ui_prefabs/hotfix/", "ui_prefabs/games/", "textures/lobby/", "textures/dialog/", "config/" ];
+t._urlArray = [ "ui_prefabs/login/", "ui_prefabs/lobby/", "ui_prefabs/dialog/", "ui_prefabs/hotfix/", "ui_prefabs/games/", "textures/lobby/", "textures/dialog/", "mainfest/", "config/" ];
 t._completedFlag = [];
 t._tryTimes = 0;
 t._resourceMap = [];
@@ -2933,7 +2932,7 @@ s.ResourceManager.getInstance().loadResDirAsyc(e, function(e, n, r) {
 if (0 != n) {
 o = e / n;
 t._progressbar.progress = o;
-var i = Math.max(1, 100 * o), s = (c.default.format("%2d", i), "正在载入资源中... " + e + "/" + n);
+var i = Math.max(1, 100 * o), s = (a.default.format("%2d", i), "正在载入资源中... " + e + "/" + n);
 t.set_string(t.view.KW_TEXT_PROGRESS_TIP, s);
 }
 }, function(o, n, r) {
@@ -2953,13 +2952,23 @@ t.enter_login_scene();
 });
 };
 t.prototype.enter_login_scene = function() {
-a.default.getInstance().enter_scene_asyc(new u.default());
+var e = l.default.getInstance();
+e.checkUpdate(function(t) {
+if (t) {
+cc.log("hcc>>enter_login_scene>>is need hotupdate............");
+e.hotUpdateStart();
+e.setUpdateSuccessCallback(function(e) {
+e && c.default.getInstance().enter_scene_asyc(new u.default());
+});
+} else c.default.getInstance().enter_scene_asyc(new u.default());
+});
 };
-return t = r([ f ], t);
+return t = r([ d ], t);
 }(i.default));
-o.default = d;
+o.default = p;
 cc._RF.pop();
 }, {
+"../../../framework/hotfix/HotUpdateNew": "HotUpdateNew",
 "../../../framework/manager/ResourceManager": "ResourceManager",
 "../../../framework/manager/SceneManager": "SceneManager",
 "../../../framework/uibase/UIController": "UIController",
@@ -3009,6 +3018,353 @@ cc._RF.pop();
 }, {
 "../../../framework/uibase/BaseScene": "BaseScene"
 } ],
+HotUpdateNew: [ function(e, t, o) {
+"use strict";
+cc._RF.push(t, "f8f98XsfAdBPKYBs0qJCMd6", "HotUpdateNew");
+Object.defineProperty(o, "__esModule", {
+value: !0
+});
+var n = e("../manager/ResourceManager"), r = JSON.stringify({
+packageUrl: "http://192.168.50.220:5555/tutorial-hot-update/remote-assets/",
+remoteManifestUrl: "http://192.168.50.220:5555/tutorial-hot-update/remote-assets/project.manifest",
+remoteVersionUrl: "http://192.168.50.220:5555/tutorial-hot-update/remote-assets/version.manifest",
+version: "1.10",
+assets: {
+"src/cocos2d-jsb.js": {
+size: 3341465,
+md5: "fafdde66bd0a81d1e096799fb8b7af95"
+}
+},
+searchPaths: []
+}), i = function() {
+function e() {
+this._assetsManager = null;
+this._updating = !1;
+this._canRetry = !1;
+this._manifestUrl = null;
+this._updateSuccessCallback = null;
+this.init();
+}
+e.getInstance = function() {
+return e.instance;
+};
+e.prototype.init = function() {
+var e = this;
+n.ResourceManager.getInstance().loadResAsyc("manifest/project", cc.Asset, function(t, o) {
+if (t) cc.log("hcc>>manifest error: ", t); else {
+e._manifestUrl = o;
+cc.log("hcc>>manifest: ", o.nativeUrl);
+}
+});
+cc.log("hcc>>111111111111");
+if (this.checkPlatForm()) {
+cc.log("hcc>>222222");
+var t = (jsb.fileUtils ? jsb.fileUtils.getWritablePath() : "/") + "hotUpdateCache";
+cc.log("hcc>>Storage path for remote asset : ", t);
+this._assetsManager = new jsb.AssetsManager("", t, this.versionCompareCallback);
+this._assetsManager.setVerifyCallback(this.assetsVerifyCallback);
+cc.log("hcc>>setEventCallback: ", this._assetsManager.setEventCallback);
+cc.sys.os === cc.sys.OS_ANDROID && this._assetsManager.setMaxConcurrentTask(2);
+}
+};
+e.prototype.setUpdateSuccessCallback = function(e) {
+this._updateSuccessCallback = e;
+};
+e.prototype.checkPlatForm = function() {
+if (!cc.sys.isNative) {
+cc.warn("not native platform,can not hotupdate!");
+return !1;
+}
+return !0;
+};
+e.prototype.checkUpdate = function(e) {
+if (this.checkPlatForm()) if (this._manifestUrl) {
+var t = "";
+if (this._updating) {
+t = "Checking or updating ...";
+e(!1);
+} else {
+if (this._assetsManager.getState() === jsb.AssetsManager.State.UNINITED) {
+var o = this._manifestUrl.nativeUrl;
+cc.log("hcc>>_manifestUrl.nativeUrl111: ", o);
+cc.loader.md5Pipe && (o = cc.loader.md5Pipe.transformURL(o));
+cc.log("hcc>>_manifestUrl.nativeUrl222: ", o);
+this._assetsManager.loadLocalManifest(o);
+}
+if (this._assetsManager.getLocalManifest() && this._assetsManager.getLocalManifest().isLoaded()) {
+cc.log("hcc>>checkUpdate: ", t);
+this._assetsManager.setEventCallback(function(t) {
+cc.log("hcc>>checkUpdateCallback,Code: " + t.getEventCode());
+var o = "", n = t.getEventCode();
+switch (n) {
+case jsb.EventAssetsManager.ERROR_NO_LOCAL_MANIFEST:
+o = "No local manifest file found, hot update skipped.";
+break;
+
+case jsb.EventAssetsManager.ERROR_DOWNLOAD_MANIFEST:
+case jsb.EventAssetsManager.ERROR_PARSE_MANIFEST:
+o = "Fail to download manifest file, hot update skipped.";
+break;
+
+case jsb.EventAssetsManager.ALREADY_UP_TO_DATE:
+o = "Already up to date with the latest remote version.";
+break;
+
+case jsb.EventAssetsManager.NEW_VERSION_FOUND:
+o = "New version found, please try to update.";
+break;
+
+default:
+return;
+}
+cc.log("hcc>>checkUpdateCallback: ", o);
+this._assetsManager.setEventCallback(null);
+this._updating = !1;
+e(n == jsb.EventAssetsManager.NEW_VERSION_FOUND);
+}.bind(this));
+this._assetsManager.checkUpdate();
+this._updating = !0;
+} else {
+t = "Failed to load local manifest ...";
+e(!1);
+}
+}
+} else e(!1); else e(!1);
+};
+e.prototype.hotUpdateStart = function() {
+if (!this.checkPlatForm()) return !1;
+if (!this._manifestUrl) return !1;
+if (this._assetsManager && !this._updating) {
+this._assetsManager.setEventCallback(this.updateCallback.bind(this));
+if (this._assetsManager.getState() === jsb.AssetsManager.State.UNINITED) {
+var e = this._manifestUrl.nativeUrl;
+cc.loader.md5Pipe && (e = cc.loader.md5Pipe.transformURL(e));
+this._assetsManager.loadLocalManifest(e);
+}
+this._assetsManager.update();
+this._updating = !0;
+}
+return !0;
+};
+e.prototype.assetsVerifyCallback = function(e, t) {
+t.compressed, t.md5, t.path, t.size;
+var o = "";
+o = "Verification passed : ";
+console.log("hcc>>assetsVerifyCallback:", o);
+return !0;
+};
+e.prototype.versionCompareCallback = function(e, t) {
+cc.log("hcc>>JS Custom Version Compare: version A is " + e + ", version B is " + t);
+for (var o = e.split("."), n = t.split("."), r = 0; r < o.length; ++r) {
+var i = parseInt(o[r]), s = parseInt(String(n[r] || 0));
+if (i !== s) return i - s;
+}
+return n.length > o.length ? -1 : 0;
+};
+e.prototype.checkUpdateCallback = function(e) {
+cc.log("hcc>>checkUpdateCallback,Code: " + e.getEventCode());
+var t = "";
+switch (e.getEventCode()) {
+case jsb.EventAssetsManager.ERROR_NO_LOCAL_MANIFEST:
+t = "No local manifest file found, hot update skipped.";
+break;
+
+case jsb.EventAssetsManager.ERROR_DOWNLOAD_MANIFEST:
+case jsb.EventAssetsManager.ERROR_PARSE_MANIFEST:
+t = "Fail to download manifest file, hot update skipped.";
+break;
+
+case jsb.EventAssetsManager.ALREADY_UP_TO_DATE:
+t = "Already up to date with the latest remote version.";
+break;
+
+case jsb.EventAssetsManager.NEW_VERSION_FOUND:
+t = "New version found, please try to update.";
+break;
+
+default:
+return;
+}
+this._assetsManager.setEventCallback(null);
+this._updating = !1;
+cc.log("hcc>>checkUpdateCallback: ", t);
+};
+e.prototype.updateCallback = function(e) {
+cc.log("hcc>>updateCallback");
+var t = !1, o = !1, n = "";
+switch (e.getEventCode()) {
+case jsb.EventAssetsManager.ERROR_NO_LOCAL_MANIFEST:
+n = "No local manifest file found, hot update skipped.";
+o = !0;
+break;
+
+case jsb.EventAssetsManager.UPDATE_PROGRESSION:
+var r = e.getMessage();
+if (r) {
+n = "Updated file: " + r;
+cc.log("hcc>>percent: ", e.getPercent() / 100 + "% : " + r);
+}
+break;
+
+case jsb.EventAssetsManager.ERROR_DOWNLOAD_MANIFEST:
+case jsb.EventAssetsManager.ERROR_PARSE_MANIFEST:
+n = "Fail to download manifest file, hot update skipped.";
+o = !0;
+break;
+
+case jsb.EventAssetsManager.ALREADY_UP_TO_DATE:
+n = "Already up to date with the latest remote version.";
+o = !0;
+break;
+
+case jsb.EventAssetsManager.UPDATE_FINISHED:
+n = "Update finished. " + e.getMessage();
+t = !0;
+break;
+
+case jsb.EventAssetsManager.UPDATE_FAILED:
+n = "Update failed. " + e.getMessage();
+this._updating = !1;
+this._canRetry = !0;
+break;
+
+case jsb.EventAssetsManager.ERROR_UPDATING:
+n = "Asset update error: " + e.getAssetId() + ", " + e.getMessage();
+break;
+
+case jsb.EventAssetsManager.ERROR_DECOMPRESS:
+n = e.getMessage();
+}
+cc.log("hcc>>updateCallback: ", n);
+if (o) {
+this._assetsManager.setEventCallback(null);
+this._updating = !1;
+}
+if (t) {
+this._assetsManager.setEventCallback(null);
+var i = jsb.fileUtils.getSearchPaths(), s = this._assetsManager.getLocalManifest();
+if (s) {
+var a = s.getSearchPaths();
+console.log("hcc>>newPaths:", JSON.stringify(a));
+Array.prototype.unshift.apply(i, a);
+}
+cc.sys.localStorage.setItem("HotUpdateSearchPaths", JSON.stringify(i));
+jsb.fileUtils.setSearchPaths(i);
+cc.audioEngine.stopAll();
+cc.game.restart();
+this._updateSuccessCallback && this._updateSuccessCallback.call(!0);
+}
+};
+e.prototype.loadCustomManifest = function() {
+if (this._assetsManager.getState() === jsb.AssetsManager.State.UNINITED) {
+var e = (jsb.fileUtils ? jsb.fileUtils.getWritablePath() : "/") + "hotUpdateCache", t = new jsb.Manifest(r, e);
+this._assetsManager.loadLocalManifest(t, e);
+console.log("hcc>>loadCustomManifest.....success!");
+}
+};
+e.prototype.retry = function() {
+if (!this._updating && this._canRetry) {
+this._canRetry = !1;
+this._assetsManager.downloadFailedAssets();
+}
+};
+e.instance = new e();
+return e;
+}();
+o.default = i;
+cc._RF.pop();
+}, {
+"../manager/ResourceManager": "ResourceManager"
+} ],
+HotUpdate: [ function(e, t, o) {
+"use strict";
+cc._RF.push(t, "8e42dRmFhZDHLpxQcBZvuex", "HotUpdate");
+Object.defineProperty(o, "__esModule", {
+value: !0
+});
+var n = e("../utils/HttpUtil"), r = e("../config/GameAppConfig"), i = function() {
+function e() {
+this._storagePath = null;
+this._hotpath = null;
+this._url = r.default.HOT_UPDATE_ADDRESS;
+}
+e.getInstance = function() {
+return e.instance;
+};
+e.prototype.check_hotupdate_start = function() {
+this.set_hotupdate_search_path();
+var e = this.local_hotupdate_download_list(this._hotpath), t = null;
+n.default.get(this._url, "/hotupdate/manifest.json", null, function(o, n) {
+if (!o) {
+t = JSON.parse(n);
+var r = 0, i = [];
+for (var s in t) e[s] && e[s].md5 === t[s].md5 || i.push(t[s]);
+if (i.length <= 0) console.log("下载列表为空"); else {
+r = 0;
+var a = function() {
+if (++r >= i.length) {
+jsb.fileUtils.writeStringToFile(n, this.hotpath + "/manifest.json");
+cc.audioEngine.stopAll();
+cc.game.restart();
+} else this.download_item(this._storagePath, i[r], a);
+}.bind(this);
+this.download_item(this._storagePath, i[r], a);
+}
+}
+}.bind(this));
+};
+e.prototype.set_hotupdate_search_path = function() {
+var e = jsb.fileUtils.getSearchPaths(), t = this._storagePath + "/hotupdate";
+jsb.fileUtils.isDirectoryExist(t) || jsb.fileUtils.createDirectory(t);
+e.unshift(t);
+jsb.fileUtils.setSearchPaths(e);
+this._hotpath = t;
+};
+e.prototype.local_hotupdate_download_list = function(e) {
+var t = {};
+if (jsb.fileUtils.isFileExist(e + "/manifest.json")) {
+var o = jsb.fileUtils.getStringFromFile(e + "/manifest.json");
+t = JSON.parse(o);
+} else {
+o = jsb.fileUtils.getStringFromFile("manifest.json");
+t = JSON.parse(o);
+}
+return t;
+};
+e.prototype.download_item = function(e, t, o) {
+t.file.indexOf(".json") >= 0 ? n.default.get(this._url, "/" + t.file, null, function(n, r) {
+if (n) o && o(); else {
+var i = new Array();
+i = t.dir.split("/");
+for (var s = e, a = 0; a < i.length; a++) {
+s = s + "/" + i[a];
+jsb.fileUtils.isDirectoryExist(s) || jsb.fileUtils.createDirectory(s);
+}
+jsb.fileUtils.writeStringToFile(r, e + "/" + t.file);
+o && o();
+}
+}) : n.default.download(this._url, "/" + t.file, null, function(n, r) {
+if (n) o && o(); else {
+var i = new Array();
+i = t.dir.split("/");
+for (var s = e, a = 0; a < i.length; a++) {
+s = s + "/" + i[a];
+jsb.fileUtils.isDirectoryExist(s) || jsb.fileUtils.createDirectory(s);
+}
+jsb.fileUtils.writeDataToFile(r, e + "/" + t.file);
+o && o();
+}
+});
+};
+e.instance = new e();
+return e;
+}();
+o.default = i;
+cc._RF.pop();
+}, {
+"../config/GameAppConfig": "GameAppConfig",
+"../utils/HttpUtil": "HttpUtil"
+} ],
 HttpUtil: [ function(e, t, o) {
 "use strict";
 cc._RF.push(t, "075fa9VyZVK0Y/tZbtG3fHx", "HttpUtil");
@@ -3017,129 +3373,68 @@ value: !0
 });
 var n = function() {
 function e() {}
-e.HttpGet = function(e, t, o, n, r, i) {
-void 0 === n && (n = !1);
-void 0 === r && (r = null);
-void 0 === i && (i = {});
-this.HttpRequest(e, "GET", t, o, n, r, i);
-};
-e.HttpPost = function(e, t, o, n, r, i) {
-void 0 === n && (n = !1);
-void 0 === r && (r = null);
-void 0 === i && (i = {});
-this.HttpRequest(e, "POST", t, o, n, r, i);
-};
-e.HttpDownload = function(e, t, o, n) {
-void 0 === n && (n = !1);
-t = jsb.fileUtils.getWritablePath() + t;
-if (!jsb.fileUtils.isFileExist(t) || n) {
-this._seq++;
-var r = this, i = new XMLHttpRequest();
-i.open("GET", e, !0);
-i.responseType = "arraybuffer";
-i.onload = function(e) {
-200 == this.status ? r.saveFileInNative(this.response, t, o, n) : o && o("error", null);
-};
-i.send();
-} else o && o(t);
-};
-e.saveFileInNative = function(e, t, o, n) {
-n && jsb.fileUtils.isFileExist(t) && jsb.fileUtils.removeFile(t);
-if (jsb.fileUtils.writeDataToFile(new Uint8Array(e), t)) {
-cc.log("save file data success!", t);
-o && o(null, t);
-} else {
-cc.log("save file data failed!", t);
-o && o("error", null);
+e.get = function(e, t, o, n) {
+var r = cc.loader.getXMLHttpRequest();
+r.timeout = 5e3;
+var i = e + t;
+o && (i = i + "?" + o);
+r.open("GET", i, !0);
+cc.sys.isNative && r.setRequestHeader("Accept-Encoding", "gzip,deflate");
+r.onreadystatechange = function() {
+if (4 === r.readyState && r.status >= 200 && r.status < 300) {
+console.log("http res(" + r.responseText.length + "):" + r.responseText);
+try {
+var e = r.responseText;
+null !== n && n(null, e);
+return;
+} catch (e) {
+n(e, null);
 }
+} else n(r.readyState + ":" + r.status, null);
 };
-e.saveFileInBrowser = function(e, t) {
-if ("undefined" != typeof window.navigator.msSaveBlob) window.navigator.msSaveBlob(e, t); else {
-var o = window.URL || window.webkitURL, n = o.createObjectURL(e);
-if (t) {
-var r = document.createElement("a");
-if ("undefined" == typeof r.download) window.location = n; else {
-r.href = n;
-r.download = t;
-document.body.appendChild(r);
-r.click();
-r.remove();
+r.send();
+return r;
+};
+e.post = function(e, t, o, n, r) {
+var i = cc.loader.getXMLHttpRequest();
+i.timeout = 5e3;
+var s = e + t;
+o && (s = s + "?" + o);
+i.open("POST", s, !0);
+cc.sys.isNative && i.setRequestHeader("Accept-Encoding", "gzip,deflate");
+if (n) {
+i.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+i.setRequestHeader("Content-Length", n.length);
 }
-} else window.location = n;
-o.revokeObjectURL(n);
-}
+i.onreadystatechange = function() {
+if (4 === i.readyState && i.status >= 200 && i.status < 300) try {
+var e = i.responseText;
+null !== r && r(null, e);
+return;
+} catch (e) {
+r(e, null);
+} else r(i.readyState + ":" + i.status, null);
 };
-e.HttpRequest = function(e, t, o, n, r, i, s) {
-void 0 === r && (r = !1);
-void 0 === i && (i = null);
-void 0 === s && (s = {});
-var c = cc.loader.getXMLHttpRequest();
-/^http:\/\//.test(e) || /^https:\/\//.test(e) || (e = this._host + e);
-"GET" == t && (e += this._encode(o));
-c.open(t, e, r);
-c.timeout = 5e3;
-this._extraHeaders(c, s);
-"GET" == t && c.send();
-"POST" == t && c.send(JSON.stringify(o));
-this.registerScriptHandler(this._seq++, c, n, e, t, o, i);
+n && i.send(n);
+return i;
 };
-e.registerScriptHandler = function(e, t, o, n, r, i, s) {
-[ "loadstart", "abort", "error", "load", "loadend", "timeout" ].forEach(function(n) {
-t["on" + n] = function() {
-if ("error" == n || "timeout" == n) {
-var i = {
-seq: e,
-code: t.status,
-mothed: r,
-status: n,
-result: t.responseText,
-customData: s
+e.download = function(e, t, o, n) {
+var r = cc.loader.getXMLHttpRequest();
+r.timeout = 5e3;
+var i = e + t;
+o && (i = i + "?" + o);
+r.responseType = "arraybuffer";
+r.open("GET", i, !0);
+cc.sys.isNative && r.setRequestHeader("Accept-Encoding", "gzip,deflate");
+r.onreadystatechange = function() {
+if (4 === r.readyState && r.status >= 200 && r.status < 300) {
+for (var e = r.response, t = new DataView(e), o = new Uint8Array(e.byteLength), i = 0; i < o.length; i++) o[i] = t.getUint8(i);
+n(null, o);
+} else n(r.readyState + ":" + r.status, null);
 };
-o && o(i);
-}
+r.send();
+return r;
 };
-});
-t.onreadystatechange = function() {
-if (4 === t.readyState) if (t.status >= 200 && t.status < 300 || 304 == t.status) {
-var n = {
-seq: e,
-code: t.status,
-mothed: r,
-status: "success",
-result: t.responseText,
-customData: s
-};
-o && o(n);
-} else {
-n = {
-seq: e,
-code: t.status,
-mothed: r,
-status: "failed",
-errMsg: t.responseText,
-customData: s
-};
-o && o(n);
-}
-};
-};
-e._encode = function(e) {
-void 0 === e && (e = {});
-var t = "?";
-if (null != e && void 0 != e) for (var o in e) e.hasOwnProperty(o) && (t = t + o + "=" + e[o] + "&");
-return t;
-};
-e._extraHeaders = function(e, t) {
-void 0 === t && (t = {});
-e.setRequestHeader("Content-Type", "application/json");
-e.setRequestHeader("Access-Control-Allow-Origin", "*");
-for (var o in t) if (t.hasOwnProperty(o)) {
-var n = t[o];
-e.setRequestHeader(o, n);
-}
-};
-e._seq = 1;
-e._host = "https://www.baidu.com";
 return e;
 }();
 o.default = n;
@@ -3167,13 +3462,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../framework/uibase/UIDialog"), s = e("../../framework/utils/StringUtil"), c = e("../scene/lobbyScene/sendMsg/LobbySendGameHoodle"), a = e("../../framework/manager/EventManager"), u = e("../../framework/protocol/GameHoodleProto"), l = e("../../framework/protocol/Response"), f = cc._decorator, d = f.ccclass, p = (f.property, 
+var i = e("../../framework/uibase/UIDialog"), s = e("../../framework/utils/StringUtil"), a = e("../scene/lobbyScene/sendMsg/LobbySendGameHoodle"), c = e("../../framework/manager/EventManager"), u = e("../../framework/protocol/GameHoodleProto"), l = e("../../framework/protocol/Response"), f = cc._decorator, d = f.ccclass, p = (f.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -3191,7 +3486,7 @@ this.add_event_dispatcher();
 this.add_button_event_listener();
 };
 t.prototype.add_event_dispatcher = function() {
-a.default.on(u.CmdName[u.Cmd.eJoinRoomRes], this, this.on_event_join_room);
+c.default.on(u.CmdName[u.Cmd.eJoinRoomRes], this, this.on_event_join_room);
 };
 t.prototype.add_button_event_listener = function() {
 this.add_click_event(this.view.KW_BTN_CLOSE, this.on_click_close.bind(this));
@@ -3234,11 +3529,11 @@ var t = e.node.name, o = s.default.getNumberSuffixByString(t), n = "KW_SHOW_NUM_
 this.set_string(this.view[n], String(o));
 if (this._text_index == this.KW_TOTAL_ROOM_NUM_COUNT) {
 for (var r = "", i = 1; i <= this.KW_TOTAL_ROOM_NUM_COUNT; i++) {
-var a = "KW_SHOW_NUM_" + i;
-r += this.get_string(this.view[a]);
+var c = "KW_SHOW_NUM_" + i;
+r += this.get_string(this.view[c]);
 }
 cc.log("roomid: ", r);
-c.default.send_join_room(r);
+a.default.send_join_room(r);
 }
 this._text_index++;
 };
@@ -3301,13 +3596,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../../framework/uibase/UIController"), s = cc._decorator, c = s.ccclass, a = (s.property, 
+var i = e("../../../framework/uibase/UIController"), s = cc._decorator, a = s.ccclass, c = (s.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -3322,9 +3617,9 @@ this.add_script("LobbySceneRecvGameHoodleMsg");
 this.add_script("LobbySceneShowUI");
 };
 t.prototype.start = function() {};
-return t = r([ c ], t);
+return t = r([ a ], t);
 }(i.default));
-o.default = a;
+o.default = c;
 cc._RF.pop();
 }, {
 "../../../framework/uibase/UIController": "UIController"
@@ -3351,13 +3646,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../../framework/uibase/UIController"), s = e("./sendMsg/LobbySendAuthMsg"), c = e("./sendMsg/LobbySendGameHoodle"), a = cc._decorator, u = a.ccclass, l = (a.property, 
+var i = e("../../../framework/uibase/UIController"), s = e("./sendMsg/LobbySendAuthMsg"), a = e("./sendMsg/LobbySendGameHoodle"), c = cc._decorator, u = c.ccclass, l = (c.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -3368,7 +3663,7 @@ e.prototype.onLoad.call(this);
 };
 t.prototype.start = function() {
 s.default.send_get_center_info();
-c.default.send_get_ugame_info();
+a.default.send_get_ugame_info();
 };
 return t = r([ u ], t);
 }(i.default));
@@ -3401,13 +3696,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../../framework/uibase/UIController"), s = e("../../../framework/manager/EventManager"), c = e("../../../framework/protocol/AuthProto"), a = e("../../../framework/protocol/Response"), u = e("../../../framework/manager/SceneManager"), l = e("../LoginScene/LoginScene"), f = e("../../../framework/utils/Storage"), d = e("../../../framework/config/LSDefine"), p = e("../../../framework/common/UserInfo"), h = e("../../../framework/manager/DialogManager"), _ = e("../../../framework/config/EventDefine"), g = e("./sendMsg/LobbySendAuthMsg"), y = e("./sendMsg/LobbySendGameHoodle"), m = e("../LoginScene/sendMsg/LoginSendAuthMsg"), v = cc._decorator, b = v.ccclass, w = (v.property, 
+var i = e("../../../framework/uibase/UIController"), s = e("../../../framework/manager/EventManager"), a = e("../../../framework/protocol/AuthProto"), c = e("../../../framework/protocol/Response"), u = e("../../../framework/manager/SceneManager"), l = e("../LoginScene/LoginScene"), f = e("../../../framework/utils/Storage"), d = e("../../../framework/config/LSDefine"), p = e("../../../framework/common/UserInfo"), h = e("../../../framework/manager/DialogManager"), _ = e("../../../framework/config/EventDefine"), g = e("./sendMsg/LobbySendAuthMsg"), y = e("./sendMsg/LobbySendGameHoodle"), m = e("../LoginScene/sendMsg/LoginSendAuthMsg"), v = cc._decorator, b = v.ccclass, w = (v.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -3421,11 +3716,11 @@ this.add_event_dispatcher();
 };
 t.prototype.add_event_dispatcher = function() {
 s.default.on(_.default.EVENT_NET_CONNECTED, this, this.on_net_connected);
-s.default.on(c.CmdName[c.Cmd.eUnameLoginRes], this, this.on_event_uname_login);
-s.default.on(c.CmdName[c.Cmd.eGuestLoginRes], this, this.on_event_guest_login);
-s.default.on(c.CmdName[c.Cmd.eGetUserCenterInfoRes], this, this.on_event_center_info);
-s.default.on(c.CmdName[c.Cmd.eLoginOutRes], this, this.on_event_login_out);
-s.default.on(c.CmdName[c.Cmd.eReloginRes], this, this.on_event_relogin);
+s.default.on(a.CmdName[a.Cmd.eUnameLoginRes], this, this.on_event_uname_login);
+s.default.on(a.CmdName[a.Cmd.eGuestLoginRes], this, this.on_event_guest_login);
+s.default.on(a.CmdName[a.Cmd.eGetUserCenterInfoRes], this, this.on_event_center_info);
+s.default.on(a.CmdName[a.Cmd.eLoginOutRes], this, this.on_event_login_out);
+s.default.on(a.CmdName[a.Cmd.eReloginRes], this, this.on_event_relogin);
 };
 t.prototype.on_net_connected = function(e) {
 var t = f.default.get(d.default.USER_LOGIN_TYPE);
@@ -3440,7 +3735,7 @@ n && m.default.send_guest_login(n);
 t.prototype.on_event_guest_login = function(e) {
 var t = e.getUserData();
 cc.log("guestlogin udata: ", t);
-if (t.status == a.default.OK) {
+if (t.status == c.default.OK) {
 try {
 var o = JSON.parse(t.userlogininfo);
 f.default.set(d.default.USER_LOGIN_TYPE, d.default.LOGIN_TYPE_GUEST);
@@ -3457,7 +3752,7 @@ h.default.getInstance().show_weak_hint("游客登录成功!");
 t.prototype.on_event_uname_login = function(e) {
 var t = e.getUserData();
 cc.log("unamelogin udata: ", t);
-if (t.status == a.default.OK) {
+if (t.status == c.default.OK) {
 try {
 var o = JSON.parse(t.userlogininfo);
 f.default.set(d.default.USER_LOGIN_TYPE, d.default.LOGIN_TYPE_UNAME);
@@ -3488,7 +3783,7 @@ n && n.show_user_info();
 t.prototype.on_event_login_out = function(e) {
 var t = e.getUserData();
 if (t) {
-if (t.status == a.default.OK) {
+if (t.status == c.default.OK) {
 cc.log("on_event_login_out");
 u.default.getInstance().enter_scene_asyc(new l.default());
 h.default.getInstance().show_weak_hint("退出成功!");
@@ -3542,13 +3837,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../../framework/uibase/UIController"), s = e("../../../framework/manager/EventManager"), c = e("../../../framework/protocol/GameHoodleProto"), a = e("../../../framework/protocol/Response"), u = e("../../../framework/manager/SceneManager"), l = e("../../../framework/common/UserInfo"), f = e("../gameScene/GameScene"), d = e("../../../framework/manager/DialogManager"), p = e("./LobbyScene"), h = e("./sendMsg/LobbySendGameHoodle"), _ = e("../../common/RoomData"), g = cc._decorator, y = g.ccclass, m = (g.property, 
+var i = e("../../../framework/uibase/UIController"), s = e("../../../framework/manager/EventManager"), a = e("../../../framework/protocol/GameHoodleProto"), c = e("../../../framework/protocol/Response"), u = e("../../../framework/manager/SceneManager"), l = e("../../../framework/common/UserInfo"), f = e("../gameScene/GameScene"), d = e("../../../framework/manager/DialogManager"), p = e("./LobbyScene"), h = e("./sendMsg/LobbySendGameHoodle"), _ = e("../../common/RoomData"), g = cc._decorator, y = g.ccclass, m = (g.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -3561,21 +3856,21 @@ t.prototype.start = function() {
 this.add_event_dispatcher();
 };
 t.prototype.add_event_dispatcher = function() {
-s.default.on(c.CmdName[c.Cmd.eLoginLogicRes], this, this.on_event_login_logic);
-s.default.on(c.CmdName[c.Cmd.eCreateRoomRes], this, this.on_event_create_room);
-s.default.on(c.CmdName[c.Cmd.eJoinRoomRes], this, this.on_event_join_room);
-s.default.on(c.CmdName[c.Cmd.eExitRoomRes], this, this.on_event_exit_room);
-s.default.on(c.CmdName[c.Cmd.eDessolveRes], this, this.on_event_dessolve_room);
-s.default.on(c.CmdName[c.Cmd.eGetRoomStatusReq], this, this.on_event_get_room_status);
-s.default.on(c.CmdName[c.Cmd.eBackRoomRes], this, this.on_event_back_room);
-s.default.on(c.CmdName[c.Cmd.eUserMatchRes], this, this.on_event_match);
-s.default.on(c.CmdName[c.Cmd.eUserStopMatchRes], this, this.on_event_match_stop);
-s.default.on(c.CmdName[c.Cmd.eUserGameInfoRes], this, this.on_event_ugame_info);
+s.default.on(a.CmdName[a.Cmd.eLoginLogicRes], this, this.on_event_login_logic);
+s.default.on(a.CmdName[a.Cmd.eCreateRoomRes], this, this.on_event_create_room);
+s.default.on(a.CmdName[a.Cmd.eJoinRoomRes], this, this.on_event_join_room);
+s.default.on(a.CmdName[a.Cmd.eExitRoomRes], this, this.on_event_exit_room);
+s.default.on(a.CmdName[a.Cmd.eDessolveRes], this, this.on_event_dessolve_room);
+s.default.on(a.CmdName[a.Cmd.eGetRoomStatusReq], this, this.on_event_get_room_status);
+s.default.on(a.CmdName[a.Cmd.eBackRoomRes], this, this.on_event_back_room);
+s.default.on(a.CmdName[a.Cmd.eUserMatchRes], this, this.on_event_match);
+s.default.on(a.CmdName[a.Cmd.eUserStopMatchRes], this, this.on_event_match_stop);
+s.default.on(a.CmdName[a.Cmd.eUserGameInfoRes], this, this.on_event_ugame_info);
 };
 t.prototype.on_event_login_logic = function(e) {
 var t = e.getUserData();
 cc.log("on_event_login_logic", t);
-if (t && t.status == a.default.OK) {
+if (t && t.status == c.default.OK) {
 h.default.send_get_room_status();
 h.default.send_get_ugame_info();
 h.default.send_get_uball_info();
@@ -3586,7 +3881,7 @@ t.prototype.on_event_create_room = function(e) {
 var t = e.getUserData();
 cc.log("on_event_create_room", t);
 if (t) {
-if (t.status == a.default.OK) {
+if (t.status == c.default.OK) {
 u.default.getInstance().enter_scene_asyc(new f.default());
 d.default.getInstance().show_weak_hint("房间创建成功!");
 } else d.default.getInstance().show_weak_hint("房间创建失败!");
@@ -3596,7 +3891,7 @@ t.prototype.on_event_join_room = function(e) {
 var t = e.getUserData();
 cc.log("on_event_join_room", t);
 if (t) {
-if (t.status == a.default.OK) {
+if (t.status == c.default.OK) {
 u.default.getInstance().enter_scene_asyc(new f.default());
 d.default.getInstance().show_weak_hint("加入房间成功!");
 } else d.default.getInstance().show_weak_hint("加入房间失败!");
@@ -3606,7 +3901,7 @@ t.prototype.on_event_exit_room = function(e) {
 var t = e.getUserData();
 cc.log("on_event_exit_room", t);
 if (t) {
-if (t.status == a.default.OK) {
+if (t.status == c.default.OK) {
 u.default.getInstance().enter_scene_asyc(new p.default());
 _.default.getInstance().clear_room_data();
 d.default.getInstance().show_weak_hint("退出房间成功!");
@@ -3617,7 +3912,7 @@ t.prototype.on_event_dessolve_room = function(e) {
 var t = e.getUserData();
 cc.log("on_event_dessolve_room", t);
 if (t) {
-if (t.status == a.default.OK) {
+if (t.status == c.default.OK) {
 u.default.getInstance().enter_scene_asyc(new p.default());
 _.default.getInstance().clear_room_data();
 d.default.getInstance().show_weak_hint("解散房间成功!");
@@ -3629,14 +3924,14 @@ var t = e.getUserData();
 cc.log("on_event_get_room_status", t);
 if (t) {
 t.status;
-a.default.OK;
+c.default.OK;
 }
 };
 t.prototype.on_event_back_room = function(e) {
 var t = e.getUserData();
 cc.log("on_event_back_room", t);
 if (t) {
-if (t.status == a.default.OK) {
+if (t.status == c.default.OK) {
 u.default.getInstance().enter_scene_asyc(new f.default());
 d.default.getInstance().show_weak_hint("返回房间成功!");
 } else d.default.getInstance().show_weak_hint("返回房间失败!");
@@ -3647,7 +3942,7 @@ var t = e.getUserData();
 cc.log("on_event_match", t);
 if (t) {
 var o = t.status;
-if (o == a.default.OK) {
+if (o == c.default.OK) {
 var n = t.matchsuccess;
 if (1 == n) {
 d.default.getInstance().show_weak_hint("匹配完成!");
@@ -3666,21 +3961,21 @@ t && t.show_math_user_info(r);
 }
 });
 }
-} else o == a.default.NOT_YOUR_TURN ? d.default.getInstance().show_weak_hint("请稍等候，正在匹配中。。。。") : d.default.getInstance().show_weak_hint("匹配失败!");
+} else o == c.default.NOT_YOUR_TURN ? d.default.getInstance().show_weak_hint("请稍等候，正在匹配中。。。。") : d.default.getInstance().show_weak_hint("匹配失败!");
 }
 };
 t.prototype.on_event_match_stop = function(e) {
 var t = e.getUserData();
 cc.log("on_event_match_stop", t);
 if (t) {
-t.status == a.default.OK ? d.default.getInstance().show_weak_hint("取消匹配!") : d.default.getInstance().show_weak_hint("取消失败!");
+t.status == c.default.OK ? d.default.getInstance().show_weak_hint("取消匹配!") : d.default.getInstance().show_weak_hint("取消失败!");
 }
 };
 t.prototype.on_event_ugame_info = function(e) {
 var t = e.getUserData();
 cc.log("on_event_ugame_info", t);
 if (t) {
-if (t.status == a.default.OK) {
+if (t.status == c.default.OK) {
 var o = JSON.parse(t.userinfostring);
 l.default.set_ugame_info(o);
 var n = this.get_script("LobbySceneShowUI");
@@ -3727,13 +4022,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../../framework/uibase/UIController"), s = e("../../../framework/common/UserInfo"), c = cc._decorator, a = c.ccclass, u = (c.property, 
+var i = e("../../../framework/uibase/UIController"), s = e("../../../framework/common/UserInfo"), a = cc._decorator, c = a.ccclass, u = (a.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -3753,7 +4048,7 @@ this.set_string(this.view.TEXT_COIN, s.default.get_uchip());
 console.log("hcc>>LobbySceneShowUI>>show_user_info ", e);
 }
 };
-return t = r([ a ], t);
+return t = r([ c ], t);
 }(i.default));
 o.default = u;
 cc._RF.pop();
@@ -3783,13 +4078,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../../framework/uibase/UIController"), s = e("../../../framework/manager/DialogManager"), c = e("./sendMsg/LobbySendGameHoodle"), a = e("../../../framework/config/GameHoodleConfig"), u = cc._decorator, l = u.ccclass, f = (u.property, 
+var i = e("../../../framework/uibase/UIController"), s = e("../../../framework/manager/DialogManager"), a = e("./sendMsg/LobbySendGameHoodle"), c = e("../../../framework/config/GameHoodleConfig"), u = cc._decorator, l = u.ccclass, f = (u.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -3819,8 +4114,8 @@ t.prototype.on_click_set = function(e) {
 s.default.getInstance().show_dialog_asyc("ui_prefabs/dialog/DialogMyCenter", "MyCenterDialog");
 };
 t.prototype.on_click_create_room = function(e) {
-var t = JSON.stringify(a.default.BOX_GAME_RULE);
-c.default.send_create_room(t);
+var t = JSON.stringify(c.default.BOX_GAME_RULE);
+a.default.send_create_room(t);
 };
 t.prototype.on_click_login_logic = function(e) {
 s.default.getInstance().show_weak_hint("你好你好，在干啥呢？？？？啊啊大打发士大夫阿道夫");
@@ -3833,13 +4128,13 @@ t.prototype.on_click_head = function(e) {
 s.default.getInstance().show_dialog_asyc("ui_prefabs/dialog/DialogMyCenter", "MyCenterDialog");
 };
 t.prototype.on_click_back_room = function(e) {
-c.default.send_back_room();
+a.default.send_back_room();
 };
 t.prototype.on_click_match_room = function(e) {
-c.default.send_user_match();
+a.default.send_user_match();
 };
 t.prototype.on_click_match_stop = function(e) {
-c.default.send_user_stop_match();
+a.default.send_user_stop_match();
 };
 t.prototype.on_click_ball_compose = function(e) {
 s.default.getInstance().show_dialog_asyc("ui_prefabs/dialog/DialogBallCenter", "BallCenterDialog");
@@ -4016,13 +4311,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../../framework/uibase/UIController"), s = cc._decorator, c = s.ccclass, a = (s.property, 
+var i = e("../../../framework/uibase/UIController"), s = cc._decorator, a = s.ccclass, c = (s.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -4036,9 +4331,9 @@ this.add_script("LoginSceneRecvMsg");
 this.add_script("LoginSceneShowUI");
 };
 t.prototype.start = function() {};
-return t = r([ c ], t);
+return t = r([ a ], t);
 }(i.default));
-o.default = a;
+o.default = c;
 cc._RF.pop();
 }, {
 "../../../framework/uibase/UIController": "UIController"
@@ -4065,13 +4360,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../../framework/uibase/UIController"), s = e("../../../framework/utils/Storage"), c = e("../../../framework/config/LSDefine"), a = e("../../../framework/config/PlatForm"), u = cc._decorator, l = u.ccclass, f = (u.property, 
+var i = e("../../../framework/uibase/UIController"), s = e("../../../framework/utils/Storage"), a = e("../../../framework/config/LSDefine"), c = e("../../../framework/config/PlatForm"), u = cc._decorator, l = u.ccclass, f = (u.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -4084,14 +4379,14 @@ t.prototype.start = function() {
 this.initUI();
 };
 t.prototype.initUI = function() {
-var e = s.default.get(c.default.USER_LOGIN_MSG), t = s.default.get(c.default.USER_LOGIN_TYPE);
-t == c.default.LOGIN_TYPE_GUEST ? cc.log("logintype guest,key: ", s.default.get(c.default.USER_LOGIN_GUEST_KEY)) : t == c.default.LOGIN_TYPE_UNAME && e && cc.log("logintype uname: ", e.uname, ", upwd: ", e.upwd);
+var e = s.default.get(a.default.USER_LOGIN_MSG), t = s.default.get(a.default.USER_LOGIN_TYPE);
+t == a.default.LOGIN_TYPE_GUEST ? cc.log("logintype guest,key: ", s.default.get(a.default.USER_LOGIN_GUEST_KEY)) : t == a.default.LOGIN_TYPE_UNAME && e && cc.log("logintype uname: ", e.uname, ", upwd: ", e.upwd);
 if (e) {
 var o = this.seek_child_by_name(this.view.KW_IMG_LOGIN_BG, "KW_INPUT_ACCOUNT"), n = this.seek_child_by_name(this.view.KW_IMG_LOGIN_BG, "KW_INPUT_PWD");
 this.set_editbox_string(o, e.uname);
 this.set_editbox_string(n, e.upwd);
 }
-var r = "platform: " + String(cc.sys.os) + " ,isNative:" + cc.sys.isNative + " ,isWechatGame:" + a.default.isWeChatGame() + " ,isBrows:" + cc.sys.isBrowser;
+var r = "platform: " + String(cc.sys.os) + " ,isNative:" + cc.sys.isNative + " ,isWechatGame:" + c.default.isWeChatGame() + " ,isBrows:" + cc.sys.isBrowser;
 this.set_string(this.view.KW_TEXT_PLATFORM, r);
 this.set_string(this.view.KW_TEXT_VERSION, "1.0.0");
 };
@@ -4127,13 +4422,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../../framework/uibase/UIController"), s = e("../../../framework/manager/EventManager"), c = e("../../../framework/config/EventDefine"), a = e("../../../framework/utils/Log"), u = e("./../../../framework/protocol/AuthProto"), l = e("../../../framework/protocol/Response"), f = e("../../../framework/manager/SceneManager"), d = e("../lobbyScene/LobbyScene"), p = e("../../../framework/utils/Storage"), h = e("../../../framework/config/LSDefine"), _ = e("../../../framework/manager/DialogManager"), g = e("../lobbyScene/sendMsg/LobbySendGameHoodle"), y = cc._decorator, m = y.ccclass, v = (y.property, 
+var i = e("../../../framework/uibase/UIController"), s = e("../../../framework/manager/EventManager"), a = e("../../../framework/config/EventDefine"), c = e("../../../framework/utils/Log"), u = e("./../../../framework/protocol/AuthProto"), l = e("../../../framework/protocol/Response"), f = e("../../../framework/manager/SceneManager"), d = e("../lobbyScene/LobbyScene"), p = e("../../../framework/utils/Storage"), h = e("../../../framework/config/LSDefine"), _ = e("../../../framework/manager/DialogManager"), g = e("../lobbyScene/sendMsg/LobbySendGameHoodle"), y = cc._decorator, m = y.ccclass, v = (y.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -4146,22 +4441,22 @@ t.prototype.start = function() {
 this.add_event_dispatcher();
 };
 t.prototype.add_event_dispatcher = function() {
-s.default.on(c.default.EVENT_NET_CONNECTED, this, this.on_net_connected);
-s.default.on(c.default.EVENT_NET_CLOSED, this, this.on_net_closed);
-s.default.on(c.default.EVENT_NET_ERROR, this, this.on_net_error);
+s.default.on(a.default.EVENT_NET_CONNECTED, this, this.on_net_connected);
+s.default.on(a.default.EVENT_NET_CLOSED, this, this.on_net_closed);
+s.default.on(a.default.EVENT_NET_ERROR, this, this.on_net_error);
 s.default.on(u.CmdName[u.Cmd.eUnameLoginRes], this, this.on_event_uname_login);
 s.default.on(u.CmdName[u.Cmd.eGuestLoginRes], this, this.on_event_guest_login);
 s.default.on(u.CmdName[u.Cmd.eUnameRegistRes], this, this.on_event_uname_regist);
 s.default.on("LoginLogicRes", this, this.on_event_login_logic);
 };
 t.prototype.on_net_connected = function(e) {
-a.default.info("LoginSceneRecvMsg hcc>>>on_net_connected");
+c.default.info("LoginSceneRecvMsg hcc>>>on_net_connected");
 };
 t.prototype.on_net_closed = function(e) {
-a.default.info("LoginSceneRecvMsg hcc>>>on_net_closed");
+c.default.info("LoginSceneRecvMsg hcc>>>on_net_closed");
 };
 t.prototype.on_net_error = function(e) {
-a.default.info("LoginSceneRecvMsg hcc>>>on_net_error");
+c.default.info("LoginSceneRecvMsg hcc>>>on_net_error");
 };
 t.prototype.on_event_guest_login = function(e) {
 var t = e.getUserData();
@@ -4247,13 +4542,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../../framework/uibase/UIController"), s = cc._decorator, c = s.ccclass, a = (s.property, 
+var i = e("../../../framework/uibase/UIController"), s = cc._decorator, a = s.ccclass, c = (s.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -4263,9 +4558,9 @@ t.prototype.onLoad = function() {
 e.prototype.onLoad.call(this);
 };
 t.prototype.start = function() {};
-return t = r([ c ], t);
+return t = r([ a ], t);
 }(i.default));
-o.default = a;
+o.default = c;
 cc._RF.pop();
 }, {
 "../../../framework/uibase/UIController": "UIController"
@@ -4292,13 +4587,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../../framework/uibase/UIController"), s = e("./sendMsg/LoginSendAuthMsg"), c = e("../../../framework/utils/StringUtil"), a = e("../../../framework/utils/Storage"), u = e("../../../framework/config/LSDefine"), l = e("../../../framework/manager/DialogManager"), f = cc._decorator, d = f.ccclass, p = (f.property, 
+var i = e("../../../framework/uibase/UIController"), s = e("./sendMsg/LoginSendAuthMsg"), a = e("../../../framework/utils/StringUtil"), c = e("../../../framework/utils/Storage"), u = e("../../../framework/config/LSDefine"), l = e("../../../framework/manager/DialogManager"), f = cc._decorator, d = f.ccclass, p = (f.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -4318,9 +4613,9 @@ this.add_click_event(this.view.KW_BTN_CLOSE, this.on_click_regist_close.bind(thi
 this.add_click_event(this.view.KW_BTN_REGIST, this.on_click_regist.bind(this));
 };
 t.prototype.on_click_guest_login = function(e) {
-var t = a.default.get(u.default.USER_LOGIN_GUEST_KEY);
+var t = c.default.get(u.default.USER_LOGIN_GUEST_KEY);
 if (!t) {
-t = c.default.random_string(32);
+t = a.default.random_string(32);
 cc.log("guest login reborn: " + t + " ,len: " + t.length);
 }
 32 == t.length ? s.default.send_guest_login(t) : l.default.getInstance().show_weak_hint("登陆失败，guestkey生成错误!");
@@ -4339,15 +4634,15 @@ this.set_visible(this.view.KW_IMG_LOGIN_BG, !0);
 this.set_visible(this.view.KW_IMG_REGIST_BG, !1);
 };
 t.prototype.on_click_regist = function(e) {
-var t = this.seek_child_by_name(this.view.KW_IMG_REGIST_BG, "KW_INPUT_ACCOUNT"), o = this.seek_child_by_name(this.view.KW_IMG_REGIST_BG, "KW_INPUT_PWD"), n = this.seek_child_by_name(this.view.KW_IMG_REGIST_BG, "KW_INPUT_PWD_COF"), r = this.get_editbox_string(t), i = this.get_editbox_string(o), c = this.get_editbox_string(n);
-cc.log(r, i, c);
-if (r.length < 6 || i.length < 6 || c.length < 6 || i != c) {
+var t = this.seek_child_by_name(this.view.KW_IMG_REGIST_BG, "KW_INPUT_ACCOUNT"), o = this.seek_child_by_name(this.view.KW_IMG_REGIST_BG, "KW_INPUT_PWD"), n = this.seek_child_by_name(this.view.KW_IMG_REGIST_BG, "KW_INPUT_PWD_COF"), r = this.get_editbox_string(t), i = this.get_editbox_string(o), a = this.get_editbox_string(n);
+cc.log(r, i, a);
+if (r.length < 6 || i.length < 6 || a.length < 6 || i != a) {
 cc.error("regist error!!!");
 l.default.getInstance().show_weak_hint("账号或密码错误!(不能少于6位)");
 } else {
 s.default.send_uname_regist(r, i);
-a.default.set(u.default.USER_LOGIN_TYPE, u.default.LOGIN_TYPE_UNAME);
-a.default.set(u.default.USER_LOGIN_MSG, {
+c.default.set(u.default.USER_LOGIN_TYPE, u.default.LOGIN_TYPE_UNAME);
+c.default.set(u.default.USER_LOGIN_MSG, {
 uname: r,
 upwd: i
 });
@@ -4531,13 +4826,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../framework/uibase/UIDialog"), s = e("../scene/lobbyScene/sendMsg/LobbySendGameHoodle"), c = e("../../framework/manager/EventManager"), a = e("../../framework/protocol/GameHoodleProto"), u = e("../../framework/protocol/Response"), l = e("../../framework/manager/ResourceManager"), f = cc._decorator, d = f.ccclass, p = (f.property, 
+var i = e("../../framework/uibase/UIDialog"), s = e("../scene/lobbyScene/sendMsg/LobbySendGameHoodle"), a = e("../../framework/manager/EventManager"), c = e("../../framework/protocol/GameHoodleProto"), u = e("../../framework/protocol/Response"), l = e("../../framework/manager/ResourceManager"), f = cc._decorator, d = f.ccclass, p = (f.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -4551,7 +4846,7 @@ this.add_event_dispatcher();
 this.add_button_event_listener();
 };
 t.prototype.add_event_dispatcher = function() {
-c.default.on(a.CmdName[a.Cmd.eUserStopMatchRes], this, this.on_event_match_stop);
+a.default.on(c.CmdName[c.Cmd.eUserStopMatchRes], this, this.on_event_match_stop);
 };
 t.prototype.add_button_event_listener = function() {
 this.add_click_event(this.view.KW_UI_BTN_CANCEL, this.on_click_cancel.bind(this));
@@ -4571,8 +4866,8 @@ var r = t.add_to_node(t.view.KW_LAYOUT_MATCH_USER, n);
 if (r) {
 var i = 1, s = JSON.parse(o);
 s && (i = s.uface);
-var c = "lobby/rectheader/1" + i;
-t.set_sprite(t.seek_child_by_name(r, "KW_IMG_HEAD"), c);
+var a = "lobby/rectheader/1" + i;
+t.set_sprite(t.seek_child_by_name(r, "KW_IMG_HEAD"), a);
 t.set_string(t.seek_child_by_name(r, "KW_TEXT_NAME"), s.uname);
 t.set_string(t.seek_child_by_name(r, "KW_TEXT_GOLD"), s.uchip);
 t.set_visible(t.seek_child_by_name(r, "KW_TEXT_GOLD"), !0);
@@ -4621,13 +4916,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../framework/uibase/UIDialog"), s = e("../scene/lobbyScene/sendMsg/LobbySendAuthMsg"), c = e("../../framework/manager/SceneManager"), a = e("../scene/LoginScene/LoginScene"), u = e("../../framework/common/UserInfo"), l = cc._decorator, f = l.ccclass, d = (l.property, 
+var i = e("../../framework/uibase/UIDialog"), s = e("../scene/lobbyScene/sendMsg/LobbySendAuthMsg"), a = e("../../framework/manager/SceneManager"), c = e("../scene/LoginScene/LoginScene"), u = e("../../framework/common/UserInfo"), l = cc._decorator, f = l.ccclass, d = (l.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -4654,7 +4949,7 @@ this.close();
 };
 t.prototype.on_click_exit = function(e) {
 s.default.send_login_out();
-c.default.getInstance().enter_scene_asyc(new a.default());
+a.default.getInstance().enter_scene_asyc(new c.default());
 this.close();
 };
 return t = r([ f ], t);
@@ -4674,7 +4969,7 @@ cc._RF.push(t, "3b6586cLI9ATqz3vpOPkgaM", "NetWork");
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var n = e("./SocketDelegate"), r = e("./Socket"), i = e("../config/GameAppConfig"), s = e("../config/PlatForm"), c = function() {
+var n = e("./SocketDelegate"), r = e("./Socket"), i = e("../config/GameAppConfig"), s = e("../config/PlatForm"), a = function() {
 function e() {
 this._socketDelegate = null;
 this._url = null;
@@ -4702,7 +4997,7 @@ null != this._socketDelegate && this._socketDelegate.send_msg(e, t, o);
 e.instance = new e();
 return e;
 }();
-o.default = c;
+o.default = a;
 cc._RF.pop();
 }, {
 "../config/GameAppConfig": "GameAppConfig",
@@ -4840,7 +5135,7 @@ cc._RF.push(t, "8cf35mceqpDNqxvib1LcN9A", "ProtoCmd");
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var n, r = e("./TalkProto"), i = e("./AuthProto"), s = e("./SystemProto"), c = e("./GameHoodleProto"), a = e("./Stype"), u = function() {
+var n, r = e("./TalkProto"), i = e("./AuthProto"), s = e("./SystemProto"), a = e("./GameHoodleProto"), c = e("./Stype"), u = function() {
 function e() {}
 e.getProtoName = function(t) {
 return e.StypeProtos[t] ? e.StypeProtos[t].protoName : null;
@@ -4848,8 +5143,8 @@ return e.StypeProtos[t] ? e.StypeProtos[t].protoName : null;
 e.getCmdName = function(t, o) {
 return e.StypeProtos[t] ? e.StypeProtos[t].CmdName[o] : null;
 };
-e.StypeProtos = ((n = {})[a.Stype.Auth] = i, n[a.Stype.GameSystem] = s, n[a.Stype.GameHoodle] = c, 
-n[a.Stype.TalkRoom] = r, n);
+e.StypeProtos = ((n = {})[c.Stype.Auth] = i, n[c.Stype.GameSystem] = s, n[c.Stype.GameHoodle] = a, 
+n[c.Stype.TalkRoom] = r, n);
 return e;
 }();
 o.default = u;
@@ -4921,7 +5216,7 @@ cc._RF.push(t, "b3155Cqjo5Pq7uo9Q0MS+7s", "ProtoTools");
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var n = e("../utils/StringUtil"), r = e("../utils/DataViewUtil"), i = e("../protocol/ProtoCmd"), s = e("../protocol/protobufMsg"), c = function() {
+var n = e("../utils/StringUtil"), r = e("../utils/DataViewUtil"), i = e("../protocol/ProtoCmd"), s = e("../protocol/protobufMsg"), a = function() {
 function e() {}
 e.alloc_buffer = function(e) {
 var t = new ArrayBuffer(e);
@@ -4991,9 +5286,9 @@ e.write_int16(t, 8, r);
 return e.HEADER_SIZE;
 };
 e.encode_json_cmd = function(t, o, r, i) {
-var s = n.default.utf8_byte_len(i), c = e.HEADER_SIZE + s, a = e.alloc_buffer(c), u = e.write_cmd_header_inbuf(a, t, o, r);
-e.write_str(a, u, i);
-return a;
+var s = n.default.utf8_byte_len(i), a = e.HEADER_SIZE + s, c = e.alloc_buffer(a), u = e.write_cmd_header_inbuf(c, t, o, r);
+e.write_str(c, u, i);
+return c;
 };
 e.decode_json_cmd = function(t, o) {
 var n = {};
@@ -5011,16 +5306,16 @@ n.ctype = e.read_int16(t, 2);
 n.utag = e.read_int32(t, 4);
 n.proto_type = e.read_int16(t, 8);
 if (o > e.HEADER_SIZE) {
-var r = e.read_uint8_array(t, e.HEADER_SIZE, o - e.HEADER_SIZE), c = i.default.getProtoName(n.stype), a = i.default.getCmdName(n.stype, n.ctype);
-if (!c || !a) {
+var r = e.read_uint8_array(t, e.HEADER_SIZE, o - e.HEADER_SIZE), a = i.default.getProtoName(n.stype), c = i.default.getCmdName(n.stype, n.ctype);
+if (!a || !c) {
 cc.error("decode_protobuf stype_name or cmd_name null");
 return n;
 }
-if (!s[c]) {
+if (!s[a]) {
 cc.error("decode_protobuf stype_name null");
 return n;
 }
-var u = s[c][a];
+var u = s[a][c];
 if (!u) {
 cc.error("decode_protobuf msgType is null");
 return n;
@@ -5037,16 +5332,16 @@ n.body = l;
 return n;
 };
 e.encode_protobuf_cmd = function(t, o, n, r) {
-var c = i.default.getProtoName(t), a = i.default.getCmdName(t, o);
-if (!c || !a) {
+var a = i.default.getProtoName(t), c = i.default.getCmdName(t, o);
+if (!a || !c) {
 cc.error("encode_protobuf stype_name or cmd_name null");
 return null;
 }
-if (!s[c]) {
+if (!s[a]) {
 cc.error("encode_protobuf stype_name null");
 return null;
 }
-var u = s[c][a];
+var u = s[a][c];
 if (!u) {
 cc.error("encode_protobuf msgType is null");
 return null;
@@ -5069,7 +5364,7 @@ cc.error(l);
 e.HEADER_SIZE = 10;
 return e;
 }();
-o.default = c;
+o.default = a;
 cc._RF.pop();
 }, {
 "../protocol/ProtoCmd": "ProtoCmd",
@@ -5354,13 +5649,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../framework/uibase/UIDialog"), s = e("../scene/lobbyScene/LobbyScene"), c = e("../../framework/manager/SceneManager"), a = e("../scene/lobbyScene/sendMsg/LobbySendGameHoodle"), u = e("../../framework/manager/EventManager"), l = e("../../framework/protocol/GameHoodleProto"), f = e("../../framework/protocol/Response"), d = e("../common/RoomData"), p = cc._decorator, h = p.ccclass, _ = (p.property, 
+var i = e("../../framework/uibase/UIDialog"), s = e("../scene/lobbyScene/LobbyScene"), a = e("../../framework/manager/SceneManager"), c = e("../scene/lobbyScene/sendMsg/LobbySendGameHoodle"), u = e("../../framework/manager/EventManager"), l = e("../../framework/protocol/GameHoodleProto"), f = e("../../framework/protocol/Response"), d = e("../common/RoomData"), p = cc._decorator, h = p.ccclass, _ = (p.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -5386,13 +5681,13 @@ t.prototype.on_click_close = function(e) {
 this.close();
 };
 t.prototype.on_click_back = function(e) {
-a.default.send_exit_room();
+c.default.send_exit_room();
 this.close();
-c.default.getInstance().enter_scene_asyc(new s.default());
+a.default.getInstance().enter_scene_asyc(new s.default());
 d.default.getInstance().clear_room_data();
 };
 t.prototype.on_click_dessolve = function(e) {
-a.default.send_dessolve_room();
+c.default.send_dessolve_room();
 this.close();
 };
 t.prototype.on_event_exit_room = function(e) {
@@ -5421,10 +5716,10 @@ cc._RF.push(t, "8879fsbaW5DSpSBr7VqgJCJ", "SocketDelegate");
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var n = e("./Socket"), r = e("../manager/ProtoManager"), i = e("../manager/EventManager"), s = e("../protocol/ProtoCmd"), c = e("../protocol/Stype"), a = e("../config/EventDefine"), u = e("../config/GameAppConfig"), l = function() {
+var n = e("./Socket"), r = e("../manager/ProtoManager"), i = e("../manager/EventManager"), s = e("../protocol/ProtoCmd"), a = e("../protocol/Stype"), c = e("../config/EventDefine"), u = e("../config/GameAppConfig"), l = function() {
 function e() {}
 e.prototype.on_socket_open = function() {
-i.default.emit(a.default.EVENT_NET_CONNECTED);
+i.default.emit(c.default.EVENT_NET_CONNECTED);
 };
 e.prototype.on_socket_message = function(e) {
 var t = r.default.decode_cmd(u.default.PROTO_TYPE, e);
@@ -5432,7 +5727,7 @@ if (t) {
 var o = s.default.getCmdName(t.stype, t.ctype);
 cc.log("\n\n###########################>>>recvstart");
 if (o) {
-cc.log("Svr:", c.StypeName[t.stype], ",xyname:", o, ",xyid:", t.ctype);
+cc.log("Svr:", a.StypeName[t.stype], ",xyname:", o, ",xyid:", t.ctype);
 var n = "";
 try {
 n = JSON.stringify(t.body);
@@ -5444,12 +5739,12 @@ o && i.default.emit(o, t.body);
 }
 };
 e.prototype.on_socket_error = function(e) {
-i.default.emit(a.default.EVENT_NET_ERROR);
+i.default.emit(c.default.EVENT_NET_ERROR);
 };
 e.prototype.on_socket_closed = function(e) {
 this._socket && this._socket.close();
 this._socket = null;
-i.default.emit(a.default.EVENT_NET_CLOSED);
+i.default.emit(c.default.EVENT_NET_CLOSED);
 };
 e.prototype.connect = function(e) {
 cc.log("socket is connecting address:", e);
@@ -5632,13 +5927,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../framework/uibase/UIDialog"), s = e("../../framework/manager/EventManager"), c = e("../../framework/protocol/GameHoodleProto"), a = e("../../framework/protocol/Response"), u = e("../scene/gameScene/sendMsg/GameSendGameHoodle"), l = e("../../framework/manager/ResourceManager"), f = e("../../framework/utils/ArrayUtil"), d = e("../../framework/manager/DialogManager"), p = e("../scene/lobbyScene/sendMsg/LobbySendGameHoodle"), h = e("../../framework/common/UserInfo"), _ = cc._decorator, g = _.ccclass, y = (_.property, 
+var i = e("../../framework/uibase/UIDialog"), s = e("../../framework/manager/EventManager"), a = e("../../framework/protocol/GameHoodleProto"), c = e("../../framework/protocol/Response"), u = e("../scene/gameScene/sendMsg/GameSendGameHoodle"), l = e("../../framework/manager/ResourceManager"), f = e("../../framework/utils/ArrayUtil"), d = e("../../framework/manager/DialogManager"), p = e("../scene/lobbyScene/sendMsg/LobbySendGameHoodle"), h = e("../../framework/common/UserInfo"), _ = cc._decorator, g = _.ccclass, y = (_.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -5654,9 +5949,9 @@ this.initUI();
 u.default.send_store_list_req();
 };
 t.prototype.add_event_dispatcher = function() {
-s.default.on(c.CmdName[c.Cmd.eStoreListRes], this, this.on_event_store_list);
-s.default.on(c.CmdName[c.Cmd.eBuyThingsRes], this, this.on_event_buy_things);
-s.default.on(c.CmdName[c.Cmd.eUserGameInfoRes], this, this.on_event_ugame_info);
+s.default.on(a.CmdName[a.Cmd.eStoreListRes], this, this.on_event_store_list);
+s.default.on(a.CmdName[a.Cmd.eBuyThingsRes], this, this.on_event_buy_things);
+s.default.on(a.CmdName[a.Cmd.eUserGameInfoRes], this, this.on_event_ugame_info);
 };
 t.prototype.add_button_event_listener = function() {
 this.add_click_event(this.view.KW_BTN_CLOSE, this.on_click_close.bind(this));
@@ -5675,13 +5970,13 @@ e.prototype.onKeyDown.call(this, t);
 t.prototype.on_event_store_list = function(e) {
 var t = e.getUserData();
 if (t) {
-t.status == a.default.OK && this.show_store_product_info(t.storeprops);
+t.status == c.default.OK && this.show_store_product_info(t.storeprops);
 }
 };
 t.prototype.on_event_buy_things = function(e) {
 var t = e.getUserData();
 if (t) {
-if (t.status == a.default.OK) {
+if (t.status == c.default.OK) {
 p.default.send_get_ugame_info();
 d.default.getInstance().show_weak_hint("购买成功!");
 } else d.default.getInstance().show_weak_hint("购买失败,金币不足!");
@@ -5691,7 +5986,7 @@ t.prototype.on_event_ugame_info = function(e) {
 var t = e.getUserData();
 cc.log("on_event_ugame_info", t);
 if (t) {
-if (t.status == a.default.OK) {
+if (t.status == c.default.OK) {
 var o = JSON.parse(t.userinfostring).uchip;
 this.set_string(this.view.KW_TEXT_MY_CHIP, "我的金币：" + String(o));
 }
@@ -5711,12 +6006,12 @@ if (e && !(f.default.GetArrayLen(e) <= 0)) {
 var t = this.view.KW_SCROLLVIEW_NEW, o = this.seek_child_by_name(t, "KW_LAYOUT"), n = 0, r = null;
 if (t) {
 for (var i in e) {
-var s = e[i], c = JSON.parse(s.propinfo), a = l.ResourceManager.getInstance().getRes("ui_prefabs/games/StoreProduct", cc.Prefab);
-if (a) {
-var u = this.add_to_node(o, a);
+var s = e[i], a = JSON.parse(s.propinfo), c = l.ResourceManager.getInstance().getRes("ui_prefabs/games/StoreProduct", cc.Prefab);
+if (c) {
+var u = this.add_to_node(o, c);
 if (u) {
 this.set_string(this.seek_child_by_name(u, "KW_TEXT_PRICE"), s.propprice + "金币");
-this.set_string(this.seek_child_by_name(u, "KW_TEXT_LEVEL"), c.level + "级");
+this.set_string(this.seek_child_by_name(u, "KW_TEXT_LEVEL"), a.level + "级");
 this.add_click_evenet_with_data(u, "on_click_product", s);
 }
 var d = u.getContentSize();
@@ -5803,10 +6098,10 @@ return o.join("");
 };
 e.format = function() {
 for (var e = [], t = 0; t < arguments.length; t++) e[t] = arguments[t];
-for (var o, n, r, i, s, c = 0, a = arguments[c++], u = []; a; ) {
-if (n = /^[^\x25]+/.exec(a)) u.push(n[0]); else if (n = /^\x25{2}/.exec(a)) u.push("%"); else {
-if (!(n = /^\x25(?:(\d+)\$)?(\+)?(0|'[^$])?(-)?(\d+)?(?:\.(\d+))?([b-fosuxX])/.exec(a))) throw "unkown error ?!";
-if (null == (o = arguments[n[1] || c++]) || void 0 == o) throw "Too few arguments.";
+for (var o, n, r, i, s, a = 0, c = arguments[a++], u = []; c; ) {
+if (n = /^[^\x25]+/.exec(c)) u.push(n[0]); else if (n = /^\x25{2}/.exec(c)) u.push("%"); else {
+if (!(n = /^\x25(?:(\d+)\$)?(\+)?(0|'[^$])?(-)?(\d+)?(?:\.(\d+))?([b-fosuxX])/.exec(c))) throw "unkown error ?!";
+if (null == (o = arguments[n[1] || a++]) || void 0 == o) throw "Too few arguments.";
 if (/[^s]/.test(n[7]) && "number" != typeof o) throw "Expecting number but found " + typeof o;
 switch (n[7]) {
 case "b":
@@ -5854,7 +6149,7 @@ s = n[5] - String(o).length - "".length;
 r = n[5] ? this.str_repeat(i, s) : "";
 u.push("" + (n[4] ? o + r : r + o));
 }
-a = a.substring(n[0].length);
+c = c.substring(n[0].length);
 }
 return u.join("");
 };
@@ -5932,13 +6227,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = cc._decorator, s = i.ccclass, c = (i.property, function(e) {
+var i = cc._decorator, s = i.ccclass, a = (i.property, function(e) {
 n(t, e);
 function t() {
 return null !== e && e.apply(this, arguments) || this;
@@ -5951,7 +6246,7 @@ t.prototype.uninit = function() {};
 t.prototype.reload = function(e) {};
 return t = r([ s ], t);
 }(e("../UIController").default));
-o.default = c;
+o.default = a;
 cc._RF.pop();
 }, {
 "../UIController": "UIController"
@@ -5978,13 +6273,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = cc._decorator, s = i.ccclass, c = i.property, a = cc.Enum({
+var i = cc._decorator, s = i.ccclass, a = i.property, c = cc.Enum({
 Horizontal: 0,
 Vertical: 1
 }), u = (cc.Enum({
@@ -6038,7 +6333,7 @@ configurable: !0
 });
 Object.defineProperty(t.prototype, "scrollModel", {
 get: function() {
-return this.horizontal ? a.Horizontal : a.Vertical;
+return this.horizontal ? c.Horizontal : c.Vertical;
 },
 set: function(e) {
 cc.error("[TableView] 不允许动态修改scrollModel");
@@ -6330,7 +6625,7 @@ if (0 == s.length) e && r.forEach(function(e) {
 return t.updateCell(e);
 }); else if (0 == i.length) r.forEach(function(e, n) {
 return t.updateCell(e, o + n);
-}); else for (var c = o, a = 0, u = 0, l = 0; c <= n; c++, l++) a < i.length && c == i[a]._tvIndex ? this.updateCell(i[a++]) : this.updateCell(s[u++], c);
+}); else for (var a = o, c = 0, u = 0, l = 0; a <= n; a++, l++) c < i.length && a == i[c]._tvIndex ? this.updateCell(i[c++]) : this.updateCell(s[u++], a);
 r.forEach(function(e) {
 e.zIndex = e.tvIndex - o;
 });
@@ -6384,29 +6679,29 @@ t.prototype.addEventListener = function(e) {
 void 0 === e && (e = null);
 this._callback = e;
 };
-r([ c({
+r([ a({
 visible: !1,
 override: !0
 }) ], t.prototype, "horizontal", void 0);
-r([ c({
+r([ a({
 visible: !1,
 override: !0
 }) ], t.prototype, "vertical", void 0);
-r([ c({
+r([ a({
 type: cc.Component.EventHandler,
 visible: !1,
 override: !0
 }) ], t.prototype, "scrollEvents", void 0);
-r([ c(cc.Prefab) ], t.prototype, "_cell", void 0);
-r([ c({
+r([ a(cc.Prefab) ], t.prototype, "_cell", void 0);
+r([ a({
 type: cc.Prefab,
 tooltip: "渲染节点"
 }) ], t.prototype, "cell", null);
-r([ c({
-type: a,
+r([ a({
+type: c,
 tooltip: "滑动方向"
 }) ], t.prototype, "scrollModel", null);
-r([ c({
+r([ a({
 tooltip: "item 间隔"
 }) ], t.prototype, "spacing", void 0);
 return t = r([ s ], t);
@@ -6616,13 +6911,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("./UIController"), s = e("../manager/DialogManager"), c = cc._decorator, a = c.ccclass, u = (c.property, 
+var i = e("./UIController"), s = e("../manager/DialogManager"), a = cc._decorator, c = a.ccclass, u = (a.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -6645,7 +6940,7 @@ case t.KEY.escape:
 this.close();
 }
 };
-return t = r([ a ], t);
+return t = r([ c ], t);
 }(i.default));
 o.default = u;
 cc._RF.pop();
@@ -6998,13 +7293,13 @@ t.prototype = null === o ? Object.create(o) : (n.prototype = o.prototype, new n(
 };
 }(), r = this && this.__decorate || function(e, t, o, n) {
 var r, i = arguments.length, s = i < 3 ? t : null === n ? n = Object.getOwnPropertyDescriptor(t, o) : n;
-if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var c = e.length - 1; c >= 0; c--) (r = e[c]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(e, t, o, n); else for (var a = e.length - 1; a >= 0; a--) (r = e[a]) && (s = (i < 3 ? r(s) : i > 3 ? r(t, o, s) : r(t, o)) || s);
 return i > 3 && s && Object.defineProperty(t, o, s), s;
 };
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../framework/manager/DialogManager"), s = e("../../framework/uibase/UIController"), c = cc._decorator, a = c.ccclass, u = (c.property, 
+var i = e("../../framework/manager/DialogManager"), s = e("../../framework/uibase/UIController"), a = cc._decorator, c = a.ccclass, u = (a.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -7037,7 +7332,7 @@ t.prototype.close = function() {
 this.node.destroy();
 i.default.getInstance().dequeue_weakhint();
 };
-return t = r([ a ], t);
+return t = r([ c ], t);
 }(s.default));
 o.default = u;
 cc._RF.pop();
@@ -7064,8 +7359,8 @@ var n = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? func
 return typeof e;
 } : function(e) {
 return e && "function" == typeof Symbol && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e;
-}, r = e("protobuf"), i = r.Reader, s = r.Writer, c = r.util, a = r.roots.default || (r.roots.default = {});
-a.AuthProto = function() {
+}, r = e("protobuf"), i = r.Reader, s = r.Writer, a = r.util, c = r.roots.default || (r.roots.default = {});
+c.AuthProto = function() {
 var e = {};
 e.Cmd = function() {
 var e = {}, t = Object.create(e);
@@ -7115,7 +7410,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.AuthProto.UnameLoginReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.AuthProto.UnameLoginReq(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -7130,10 +7425,10 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("uname")) throw c.ProtocolError("missing required 'uname'", {
+if (!n.hasOwnProperty("uname")) throw a.ProtocolError("missing required 'uname'", {
 instance: n
 });
-if (!n.hasOwnProperty("upwd")) throw c.ProtocolError("missing required 'upwd'", {
+if (!n.hasOwnProperty("upwd")) throw a.ProtocolError("missing required 'upwd'", {
 instance: n
 });
 return n;
@@ -7143,11 +7438,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isString(e.uname) ? c.isString(e.upwd) ? null : "upwd: string expected" : "uname: string expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isString(e.uname) ? a.isString(e.upwd) ? null : "upwd: string expected" : "uname: string expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.AuthProto.UnameLoginReq) return e;
-var t = new a.AuthProto.UnameLoginReq();
+if (e instanceof c.AuthProto.UnameLoginReq) return e;
+var t = new c.AuthProto.UnameLoginReq();
 null != e.uname && (t.uname = String(e.uname));
 null != e.upwd && (t.upwd = String(e.upwd));
 return t;
@@ -7190,7 +7485,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.AuthProto.UnameLoginRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.AuthProto.UnameLoginRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -7216,11 +7511,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : null != e.status && e.hasOwnProperty("status") && !c.isInteger(e.status) ? "status: integer expected" : null != e.uid && e.hasOwnProperty("uid") && !c.isInteger(e.uid) ? "uid: integer expected" : null != e.userlogininfo && e.hasOwnProperty("userlogininfo") && !c.isString(e.userlogininfo) ? "userlogininfo: string expected" : null;
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : null != e.status && e.hasOwnProperty("status") && !a.isInteger(e.status) ? "status: integer expected" : null != e.uid && e.hasOwnProperty("uid") && !a.isInteger(e.uid) ? "uid: integer expected" : null != e.userlogininfo && e.hasOwnProperty("userlogininfo") && !a.isString(e.userlogininfo) ? "userlogininfo: string expected" : null;
 };
 e.fromObject = function(e) {
-if (e instanceof a.AuthProto.UnameLoginRes) return e;
-var t = new a.AuthProto.UnameLoginRes();
+if (e instanceof c.AuthProto.UnameLoginRes) return e;
+var t = new c.AuthProto.UnameLoginRes();
 null != e.status && (t.status = 0 | e.status);
 null != e.uid && (t.uid = 0 | e.uid);
 null != e.userlogininfo && (t.userlogininfo = String(e.userlogininfo));
@@ -7262,7 +7557,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.AuthProto.GuestLoginReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.AuthProto.GuestLoginReq(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -7273,7 +7568,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("guestkey")) throw c.ProtocolError("missing required 'guestkey'", {
+if (!n.hasOwnProperty("guestkey")) throw a.ProtocolError("missing required 'guestkey'", {
 instance: n
 });
 return n;
@@ -7283,11 +7578,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isString(e.guestkey) ? null : "guestkey: string expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isString(e.guestkey) ? null : "guestkey: string expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.AuthProto.GuestLoginReq) return e;
-var t = new a.AuthProto.GuestLoginReq();
+if (e instanceof c.AuthProto.GuestLoginReq) return e;
+var t = new c.AuthProto.GuestLoginReq();
 null != e.guestkey && (t.guestkey = String(e.guestkey));
 return t;
 };
@@ -7325,7 +7620,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.AuthProto.GuestLoginRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.AuthProto.GuestLoginRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -7344,7 +7639,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
 return n;
@@ -7354,11 +7649,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.status) ? null != e.uid && e.hasOwnProperty("uid") && !c.isInteger(e.uid) ? "uid: integer expected" : null != e.userlogininfo && e.hasOwnProperty("userlogininfo") && !c.isString(e.userlogininfo) ? "userlogininfo: string expected" : null : "status: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.status) ? null != e.uid && e.hasOwnProperty("uid") && !a.isInteger(e.uid) ? "uid: integer expected" : null != e.userlogininfo && e.hasOwnProperty("userlogininfo") && !a.isString(e.userlogininfo) ? "userlogininfo: string expected" : null : "status: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.AuthProto.GuestLoginRes) return e;
-var t = new a.AuthProto.GuestLoginRes();
+if (e instanceof c.AuthProto.GuestLoginRes) return e;
+var t = new c.AuthProto.GuestLoginRes();
 null != e.status && (t.status = 0 | e.status);
 null != e.uid && (t.uid = 0 | e.uid);
 null != e.userlogininfo && (t.userlogininfo = String(e.userlogininfo));
@@ -7402,7 +7697,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.AuthProto.UnameRegistReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.AuthProto.UnameRegistReq(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -7417,10 +7712,10 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("uname")) throw c.ProtocolError("missing required 'uname'", {
+if (!n.hasOwnProperty("uname")) throw a.ProtocolError("missing required 'uname'", {
 instance: n
 });
-if (!n.hasOwnProperty("upwdmd5")) throw c.ProtocolError("missing required 'upwdmd5'", {
+if (!n.hasOwnProperty("upwdmd5")) throw a.ProtocolError("missing required 'upwdmd5'", {
 instance: n
 });
 return n;
@@ -7430,11 +7725,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isString(e.uname) ? c.isString(e.upwdmd5) ? null : "upwdmd5: string expected" : "uname: string expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isString(e.uname) ? a.isString(e.upwdmd5) ? null : "upwdmd5: string expected" : "uname: string expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.AuthProto.UnameRegistReq) return e;
-var t = new a.AuthProto.UnameRegistReq();
+if (e instanceof c.AuthProto.UnameRegistReq) return e;
+var t = new c.AuthProto.UnameRegistReq();
 null != e.uname && (t.uname = String(e.uname));
 null != e.upwdmd5 && (t.upwdmd5 = String(e.upwdmd5));
 return t;
@@ -7473,7 +7768,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.AuthProto.UnameRegistRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.AuthProto.UnameRegistRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -7484,7 +7779,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
 return n;
@@ -7494,11 +7789,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.status) ? null : "status: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.status) ? null : "status: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.AuthProto.UnameRegistRes) return e;
-var t = new a.AuthProto.UnameRegistRes();
+if (e instanceof c.AuthProto.UnameRegistRes) return e;
+var t = new c.AuthProto.UnameRegistRes();
 null != e.status && (t.status = 0 | e.status);
 return t;
 };
@@ -7530,7 +7825,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.AuthProto.PhoneRegistReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.AuthProto.PhoneRegistReq(); e.pos < o; ) {
 var r = e.uint32();
 e.skipType(7 & r);
 }
@@ -7544,7 +7839,7 @@ e.verify = function(e) {
 return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : null;
 };
 e.fromObject = function(e) {
-return e instanceof a.AuthProto.PhoneRegistReq ? e : new a.AuthProto.PhoneRegistReq();
+return e instanceof c.AuthProto.PhoneRegistReq ? e : new c.AuthProto.PhoneRegistReq();
 };
 e.toObject = function() {
 return {};
@@ -7570,7 +7865,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.AuthProto.PhoneRegistRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.AuthProto.PhoneRegistRes(); e.pos < o; ) {
 var r = e.uint32();
 e.skipType(7 & r);
 }
@@ -7584,7 +7879,7 @@ e.verify = function(e) {
 return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : null;
 };
 e.fromObject = function(e) {
-return e instanceof a.AuthProto.PhoneRegistRes ? e : new a.AuthProto.PhoneRegistRes();
+return e instanceof c.AuthProto.PhoneRegistRes ? e : new c.AuthProto.PhoneRegistRes();
 };
 e.toObject = function() {
 return {};
@@ -7610,7 +7905,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.AuthProto.GetPhoneRegVerNumReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.AuthProto.GetPhoneRegVerNumReq(); e.pos < o; ) {
 var r = e.uint32();
 e.skipType(7 & r);
 }
@@ -7624,7 +7919,7 @@ e.verify = function(e) {
 return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : null;
 };
 e.fromObject = function(e) {
-return e instanceof a.AuthProto.GetPhoneRegVerNumReq ? e : new a.AuthProto.GetPhoneRegVerNumReq();
+return e instanceof c.AuthProto.GetPhoneRegVerNumReq ? e : new c.AuthProto.GetPhoneRegVerNumReq();
 };
 e.toObject = function() {
 return {};
@@ -7650,7 +7945,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.AuthProto.GetPhoneRegVerNumRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.AuthProto.GetPhoneRegVerNumRes(); e.pos < o; ) {
 var r = e.uint32();
 e.skipType(7 & r);
 }
@@ -7664,7 +7959,7 @@ e.verify = function(e) {
 return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : null;
 };
 e.fromObject = function(e) {
-return e instanceof a.AuthProto.GetPhoneRegVerNumRes ? e : new a.AuthProto.GetPhoneRegVerNumRes();
+return e instanceof c.AuthProto.GetPhoneRegVerNumRes ? e : new c.AuthProto.GetPhoneRegVerNumRes();
 };
 e.toObject = function() {
 return {};
@@ -7690,7 +7985,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.AuthProto.BindPhoneNumberReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.AuthProto.BindPhoneNumberReq(); e.pos < o; ) {
 var r = e.uint32();
 e.skipType(7 & r);
 }
@@ -7704,7 +7999,7 @@ e.verify = function(e) {
 return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : null;
 };
 e.fromObject = function(e) {
-return e instanceof a.AuthProto.BindPhoneNumberReq ? e : new a.AuthProto.BindPhoneNumberReq();
+return e instanceof c.AuthProto.BindPhoneNumberReq ? e : new c.AuthProto.BindPhoneNumberReq();
 };
 e.toObject = function() {
 return {};
@@ -7730,7 +8025,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.AuthProto.BindPhoneNumberRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.AuthProto.BindPhoneNumberRes(); e.pos < o; ) {
 var r = e.uint32();
 e.skipType(7 & r);
 }
@@ -7744,7 +8039,7 @@ e.verify = function(e) {
 return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : null;
 };
 e.fromObject = function(e) {
-return e instanceof a.AuthProto.BindPhoneNumberRes ? e : new a.AuthProto.BindPhoneNumberRes();
+return e instanceof c.AuthProto.BindPhoneNumberRes ? e : new c.AuthProto.BindPhoneNumberRes();
 };
 e.toObject = function() {
 return {};
@@ -7770,7 +8065,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.AuthProto.ResetUserPwdReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.AuthProto.ResetUserPwdReq(); e.pos < o; ) {
 var r = e.uint32();
 e.skipType(7 & r);
 }
@@ -7784,7 +8079,7 @@ e.verify = function(e) {
 return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : null;
 };
 e.fromObject = function(e) {
-return e instanceof a.AuthProto.ResetUserPwdReq ? e : new a.AuthProto.ResetUserPwdReq();
+return e instanceof c.AuthProto.ResetUserPwdReq ? e : new c.AuthProto.ResetUserPwdReq();
 };
 e.toObject = function() {
 return {};
@@ -7810,7 +8105,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.AuthProto.ResetUserPwdRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.AuthProto.ResetUserPwdRes(); e.pos < o; ) {
 var r = e.uint32();
 e.skipType(7 & r);
 }
@@ -7824,7 +8119,7 @@ e.verify = function(e) {
 return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : null;
 };
 e.fromObject = function(e) {
-return e instanceof a.AuthProto.ResetUserPwdRes ? e : new a.AuthProto.ResetUserPwdRes();
+return e instanceof c.AuthProto.ResetUserPwdRes ? e : new c.AuthProto.ResetUserPwdRes();
 };
 e.toObject = function() {
 return {};
@@ -7850,7 +8145,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.AuthProto.LoginOutReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.AuthProto.LoginOutReq(); e.pos < o; ) {
 var r = e.uint32();
 e.skipType(7 & r);
 }
@@ -7864,7 +8159,7 @@ e.verify = function(e) {
 return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : null;
 };
 e.fromObject = function(e) {
-return e instanceof a.AuthProto.LoginOutReq ? e : new a.AuthProto.LoginOutReq();
+return e instanceof c.AuthProto.LoginOutReq ? e : new c.AuthProto.LoginOutReq();
 };
 e.toObject = function() {
 return {};
@@ -7892,7 +8187,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.AuthProto.LoginOutRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.AuthProto.LoginOutRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -7903,7 +8198,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
 return n;
@@ -7913,11 +8208,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.status) ? null : "status: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.status) ? null : "status: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.AuthProto.LoginOutRes) return e;
-var t = new a.AuthProto.LoginOutRes();
+if (e instanceof c.AuthProto.LoginOutRes) return e;
+var t = new c.AuthProto.LoginOutRes();
 null != e.status && (t.status = 0 | e.status);
 return t;
 };
@@ -7955,7 +8250,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.AuthProto.EditProfileReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.AuthProto.EditProfileReq(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -7974,13 +8269,13 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("unick")) throw c.ProtocolError("missing required 'unick'", {
+if (!n.hasOwnProperty("unick")) throw a.ProtocolError("missing required 'unick'", {
 instance: n
 });
-if (!n.hasOwnProperty("uface")) throw c.ProtocolError("missing required 'uface'", {
+if (!n.hasOwnProperty("uface")) throw a.ProtocolError("missing required 'uface'", {
 instance: n
 });
-if (!n.hasOwnProperty("usex")) throw c.ProtocolError("missing required 'usex'", {
+if (!n.hasOwnProperty("usex")) throw a.ProtocolError("missing required 'usex'", {
 instance: n
 });
 return n;
@@ -7990,11 +8285,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isString(e.unick) ? c.isInteger(e.uface) ? c.isInteger(e.usex) ? null : "usex: integer expected" : "uface: integer expected" : "unick: string expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isString(e.unick) ? a.isInteger(e.uface) ? a.isInteger(e.usex) ? null : "usex: integer expected" : "uface: integer expected" : "unick: string expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.AuthProto.EditProfileReq) return e;
-var t = new a.AuthProto.EditProfileReq();
+if (e instanceof c.AuthProto.EditProfileReq) return e;
+var t = new c.AuthProto.EditProfileReq();
 null != e.unick && (t.unick = String(e.unick));
 null != e.uface && (t.uface = 0 | e.uface);
 null != e.usex && (t.usex = 0 | e.usex);
@@ -8036,7 +8331,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.AuthProto.EditProfileRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.AuthProto.EditProfileRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -8047,7 +8342,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
 return n;
@@ -8057,11 +8352,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.status) ? null : "status: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.status) ? null : "status: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.AuthProto.EditProfileRes) return e;
-var t = new a.AuthProto.EditProfileRes();
+if (e instanceof c.AuthProto.EditProfileRes) return e;
+var t = new c.AuthProto.EditProfileRes();
 null != e.status && (t.status = 0 | e.status);
 return t;
 };
@@ -8097,7 +8392,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.AuthProto.AccountUpgradeReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.AuthProto.AccountUpgradeReq(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -8112,10 +8407,10 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("uname")) throw c.ProtocolError("missing required 'uname'", {
+if (!n.hasOwnProperty("uname")) throw a.ProtocolError("missing required 'uname'", {
 instance: n
 });
-if (!n.hasOwnProperty("upwdmd5")) throw c.ProtocolError("missing required 'upwdmd5'", {
+if (!n.hasOwnProperty("upwdmd5")) throw a.ProtocolError("missing required 'upwdmd5'", {
 instance: n
 });
 return n;
@@ -8125,11 +8420,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isString(e.uname) ? c.isString(e.upwdmd5) ? null : "upwdmd5: string expected" : "uname: string expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isString(e.uname) ? a.isString(e.upwdmd5) ? null : "upwdmd5: string expected" : "uname: string expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.AuthProto.AccountUpgradeReq) return e;
-var t = new a.AuthProto.AccountUpgradeReq();
+if (e instanceof c.AuthProto.AccountUpgradeReq) return e;
+var t = new c.AuthProto.AccountUpgradeReq();
 null != e.uname && (t.uname = String(e.uname));
 null != e.upwdmd5 && (t.upwdmd5 = String(e.upwdmd5));
 return t;
@@ -8168,7 +8463,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.AuthProto.AccountUpgradeRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.AuthProto.AccountUpgradeRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -8179,7 +8474,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
 return n;
@@ -8189,11 +8484,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.status) ? null : "status: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.status) ? null : "status: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.AuthProto.AccountUpgradeRes) return e;
-var t = new a.AuthProto.AccountUpgradeRes();
+if (e instanceof c.AuthProto.AccountUpgradeRes) return e;
+var t = new c.AuthProto.AccountUpgradeRes();
 null != e.status && (t.status = 0 | e.status);
 return t;
 };
@@ -8225,7 +8520,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.AuthProto.GetUserCenterInfoReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.AuthProto.GetUserCenterInfoReq(); e.pos < o; ) {
 var r = e.uint32();
 e.skipType(7 & r);
 }
@@ -8239,7 +8534,7 @@ e.verify = function(e) {
 return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : null;
 };
 e.fromObject = function(e) {
-return e instanceof a.AuthProto.GetUserCenterInfoReq ? e : new a.AuthProto.GetUserCenterInfoReq();
+return e instanceof c.AuthProto.GetUserCenterInfoReq ? e : new c.AuthProto.GetUserCenterInfoReq();
 };
 e.toObject = function() {
 return {};
@@ -8269,7 +8564,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.AuthProto.GetUserCenterInfoRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.AuthProto.GetUserCenterInfoRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -8284,7 +8579,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
 return n;
@@ -8294,11 +8589,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.status) ? null != e.usercenterinfostring && e.hasOwnProperty("usercenterinfostring") && !c.isString(e.usercenterinfostring) ? "usercenterinfostring: string expected" : null : "status: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.status) ? null != e.usercenterinfostring && e.hasOwnProperty("usercenterinfostring") && !a.isString(e.usercenterinfostring) ? "usercenterinfostring: string expected" : null : "status: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.AuthProto.GetUserCenterInfoRes) return e;
-var t = new a.AuthProto.GetUserCenterInfoRes();
+if (e instanceof c.AuthProto.GetUserCenterInfoRes) return e;
+var t = new c.AuthProto.GetUserCenterInfoRes();
 null != e.status && (t.status = 0 | e.status);
 null != e.usercenterinfostring && (t.usercenterinfostring = String(e.usercenterinfostring));
 return t;
@@ -8335,7 +8630,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.AuthProto.ReloginRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.AuthProto.ReloginRes(); e.pos < o; ) {
 var r = e.uint32();
 e.skipType(7 & r);
 }
@@ -8349,7 +8644,7 @@ e.verify = function(e) {
 return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : null;
 };
 e.fromObject = function(e) {
-return e instanceof a.AuthProto.ReloginRes ? e : new a.AuthProto.ReloginRes();
+return e instanceof c.AuthProto.ReloginRes ? e : new c.AuthProto.ReloginRes();
 };
 e.toObject = function() {
 return {};
@@ -8361,7 +8656,7 @@ return e;
 }();
 return e;
 }();
-a.TalkProto = function() {
+c.TalkProto = function() {
 var e = {};
 e.Cmd = function() {
 var e = {}, t = Object.create(e);
@@ -8393,7 +8688,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.TalkProto.LoginReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.TalkProto.LoginReq(); e.pos < o; ) {
 var r = e.uint32();
 e.skipType(7 & r);
 }
@@ -8407,7 +8702,7 @@ e.verify = function(e) {
 return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : null;
 };
 e.fromObject = function(e) {
-return e instanceof a.TalkProto.LoginReq ? e : new a.TalkProto.LoginReq();
+return e instanceof c.TalkProto.LoginReq ? e : new c.TalkProto.LoginReq();
 };
 e.toObject = function() {
 return {};
@@ -8435,7 +8730,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.TalkProto.LoginRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.TalkProto.LoginRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -8446,7 +8741,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
 return n;
@@ -8456,11 +8751,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.status) ? null : "status: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.status) ? null : "status: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.TalkProto.LoginRes) return e;
-var t = new a.TalkProto.LoginRes();
+if (e instanceof c.TalkProto.LoginRes) return e;
+var t = new c.TalkProto.LoginRes();
 null != e.status && (t.status = 0 | e.status);
 return t;
 };
@@ -8492,7 +8787,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.TalkProto.ExitReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.TalkProto.ExitReq(); e.pos < o; ) {
 var r = e.uint32();
 e.skipType(7 & r);
 }
@@ -8506,7 +8801,7 @@ e.verify = function(e) {
 return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : null;
 };
 e.fromObject = function(e) {
-return e instanceof a.TalkProto.ExitReq ? e : new a.TalkProto.ExitReq();
+return e instanceof c.TalkProto.ExitReq ? e : new c.TalkProto.ExitReq();
 };
 e.toObject = function() {
 return {};
@@ -8534,7 +8829,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.TalkProto.ExitRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.TalkProto.ExitRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -8545,7 +8840,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
 return n;
@@ -8555,11 +8850,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.status) ? null : "status: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.status) ? null : "status: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.TalkProto.ExitRes) return e;
-var t = new a.TalkProto.ExitRes();
+if (e instanceof c.TalkProto.ExitRes) return e;
+var t = new c.TalkProto.ExitRes();
 null != e.status && (t.status = 0 | e.status);
 return t;
 };
@@ -8593,7 +8888,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.TalkProto.SendMsgReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.TalkProto.SendMsgReq(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -8604,7 +8899,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("content")) throw c.ProtocolError("missing required 'content'", {
+if (!n.hasOwnProperty("content")) throw a.ProtocolError("missing required 'content'", {
 instance: n
 });
 return n;
@@ -8614,11 +8909,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isString(e.content) ? null : "content: string expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isString(e.content) ? null : "content: string expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.TalkProto.SendMsgReq) return e;
-var t = new a.TalkProto.SendMsgReq();
+if (e instanceof c.TalkProto.SendMsgReq) return e;
+var t = new c.TalkProto.SendMsgReq();
 null != e.content && (t.content = String(e.content));
 return t;
 };
@@ -8652,7 +8947,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.TalkProto.SendMsgRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.TalkProto.SendMsgRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -8663,7 +8958,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
 return n;
@@ -8673,11 +8968,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.status) ? null : "status: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.status) ? null : "status: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.TalkProto.SendMsgRes) return e;
-var t = new a.TalkProto.SendMsgRes();
+if (e instanceof c.TalkProto.SendMsgRes) return e;
+var t = new c.TalkProto.SendMsgRes();
 null != e.status && (t.status = 0 | e.status);
 return t;
 };
@@ -8713,7 +9008,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.TalkProto.OnUserLogin(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.TalkProto.OnUserLogin(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -8728,10 +9023,10 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("ip")) throw c.ProtocolError("missing required 'ip'", {
+if (!n.hasOwnProperty("ip")) throw a.ProtocolError("missing required 'ip'", {
 instance: n
 });
-if (!n.hasOwnProperty("port")) throw c.ProtocolError("missing required 'port'", {
+if (!n.hasOwnProperty("port")) throw a.ProtocolError("missing required 'port'", {
 instance: n
 });
 return n;
@@ -8741,11 +9036,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isString(e.ip) ? c.isInteger(e.port) ? null : "port: integer expected" : "ip: string expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isString(e.ip) ? a.isInteger(e.port) ? null : "port: integer expected" : "ip: string expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.TalkProto.OnUserLogin) return e;
-var t = new a.TalkProto.OnUserLogin();
+if (e instanceof c.TalkProto.OnUserLogin) return e;
+var t = new c.TalkProto.OnUserLogin();
 null != e.ip && (t.ip = String(e.ip));
 null != e.port && (t.port = 0 | e.port);
 return t;
@@ -8786,7 +9081,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.TalkProto.OnUserExit(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.TalkProto.OnUserExit(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -8801,10 +9096,10 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("ip")) throw c.ProtocolError("missing required 'ip'", {
+if (!n.hasOwnProperty("ip")) throw a.ProtocolError("missing required 'ip'", {
 instance: n
 });
-if (!n.hasOwnProperty("port")) throw c.ProtocolError("missing required 'port'", {
+if (!n.hasOwnProperty("port")) throw a.ProtocolError("missing required 'port'", {
 instance: n
 });
 return n;
@@ -8814,11 +9109,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isString(e.ip) ? c.isInteger(e.port) ? null : "port: integer expected" : "ip: string expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isString(e.ip) ? a.isInteger(e.port) ? null : "port: integer expected" : "ip: string expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.TalkProto.OnUserExit) return e;
-var t = new a.TalkProto.OnUserExit();
+if (e instanceof c.TalkProto.OnUserExit) return e;
+var t = new c.TalkProto.OnUserExit();
 null != e.ip && (t.ip = String(e.ip));
 null != e.port && (t.port = 0 | e.port);
 return t;
@@ -8861,7 +9156,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.TalkProto.OnSendMsg(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.TalkProto.OnSendMsg(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -8880,13 +9175,13 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("ip")) throw c.ProtocolError("missing required 'ip'", {
+if (!n.hasOwnProperty("ip")) throw a.ProtocolError("missing required 'ip'", {
 instance: n
 });
-if (!n.hasOwnProperty("port")) throw c.ProtocolError("missing required 'port'", {
+if (!n.hasOwnProperty("port")) throw a.ProtocolError("missing required 'port'", {
 instance: n
 });
-if (!n.hasOwnProperty("content")) throw c.ProtocolError("missing required 'content'", {
+if (!n.hasOwnProperty("content")) throw a.ProtocolError("missing required 'content'", {
 instance: n
 });
 return n;
@@ -8896,11 +9191,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isString(e.ip) ? c.isInteger(e.port) ? c.isString(e.content) ? null : "content: string expected" : "port: integer expected" : "ip: string expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isString(e.ip) ? a.isInteger(e.port) ? a.isString(e.content) ? null : "content: string expected" : "port: integer expected" : "ip: string expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.TalkProto.OnSendMsg) return e;
-var t = new a.TalkProto.OnSendMsg();
+if (e instanceof c.TalkProto.OnSendMsg) return e;
+var t = new c.TalkProto.OnSendMsg();
 null != e.ip && (t.ip = String(e.ip));
 null != e.port && (t.port = 0 | e.port);
 null != e.content && (t.content = String(e.content));
@@ -8926,7 +9221,7 @@ return e;
 }();
 return e;
 }();
-a.GameHoodleProto = function() {
+c.GameHoodleProto = function() {
 var e = {};
 e.Cmd = function() {
 var e = {}, t = Object.create(e);
@@ -9001,7 +9296,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.CreateRoomReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.CreateRoomReq(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -9012,7 +9307,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("gamerule")) throw c.ProtocolError("missing required 'gamerule'", {
+if (!n.hasOwnProperty("gamerule")) throw a.ProtocolError("missing required 'gamerule'", {
 instance: n
 });
 return n;
@@ -9022,11 +9317,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isString(e.gamerule) ? null : "gamerule: string expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isString(e.gamerule) ? null : "gamerule: string expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.CreateRoomReq) return e;
-var t = new a.GameHoodleProto.CreateRoomReq();
+if (e instanceof c.GameHoodleProto.CreateRoomReq) return e;
+var t = new c.GameHoodleProto.CreateRoomReq();
 null != e.gamerule && (t.gamerule = String(e.gamerule));
 return t;
 };
@@ -9060,7 +9355,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.CreateRoomRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.CreateRoomRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -9071,7 +9366,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
 return n;
@@ -9081,11 +9376,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.status) ? null : "status: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.status) ? null : "status: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.CreateRoomRes) return e;
-var t = new a.GameHoodleProto.CreateRoomRes();
+if (e instanceof c.GameHoodleProto.CreateRoomRes) return e;
+var t = new c.GameHoodleProto.CreateRoomRes();
 null != e.status && (t.status = 0 | e.status);
 return t;
 };
@@ -9119,7 +9414,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.JoinRoomReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.JoinRoomReq(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -9130,7 +9425,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("roomid")) throw c.ProtocolError("missing required 'roomid'", {
+if (!n.hasOwnProperty("roomid")) throw a.ProtocolError("missing required 'roomid'", {
 instance: n
 });
 return n;
@@ -9140,11 +9435,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isString(e.roomid) ? null : "roomid: string expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isString(e.roomid) ? null : "roomid: string expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.JoinRoomReq) return e;
-var t = new a.GameHoodleProto.JoinRoomReq();
+if (e instanceof c.GameHoodleProto.JoinRoomReq) return e;
+var t = new c.GameHoodleProto.JoinRoomReq();
 null != e.roomid && (t.roomid = String(e.roomid));
 return t;
 };
@@ -9178,7 +9473,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.JoinRoomRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.JoinRoomRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -9189,7 +9484,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
 return n;
@@ -9199,11 +9494,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.status) ? null : "status: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.status) ? null : "status: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.JoinRoomRes) return e;
-var t = new a.GameHoodleProto.JoinRoomRes();
+if (e instanceof c.GameHoodleProto.JoinRoomRes) return e;
+var t = new c.GameHoodleProto.JoinRoomRes();
 null != e.status && (t.status = 0 | e.status);
 return t;
 };
@@ -9235,7 +9530,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.ExitRoomReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.ExitRoomReq(); e.pos < o; ) {
 var r = e.uint32();
 e.skipType(7 & r);
 }
@@ -9249,7 +9544,7 @@ e.verify = function(e) {
 return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : null;
 };
 e.fromObject = function(e) {
-return e instanceof a.GameHoodleProto.ExitRoomReq ? e : new a.GameHoodleProto.ExitRoomReq();
+return e instanceof c.GameHoodleProto.ExitRoomReq ? e : new c.GameHoodleProto.ExitRoomReq();
 };
 e.toObject = function() {
 return {};
@@ -9279,7 +9574,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.ExitRoomRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.ExitRoomRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -9294,7 +9589,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
 return n;
@@ -9304,11 +9599,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.status) ? null != e.numberid && e.hasOwnProperty("numberid") && !c.isInteger(e.numberid) ? "numberid: integer expected" : null : "status: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.status) ? null != e.numberid && e.hasOwnProperty("numberid") && !a.isInteger(e.numberid) ? "numberid: integer expected" : null : "status: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.ExitRoomRes) return e;
-var t = new a.GameHoodleProto.ExitRoomRes();
+if (e instanceof c.GameHoodleProto.ExitRoomRes) return e;
+var t = new c.GameHoodleProto.ExitRoomRes();
 null != e.status && (t.status = 0 | e.status);
 null != e.numberid && (t.numberid = 0 | e.numberid);
 return t;
@@ -9345,7 +9640,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.DessolveReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.DessolveReq(); e.pos < o; ) {
 var r = e.uint32();
 e.skipType(7 & r);
 }
@@ -9359,7 +9654,7 @@ e.verify = function(e) {
 return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : null;
 };
 e.fromObject = function(e) {
-return e instanceof a.GameHoodleProto.DessolveReq ? e : new a.GameHoodleProto.DessolveReq();
+return e instanceof c.GameHoodleProto.DessolveReq ? e : new c.GameHoodleProto.DessolveReq();
 };
 e.toObject = function() {
 return {};
@@ -9387,7 +9682,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.DessolveRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.DessolveRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -9398,7 +9693,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
 return n;
@@ -9408,11 +9703,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.status) ? null : "status: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.status) ? null : "status: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.DessolveRes) return e;
-var t = new a.GameHoodleProto.DessolveRes();
+if (e instanceof c.GameHoodleProto.DessolveRes) return e;
+var t = new c.GameHoodleProto.DessolveRes();
 null != e.status && (t.status = 0 | e.status);
 return t;
 };
@@ -9444,7 +9739,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.GetRoomStatusReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.GetRoomStatusReq(); e.pos < o; ) {
 var r = e.uint32();
 e.skipType(7 & r);
 }
@@ -9458,7 +9753,7 @@ e.verify = function(e) {
 return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : null;
 };
 e.fromObject = function(e) {
-return e instanceof a.GameHoodleProto.GetRoomStatusReq ? e : new a.GameHoodleProto.GetRoomStatusReq();
+return e instanceof c.GameHoodleProto.GetRoomStatusReq ? e : new c.GameHoodleProto.GetRoomStatusReq();
 };
 e.toObject = function() {
 return {};
@@ -9486,7 +9781,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.GetRoomStatusRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.GetRoomStatusRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -9497,7 +9792,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
 return n;
@@ -9507,11 +9802,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.status) ? null : "status: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.status) ? null : "status: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.GetRoomStatusRes) return e;
-var t = new a.GameHoodleProto.GetRoomStatusRes();
+if (e instanceof c.GameHoodleProto.GetRoomStatusRes) return e;
+var t = new c.GameHoodleProto.GetRoomStatusRes();
 null != e.status && (t.status = 0 | e.status);
 return t;
 };
@@ -9543,7 +9838,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.BackRoomReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.BackRoomReq(); e.pos < o; ) {
 var r = e.uint32();
 e.skipType(7 & r);
 }
@@ -9557,7 +9852,7 @@ e.verify = function(e) {
 return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : null;
 };
 e.fromObject = function(e) {
-return e instanceof a.GameHoodleProto.BackRoomReq ? e : new a.GameHoodleProto.BackRoomReq();
+return e instanceof c.GameHoodleProto.BackRoomReq ? e : new c.GameHoodleProto.BackRoomReq();
 };
 e.toObject = function() {
 return {};
@@ -9585,7 +9880,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.BackRoomRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.BackRoomRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -9596,7 +9891,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
 return n;
@@ -9606,11 +9901,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.status) ? null : "status: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.status) ? null : "status: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.BackRoomRes) return e;
-var t = new a.GameHoodleProto.BackRoomRes();
+if (e instanceof c.GameHoodleProto.BackRoomRes) return e;
+var t = new c.GameHoodleProto.BackRoomRes();
 null != e.status && (t.status = 0 | e.status);
 return t;
 };
@@ -9646,7 +9941,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.UserInfo(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.UserInfo(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -9661,10 +9956,10 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("numberid")) throw c.ProtocolError("missing required 'numberid'", {
+if (!n.hasOwnProperty("numberid")) throw a.ProtocolError("missing required 'numberid'", {
 instance: n
 });
-if (!n.hasOwnProperty("userinfostring")) throw c.ProtocolError("missing required 'userinfostring'", {
+if (!n.hasOwnProperty("userinfostring")) throw a.ProtocolError("missing required 'userinfostring'", {
 instance: n
 });
 return n;
@@ -9674,11 +9969,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isString(e.numberid) ? c.isString(e.userinfostring) ? null : "userinfostring: string expected" : "numberid: string expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isString(e.numberid) ? a.isString(e.userinfostring) ? null : "userinfostring: string expected" : "numberid: string expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.UserInfo) return e;
-var t = new a.GameHoodleProto.UserInfo();
+if (e instanceof c.GameHoodleProto.UserInfo) return e;
+var t = new c.GameHoodleProto.UserInfo();
 null != e.numberid && (t.numberid = String(e.numberid));
 null != e.userinfostring && (t.userinfostring = String(e.userinfostring));
 return t;
@@ -9715,7 +10010,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.CheckLinkGameReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.CheckLinkGameReq(); e.pos < o; ) {
 var r = e.uint32();
 e.skipType(7 & r);
 }
@@ -9729,7 +10024,7 @@ e.verify = function(e) {
 return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : null;
 };
 e.fromObject = function(e) {
-return e instanceof a.GameHoodleProto.CheckLinkGameReq ? e : new a.GameHoodleProto.CheckLinkGameReq();
+return e instanceof c.GameHoodleProto.CheckLinkGameReq ? e : new c.GameHoodleProto.CheckLinkGameReq();
 };
 e.toObject = function() {
 return {};
@@ -9757,7 +10052,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.CheckLinkGameRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.CheckLinkGameRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -9768,7 +10063,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
 return n;
@@ -9778,11 +10073,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.status) ? null : "status: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.status) ? null : "status: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.CheckLinkGameRes) return e;
-var t = new a.GameHoodleProto.CheckLinkGameRes();
+if (e instanceof c.GameHoodleProto.CheckLinkGameRes) return e;
+var t = new c.GameHoodleProto.CheckLinkGameRes();
 null != e.status && (t.status = 0 | e.status);
 return t;
 };
@@ -9803,13 +10098,13 @@ function e(e) {
 this.userinfo = [];
 if (e) for (var t = Object.keys(e), o = 0; o < t.length; ++o) null != e[t[o]] && (this[t[o]] = e[t[o]]);
 }
-e.prototype.userinfo = c.emptyArray;
+e.prototype.userinfo = a.emptyArray;
 e.create = function(t) {
 return new e(t);
 };
 e.encode = function(e, t) {
 t || (t = s.create());
-if (null != e.userinfo && e.userinfo.length) for (var o = 0; o < e.userinfo.length; ++o) a.GameHoodleProto.UserInfo.encode(e.userinfo[o], t.uint32(10).fork()).ldelim();
+if (null != e.userinfo && e.userinfo.length) for (var o = 0; o < e.userinfo.length; ++o) c.GameHoodleProto.UserInfo.encode(e.userinfo[o], t.uint32(10).fork()).ldelim();
 return t;
 };
 e.encodeDelimited = function(e, t) {
@@ -9817,12 +10112,12 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.UserInfoRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.UserInfoRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
 n.userinfo && n.userinfo.length || (n.userinfo = []);
-n.userinfo.push(a.GameHoodleProto.UserInfo.decode(e, e.uint32()));
+n.userinfo.push(c.GameHoodleProto.UserInfo.decode(e, e.uint32()));
 break;
 
 default:
@@ -9840,21 +10135,21 @@ if ("object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e) r
 if (null != e.userinfo && e.hasOwnProperty("userinfo")) {
 if (!Array.isArray(e.userinfo)) return "userinfo: array expected";
 for (var t = 0; t < e.userinfo.length; ++t) {
-var o = a.GameHoodleProto.UserInfo.verify(e.userinfo[t]);
+var o = c.GameHoodleProto.UserInfo.verify(e.userinfo[t]);
 if (o) return "userinfo." + o;
 }
 }
 return null;
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.UserInfoRes) return e;
-var t = new a.GameHoodleProto.UserInfoRes();
+if (e instanceof c.GameHoodleProto.UserInfoRes) return e;
+var t = new c.GameHoodleProto.UserInfoRes();
 if (e.userinfo) {
 if (!Array.isArray(e.userinfo)) throw TypeError(".GameHoodleProto.UserInfoRes.userinfo: array expected");
 t.userinfo = [];
 for (var o = 0; o < e.userinfo.length; ++o) {
 if ("object" !== n(e.userinfo[o])) throw TypeError(".GameHoodleProto.UserInfoRes.userinfo: object expected");
-t.userinfo[o] = a.GameHoodleProto.UserInfo.fromObject(e.userinfo[o]);
+t.userinfo[o] = c.GameHoodleProto.UserInfo.fromObject(e.userinfo[o]);
 }
 }
 return t;
@@ -9865,7 +10160,7 @@ var o = {};
 (t.arrays || t.defaults) && (o.userinfo = []);
 if (e.userinfo && e.userinfo.length) {
 o.userinfo = [];
-for (var n = 0; n < e.userinfo.length; ++n) o.userinfo[n] = a.GameHoodleProto.UserInfo.toObject(e.userinfo[n], t);
+for (var n = 0; n < e.userinfo.length; ++n) o.userinfo[n] = c.GameHoodleProto.UserInfo.toObject(e.userinfo[n], t);
 }
 return o;
 };
@@ -9892,7 +10187,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.GameRuleRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.GameRuleRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -9903,7 +10198,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("gamerule")) throw c.ProtocolError("missing required 'gamerule'", {
+if (!n.hasOwnProperty("gamerule")) throw a.ProtocolError("missing required 'gamerule'", {
 instance: n
 });
 return n;
@@ -9913,11 +10208,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isString(e.gamerule) ? null : "gamerule: string expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isString(e.gamerule) ? null : "gamerule: string expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.GameRuleRes) return e;
-var t = new a.GameHoodleProto.GameRuleRes();
+if (e instanceof c.GameHoodleProto.GameRuleRes) return e;
+var t = new c.GameHoodleProto.GameRuleRes();
 null != e.gamerule && (t.gamerule = String(e.gamerule));
 return t;
 };
@@ -9951,7 +10246,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.RoomIdRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.RoomIdRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -9962,7 +10257,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("roomid")) throw c.ProtocolError("missing required 'roomid'", {
+if (!n.hasOwnProperty("roomid")) throw a.ProtocolError("missing required 'roomid'", {
 instance: n
 });
 return n;
@@ -9972,11 +10267,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isString(e.roomid) ? null : "roomid: string expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isString(e.roomid) ? null : "roomid: string expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.RoomIdRes) return e;
-var t = new a.GameHoodleProto.RoomIdRes();
+if (e instanceof c.GameHoodleProto.RoomIdRes) return e;
+var t = new c.GameHoodleProto.RoomIdRes();
 null != e.roomid && (t.roomid = String(e.roomid));
 return t;
 };
@@ -10012,7 +10307,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.PlayCountRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.PlayCountRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -10027,10 +10322,10 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("playcount")) throw c.ProtocolError("missing required 'playcount'", {
+if (!n.hasOwnProperty("playcount")) throw a.ProtocolError("missing required 'playcount'", {
 instance: n
 });
-if (!n.hasOwnProperty("totalplaycount")) throw c.ProtocolError("missing required 'totalplaycount'", {
+if (!n.hasOwnProperty("totalplaycount")) throw a.ProtocolError("missing required 'totalplaycount'", {
 instance: n
 });
 return n;
@@ -10040,11 +10335,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isString(e.playcount) ? c.isString(e.totalplaycount) ? null : "totalplaycount: string expected" : "playcount: string expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isString(e.playcount) ? a.isString(e.totalplaycount) ? null : "totalplaycount: string expected" : "playcount: string expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.PlayCountRes) return e;
-var t = new a.GameHoodleProto.PlayCountRes();
+if (e instanceof c.GameHoodleProto.PlayCountRes) return e;
+var t = new c.GameHoodleProto.PlayCountRes();
 null != e.playcount && (t.playcount = String(e.playcount));
 null != e.totalplaycount && (t.totalplaycount = String(e.totalplaycount));
 return t;
@@ -10081,7 +10376,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.UserReadyReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.UserReadyReq(); e.pos < o; ) {
 var r = e.uint32();
 e.skipType(7 & r);
 }
@@ -10095,7 +10390,7 @@ e.verify = function(e) {
 return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : null;
 };
 e.fromObject = function(e) {
-return e instanceof a.GameHoodleProto.UserReadyReq ? e : new a.GameHoodleProto.UserReadyReq();
+return e instanceof c.GameHoodleProto.UserReadyReq ? e : new c.GameHoodleProto.UserReadyReq();
 };
 e.toObject = function() {
 return {};
@@ -10127,7 +10422,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.UserReadyRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.UserReadyRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -10146,7 +10441,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
 return n;
@@ -10156,11 +10451,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.status) ? null != e.seatid && e.hasOwnProperty("seatid") && !c.isInteger(e.seatid) ? "seatid: integer expected" : null != e.userstate && e.hasOwnProperty("userstate") && !c.isInteger(e.userstate) ? "userstate: integer expected" : null : "status: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.status) ? null != e.seatid && e.hasOwnProperty("seatid") && !a.isInteger(e.seatid) ? "seatid: integer expected" : null != e.userstate && e.hasOwnProperty("userstate") && !a.isInteger(e.userstate) ? "userstate: integer expected" : null : "status: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.UserReadyRes) return e;
-var t = new a.GameHoodleProto.UserReadyRes();
+if (e instanceof c.GameHoodleProto.UserReadyRes) return e;
+var t = new c.GameHoodleProto.UserReadyRes();
 null != e.status && (t.status = 0 | e.status);
 null != e.seatid && (t.seatid = 0 | e.seatid);
 null != e.userstate && (t.userstate = 0 | e.userstate);
@@ -10202,7 +10497,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.GameStartRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.GameStartRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -10213,7 +10508,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
 return n;
@@ -10223,11 +10518,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.status) ? null : "status: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.status) ? null : "status: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.GameStartRes) return e;
-var t = new a.GameHoodleProto.GameStartRes();
+if (e instanceof c.GameHoodleProto.GameStartRes) return e;
+var t = new c.GameHoodleProto.GameStartRes();
 null != e.status && (t.status = 0 | e.status);
 return t;
 };
@@ -10248,7 +10543,7 @@ function e(e) {
 this.status = [];
 if (e) for (var t = Object.keys(e), o = 0; o < t.length; ++o) null != e[t[o]] && (this[t[o]] = e[t[o]]);
 }
-e.prototype.status = c.emptyArray;
+e.prototype.status = a.emptyArray;
 e.create = function(t) {
 return new e(t);
 };
@@ -10266,7 +10561,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.GameEndRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.GameEndRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -10288,13 +10583,13 @@ e.verify = function(e) {
 if ("object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e) return "object expected";
 if (null != e.status && e.hasOwnProperty("status")) {
 if (!Array.isArray(e.status)) return "status: array expected";
-for (var t = 0; t < e.status.length; ++t) if (!c.isInteger(e.status[t])) return "status: integer[] expected";
+for (var t = 0; t < e.status.length; ++t) if (!a.isInteger(e.status[t])) return "status: integer[] expected";
 }
 return null;
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.GameEndRes) return e;
-var t = new a.GameHoodleProto.GameEndRes();
+if (e instanceof c.GameHoodleProto.GameEndRes) return e;
+var t = new c.GameHoodleProto.GameEndRes();
 if (e.status) {
 if (!Array.isArray(e.status)) throw TypeError(".GameHoodleProto.GameEndRes.status: array expected");
 t.status = [];
@@ -10335,7 +10630,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.UserOfflineRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.UserOfflineRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -10346,7 +10641,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("seatid")) throw c.ProtocolError("missing required 'seatid'", {
+if (!n.hasOwnProperty("seatid")) throw a.ProtocolError("missing required 'seatid'", {
 instance: n
 });
 return n;
@@ -10356,11 +10651,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.seatid) ? null : "seatid: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.seatid) ? null : "seatid: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.UserOfflineRes) return e;
-var t = new a.GameHoodleProto.UserOfflineRes();
+if (e instanceof c.GameHoodleProto.UserOfflineRes) return e;
+var t = new c.GameHoodleProto.UserOfflineRes();
 null != e.seatid && (t.seatid = 0 | e.seatid);
 return t;
 };
@@ -10392,7 +10687,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.LoginLogicReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.LoginLogicReq(); e.pos < o; ) {
 var r = e.uint32();
 e.skipType(7 & r);
 }
@@ -10406,7 +10701,7 @@ e.verify = function(e) {
 return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : null;
 };
 e.fromObject = function(e) {
-return e instanceof a.GameHoodleProto.LoginLogicReq ? e : new a.GameHoodleProto.LoginLogicReq();
+return e instanceof c.GameHoodleProto.LoginLogicReq ? e : new c.GameHoodleProto.LoginLogicReq();
 };
 e.toObject = function() {
 return {};
@@ -10434,7 +10729,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.LoginLogicRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.LoginLogicRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -10445,7 +10740,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
 return n;
@@ -10455,11 +10750,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.status) ? null : "status: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.status) ? null : "status: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.LoginLogicRes) return e;
-var t = new a.GameHoodleProto.LoginLogicRes();
+if (e instanceof c.GameHoodleProto.LoginLogicRes) return e;
+var t = new c.GameHoodleProto.LoginLogicRes();
 null != e.status && (t.status = 0 | e.status);
 return t;
 };
@@ -10497,7 +10792,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.OnePlayerPos(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.OnePlayerPos(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -10516,13 +10811,13 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("seatid")) throw c.ProtocolError("missing required 'seatid'", {
+if (!n.hasOwnProperty("seatid")) throw a.ProtocolError("missing required 'seatid'", {
 instance: n
 });
-if (!n.hasOwnProperty("posx")) throw c.ProtocolError("missing required 'posx'", {
+if (!n.hasOwnProperty("posx")) throw a.ProtocolError("missing required 'posx'", {
 instance: n
 });
-if (!n.hasOwnProperty("posy")) throw c.ProtocolError("missing required 'posy'", {
+if (!n.hasOwnProperty("posy")) throw a.ProtocolError("missing required 'posy'", {
 instance: n
 });
 return n;
@@ -10532,11 +10827,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.seatid) ? c.isString(e.posx) ? c.isString(e.posy) ? null : "posy: string expected" : "posx: string expected" : "seatid: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.seatid) ? a.isString(e.posx) ? a.isString(e.posy) ? null : "posy: string expected" : "posx: string expected" : "seatid: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.OnePlayerPos) return e;
-var t = new a.GameHoodleProto.OnePlayerPos();
+if (e instanceof c.GameHoodleProto.OnePlayerPos) return e;
+var t = new c.GameHoodleProto.OnePlayerPos();
 null != e.seatid && (t.seatid = 0 | e.seatid);
 null != e.posx && (t.posx = String(e.posx));
 null != e.posy && (t.posy = String(e.posy));
@@ -10580,7 +10875,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.OnePlayerPower(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.OnePlayerPower(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -10595,10 +10890,10 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("seatid")) throw c.ProtocolError("missing required 'seatid'", {
+if (!n.hasOwnProperty("seatid")) throw a.ProtocolError("missing required 'seatid'", {
 instance: n
 });
-if (!n.hasOwnProperty("power")) throw c.ProtocolError("missing required 'power'", {
+if (!n.hasOwnProperty("power")) throw a.ProtocolError("missing required 'power'", {
 instance: n
 });
 return n;
@@ -10608,11 +10903,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.seatid) ? c.isInteger(e.power) ? null : "power: integer expected" : "seatid: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.seatid) ? a.isInteger(e.power) ? null : "power: integer expected" : "seatid: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.OnePlayerPower) return e;
-var t = new a.GameHoodleProto.OnePlayerPower();
+if (e instanceof c.GameHoodleProto.OnePlayerPower) return e;
+var t = new c.GameHoodleProto.OnePlayerPower();
 null != e.seatid && (t.seatid = 0 | e.seatid);
 null != e.power && (t.power = 0 | e.power);
 return t;
@@ -10653,7 +10948,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.OnePlayerScore(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.OnePlayerScore(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -10668,10 +10963,10 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("seatid")) throw c.ProtocolError("missing required 'seatid'", {
+if (!n.hasOwnProperty("seatid")) throw a.ProtocolError("missing required 'seatid'", {
 instance: n
 });
-if (!n.hasOwnProperty("score")) throw c.ProtocolError("missing required 'score'", {
+if (!n.hasOwnProperty("score")) throw a.ProtocolError("missing required 'score'", {
 instance: n
 });
 return n;
@@ -10681,11 +10976,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.seatid) ? c.isString(e.score) ? null : "score: string expected" : "seatid: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.seatid) ? a.isString(e.score) ? null : "score: string expected" : "seatid: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.OnePlayerScore) return e;
-var t = new a.GameHoodleProto.OnePlayerScore();
+if (e instanceof c.GameHoodleProto.OnePlayerScore) return e;
+var t = new c.GameHoodleProto.OnePlayerScore();
 null != e.seatid && (t.seatid = 0 | e.seatid);
 null != e.score && (t.score = String(e.score));
 return t;
@@ -10726,7 +11021,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.OnPlayerGolds(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.OnPlayerGolds(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -10741,10 +11036,10 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("seatid")) throw c.ProtocolError("missing required 'seatid'", {
+if (!n.hasOwnProperty("seatid")) throw a.ProtocolError("missing required 'seatid'", {
 instance: n
 });
-if (!n.hasOwnProperty("gold")) throw c.ProtocolError("missing required 'gold'", {
+if (!n.hasOwnProperty("gold")) throw a.ProtocolError("missing required 'gold'", {
 instance: n
 });
 return n;
@@ -10754,11 +11049,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.seatid) ? c.isString(e.gold) ? null : "gold: string expected" : "seatid: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.seatid) ? a.isString(e.gold) ? null : "gold: string expected" : "seatid: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.OnPlayerGolds) return e;
-var t = new a.GameHoodleProto.OnPlayerGolds();
+if (e instanceof c.GameHoodleProto.OnPlayerGolds) return e;
+var t = new c.GameHoodleProto.OnPlayerGolds();
 null != e.seatid && (t.seatid = 0 | e.seatid);
 null != e.gold && (t.gold = String(e.gold));
 return t;
@@ -10784,13 +11079,13 @@ function e(e) {
 this.positions = [];
 if (e) for (var t = Object.keys(e), o = 0; o < t.length; ++o) null != e[t[o]] && (this[t[o]] = e[t[o]]);
 }
-e.prototype.positions = c.emptyArray;
+e.prototype.positions = a.emptyArray;
 e.create = function(t) {
 return new e(t);
 };
 e.encode = function(e, t) {
 t || (t = s.create());
-if (null != e.positions && e.positions.length) for (var o = 0; o < e.positions.length; ++o) a.GameHoodleProto.OnePlayerPos.encode(e.positions[o], t.uint32(10).fork()).ldelim();
+if (null != e.positions && e.positions.length) for (var o = 0; o < e.positions.length; ++o) c.GameHoodleProto.OnePlayerPos.encode(e.positions[o], t.uint32(10).fork()).ldelim();
 return t;
 };
 e.encodeDelimited = function(e, t) {
@@ -10798,12 +11093,12 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.PlayerFirstBallPosRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.PlayerFirstBallPosRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
 n.positions && n.positions.length || (n.positions = []);
-n.positions.push(a.GameHoodleProto.OnePlayerPos.decode(e, e.uint32()));
+n.positions.push(c.GameHoodleProto.OnePlayerPos.decode(e, e.uint32()));
 break;
 
 default:
@@ -10821,21 +11116,21 @@ if ("object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e) r
 if (null != e.positions && e.hasOwnProperty("positions")) {
 if (!Array.isArray(e.positions)) return "positions: array expected";
 for (var t = 0; t < e.positions.length; ++t) {
-var o = a.GameHoodleProto.OnePlayerPos.verify(e.positions[t]);
+var o = c.GameHoodleProto.OnePlayerPos.verify(e.positions[t]);
 if (o) return "positions." + o;
 }
 }
 return null;
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.PlayerFirstBallPosRes) return e;
-var t = new a.GameHoodleProto.PlayerFirstBallPosRes();
+if (e instanceof c.GameHoodleProto.PlayerFirstBallPosRes) return e;
+var t = new c.GameHoodleProto.PlayerFirstBallPosRes();
 if (e.positions) {
 if (!Array.isArray(e.positions)) throw TypeError(".GameHoodleProto.PlayerFirstBallPosRes.positions: array expected");
 t.positions = [];
 for (var o = 0; o < e.positions.length; ++o) {
 if ("object" !== n(e.positions[o])) throw TypeError(".GameHoodleProto.PlayerFirstBallPosRes.positions: object expected");
-t.positions[o] = a.GameHoodleProto.OnePlayerPos.fromObject(e.positions[o]);
+t.positions[o] = c.GameHoodleProto.OnePlayerPos.fromObject(e.positions[o]);
 }
 }
 return t;
@@ -10846,7 +11141,7 @@ var o = {};
 (t.arrays || t.defaults) && (o.positions = []);
 if (e.positions && e.positions.length) {
 o.positions = [];
-for (var n = 0; n < e.positions.length; ++n) o.positions[n] = a.GameHoodleProto.OnePlayerPos.toObject(e.positions[n], t);
+for (var n = 0; n < e.positions.length; ++n) o.positions[n] = c.GameHoodleProto.OnePlayerPos.toObject(e.positions[n], t);
 }
 return o;
 };
@@ -10860,13 +11155,13 @@ function e(e) {
 this.powers = [];
 if (e) for (var t = Object.keys(e), o = 0; o < t.length; ++o) null != e[t[o]] && (this[t[o]] = e[t[o]]);
 }
-e.prototype.powers = c.emptyArray;
+e.prototype.powers = a.emptyArray;
 e.create = function(t) {
 return new e(t);
 };
 e.encode = function(e, t) {
 t || (t = s.create());
-if (null != e.powers && e.powers.length) for (var o = 0; o < e.powers.length; ++o) a.GameHoodleProto.OnePlayerPower.encode(e.powers[o], t.uint32(10).fork()).ldelim();
+if (null != e.powers && e.powers.length) for (var o = 0; o < e.powers.length; ++o) c.GameHoodleProto.OnePlayerPower.encode(e.powers[o], t.uint32(10).fork()).ldelim();
 return t;
 };
 e.encodeDelimited = function(e, t) {
@@ -10874,12 +11169,12 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.PlayerPowerRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.PlayerPowerRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
 n.powers && n.powers.length || (n.powers = []);
-n.powers.push(a.GameHoodleProto.OnePlayerPower.decode(e, e.uint32()));
+n.powers.push(c.GameHoodleProto.OnePlayerPower.decode(e, e.uint32()));
 break;
 
 default:
@@ -10897,21 +11192,21 @@ if ("object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e) r
 if (null != e.powers && e.hasOwnProperty("powers")) {
 if (!Array.isArray(e.powers)) return "powers: array expected";
 for (var t = 0; t < e.powers.length; ++t) {
-var o = a.GameHoodleProto.OnePlayerPower.verify(e.powers[t]);
+var o = c.GameHoodleProto.OnePlayerPower.verify(e.powers[t]);
 if (o) return "powers." + o;
 }
 }
 return null;
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.PlayerPowerRes) return e;
-var t = new a.GameHoodleProto.PlayerPowerRes();
+if (e instanceof c.GameHoodleProto.PlayerPowerRes) return e;
+var t = new c.GameHoodleProto.PlayerPowerRes();
 if (e.powers) {
 if (!Array.isArray(e.powers)) throw TypeError(".GameHoodleProto.PlayerPowerRes.powers: array expected");
 t.powers = [];
 for (var o = 0; o < e.powers.length; ++o) {
 if ("object" !== n(e.powers[o])) throw TypeError(".GameHoodleProto.PlayerPowerRes.powers: object expected");
-t.powers[o] = a.GameHoodleProto.OnePlayerPower.fromObject(e.powers[o]);
+t.powers[o] = c.GameHoodleProto.OnePlayerPower.fromObject(e.powers[o]);
 }
 }
 return t;
@@ -10922,7 +11217,7 @@ var o = {};
 (t.arrays || t.defaults) && (o.powers = []);
 if (e.powers && e.powers.length) {
 o.powers = [];
-for (var n = 0; n < e.powers.length; ++n) o.powers[n] = a.GameHoodleProto.OnePlayerPower.toObject(e.powers[n], t);
+for (var n = 0; n < e.powers.length; ++n) o.powers[n] = c.GameHoodleProto.OnePlayerPower.toObject(e.powers[n], t);
 }
 return o;
 };
@@ -10955,7 +11250,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.PlayerShootReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.PlayerShootReq(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -10978,13 +11273,13 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("seatid")) throw c.ProtocolError("missing required 'seatid'", {
+if (!n.hasOwnProperty("seatid")) throw a.ProtocolError("missing required 'seatid'", {
 instance: n
 });
-if (!n.hasOwnProperty("posx")) throw c.ProtocolError("missing required 'posx'", {
+if (!n.hasOwnProperty("posx")) throw a.ProtocolError("missing required 'posx'", {
 instance: n
 });
-if (!n.hasOwnProperty("posy")) throw c.ProtocolError("missing required 'posy'", {
+if (!n.hasOwnProperty("posy")) throw a.ProtocolError("missing required 'posy'", {
 instance: n
 });
 return n;
@@ -10994,11 +11289,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.seatid) ? c.isString(e.posx) ? c.isString(e.posy) ? null != e.shootpower && e.hasOwnProperty("shootpower") && !c.isInteger(e.shootpower) ? "shootpower: integer expected" : null : "posy: string expected" : "posx: string expected" : "seatid: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.seatid) ? a.isString(e.posx) ? a.isString(e.posy) ? null != e.shootpower && e.hasOwnProperty("shootpower") && !a.isInteger(e.shootpower) ? "shootpower: integer expected" : null : "posy: string expected" : "posx: string expected" : "seatid: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.PlayerShootReq) return e;
-var t = new a.GameHoodleProto.PlayerShootReq();
+if (e instanceof c.GameHoodleProto.PlayerShootReq) return e;
+var t = new c.GameHoodleProto.PlayerShootReq();
 null != e.seatid && (t.seatid = 0 | e.seatid);
 null != e.posx && (t.posx = String(e.posx));
 null != e.posy && (t.posy = String(e.posy));
@@ -11051,7 +11346,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.PlayerShootRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.PlayerShootRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -11078,16 +11373,16 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
-if (!n.hasOwnProperty("seatid")) throw c.ProtocolError("missing required 'seatid'", {
+if (!n.hasOwnProperty("seatid")) throw a.ProtocolError("missing required 'seatid'", {
 instance: n
 });
-if (!n.hasOwnProperty("posx")) throw c.ProtocolError("missing required 'posx'", {
+if (!n.hasOwnProperty("posx")) throw a.ProtocolError("missing required 'posx'", {
 instance: n
 });
-if (!n.hasOwnProperty("posy")) throw c.ProtocolError("missing required 'posy'", {
+if (!n.hasOwnProperty("posy")) throw a.ProtocolError("missing required 'posy'", {
 instance: n
 });
 return n;
@@ -11097,11 +11392,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.status) ? c.isInteger(e.seatid) ? c.isString(e.posx) ? c.isString(e.posy) ? null != e.shootpower && e.hasOwnProperty("shootpower") && !c.isInteger(e.shootpower) ? "shootpower: integer expected" : null : "posy: string expected" : "posx: string expected" : "seatid: integer expected" : "status: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.status) ? a.isInteger(e.seatid) ? a.isString(e.posx) ? a.isString(e.posy) ? null != e.shootpower && e.hasOwnProperty("shootpower") && !a.isInteger(e.shootpower) ? "shootpower: integer expected" : null : "posy: string expected" : "posx: string expected" : "seatid: integer expected" : "status: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.PlayerShootRes) return e;
-var t = new a.GameHoodleProto.PlayerShootRes();
+if (e instanceof c.GameHoodleProto.PlayerShootRes) return e;
+var t = new c.GameHoodleProto.PlayerShootRes();
 null != e.status && (t.status = 0 | e.status);
 null != e.seatid && (t.seatid = 0 | e.seatid);
 null != e.posx && (t.posx = String(e.posx));
@@ -11136,13 +11431,13 @@ function e(e) {
 this.positions = [];
 if (e) for (var t = Object.keys(e), o = 0; o < t.length; ++o) null != e[t[o]] && (this[t[o]] = e[t[o]]);
 }
-e.prototype.positions = c.emptyArray;
+e.prototype.positions = a.emptyArray;
 e.create = function(t) {
 return new e(t);
 };
 e.encode = function(e, t) {
 t || (t = s.create());
-if (null != e.positions && e.positions.length) for (var o = 0; o < e.positions.length; ++o) a.GameHoodleProto.OnePlayerPos.encode(e.positions[o], t.uint32(10).fork()).ldelim();
+if (null != e.positions && e.positions.length) for (var o = 0; o < e.positions.length; ++o) c.GameHoodleProto.OnePlayerPos.encode(e.positions[o], t.uint32(10).fork()).ldelim();
 return t;
 };
 e.encodeDelimited = function(e, t) {
@@ -11150,12 +11445,12 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.PlayerBallPosReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.PlayerBallPosReq(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
 n.positions && n.positions.length || (n.positions = []);
-n.positions.push(a.GameHoodleProto.OnePlayerPos.decode(e, e.uint32()));
+n.positions.push(c.GameHoodleProto.OnePlayerPos.decode(e, e.uint32()));
 break;
 
 default:
@@ -11173,21 +11468,21 @@ if ("object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e) r
 if (null != e.positions && e.hasOwnProperty("positions")) {
 if (!Array.isArray(e.positions)) return "positions: array expected";
 for (var t = 0; t < e.positions.length; ++t) {
-var o = a.GameHoodleProto.OnePlayerPos.verify(e.positions[t]);
+var o = c.GameHoodleProto.OnePlayerPos.verify(e.positions[t]);
 if (o) return "positions." + o;
 }
 }
 return null;
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.PlayerBallPosReq) return e;
-var t = new a.GameHoodleProto.PlayerBallPosReq();
+if (e instanceof c.GameHoodleProto.PlayerBallPosReq) return e;
+var t = new c.GameHoodleProto.PlayerBallPosReq();
 if (e.positions) {
 if (!Array.isArray(e.positions)) throw TypeError(".GameHoodleProto.PlayerBallPosReq.positions: array expected");
 t.positions = [];
 for (var o = 0; o < e.positions.length; ++o) {
 if ("object" !== n(e.positions[o])) throw TypeError(".GameHoodleProto.PlayerBallPosReq.positions: object expected");
-t.positions[o] = a.GameHoodleProto.OnePlayerPos.fromObject(e.positions[o]);
+t.positions[o] = c.GameHoodleProto.OnePlayerPos.fromObject(e.positions[o]);
 }
 }
 return t;
@@ -11198,7 +11493,7 @@ var o = {};
 (t.arrays || t.defaults) && (o.positions = []);
 if (e.positions && e.positions.length) {
 o.positions = [];
-for (var n = 0; n < e.positions.length; ++n) o.positions[n] = a.GameHoodleProto.OnePlayerPos.toObject(e.positions[n], t);
+for (var n = 0; n < e.positions.length; ++n) o.positions[n] = c.GameHoodleProto.OnePlayerPos.toObject(e.positions[n], t);
 }
 return o;
 };
@@ -11213,14 +11508,14 @@ this.positions = [];
 if (e) for (var t = Object.keys(e), o = 0; o < t.length; ++o) null != e[t[o]] && (this[t[o]] = e[t[o]]);
 }
 e.prototype.status = 0;
-e.prototype.positions = c.emptyArray;
+e.prototype.positions = a.emptyArray;
 e.create = function(t) {
 return new e(t);
 };
 e.encode = function(e, t) {
 t || (t = s.create());
 t.uint32(8).sint32(e.status);
-if (null != e.positions && e.positions.length) for (var o = 0; o < e.positions.length; ++o) a.GameHoodleProto.OnePlayerPos.encode(e.positions[o], t.uint32(18).fork()).ldelim();
+if (null != e.positions && e.positions.length) for (var o = 0; o < e.positions.length; ++o) c.GameHoodleProto.OnePlayerPos.encode(e.positions[o], t.uint32(18).fork()).ldelim();
 return t;
 };
 e.encodeDelimited = function(e, t) {
@@ -11228,7 +11523,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.PlayerBallPosRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.PlayerBallPosRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -11237,14 +11532,14 @@ break;
 
 case 2:
 n.positions && n.positions.length || (n.positions = []);
-n.positions.push(a.GameHoodleProto.OnePlayerPos.decode(e, e.uint32()));
+n.positions.push(c.GameHoodleProto.OnePlayerPos.decode(e, e.uint32()));
 break;
 
 default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
 return n;
@@ -11255,26 +11550,26 @@ return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
 if ("object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e) return "object expected";
-if (!c.isInteger(e.status)) return "status: integer expected";
+if (!a.isInteger(e.status)) return "status: integer expected";
 if (null != e.positions && e.hasOwnProperty("positions")) {
 if (!Array.isArray(e.positions)) return "positions: array expected";
 for (var t = 0; t < e.positions.length; ++t) {
-var o = a.GameHoodleProto.OnePlayerPos.verify(e.positions[t]);
+var o = c.GameHoodleProto.OnePlayerPos.verify(e.positions[t]);
 if (o) return "positions." + o;
 }
 }
 return null;
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.PlayerBallPosRes) return e;
-var t = new a.GameHoodleProto.PlayerBallPosRes();
+if (e instanceof c.GameHoodleProto.PlayerBallPosRes) return e;
+var t = new c.GameHoodleProto.PlayerBallPosRes();
 null != e.status && (t.status = 0 | e.status);
 if (e.positions) {
 if (!Array.isArray(e.positions)) throw TypeError(".GameHoodleProto.PlayerBallPosRes.positions: array expected");
 t.positions = [];
 for (var o = 0; o < e.positions.length; ++o) {
 if ("object" !== n(e.positions[o])) throw TypeError(".GameHoodleProto.PlayerBallPosRes.positions: object expected");
-t.positions[o] = a.GameHoodleProto.OnePlayerPos.fromObject(e.positions[o]);
+t.positions[o] = c.GameHoodleProto.OnePlayerPos.fromObject(e.positions[o]);
 }
 }
 return t;
@@ -11287,7 +11582,7 @@ t.defaults && (o.status = 0);
 null != e.status && e.hasOwnProperty("status") && (o.status = e.status);
 if (e.positions && e.positions.length) {
 o.positions = [];
-for (var n = 0; n < e.positions.length; ++n) o.positions[n] = a.GameHoodleProto.OnePlayerPos.toObject(e.positions[n], t);
+for (var n = 0; n < e.positions.length; ++n) o.positions[n] = c.GameHoodleProto.OnePlayerPos.toObject(e.positions[n], t);
 }
 return o;
 };
@@ -11316,7 +11611,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.PlayerIsShootedReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.PlayerIsShootedReq(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -11331,10 +11626,10 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("srcseatid")) throw c.ProtocolError("missing required 'srcseatid'", {
+if (!n.hasOwnProperty("srcseatid")) throw a.ProtocolError("missing required 'srcseatid'", {
 instance: n
 });
-if (!n.hasOwnProperty("desseatid")) throw c.ProtocolError("missing required 'desseatid'", {
+if (!n.hasOwnProperty("desseatid")) throw a.ProtocolError("missing required 'desseatid'", {
 instance: n
 });
 return n;
@@ -11344,11 +11639,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.srcseatid) ? c.isInteger(e.desseatid) ? null : "desseatid: integer expected" : "srcseatid: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.srcseatid) ? a.isInteger(e.desseatid) ? null : "desseatid: integer expected" : "srcseatid: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.PlayerIsShootedReq) return e;
-var t = new a.GameHoodleProto.PlayerIsShootedReq();
+if (e instanceof c.GameHoodleProto.PlayerIsShootedReq) return e;
+var t = new c.GameHoodleProto.PlayerIsShootedReq();
 null != e.srcseatid && (t.srcseatid = 0 | e.srcseatid);
 null != e.desseatid && (t.desseatid = 0 | e.desseatid);
 return t;
@@ -11391,7 +11686,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.PlayerIsShootedRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.PlayerIsShootedRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -11410,13 +11705,13 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
-if (!n.hasOwnProperty("srcseatid")) throw c.ProtocolError("missing required 'srcseatid'", {
+if (!n.hasOwnProperty("srcseatid")) throw a.ProtocolError("missing required 'srcseatid'", {
 instance: n
 });
-if (!n.hasOwnProperty("desseatid")) throw c.ProtocolError("missing required 'desseatid'", {
+if (!n.hasOwnProperty("desseatid")) throw a.ProtocolError("missing required 'desseatid'", {
 instance: n
 });
 return n;
@@ -11426,11 +11721,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.status) ? c.isInteger(e.srcseatid) ? c.isInteger(e.desseatid) ? null : "desseatid: integer expected" : "srcseatid: integer expected" : "status: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.status) ? a.isInteger(e.srcseatid) ? a.isInteger(e.desseatid) ? null : "desseatid: integer expected" : "srcseatid: integer expected" : "status: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.PlayerIsShootedRes) return e;
-var t = new a.GameHoodleProto.PlayerIsShootedRes();
+if (e instanceof c.GameHoodleProto.PlayerIsShootedRes) return e;
+var t = new c.GameHoodleProto.PlayerIsShootedRes();
 null != e.status && (t.status = 0 | e.status);
 null != e.srcseatid && (t.srcseatid = 0 | e.srcseatid);
 null != e.desseatid && (t.desseatid = 0 | e.desseatid);
@@ -11459,13 +11754,13 @@ function e(e) {
 this.scores = [];
 if (e) for (var t = Object.keys(e), o = 0; o < t.length; ++o) null != e[t[o]] && (this[t[o]] = e[t[o]]);
 }
-e.prototype.scores = c.emptyArray;
+e.prototype.scores = a.emptyArray;
 e.create = function(t) {
 return new e(t);
 };
 e.encode = function(e, t) {
 t || (t = s.create());
-if (null != e.scores && e.scores.length) for (var o = 0; o < e.scores.length; ++o) a.GameHoodleProto.OnePlayerScore.encode(e.scores[o], t.uint32(10).fork()).ldelim();
+if (null != e.scores && e.scores.length) for (var o = 0; o < e.scores.length; ++o) c.GameHoodleProto.OnePlayerScore.encode(e.scores[o], t.uint32(10).fork()).ldelim();
 return t;
 };
 e.encodeDelimited = function(e, t) {
@@ -11473,12 +11768,12 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.GameResultRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.GameResultRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
 n.scores && n.scores.length || (n.scores = []);
-n.scores.push(a.GameHoodleProto.OnePlayerScore.decode(e, e.uint32()));
+n.scores.push(c.GameHoodleProto.OnePlayerScore.decode(e, e.uint32()));
 break;
 
 default:
@@ -11496,21 +11791,21 @@ if ("object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e) r
 if (null != e.scores && e.hasOwnProperty("scores")) {
 if (!Array.isArray(e.scores)) return "scores: array expected";
 for (var t = 0; t < e.scores.length; ++t) {
-var o = a.GameHoodleProto.OnePlayerScore.verify(e.scores[t]);
+var o = c.GameHoodleProto.OnePlayerScore.verify(e.scores[t]);
 if (o) return "scores." + o;
 }
 }
 return null;
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.GameResultRes) return e;
-var t = new a.GameHoodleProto.GameResultRes();
+if (e instanceof c.GameHoodleProto.GameResultRes) return e;
+var t = new c.GameHoodleProto.GameResultRes();
 if (e.scores) {
 if (!Array.isArray(e.scores)) throw TypeError(".GameHoodleProto.GameResultRes.scores: array expected");
 t.scores = [];
 for (var o = 0; o < e.scores.length; ++o) {
 if ("object" !== n(e.scores[o])) throw TypeError(".GameHoodleProto.GameResultRes.scores: object expected");
-t.scores[o] = a.GameHoodleProto.OnePlayerScore.fromObject(e.scores[o]);
+t.scores[o] = c.GameHoodleProto.OnePlayerScore.fromObject(e.scores[o]);
 }
 }
 return t;
@@ -11521,7 +11816,7 @@ var o = {};
 (t.arrays || t.defaults) && (o.scores = []);
 if (e.scores && e.scores.length) {
 o.scores = [];
-for (var n = 0; n < e.scores.length; ++n) o.scores[n] = a.GameHoodleProto.OnePlayerScore.toObject(e.scores[n], t);
+for (var n = 0; n < e.scores.length; ++n) o.scores[n] = c.GameHoodleProto.OnePlayerScore.toObject(e.scores[n], t);
 }
 return o;
 };
@@ -11536,15 +11831,15 @@ this.scores = [];
 this.golds = [];
 if (e) for (var t = Object.keys(e), o = 0; o < t.length; ++o) null != e[t[o]] && (this[t[o]] = e[t[o]]);
 }
-e.prototype.scores = c.emptyArray;
-e.prototype.golds = c.emptyArray;
+e.prototype.scores = a.emptyArray;
+e.prototype.golds = a.emptyArray;
 e.create = function(t) {
 return new e(t);
 };
 e.encode = function(e, t) {
 t || (t = s.create());
-if (null != e.scores && e.scores.length) for (var o = 0; o < e.scores.length; ++o) a.GameHoodleProto.OnePlayerScore.encode(e.scores[o], t.uint32(10).fork()).ldelim();
-if (null != e.golds && e.golds.length) for (o = 0; o < e.golds.length; ++o) a.GameHoodleProto.OnPlayerGolds.encode(e.golds[o], t.uint32(18).fork()).ldelim();
+if (null != e.scores && e.scores.length) for (var o = 0; o < e.scores.length; ++o) c.GameHoodleProto.OnePlayerScore.encode(e.scores[o], t.uint32(10).fork()).ldelim();
+if (null != e.golds && e.golds.length) for (o = 0; o < e.golds.length; ++o) c.GameHoodleProto.OnPlayerGolds.encode(e.golds[o], t.uint32(18).fork()).ldelim();
 return t;
 };
 e.encodeDelimited = function(e, t) {
@@ -11552,17 +11847,17 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.TotalGameResultRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.TotalGameResultRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
 n.scores && n.scores.length || (n.scores = []);
-n.scores.push(a.GameHoodleProto.OnePlayerScore.decode(e, e.uint32()));
+n.scores.push(c.GameHoodleProto.OnePlayerScore.decode(e, e.uint32()));
 break;
 
 case 2:
 n.golds && n.golds.length || (n.golds = []);
-n.golds.push(a.GameHoodleProto.OnPlayerGolds.decode(e, e.uint32()));
+n.golds.push(c.GameHoodleProto.OnPlayerGolds.decode(e, e.uint32()));
 break;
 
 default:
@@ -11580,27 +11875,27 @@ if ("object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e) r
 if (null != e.scores && e.hasOwnProperty("scores")) {
 if (!Array.isArray(e.scores)) return "scores: array expected";
 for (var t = 0; t < e.scores.length; ++t) {
-if (o = a.GameHoodleProto.OnePlayerScore.verify(e.scores[t])) return "scores." + o;
+if (o = c.GameHoodleProto.OnePlayerScore.verify(e.scores[t])) return "scores." + o;
 }
 }
 if (null != e.golds && e.hasOwnProperty("golds")) {
 if (!Array.isArray(e.golds)) return "golds: array expected";
 for (t = 0; t < e.golds.length; ++t) {
 var o;
-if (o = a.GameHoodleProto.OnPlayerGolds.verify(e.golds[t])) return "golds." + o;
+if (o = c.GameHoodleProto.OnPlayerGolds.verify(e.golds[t])) return "golds." + o;
 }
 }
 return null;
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.TotalGameResultRes) return e;
-var t = new a.GameHoodleProto.TotalGameResultRes();
+if (e instanceof c.GameHoodleProto.TotalGameResultRes) return e;
+var t = new c.GameHoodleProto.TotalGameResultRes();
 if (e.scores) {
 if (!Array.isArray(e.scores)) throw TypeError(".GameHoodleProto.TotalGameResultRes.scores: array expected");
 t.scores = [];
 for (var o = 0; o < e.scores.length; ++o) {
 if ("object" !== n(e.scores[o])) throw TypeError(".GameHoodleProto.TotalGameResultRes.scores: object expected");
-t.scores[o] = a.GameHoodleProto.OnePlayerScore.fromObject(e.scores[o]);
+t.scores[o] = c.GameHoodleProto.OnePlayerScore.fromObject(e.scores[o]);
 }
 }
 if (e.golds) {
@@ -11608,7 +11903,7 @@ if (!Array.isArray(e.golds)) throw TypeError(".GameHoodleProto.TotalGameResultRe
 t.golds = [];
 for (o = 0; o < e.golds.length; ++o) {
 if ("object" !== n(e.golds[o])) throw TypeError(".GameHoodleProto.TotalGameResultRes.golds: object expected");
-t.golds[o] = a.GameHoodleProto.OnPlayerGolds.fromObject(e.golds[o]);
+t.golds[o] = c.GameHoodleProto.OnPlayerGolds.fromObject(e.golds[o]);
 }
 }
 return t;
@@ -11622,11 +11917,11 @@ o.golds = [];
 }
 if (e.scores && e.scores.length) {
 o.scores = [];
-for (var n = 0; n < e.scores.length; ++n) o.scores[n] = a.GameHoodleProto.OnePlayerScore.toObject(e.scores[n], t);
+for (var n = 0; n < e.scores.length; ++n) o.scores[n] = c.GameHoodleProto.OnePlayerScore.toObject(e.scores[n], t);
 }
 if (e.golds && e.golds.length) {
 o.golds = [];
-for (n = 0; n < e.golds.length; ++n) o.golds[n] = a.GameHoodleProto.OnPlayerGolds.toObject(e.golds[n], t);
+for (n = 0; n < e.golds.length; ++n) o.golds[n] = c.GameHoodleProto.OnPlayerGolds.toObject(e.golds[n], t);
 }
 return o;
 };
@@ -11640,13 +11935,13 @@ function e(e) {
 this.scores = [];
 if (e) for (var t = Object.keys(e), o = 0; o < t.length; ++o) null != e[t[o]] && (this[t[o]] = e[t[o]]);
 }
-e.prototype.scores = c.emptyArray;
+e.prototype.scores = a.emptyArray;
 e.create = function(t) {
 return new e(t);
 };
 e.encode = function(e, t) {
 t || (t = s.create());
-if (null != e.scores && e.scores.length) for (var o = 0; o < e.scores.length; ++o) a.GameHoodleProto.OnePlayerScore.encode(e.scores[o], t.uint32(10).fork()).ldelim();
+if (null != e.scores && e.scores.length) for (var o = 0; o < e.scores.length; ++o) c.GameHoodleProto.OnePlayerScore.encode(e.scores[o], t.uint32(10).fork()).ldelim();
 return t;
 };
 e.encodeDelimited = function(e, t) {
@@ -11654,12 +11949,12 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.PlayerScoreRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.PlayerScoreRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
 n.scores && n.scores.length || (n.scores = []);
-n.scores.push(a.GameHoodleProto.OnePlayerScore.decode(e, e.uint32()));
+n.scores.push(c.GameHoodleProto.OnePlayerScore.decode(e, e.uint32()));
 break;
 
 default:
@@ -11677,21 +11972,21 @@ if ("object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e) r
 if (null != e.scores && e.hasOwnProperty("scores")) {
 if (!Array.isArray(e.scores)) return "scores: array expected";
 for (var t = 0; t < e.scores.length; ++t) {
-var o = a.GameHoodleProto.OnePlayerScore.verify(e.scores[t]);
+var o = c.GameHoodleProto.OnePlayerScore.verify(e.scores[t]);
 if (o) return "scores." + o;
 }
 }
 return null;
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.PlayerScoreRes) return e;
-var t = new a.GameHoodleProto.PlayerScoreRes();
+if (e instanceof c.GameHoodleProto.PlayerScoreRes) return e;
+var t = new c.GameHoodleProto.PlayerScoreRes();
 if (e.scores) {
 if (!Array.isArray(e.scores)) throw TypeError(".GameHoodleProto.PlayerScoreRes.scores: array expected");
 t.scores = [];
 for (var o = 0; o < e.scores.length; ++o) {
 if ("object" !== n(e.scores[o])) throw TypeError(".GameHoodleProto.PlayerScoreRes.scores: object expected");
-t.scores[o] = a.GameHoodleProto.OnePlayerScore.fromObject(e.scores[o]);
+t.scores[o] = c.GameHoodleProto.OnePlayerScore.fromObject(e.scores[o]);
 }
 }
 return t;
@@ -11702,7 +11997,7 @@ var o = {};
 (t.arrays || t.defaults) && (o.scores = []);
 if (e.scores && e.scores.length) {
 o.scores = [];
-for (var n = 0; n < e.scores.length; ++n) o.scores[n] = a.GameHoodleProto.OnePlayerScore.toObject(e.scores[n], t);
+for (var n = 0; n < e.scores.length; ++n) o.scores[n] = c.GameHoodleProto.OnePlayerScore.toObject(e.scores[n], t);
 }
 return o;
 };
@@ -11729,7 +12024,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.UserMatchReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.UserMatchReq(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -11740,7 +12035,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("zoomid")) throw c.ProtocolError("missing required 'zoomid'", {
+if (!n.hasOwnProperty("zoomid")) throw a.ProtocolError("missing required 'zoomid'", {
 instance: n
 });
 return n;
@@ -11750,11 +12045,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.zoomid) ? null : "zoomid: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.zoomid) ? null : "zoomid: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.UserMatchReq) return e;
-var t = new a.GameHoodleProto.UserMatchReq();
+if (e instanceof c.GameHoodleProto.UserMatchReq) return e;
+var t = new c.GameHoodleProto.UserMatchReq();
 null != e.zoomid && (t.zoomid = 0 | e.zoomid);
 return t;
 };
@@ -11777,7 +12072,7 @@ if (e) for (var t = Object.keys(e), o = 0; o < t.length; ++o) null != e[t[o]] &&
 }
 e.prototype.status = 0;
 e.prototype.matchsuccess = !1;
-e.prototype.userinfo = c.emptyArray;
+e.prototype.userinfo = a.emptyArray;
 e.create = function(t) {
 return new e(t);
 };
@@ -11785,7 +12080,7 @@ e.encode = function(e, t) {
 t || (t = s.create());
 t.uint32(8).sint32(e.status);
 null != e.matchsuccess && e.hasOwnProperty("matchsuccess") && t.uint32(16).bool(e.matchsuccess);
-if (null != e.userinfo && e.userinfo.length) for (var o = 0; o < e.userinfo.length; ++o) a.GameHoodleProto.UserInfo.encode(e.userinfo[o], t.uint32(26).fork()).ldelim();
+if (null != e.userinfo && e.userinfo.length) for (var o = 0; o < e.userinfo.length; ++o) c.GameHoodleProto.UserInfo.encode(e.userinfo[o], t.uint32(26).fork()).ldelim();
 return t;
 };
 e.encodeDelimited = function(e, t) {
@@ -11793,7 +12088,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.UserMatchRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.UserMatchRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -11806,14 +12101,14 @@ break;
 
 case 3:
 n.userinfo && n.userinfo.length || (n.userinfo = []);
-n.userinfo.push(a.GameHoodleProto.UserInfo.decode(e, e.uint32()));
+n.userinfo.push(c.GameHoodleProto.UserInfo.decode(e, e.uint32()));
 break;
 
 default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
 return n;
@@ -11824,20 +12119,20 @@ return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
 if ("object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e) return "object expected";
-if (!c.isInteger(e.status)) return "status: integer expected";
+if (!a.isInteger(e.status)) return "status: integer expected";
 if (null != e.matchsuccess && e.hasOwnProperty("matchsuccess") && "boolean" != typeof e.matchsuccess) return "matchsuccess: boolean expected";
 if (null != e.userinfo && e.hasOwnProperty("userinfo")) {
 if (!Array.isArray(e.userinfo)) return "userinfo: array expected";
 for (var t = 0; t < e.userinfo.length; ++t) {
-var o = a.GameHoodleProto.UserInfo.verify(e.userinfo[t]);
+var o = c.GameHoodleProto.UserInfo.verify(e.userinfo[t]);
 if (o) return "userinfo." + o;
 }
 }
 return null;
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.UserMatchRes) return e;
-var t = new a.GameHoodleProto.UserMatchRes();
+if (e instanceof c.GameHoodleProto.UserMatchRes) return e;
+var t = new c.GameHoodleProto.UserMatchRes();
 null != e.status && (t.status = 0 | e.status);
 null != e.matchsuccess && (t.matchsuccess = Boolean(e.matchsuccess));
 if (e.userinfo) {
@@ -11845,7 +12140,7 @@ if (!Array.isArray(e.userinfo)) throw TypeError(".GameHoodleProto.UserMatchRes.u
 t.userinfo = [];
 for (var o = 0; o < e.userinfo.length; ++o) {
 if ("object" !== n(e.userinfo[o])) throw TypeError(".GameHoodleProto.UserMatchRes.userinfo: object expected");
-t.userinfo[o] = a.GameHoodleProto.UserInfo.fromObject(e.userinfo[o]);
+t.userinfo[o] = c.GameHoodleProto.UserInfo.fromObject(e.userinfo[o]);
 }
 }
 return t;
@@ -11862,7 +12157,7 @@ null != e.status && e.hasOwnProperty("status") && (o.status = e.status);
 null != e.matchsuccess && e.hasOwnProperty("matchsuccess") && (o.matchsuccess = e.matchsuccess);
 if (e.userinfo && e.userinfo.length) {
 o.userinfo = [];
-for (var n = 0; n < e.userinfo.length; ++n) o.userinfo[n] = a.GameHoodleProto.UserInfo.toObject(e.userinfo[n], t);
+for (var n = 0; n < e.userinfo.length; ++n) o.userinfo[n] = c.GameHoodleProto.UserInfo.toObject(e.userinfo[n], t);
 }
 return o;
 };
@@ -11887,7 +12182,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.UserStopMatchReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.UserStopMatchReq(); e.pos < o; ) {
 var r = e.uint32();
 e.skipType(7 & r);
 }
@@ -11901,7 +12196,7 @@ e.verify = function(e) {
 return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : null;
 };
 e.fromObject = function(e) {
-return e instanceof a.GameHoodleProto.UserStopMatchReq ? e : new a.GameHoodleProto.UserStopMatchReq();
+return e instanceof c.GameHoodleProto.UserStopMatchReq ? e : new c.GameHoodleProto.UserStopMatchReq();
 };
 e.toObject = function() {
 return {};
@@ -11929,7 +12224,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.UserStopMatchRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.UserStopMatchRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -11940,7 +12235,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
 return n;
@@ -11950,11 +12245,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.status) ? null : "status: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.status) ? null : "status: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.UserStopMatchRes) return e;
-var t = new a.GameHoodleProto.UserStopMatchRes();
+if (e instanceof c.GameHoodleProto.UserStopMatchRes) return e;
+var t = new c.GameHoodleProto.UserStopMatchRes();
 null != e.status && (t.status = 0 | e.status);
 return t;
 };
@@ -11986,7 +12281,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.UserGameInfoReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.UserGameInfoReq(); e.pos < o; ) {
 var r = e.uint32();
 e.skipType(7 & r);
 }
@@ -12000,7 +12295,7 @@ e.verify = function(e) {
 return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : null;
 };
 e.fromObject = function(e) {
-return e instanceof a.GameHoodleProto.UserGameInfoReq ? e : new a.GameHoodleProto.UserGameInfoReq();
+return e instanceof c.GameHoodleProto.UserGameInfoReq ? e : new c.GameHoodleProto.UserGameInfoReq();
 };
 e.toObject = function() {
 return {};
@@ -12030,7 +12325,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.UserGameInfoRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.UserGameInfoRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -12045,7 +12340,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
 return n;
@@ -12055,11 +12350,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.status) ? null != e.userinfostring && e.hasOwnProperty("userinfostring") && !c.isString(e.userinfostring) ? "userinfostring: string expected" : null : "status: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.status) ? null != e.userinfostring && e.hasOwnProperty("userinfostring") && !a.isString(e.userinfostring) ? "userinfostring: string expected" : null : "status: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.UserGameInfoRes) return e;
-var t = new a.GameHoodleProto.UserGameInfoRes();
+if (e instanceof c.GameHoodleProto.UserGameInfoRes) return e;
+var t = new c.GameHoodleProto.UserGameInfoRes();
 null != e.status && (t.status = 0 | e.status);
 null != e.userinfostring && (t.userinfostring = String(e.userinfostring));
 return t;
@@ -12096,7 +12391,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.UserBallInfoReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.UserBallInfoReq(); e.pos < o; ) {
 var r = e.uint32();
 e.skipType(7 & r);
 }
@@ -12110,7 +12405,7 @@ e.verify = function(e) {
 return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : null;
 };
 e.fromObject = function(e) {
-return e instanceof a.GameHoodleProto.UserBallInfoReq ? e : new a.GameHoodleProto.UserBallInfoReq();
+return e instanceof c.GameHoodleProto.UserBallInfoReq ? e : new c.GameHoodleProto.UserBallInfoReq();
 };
 e.toObject = function() {
 return {};
@@ -12140,7 +12435,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.UserBallInfoRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.UserBallInfoRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -12155,7 +12450,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
 return n;
@@ -12165,11 +12460,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.status) ? null != e.userballinfostring && e.hasOwnProperty("userballinfostring") && !c.isString(e.userballinfostring) ? "userballinfostring: string expected" : null : "status: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.status) ? null != e.userballinfostring && e.hasOwnProperty("userballinfostring") && !a.isString(e.userballinfostring) ? "userballinfostring: string expected" : null : "status: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.UserBallInfoRes) return e;
-var t = new a.GameHoodleProto.UserBallInfoRes();
+if (e instanceof c.GameHoodleProto.UserBallInfoRes) return e;
+var t = new c.GameHoodleProto.UserBallInfoRes();
 null != e.status && (t.status = 0 | e.status);
 null != e.userballinfostring && (t.userballinfostring = String(e.userballinfostring));
 return t;
@@ -12212,7 +12507,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.UpdateUserBallReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.UpdateUserBallReq(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -12231,13 +12526,13 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("updatetype")) throw c.ProtocolError("missing required 'updatetype'", {
+if (!n.hasOwnProperty("updatetype")) throw a.ProtocolError("missing required 'updatetype'", {
 instance: n
 });
-if (!n.hasOwnProperty("level")) throw c.ProtocolError("missing required 'level'", {
+if (!n.hasOwnProperty("level")) throw a.ProtocolError("missing required 'level'", {
 instance: n
 });
-if (!n.hasOwnProperty("count")) throw c.ProtocolError("missing required 'count'", {
+if (!n.hasOwnProperty("count")) throw a.ProtocolError("missing required 'count'", {
 instance: n
 });
 return n;
@@ -12247,11 +12542,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.updatetype) ? c.isInteger(e.level) ? c.isInteger(e.count) ? null : "count: integer expected" : "level: integer expected" : "updatetype: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.updatetype) ? a.isInteger(e.level) ? a.isInteger(e.count) ? null : "count: integer expected" : "level: integer expected" : "updatetype: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.UpdateUserBallReq) return e;
-var t = new a.GameHoodleProto.UpdateUserBallReq();
+if (e instanceof c.GameHoodleProto.UpdateUserBallReq) return e;
+var t = new c.GameHoodleProto.UpdateUserBallReq();
 null != e.updatetype && (t.updatetype = 0 | e.updatetype);
 null != e.level && (t.level = 0 | e.level);
 null != e.count && (t.count = 0 | e.count);
@@ -12295,7 +12590,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.UpdateUserBallRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.UpdateUserBallRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -12310,7 +12605,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
 return n;
@@ -12320,11 +12615,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.status) ? null != e.userballinfostring && e.hasOwnProperty("userballinfostring") && !c.isString(e.userballinfostring) ? "userballinfostring: string expected" : null : "status: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.status) ? null != e.userballinfostring && e.hasOwnProperty("userballinfostring") && !a.isString(e.userballinfostring) ? "userballinfostring: string expected" : null : "status: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.UpdateUserBallRes) return e;
-var t = new a.GameHoodleProto.UpdateUserBallRes();
+if (e instanceof c.GameHoodleProto.UpdateUserBallRes) return e;
+var t = new c.GameHoodleProto.UpdateUserBallRes();
 null != e.status && (t.status = 0 | e.status);
 null != e.userballinfostring && (t.userballinfostring = String(e.userballinfostring));
 return t;
@@ -12371,7 +12666,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.OneStoreProp(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.OneStoreProp(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -12398,19 +12693,19 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("propsvrindex")) throw c.ProtocolError("missing required 'propsvrindex'", {
+if (!n.hasOwnProperty("propsvrindex")) throw a.ProtocolError("missing required 'propsvrindex'", {
 instance: n
 });
-if (!n.hasOwnProperty("propid")) throw c.ProtocolError("missing required 'propid'", {
+if (!n.hasOwnProperty("propid")) throw a.ProtocolError("missing required 'propid'", {
 instance: n
 });
-if (!n.hasOwnProperty("propcount")) throw c.ProtocolError("missing required 'propcount'", {
+if (!n.hasOwnProperty("propcount")) throw a.ProtocolError("missing required 'propcount'", {
 instance: n
 });
-if (!n.hasOwnProperty("propprice")) throw c.ProtocolError("missing required 'propprice'", {
+if (!n.hasOwnProperty("propprice")) throw a.ProtocolError("missing required 'propprice'", {
 instance: n
 });
-if (!n.hasOwnProperty("propinfo")) throw c.ProtocolError("missing required 'propinfo'", {
+if (!n.hasOwnProperty("propinfo")) throw a.ProtocolError("missing required 'propinfo'", {
 instance: n
 });
 return n;
@@ -12420,11 +12715,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.propsvrindex) ? c.isInteger(e.propid) ? c.isInteger(e.propcount) ? c.isInteger(e.propprice) ? c.isString(e.propinfo) ? null : "propinfo: string expected" : "propprice: integer expected" : "propcount: integer expected" : "propid: integer expected" : "propsvrindex: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.propsvrindex) ? a.isInteger(e.propid) ? a.isInteger(e.propcount) ? a.isInteger(e.propprice) ? a.isString(e.propinfo) ? null : "propinfo: string expected" : "propprice: integer expected" : "propcount: integer expected" : "propid: integer expected" : "propsvrindex: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.OneStoreProp) return e;
-var t = new a.GameHoodleProto.OneStoreProp();
+if (e instanceof c.GameHoodleProto.OneStoreProp) return e;
+var t = new c.GameHoodleProto.OneStoreProp();
 null != e.propsvrindex && (t.propsvrindex = 0 | e.propsvrindex);
 null != e.propid && (t.propid = 0 | e.propid);
 null != e.propcount && (t.propcount = 0 | e.propcount);
@@ -12470,7 +12765,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.StoreListReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.StoreListReq(); e.pos < o; ) {
 var r = e.uint32();
 e.skipType(7 & r);
 }
@@ -12484,7 +12779,7 @@ e.verify = function(e) {
 return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : null;
 };
 e.fromObject = function(e) {
-return e instanceof a.GameHoodleProto.StoreListReq ? e : new a.GameHoodleProto.StoreListReq();
+return e instanceof c.GameHoodleProto.StoreListReq ? e : new c.GameHoodleProto.StoreListReq();
 };
 e.toObject = function() {
 return {};
@@ -12500,14 +12795,14 @@ this.storeprops = [];
 if (e) for (var t = Object.keys(e), o = 0; o < t.length; ++o) null != e[t[o]] && (this[t[o]] = e[t[o]]);
 }
 e.prototype.status = 0;
-e.prototype.storeprops = c.emptyArray;
+e.prototype.storeprops = a.emptyArray;
 e.create = function(t) {
 return new e(t);
 };
 e.encode = function(e, t) {
 t || (t = s.create());
 t.uint32(8).sint32(e.status);
-if (null != e.storeprops && e.storeprops.length) for (var o = 0; o < e.storeprops.length; ++o) a.GameHoodleProto.OneStoreProp.encode(e.storeprops[o], t.uint32(18).fork()).ldelim();
+if (null != e.storeprops && e.storeprops.length) for (var o = 0; o < e.storeprops.length; ++o) c.GameHoodleProto.OneStoreProp.encode(e.storeprops[o], t.uint32(18).fork()).ldelim();
 return t;
 };
 e.encodeDelimited = function(e, t) {
@@ -12515,7 +12810,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.StoreListRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.StoreListRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -12524,14 +12819,14 @@ break;
 
 case 2:
 n.storeprops && n.storeprops.length || (n.storeprops = []);
-n.storeprops.push(a.GameHoodleProto.OneStoreProp.decode(e, e.uint32()));
+n.storeprops.push(c.GameHoodleProto.OneStoreProp.decode(e, e.uint32()));
 break;
 
 default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
 return n;
@@ -12542,26 +12837,26 @@ return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
 if ("object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e) return "object expected";
-if (!c.isInteger(e.status)) return "status: integer expected";
+if (!a.isInteger(e.status)) return "status: integer expected";
 if (null != e.storeprops && e.hasOwnProperty("storeprops")) {
 if (!Array.isArray(e.storeprops)) return "storeprops: array expected";
 for (var t = 0; t < e.storeprops.length; ++t) {
-var o = a.GameHoodleProto.OneStoreProp.verify(e.storeprops[t]);
+var o = c.GameHoodleProto.OneStoreProp.verify(e.storeprops[t]);
 if (o) return "storeprops." + o;
 }
 }
 return null;
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.StoreListRes) return e;
-var t = new a.GameHoodleProto.StoreListRes();
+if (e instanceof c.GameHoodleProto.StoreListRes) return e;
+var t = new c.GameHoodleProto.StoreListRes();
 null != e.status && (t.status = 0 | e.status);
 if (e.storeprops) {
 if (!Array.isArray(e.storeprops)) throw TypeError(".GameHoodleProto.StoreListRes.storeprops: array expected");
 t.storeprops = [];
 for (var o = 0; o < e.storeprops.length; ++o) {
 if ("object" !== n(e.storeprops[o])) throw TypeError(".GameHoodleProto.StoreListRes.storeprops: object expected");
-t.storeprops[o] = a.GameHoodleProto.OneStoreProp.fromObject(e.storeprops[o]);
+t.storeprops[o] = c.GameHoodleProto.OneStoreProp.fromObject(e.storeprops[o]);
 }
 }
 return t;
@@ -12574,7 +12869,7 @@ t.defaults && (o.status = 0);
 null != e.status && e.hasOwnProperty("status") && (o.status = e.status);
 if (e.storeprops && e.storeprops.length) {
 o.storeprops = [];
-for (var n = 0; n < e.storeprops.length; ++n) o.storeprops[n] = a.GameHoodleProto.OneStoreProp.toObject(e.storeprops[n], t);
+for (var n = 0; n < e.storeprops.length; ++n) o.storeprops[n] = c.GameHoodleProto.OneStoreProp.toObject(e.storeprops[n], t);
 }
 return o;
 };
@@ -12609,7 +12904,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.BuyThingsReq(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.BuyThingsReq(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -12636,19 +12931,19 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("propsvrindex")) throw c.ProtocolError("missing required 'propsvrindex'", {
+if (!n.hasOwnProperty("propsvrindex")) throw a.ProtocolError("missing required 'propsvrindex'", {
 instance: n
 });
-if (!n.hasOwnProperty("propid")) throw c.ProtocolError("missing required 'propid'", {
+if (!n.hasOwnProperty("propid")) throw a.ProtocolError("missing required 'propid'", {
 instance: n
 });
-if (!n.hasOwnProperty("propcount")) throw c.ProtocolError("missing required 'propcount'", {
+if (!n.hasOwnProperty("propcount")) throw a.ProtocolError("missing required 'propcount'", {
 instance: n
 });
-if (!n.hasOwnProperty("propprice")) throw c.ProtocolError("missing required 'propprice'", {
+if (!n.hasOwnProperty("propprice")) throw a.ProtocolError("missing required 'propprice'", {
 instance: n
 });
-if (!n.hasOwnProperty("propinfo")) throw c.ProtocolError("missing required 'propinfo'", {
+if (!n.hasOwnProperty("propinfo")) throw a.ProtocolError("missing required 'propinfo'", {
 instance: n
 });
 return n;
@@ -12658,11 +12953,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.propsvrindex) ? c.isInteger(e.propid) ? c.isInteger(e.propcount) ? c.isInteger(e.propprice) ? c.isString(e.propinfo) ? null : "propinfo: string expected" : "propprice: integer expected" : "propcount: integer expected" : "propid: integer expected" : "propsvrindex: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.propsvrindex) ? a.isInteger(e.propid) ? a.isInteger(e.propcount) ? a.isInteger(e.propprice) ? a.isString(e.propinfo) ? null : "propinfo: string expected" : "propprice: integer expected" : "propcount: integer expected" : "propid: integer expected" : "propsvrindex: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.BuyThingsReq) return e;
-var t = new a.GameHoodleProto.BuyThingsReq();
+if (e instanceof c.GameHoodleProto.BuyThingsReq) return e;
+var t = new c.GameHoodleProto.BuyThingsReq();
 null != e.propsvrindex && (t.propsvrindex = 0 | e.propsvrindex);
 null != e.propid && (t.propid = 0 | e.propid);
 null != e.propcount && (t.propcount = 0 | e.propcount);
@@ -12720,7 +13015,7 @@ return this.encode(e, t).ldelim();
 };
 e.decode = function(e, t) {
 e instanceof i || (e = i.create(e));
-for (var o = void 0 === t ? e.len : e.pos + t, n = new a.GameHoodleProto.BuyThingsRes(); e.pos < o; ) {
+for (var o = void 0 === t ? e.len : e.pos + t, n = new c.GameHoodleProto.BuyThingsRes(); e.pos < o; ) {
 var r = e.uint32();
 switch (r >>> 3) {
 case 1:
@@ -12751,7 +13046,7 @@ default:
 e.skipType(7 & r);
 }
 }
-if (!n.hasOwnProperty("status")) throw c.ProtocolError("missing required 'status'", {
+if (!n.hasOwnProperty("status")) throw a.ProtocolError("missing required 'status'", {
 instance: n
 });
 return n;
@@ -12761,11 +13056,11 @@ e instanceof i || (e = new i(e));
 return this.decode(e, e.uint32());
 };
 e.verify = function(e) {
-return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : c.isInteger(e.status) ? null != e.propsvrindex && e.hasOwnProperty("propsvrindex") && !c.isInteger(e.propsvrindex) ? "propsvrindex: integer expected" : null != e.propid && e.hasOwnProperty("propid") && !c.isInteger(e.propid) ? "propid: integer expected" : null != e.propcount && e.hasOwnProperty("propcount") && !c.isInteger(e.propcount) ? "propcount: integer expected" : null != e.propprice && e.hasOwnProperty("propprice") && !c.isInteger(e.propprice) ? "propprice: integer expected" : null != e.propinfo && e.hasOwnProperty("propinfo") && !c.isString(e.propinfo) ? "propinfo: string expected" : null : "status: integer expected";
+return "object" !== ("undefined" == typeof e ? "undefined" : n(e)) || null === e ? "object expected" : a.isInteger(e.status) ? null != e.propsvrindex && e.hasOwnProperty("propsvrindex") && !a.isInteger(e.propsvrindex) ? "propsvrindex: integer expected" : null != e.propid && e.hasOwnProperty("propid") && !a.isInteger(e.propid) ? "propid: integer expected" : null != e.propcount && e.hasOwnProperty("propcount") && !a.isInteger(e.propcount) ? "propcount: integer expected" : null != e.propprice && e.hasOwnProperty("propprice") && !a.isInteger(e.propprice) ? "propprice: integer expected" : null != e.propinfo && e.hasOwnProperty("propinfo") && !a.isString(e.propinfo) ? "propinfo: string expected" : null : "status: integer expected";
 };
 e.fromObject = function(e) {
-if (e instanceof a.GameHoodleProto.BuyThingsRes) return e;
-var t = new a.GameHoodleProto.BuyThingsRes();
+if (e instanceof c.GameHoodleProto.BuyThingsRes) return e;
+var t = new c.GameHoodleProto.BuyThingsRes();
 null != e.status && (t.status = 0 | e.status);
 null != e.propsvrindex && (t.propsvrindex = 0 | e.propsvrindex);
 null != e.propid && (t.propid = 0 | e.propid);
@@ -12800,7 +13095,7 @@ return e;
 }();
 return e;
 }();
-t.exports = a;
+t.exports = c;
 cc._RF.pop();
 }, {
 protobuf: "protobuf"
@@ -12868,67 +13163,67 @@ return Math.ceil(3 * e.length) / 4 - o;
 };
 for (var r = new Array(64), i = new Array(123), s = 0; s < 64; ) i[r[s] = s < 26 ? s + 65 : s < 52 ? s + 71 : s < 62 ? s - 4 : s - 59 | 43] = s++;
 n.encode = function(e, t, o) {
-for (var n, i = null, s = [], c = 0, a = 0; t < o; ) {
+for (var n, i = null, s = [], a = 0, c = 0; t < o; ) {
 var u = e[t++];
-switch (a) {
+switch (c) {
 case 0:
-s[c++] = r[u >> 2];
+s[a++] = r[u >> 2];
 n = (3 & u) << 4;
-a = 1;
+c = 1;
 break;
 
 case 1:
-s[c++] = r[n | u >> 4];
+s[a++] = r[n | u >> 4];
 n = (15 & u) << 2;
-a = 2;
+c = 2;
 break;
 
 case 2:
-s[c++] = r[n | u >> 6];
-s[c++] = r[63 & u];
-a = 0;
-}
-if (c > 8191) {
-(i || (i = [])).push(String.fromCharCode.apply(String, s));
+s[a++] = r[n | u >> 6];
+s[a++] = r[63 & u];
 c = 0;
 }
+if (a > 8191) {
+(i || (i = [])).push(String.fromCharCode.apply(String, s));
+a = 0;
 }
-if (a) {
-s[c++] = r[n];
-s[c++] = 61;
-1 === a && (s[c++] = 61);
+}
+if (c) {
+s[a++] = r[n];
+s[a++] = 61;
+1 === c && (s[a++] = 61);
 }
 if (i) {
-c && i.push(String.fromCharCode.apply(String, s.slice(0, c)));
+a && i.push(String.fromCharCode.apply(String, s.slice(0, a)));
 return i.join("");
 }
-return String.fromCharCode.apply(String, s.slice(0, c));
+return String.fromCharCode.apply(String, s.slice(0, a));
 };
 n.decode = function(e, t, o) {
-for (var n, r = o, s = 0, c = 0; c < e.length; ) {
-var a = e.charCodeAt(c++);
-if (61 === a && s > 1) break;
-if ((a = i[a]) === undefined) throw Error("invalid encoding");
+for (var n, r = o, s = 0, a = 0; a < e.length; ) {
+var c = e.charCodeAt(a++);
+if (61 === c && s > 1) break;
+if ((c = i[c]) === undefined) throw Error("invalid encoding");
 switch (s) {
 case 0:
-n = a;
+n = c;
 s = 1;
 break;
 
 case 1:
-t[o++] = n << 2 | (48 & a) >> 4;
-n = a;
+t[o++] = n << 2 | (48 & c) >> 4;
+n = c;
 s = 2;
 break;
 
 case 2:
-t[o++] = (15 & n) << 4 | (60 & a) >> 2;
-n = a;
+t[o++] = (15 & n) << 4 | (60 & c) >> 2;
+n = c;
 s = 3;
 break;
 
 case 3:
-t[o++] = (3 & n) << 6 | a;
+t[o++] = (3 & n) << 6 | c;
 s = 0;
 }
 }
@@ -12992,15 +13287,15 @@ o[2] = e[n + 2];
 o[3] = e[n + 3];
 return t[0];
 }
-function c(e, n) {
+function a(e, n) {
 o[3] = e[n];
 o[2] = e[n + 1];
 o[1] = e[n + 2];
 o[0] = e[n + 3];
 return t[0];
 }
-e.readFloatLE = n ? s : c;
-e.readFloatBE = n ? c : s;
+e.readFloatLE = n ? s : a;
+e.readFloatBE = n ? a : s;
 }() : function() {
 function t(e, t, o, n) {
 var r = t < 0 ? 1 : 0;
@@ -13017,7 +13312,7 @@ var n = e(t, o), r = 2 * (n >> 31) + 1, i = n >>> 23 & 255, s = 8388607 & n;
 return 255 === i ? s ? NaN : Infinity * r : 0 === i ? 1.401298464324817e-45 * r * s : r * Math.pow(2, i - 150) * (s + 8388608);
 }
 e.readFloatLE = o.bind(null, s);
-e.readFloatBE = o.bind(null, c);
+e.readFloatBE = o.bind(null, a);
 }();
 "undefined" != typeof Float64Array ? function() {
 var t = new Float64Array([ -0 ]), o = new Uint8Array(t.buffer), n = 128 === o[7];
@@ -13056,7 +13351,7 @@ o[6] = e[n + 6];
 o[7] = e[n + 7];
 return t[0];
 }
-function c(e, n) {
+function a(e, n) {
 o[7] = e[n];
 o[6] = e[n + 1];
 o[5] = e[n + 2];
@@ -13067,8 +13362,8 @@ o[1] = e[n + 6];
 o[0] = e[n + 7];
 return t[0];
 }
-e.readDoubleLE = n ? s : c;
-e.readDoubleBE = n ? c : s;
+e.readDoubleLE = n ? s : a;
+e.readDoubleBE = n ? a : s;
 }() : function() {
 function t(e, t, o, n, r, i) {
 var s = n < 0 ? 1 : 0;
@@ -13083,26 +13378,26 @@ e(2146959360, r, i + o);
 e(0, r, i + t);
 e((s << 31 | 2146435072) >>> 0, r, i + o);
 } else {
-var c;
+var a;
 if (n < 2.2250738585072014e-308) {
-e((c = n / 5e-324) >>> 0, r, i + t);
-e((s << 31 | c / 4294967296) >>> 0, r, i + o);
+e((a = n / 5e-324) >>> 0, r, i + t);
+e((s << 31 | a / 4294967296) >>> 0, r, i + o);
 } else {
-var a = Math.floor(Math.log(n) / Math.LN2);
-1024 === a && (a = 1023);
-e(4503599627370496 * (c = n * Math.pow(2, -a)) >>> 0, r, i + t);
-e((s << 31 | a + 1023 << 20 | 1048576 * c & 1048575) >>> 0, r, i + o);
+var c = Math.floor(Math.log(n) / Math.LN2);
+1024 === c && (c = 1023);
+e(4503599627370496 * (a = n * Math.pow(2, -c)) >>> 0, r, i + t);
+e((s << 31 | c + 1023 << 20 | 1048576 * a & 1048575) >>> 0, r, i + o);
 }
 }
 }
 e.writeDoubleLE = t.bind(null, r, 0, 4);
 e.writeDoubleBE = t.bind(null, i, 4, 0);
 function o(e, t, o, n, r) {
-var i = e(n, r + t), s = e(n, r + o), c = 2 * (s >> 31) + 1, a = s >>> 20 & 2047, u = 4294967296 * (1048575 & s) + i;
-return 2047 === a ? u ? NaN : Infinity * c : 0 === a ? 5e-324 * c * u : c * Math.pow(2, a - 1075) * (u + 4503599627370496);
+var i = e(n, r + t), s = e(n, r + o), a = 2 * (s >> 31) + 1, c = s >>> 20 & 2047, u = 4294967296 * (1048575 & s) + i;
+return 2047 === c ? u ? NaN : Infinity * a : 0 === c ? 5e-324 * a * u : a * Math.pow(2, c - 1075) * (u + 4503599627370496);
 }
 e.readDoubleLE = o.bind(null, s, 0, 4);
-e.readDoubleBE = o.bind(null, c, 4, 0);
+e.readDoubleBE = o.bind(null, a, 4, 0);
 }();
 return e;
 }
@@ -13121,7 +13416,7 @@ t[o + 3] = 255 & e;
 function s(e, t) {
 return (e[t] | e[t + 1] << 8 | e[t + 2] << 16 | e[t + 3] << 24) >>> 0;
 }
-function c(e, t) {
+function a(e, t) {
 return (e[t] << 24 | e[t + 1] << 16 | e[t + 2] << 8 | e[t + 3]) >>> 0;
 }
 }, {} ],
@@ -13144,9 +13439,9 @@ if (s + o > n) {
 i = e(n);
 s = 0;
 }
-var c = t.call(i, s, s += o);
+var a = t.call(i, s, s += o);
 7 & s && (s = 1 + (7 | s));
-return c;
+return a;
 };
 };
 }, {} ],
@@ -13224,30 +13519,30 @@ r();
 9: 9
 } ],
 9: [ function(e, t, o) {
-t.exports = a;
+t.exports = c;
 var n, r = e(15), i = r.LongBits, s = r.utf8;
-function c(e, t) {
+function a(e, t) {
 return RangeError("index out of range: " + e.pos + " + " + (t || 1) + " > " + e.len);
 }
-function a(e) {
+function c(e) {
 this.buf = e;
 this.pos = 0;
 this.len = e.length;
 }
 var u = "undefined" != typeof Uint8Array ? function(e) {
-if (e instanceof Uint8Array || Array.isArray(e)) return new a(e);
+if (e instanceof Uint8Array || Array.isArray(e)) return new c(e);
 throw Error("illegal buffer");
 } : function(e) {
-if (Array.isArray(e)) return new a(e);
+if (Array.isArray(e)) return new c(e);
 throw Error("illegal buffer");
 };
-a.create = r.Buffer ? function(e) {
-return (a.create = function(e) {
+c.create = r.Buffer ? function(e) {
+return (c.create = function(e) {
 return r.Buffer.isBuffer(e) ? new n(e) : u(e);
 })(e);
 } : u;
-a.prototype._slice = r.Array.prototype.subarray || r.Array.prototype.slice;
-a.prototype.uint32 = function() {
+c.prototype._slice = r.Array.prototype.subarray || r.Array.prototype.slice;
+c.prototype.uint32 = function() {
 var e = 4294967295;
 return function() {
 e = (127 & this.buf[this.pos]) >>> 0;
@@ -13262,15 +13557,15 @@ e = (e | (15 & this.buf[this.pos]) << 28) >>> 0;
 if (this.buf[this.pos++] < 128) return e;
 if ((this.pos += 5) > this.len) {
 this.pos = this.len;
-throw c(this, 10);
+throw a(this, 10);
 }
 return e;
 };
 }();
-a.prototype.int32 = function() {
+c.prototype.int32 = function() {
 return 0 | this.uint32();
 };
-a.prototype.sint32 = function() {
+c.prototype.sint32 = function() {
 var e = this.uint32();
 return e >>> 1 ^ -(1 & e) | 0;
 };
@@ -13278,7 +13573,7 @@ function l() {
 var e = new i(0, 0), t = 0;
 if (!(this.len - this.pos > 4)) {
 for (;t < 3; ++t) {
-if (this.pos >= this.len) throw c(this);
+if (this.pos >= this.len) throw a(this);
 e.lo = (e.lo | (127 & this.buf[this.pos]) << 7 * t) >>> 0;
 if (this.buf[this.pos++] < 128) return e;
 }
@@ -13297,62 +13592,62 @@ if (this.len - this.pos > 4) for (;t < 5; ++t) {
 e.hi = (e.hi | (127 & this.buf[this.pos]) << 7 * t + 3) >>> 0;
 if (this.buf[this.pos++] < 128) return e;
 } else for (;t < 5; ++t) {
-if (this.pos >= this.len) throw c(this);
+if (this.pos >= this.len) throw a(this);
 e.hi = (e.hi | (127 & this.buf[this.pos]) << 7 * t + 3) >>> 0;
 if (this.buf[this.pos++] < 128) return e;
 }
 throw Error("invalid varint encoding");
 }
-a.prototype.bool = function() {
+c.prototype.bool = function() {
 return 0 !== this.uint32();
 };
 function f(e, t) {
 return (e[t - 4] | e[t - 3] << 8 | e[t - 2] << 16 | e[t - 1] << 24) >>> 0;
 }
-a.prototype.fixed32 = function() {
-if (this.pos + 4 > this.len) throw c(this, 4);
+c.prototype.fixed32 = function() {
+if (this.pos + 4 > this.len) throw a(this, 4);
 return f(this.buf, this.pos += 4);
 };
-a.prototype.sfixed32 = function() {
-if (this.pos + 4 > this.len) throw c(this, 4);
+c.prototype.sfixed32 = function() {
+if (this.pos + 4 > this.len) throw a(this, 4);
 return 0 | f(this.buf, this.pos += 4);
 };
 function d() {
-if (this.pos + 8 > this.len) throw c(this, 8);
+if (this.pos + 8 > this.len) throw a(this, 8);
 return new i(f(this.buf, this.pos += 4), f(this.buf, this.pos += 4));
 }
-a.prototype.float = function() {
-if (this.pos + 4 > this.len) throw c(this, 4);
+c.prototype.float = function() {
+if (this.pos + 4 > this.len) throw a(this, 4);
 var e = r.float.readFloatLE(this.buf, this.pos);
 this.pos += 4;
 return e;
 };
-a.prototype.double = function() {
-if (this.pos + 8 > this.len) throw c(this, 4);
+c.prototype.double = function() {
+if (this.pos + 8 > this.len) throw a(this, 4);
 var e = r.float.readDoubleLE(this.buf, this.pos);
 this.pos += 8;
 return e;
 };
-a.prototype.bytes = function() {
+c.prototype.bytes = function() {
 var e = this.uint32(), t = this.pos, o = this.pos + e;
-if (o > this.len) throw c(this, e);
+if (o > this.len) throw a(this, e);
 this.pos += e;
 return Array.isArray(this.buf) ? this.buf.slice(t, o) : t === o ? new this.buf.constructor(0) : this._slice.call(this.buf, t, o);
 };
-a.prototype.string = function() {
+c.prototype.string = function() {
 var e = this.bytes();
 return s.read(e, 0, e.length);
 };
-a.prototype.skip = function(e) {
+c.prototype.skip = function(e) {
 if ("number" == typeof e) {
-if (this.pos + e > this.len) throw c(this, e);
+if (this.pos + e > this.len) throw a(this, e);
 this.pos += e;
 } else do {
-if (this.pos >= this.len) throw c(this);
+if (this.pos >= this.len) throw a(this);
 } while (128 & this.buf[this.pos++]);
 return this;
 };
-a.prototype.skipType = function(e) {
+c.prototype.skipType = function(e) {
 switch (e) {
 case 0:
 this.skip();
@@ -13379,10 +13674,10 @@ throw Error("invalid wire type " + e + " at offset " + this.pos);
 }
 return this;
 };
-a._configure = function(e) {
+c._configure = function(e) {
 n = e;
 var t = r.Long ? "toLong" : "toNumber";
-r.merge(a.prototype, {
+r.merge(c.prototype, {
 int64: function() {
 return l.call(this)[t](!1);
 },
@@ -13441,35 +13736,35 @@ this.responseDelimited = Boolean(o);
 }
 r.prototype.rpcCall = function e(t, o, r, i, s) {
 if (!i) throw TypeError("request must be specified");
-var c = this;
-if (!s) return n.asPromise(e, c, t, o, r, i);
-if (!c.rpcImpl) {
+var a = this;
+if (!s) return n.asPromise(e, a, t, o, r, i);
+if (!a.rpcImpl) {
 setTimeout(function() {
 s(Error("already ended"));
 }, 0);
 return undefined;
 }
 try {
-return c.rpcImpl(t, o[c.requestDelimited ? "encodeDelimited" : "encode"](i).finish(), function(e, o) {
+return a.rpcImpl(t, o[a.requestDelimited ? "encodeDelimited" : "encode"](i).finish(), function(e, o) {
 if (e) {
-c.emit("error", e, t);
+a.emit("error", e, t);
 return s(e);
 }
 if (null === o) {
-c.end(!0);
+a.end(!0);
 return undefined;
 }
 if (!(o instanceof r)) try {
-o = r[c.responseDelimited ? "decodeDelimited" : "decode"](o);
+o = r[a.responseDelimited ? "decodeDelimited" : "decode"](o);
 } catch (e) {
-c.emit("error", e, t);
+a.emit("error", e, t);
 return s(e);
 }
-c.emit("data", o, t);
+a.emit("data", o, t);
 return s(null, o);
 });
 } catch (e) {
-c.emit("error", e, t);
+a.emit("error", e, t);
 setTimeout(function() {
 s(e);
 }, 0);
@@ -13543,9 +13838,9 @@ high: 0 | this.hi,
 unsigned: Boolean(e)
 };
 };
-var c = String.prototype.charCodeAt;
+var a = String.prototype.charCodeAt;
 r.fromHash = function(e) {
-return e === s ? i : new r((c.call(e, 0) | c.call(e, 1) << 8 | c.call(e, 2) << 16 | c.call(e, 3) << 24) >>> 0, (c.call(e, 4) | c.call(e, 5) << 8 | c.call(e, 6) << 16 | c.call(e, 7) << 24) >>> 0);
+return e === s ? i : new r((a.call(e, 0) | a.call(e, 1) << 8 | a.call(e, 2) << 16 | a.call(e, 3) << 24) >>> 0, (a.call(e, 4) | a.call(e, 5) << 8 | a.call(e, 6) << 16 | a.call(e, 7) << 24) >>> 0);
 };
 r.prototype.toHash = function() {
 return String.fromCharCode(255 & this.lo, this.lo >>> 8 & 255, this.lo >>> 16 & 255, this.lo >>> 24, 255 & this.hi, this.hi >>> 8 & 255, this.hi >>> 16 & 255, this.hi >>> 24);
@@ -13695,8 +13990,8 @@ return new e(t);
 } ],
 16: [ function(e, t, o) {
 t.exports = f;
-var n, r = e(15), i = r.LongBits, s = r.base64, c = r.utf8;
-function a(e, t, o) {
+var n, r = e(15), i = r.LongBits, s = r.base64, a = r.utf8;
+function c(e, t, o) {
 this.fn = e;
 this.len = t;
 this.next = undefined;
@@ -13711,7 +14006,7 @@ this.next = e.states;
 }
 function f() {
 this.len = 0;
-this.head = new a(u, 0, 0);
+this.head = new c(u, 0, 0);
 this.tail = this.head;
 this.states = null;
 }
@@ -13727,7 +14022,7 @@ return new r.Array(e);
 };
 r.Array !== Array && (f.alloc = r.pool(f.alloc, r.Array.prototype.subarray));
 f.prototype._push = function(e, t, o) {
-this.tail = this.tail.next = new a(e, t, o);
+this.tail = this.tail.next = new c(e, t, o);
 this.len += t;
 return this;
 };
@@ -13739,7 +14034,7 @@ this.len = e;
 this.next = undefined;
 this.val = t;
 }
-p.prototype = Object.create(a.prototype);
+p.prototype = Object.create(c.prototype);
 p.prototype.fn = function(e, t, o) {
 for (;e > 127; ) {
 t[o++] = 127 & e | 128;
@@ -13818,12 +14113,12 @@ e = o;
 return this.uint32(t)._push(g, t, e);
 };
 f.prototype.string = function(e) {
-var t = c.length(e);
-return t ? this.uint32(t)._push(c.write, t, e) : this._push(d, 1, 0);
+var t = a.length(e);
+return t ? this.uint32(t)._push(a.write, t, e) : this._push(d, 1, 0);
 };
 f.prototype.fork = function() {
 this.states = new l(this);
-this.head = this.tail = new a(u, 0, 0);
+this.head = this.tail = new c(u, 0, 0);
 this.len = 0;
 return this;
 };
@@ -13834,7 +14129,7 @@ this.tail = this.states.tail;
 this.len = this.states.len;
 this.states = this.states.next;
 } else {
-this.head = this.tail = new a(u, 0, 0);
+this.head = this.tail = new c(u, 0, 0);
 this.len = 0;
 }
 return this;
@@ -13874,7 +14169,7 @@ n.call(this);
 s.alloc = function(e) {
 return (s.alloc = r._Buffer_allocUnsafe)(e);
 };
-var c = i && i.prototype instanceof Uint8Array && "set" === i.prototype.set.name ? function(e, t, o) {
+var a = i && i.prototype instanceof Uint8Array && "set" === i.prototype.set.name ? function(e, t, o) {
 t.set(e, o);
 } : function(e, t, o) {
 if (e.copy) e.copy(t, o, 0, e.length); else for (var n = 0; n < e.length; ) t[o++] = e[n++];
@@ -13883,16 +14178,16 @@ s.prototype.bytes = function(e) {
 r.isString(e) && (e = r._Buffer_from(e, "base64"));
 var t = e.length >>> 0;
 this.uint32(t);
-t && this._push(c, t, e);
+t && this._push(a, t, e);
 return this;
 };
-function a(e, t, o) {
+function c(e, t, o) {
 e.length < 40 ? r.utf8.write(e, t, o) : t.utf8Write(e, o);
 }
 s.prototype.string = function(e) {
 var t = i.byteLength(e);
 this.uint32(t);
-t && this._push(a, t, e);
+t && this._push(c, t, e);
 return this;
 };
 }, {
@@ -13927,4 +14222,4 @@ cc._RF.push(t, "838fecj9gRM9Y8tUCXSVhgM", "use_v2.1.x_cc.Action");
 cc.macro.ROTATE_ACTION_CCW = !0;
 cc._RF.pop();
 }, {} ]
-}, {}, [ "map_Level1", "use_v2.1.x_cc.Action", "protobuf", "UIFunciton", "UserInfo", "EventDefine", "GameAppConfig", "GameHoodleConfig", "LSDefine", "PlatForm", "AudioManager", "DialogManager", "EventManager", "ProtoManager", "ResourceManager", "SceneManager", "TimerManager", "NetWork", "ProtoTools", "Socket", "SocketDelegate", "AuthProto", "CommonProto", "GameHoodleProto", "ProtoCmd", "Response", "Stype", "SystemProto", "TalkProto", "protobufMsg", "AutoComponent", "BaseScene", "UIController", "UIDialog", "TableView", "TableViewCell", "ArrayUtil", "Base64", "BezierMaker", "DataViewUtil", "DateUtil", "HttpUtil", "Log", "Queue", "SDKAdapter", "Storage", "StringUtil", "BallCenterDialog", "CommonDialog", "GameResultDialog", "JoinRoomDialog", "MatchDialog", "MyCenterDialog", "SettingDialog", "StoreDialog", "WeakHintDialog", "GameApp", "Player", "RoomData", "State", "LoginScene", "LoginSceneCtrl", "LoginSceneInit", "LoginSceneRecvMsg", "LoginSceneShowUI", "LoginSceneTouchEvent", "LoginSendAuthMsg", "EnablePhysics", "GameHoodleCtrl", "GameHoodleData", "GameHoodleRecvMsg", "GameHoodleShowUI", "GameHoodleTouchEvent", "HoodleBallCtrl", "HoodleBallManager", "GameScene", "GameSceneCtrl", "GameSceneInit", "GameSceneRecvAuthMsg", "GameSceneRecvGameMsg", "GameSceneShowUI", "GameSceneTouchEvent", "GameSendGameHoodle", "HotFixScene", "HotFixSceneCtrl", "LobbyScene", "LobbySceneCtrl", "LobbySceneInit", "LobbySceneRecvAuthMsg", "LobbySceneRecvGameHoodleMsg", "LobbySceneShowUI", "LobbySceneTouchEvent", "LobbySendAuthMsg", "LobbySendGameHoodle" ]);
+}, {}, [ "map_Level1", "use_v2.1.x_cc.Action", "protobuf", "UIFunciton", "UserInfo", "EventDefine", "GameAppConfig", "GameHoodleConfig", "LSDefine", "PlatForm", "HotUpdate", "HotUpdateNew", "AudioManager", "DialogManager", "EventManager", "ProtoManager", "ResourceManager", "SceneManager", "TimerManager", "NetWork", "ProtoTools", "Socket", "SocketDelegate", "AuthProto", "CommonProto", "GameHoodleProto", "ProtoCmd", "Response", "Stype", "SystemProto", "TalkProto", "protobufMsg", "AutoComponent", "BaseScene", "UIController", "UIDialog", "TableView", "TableViewCell", "ArrayUtil", "Base64", "BezierMaker", "DataViewUtil", "DateUtil", "HttpUtil", "Log", "Queue", "SDKAdapter", "Storage", "StringUtil", "BallCenterDialog", "CommonDialog", "GameResultDialog", "JoinRoomDialog", "MatchDialog", "MyCenterDialog", "SettingDialog", "StoreDialog", "WeakHintDialog", "GameApp", "Player", "RoomData", "State", "LoginScene", "LoginSceneCtrl", "LoginSceneInit", "LoginSceneRecvMsg", "LoginSceneShowUI", "LoginSceneTouchEvent", "LoginSendAuthMsg", "EnablePhysics", "GameHoodleCtrl", "GameHoodleData", "GameHoodleRecvMsg", "GameHoodleShowUI", "GameHoodleTouchEvent", "HoodleBallCtrl", "HoodleBallManager", "GameScene", "GameSceneCtrl", "GameSceneInit", "GameSceneRecvAuthMsg", "GameSceneRecvGameMsg", "GameSceneShowUI", "GameSceneTouchEvent", "GameSendGameHoodle", "HotFixScene", "HotFixSceneCtrl", "LobbyScene", "LobbySceneCtrl", "LobbySceneInit", "LobbySceneRecvAuthMsg", "LobbySceneRecvGameHoodleMsg", "LobbySceneShowUI", "LobbySceneTouchEvent", "LobbySendAuthMsg", "LobbySendGameHoodle" ]);

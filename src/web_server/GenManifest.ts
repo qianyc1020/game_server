@@ -1,8 +1,8 @@
-import HotUpdate from './HotUpdate';
+import HotUpdateUtil from './HotUpdateUtil';
 import * as fs from 'fs';
 import Log from '../utils/Log';
 
-let hotUpdateMgr = HotUpdate.getInstance();
+let hotUpdateMgr = HotUpdateUtil.getInstance();
 
 function hotUpdateStart() {
     let obj:any = {};

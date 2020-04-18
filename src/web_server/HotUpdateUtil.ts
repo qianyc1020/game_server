@@ -5,16 +5,16 @@ import Log from '../utils/Log';
 
 let static_hotupdate_path = "./hotupdate";
 
-class HotUpdate {
+class HotUpdateUtil {
 
-    private static readonly Instance: HotUpdate = new HotUpdate();
+    private static readonly Instance: HotUpdateUtil = new HotUpdateUtil();
 
     constructor(){
         this.init();
     }
 
     public static getInstance() {
-        return HotUpdate.Instance;
+        return HotUpdateUtil.Instance;
     }
 
     init(){
@@ -28,13 +28,20 @@ class HotUpdate {
         return true;
     }
 
+    mkdirSync(path:string) {
+        try {
+            fs.mkdirSync(path);
+        } catch (e) {
+            if (e.code != 'EEXIST') throw e;
+        }
+    }
+
     readDir(dir:any, obj:any) {
         if(!this.checkDirExist()){
             Log.error("hotupdate foled not found:", static_hotupdate_path);
             return;
         }
 
-        let file_num:number = 0;
         let stat:any = fs.statSync(dir);
         if (!stat.isDirectory()) {
             return;
@@ -69,7 +76,6 @@ class HotUpdate {
                     'dir': out_dir,
                 };
     
-                file_num ++;
                 if (compressed) {
                     obj[relative].compressed = true;
                 }
@@ -78,4 +84,4 @@ class HotUpdate {
     }
 }
 
-export default HotUpdate;
+export default HotUpdateUtil;
