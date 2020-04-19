@@ -1144,6 +1144,7 @@ e.NATIVE_PLATFORM_PORT = "6061";
 e.PROTO_TYPE = n.default.PROTO_BUF;
 e.REMORE_HTTP_PORT = "7000";
 e.HOT_UPDATE_ADDRESS = "http://" + e.LOCAL_HOST + ":" + e.REMORE_HTTP_PORT;
+e.LOCAL_MANIFEST_PATH = "manifest/project";
 return e;
 }();
 o.default = r;
@@ -2918,20 +2919,48 @@ return t;
 }
 t.prototype.onLoad = function() {
 e.prototype.onLoad.call(this);
+};
+t.prototype.start = function() {
+this.setProgress(0);
+this.checkHotUpdate();
+};
+t.prototype.checkHotUpdate = function() {
+var e = l.default.getInstance(), t = this;
+e.checkUpdate(function(o) {
+cc.log("hcc>>enter_login_scene>>is need hotupdate: ", o);
+if (o) {
+e.hotUpdateStart();
+e.setUpdateCallback(function(e, o, n) {
+console.log("hcc>>hotupdate: isSuccess: ", e, "  ,percent: ", o, "  ,tipstring: ", n);
+o && t.setProgress(o);
+n && t.set_string(t.view.KW_TEXT_PROGRESS_TIP, n);
+if (e) {
+t.set_string(t.view.KW_TEXT_PROGRESS_TIP, "热更新完成!");
+t.startPreloadRes();
+}
+});
+} else {
+t.set_string(t.view.KW_TEXT_PROGRESS_TIP, "已是最新版本！");
+t.setProgress(1);
+t.startPreloadRes();
+}
+});
+};
+t.prototype.startPreloadRes = function() {
+for (var e = 0; e < this._urlArray.length; e++) this.preloadRes(this._urlArray[e]);
+};
+t.prototype.setProgress = function(e) {
 var t = this.view.KW_PROGRESS_BAR;
 if (t) {
-this._progressbar = t.getComponent(cc.ProgressBar);
-this._progressbar.progress = 0;
+t.getComponent(cc.ProgressBar).progress = e;
 }
-for (var o = 0; o < this._urlArray.length; o++) this.preloadRes(this._urlArray[o]);
 };
-t.prototype.start = function() {};
 t.prototype.preloadRes = function(e) {
 var t = this, o = 0;
 s.ResourceManager.getInstance().loadResDirAsyc(e, function(e, n, r) {
 if (0 != n) {
 o = e / n;
-t._progressbar.progress = o;
+t.setProgress(o);
 var i = Math.max(1, 100 * o), s = (a.default.format("%2d", i), "正在载入资源中... " + e + "/" + n);
 t.set_string(t.view.KW_TEXT_PROGRESS_TIP, s);
 }
@@ -2952,16 +2981,7 @@ t.enter_login_scene();
 });
 };
 t.prototype.enter_login_scene = function() {
-var e = l.default.getInstance();
-e.checkUpdate(function(t) {
-if (t) {
-cc.log("hcc>>enter_login_scene>>is need hotupdate............");
-e.hotUpdateStart();
-e.setUpdateSuccessCallback(function(e) {
-e && c.default.getInstance().enter_scene_asyc(new u.default());
-});
-} else c.default.getInstance().enter_scene_asyc(new u.default());
-});
+c.default.getInstance().enter_scene_asyc(new u.default());
 };
 return t = r([ d ], t);
 }(i.default));
@@ -3024,7 +3044,7 @@ cc._RF.push(t, "f8f98XsfAdBPKYBs0qJCMd6", "HotUpdateNew");
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var n = e("../manager/ResourceManager"), r = JSON.stringify({
+var n = e("../manager/ResourceManager"), r = e("../config/PlatForm"), i = JSON.stringify({
 packageUrl: "http://192.168.50.220:5555/tutorial-hot-update/remote-assets/",
 remoteManifestUrl: "http://192.168.50.220:5555/tutorial-hot-update/remote-assets/project.manifest",
 remoteVersionUrl: "http://192.168.50.220:5555/tutorial-hot-update/remote-assets/version.manifest",
@@ -3036,39 +3056,52 @@ md5: "fafdde66bd0a81d1e096799fb8b7af95"
 }
 },
 searchPaths: []
-}), i = function() {
+}), s = function() {
 function e() {
 this._assetsManager = null;
 this._updating = !1;
 this._canRetry = !1;
 this._manifestUrl = null;
-this._updateSuccessCallback = null;
+this._updateCallback = null;
+this._localVersion = "";
 this.init();
 }
 e.getInstance = function() {
 return e.instance;
 };
+e.prototype.getLocalVersion = function() {
+return this._localVersion;
+};
 e.prototype.init = function() {
+if (this.checkPlatForm()) {
 var e = this;
 n.ResourceManager.getInstance().loadResAsyc("manifest/project", cc.Asset, function(t, o) {
 if (t) cc.log("hcc>>manifest error: ", t); else {
 e._manifestUrl = o;
 cc.log("hcc>>manifest: ", o.nativeUrl);
+if (e._manifestUrl) {
+var n = e._manifestUrl.nativeUrl;
+cc.log("hcc>>_manifestUrl.nativeUrl111>>init: ", n);
+cc.loader.md5Pipe && (n = cc.loader.md5Pipe.transformURL(n));
+cc.log("hcc>>_manifestUrl.nativeUrl222>>init:  ", n);
+var r = (jsb.fileUtils ? jsb.fileUtils.getWritablePath() : "/") + "hotUpdateCache";
+cc.log("hcc>>Storage path for remote asset : ", r);
+e._assetsManager = new jsb.AssetsManager("", r, e.versionCompareCallback.bind(e));
+e._assetsManager.setVerifyCallback(e.assetsVerifyCallback.bind(e));
+cc.sys.os === cc.sys.OS_ANDROID && e._assetsManager.setMaxConcurrentTask(2);
+e._assetsManager.loadLocalManifest(n);
+var i = e._assetsManager.getLocalManifest();
+if (i && i.getVersion) {
+e._localVersion = i.getVersion();
+cc.log("hcc>>localMani: ", i, i.getVersion());
+}
+}
 }
 });
-cc.log("hcc>>111111111111");
-if (this.checkPlatForm()) {
-cc.log("hcc>>222222");
-var t = (jsb.fileUtils ? jsb.fileUtils.getWritablePath() : "/") + "hotUpdateCache";
-cc.log("hcc>>Storage path for remote asset : ", t);
-this._assetsManager = new jsb.AssetsManager("", t, this.versionCompareCallback);
-this._assetsManager.setVerifyCallback(this.assetsVerifyCallback);
-cc.log("hcc>>setEventCallback: ", this._assetsManager.setEventCallback);
-cc.sys.os === cc.sys.OS_ANDROID && this._assetsManager.setMaxConcurrentTask(2);
 }
 };
-e.prototype.setUpdateSuccessCallback = function(e) {
-this._updateSuccessCallback = e;
+e.prototype.setUpdateCallback = function(e) {
+this._updateCallback = e;
 };
 e.prototype.checkPlatForm = function() {
 if (!cc.sys.isNative) {
@@ -3079,39 +3112,35 @@ return !0;
 };
 e.prototype.checkUpdate = function(e) {
 if (this.checkPlatForm()) if (this._manifestUrl) {
-var t = "";
-if (this._updating) {
-t = "Checking or updating ...";
-e(!1);
-} else {
+if (this._updating) e(!1); else if (this._assetsManager) {
 if (this._assetsManager.getState() === jsb.AssetsManager.State.UNINITED) {
-var o = this._manifestUrl.nativeUrl;
-cc.log("hcc>>_manifestUrl.nativeUrl111: ", o);
-cc.loader.md5Pipe && (o = cc.loader.md5Pipe.transformURL(o));
-cc.log("hcc>>_manifestUrl.nativeUrl222: ", o);
-this._assetsManager.loadLocalManifest(o);
+var t = this._manifestUrl.nativeUrl;
+cc.log("hcc>>_manifestUrl.nativeUrl111: ", t);
+cc.loader.md5Pipe && (t = cc.loader.md5Pipe.transformURL(t));
+cc.log("hcc>>_manifestUrl.nativeUrl222: ", t);
+this._assetsManager.loadLocalManifest(t);
 }
 if (this._assetsManager.getLocalManifest() && this._assetsManager.getLocalManifest().isLoaded()) {
-cc.log("hcc>>checkUpdate: ", t);
+cc.log("hcc>>checkUpdate: ", "");
 this._assetsManager.setEventCallback(function(t) {
 cc.log("hcc>>checkUpdateCallback,Code: " + t.getEventCode());
 var o = "", n = t.getEventCode();
 switch (n) {
 case jsb.EventAssetsManager.ERROR_NO_LOCAL_MANIFEST:
-o = "No local manifest file found, hot update skipped.";
+o = "本地没有manifest文件!";
 break;
 
 case jsb.EventAssetsManager.ERROR_DOWNLOAD_MANIFEST:
 case jsb.EventAssetsManager.ERROR_PARSE_MANIFEST:
-o = "Fail to download manifest file, hot update skipped.";
+o = "manifest下载失败!";
 break;
 
 case jsb.EventAssetsManager.ALREADY_UP_TO_DATE:
-o = "Already up to date with the latest remote version.";
+o = "已经更新到最新版本!";
 break;
 
 case jsb.EventAssetsManager.NEW_VERSION_FOUND:
-o = "New version found, please try to update.";
+o = "发现新版本，准备更新!";
 break;
 
 default:
@@ -3125,10 +3154,10 @@ e(n == jsb.EventAssetsManager.NEW_VERSION_FOUND);
 this._assetsManager.checkUpdate();
 this._updating = !0;
 } else {
-t = "Failed to load local manifest ...";
+cc.log("hcc>>checkUpdate: Failed to load local manifest ...");
 e(!1);
 }
-}
+} else e(!1);
 } else e(!1); else e(!1);
 };
 e.prototype.hotUpdateStart = function() {
@@ -3185,85 +3214,86 @@ break;
 default:
 return;
 }
+if (this._assetsManager) {
 this._assetsManager.setEventCallback(null);
 this._updating = !1;
+}
 cc.log("hcc>>checkUpdateCallback: ", t);
 };
 e.prototype.updateCallback = function(e) {
-cc.log("hcc>>updateCallback");
-var t = !1, o = !1, n = "";
+if (this._assetsManager) {
+cc.log("hcc>>updateCallback, code: ", e.getEventCode());
+var t = !1, o = !1, n = null, i = null;
 switch (e.getEventCode()) {
 case jsb.EventAssetsManager.ERROR_NO_LOCAL_MANIFEST:
-n = "No local manifest file found, hot update skipped.";
+n = "本地没有manifest文件，更新失败!";
 o = !0;
 break;
 
 case jsb.EventAssetsManager.UPDATE_PROGRESSION:
-var r = e.getMessage();
-if (r) {
-n = "Updated file: " + r;
-cc.log("hcc>>percent: ", e.getPercent() / 100 + "% : " + r);
-}
+i = Math.floor(100 * e.getPercentByFile()) / 100;
+n = "更新进度: " + Math.floor(e.getDownloadedBytes() / 1024 / 1024 * 100) / 100 + "M / " + Math.floor(e.getTotalBytes() / 1024 / 1024 * 100) / 100 + "M";
 break;
 
 case jsb.EventAssetsManager.ERROR_DOWNLOAD_MANIFEST:
 case jsb.EventAssetsManager.ERROR_PARSE_MANIFEST:
-n = "Fail to download manifest file, hot update skipped.";
+n = "下载manifest文件失败!";
 o = !0;
 break;
 
 case jsb.EventAssetsManager.ALREADY_UP_TO_DATE:
-n = "Already up to date with the latest remote version.";
+n = "已经更新到最新版本!";
 o = !0;
 break;
 
 case jsb.EventAssetsManager.UPDATE_FINISHED:
-n = "Update finished. " + e.getMessage();
+n = "更新成功! " + e.getMessage();
 t = !0;
 break;
 
 case jsb.EventAssetsManager.UPDATE_FAILED:
-n = "Update failed. " + e.getMessage();
+n = "更新失败! " + e.getMessage();
 this._updating = !1;
 this._canRetry = !0;
 break;
 
 case jsb.EventAssetsManager.ERROR_UPDATING:
-n = "Asset update error: " + e.getAssetId() + ", " + e.getMessage();
+n = "资源更新失败! " + e.getAssetId() + ", " + e.getMessage();
 break;
 
 case jsb.EventAssetsManager.ERROR_DECOMPRESS:
-n = e.getMessage();
+n = "资源解压失败! " + e.getMessage();
 }
+this._updateCallback && this._updateCallback.call(this, !1, i, n);
 cc.log("hcc>>updateCallback: ", n);
 if (o) {
 this._assetsManager.setEventCallback(null);
 this._updating = !1;
 }
 if (t) {
+this._updateCallback && this._updateCallback.call(this, !0, i, n);
 this._assetsManager.setEventCallback(null);
-var i = jsb.fileUtils.getSearchPaths(), s = this._assetsManager.getLocalManifest();
-if (s) {
-var a = s.getSearchPaths();
-console.log("hcc>>newPaths:", JSON.stringify(a));
-Array.prototype.unshift.apply(i, a);
+var s = jsb.fileUtils.getSearchPaths(), a = this._assetsManager.getLocalManifest();
+if (a) {
+var c = a.getSearchPaths();
+console.log("hcc>>newPaths:", JSON.stringify(c));
+Array.prototype.unshift.apply(s, c);
 }
-cc.sys.localStorage.setItem("HotUpdateSearchPaths", JSON.stringify(i));
-jsb.fileUtils.setSearchPaths(i);
+cc.sys.localStorage.setItem("HotUpdateSearchPaths", JSON.stringify(s));
+jsb.fileUtils.setSearchPaths(s);
 cc.audioEngine.stopAll();
-cc.game.restart();
-this._updateSuccessCallback && this._updateSuccessCallback.call(!0);
+(r.default.isAndroidNative() || r.default.isIOSNative()) && cc.game.restart();
+}
 }
 };
 e.prototype.loadCustomManifest = function() {
-if (this._assetsManager.getState() === jsb.AssetsManager.State.UNINITED) {
-var e = (jsb.fileUtils ? jsb.fileUtils.getWritablePath() : "/") + "hotUpdateCache", t = new jsb.Manifest(r, e);
+if (this._assetsManager && this._assetsManager.getState() === jsb.AssetsManager.State.UNINITED) {
+var e = (jsb.fileUtils ? jsb.fileUtils.getWritablePath() : "/") + "hotUpdateCache", t = new jsb.Manifest(i, e);
 this._assetsManager.loadLocalManifest(t, e);
-console.log("hcc>>loadCustomManifest.....success!");
 }
 };
 e.prototype.retry = function() {
-if (!this._updating && this._canRetry) {
+if (!this._updating && this._canRetry && this._assetsManager) {
 this._canRetry = !1;
 this._assetsManager.downloadFailedAssets();
 }
@@ -3271,9 +3301,10 @@ this._assetsManager.downloadFailedAssets();
 e.instance = new e();
 return e;
 }();
-o.default = i;
+o.default = s;
 cc._RF.pop();
 }, {
+"../config/PlatForm": "PlatForm",
 "../manager/ResourceManager": "ResourceManager"
 } ],
 HotUpdate: [ function(e, t, o) {
@@ -4028,7 +4059,7 @@ return i > 3 && s && Object.defineProperty(t, o, s), s;
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../../framework/uibase/UIController"), s = e("../../../framework/common/UserInfo"), a = cc._decorator, c = a.ccclass, u = (a.property, 
+var i = e("../../../framework/uibase/UIController"), s = e("../../../framework/common/UserInfo"), a = e("../../../framework/hotfix/HotUpdateNew"), c = cc._decorator, u = c.ccclass, l = (c.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -4037,7 +4068,9 @@ return null !== e && e.apply(this, arguments) || this;
 t.prototype.onLoad = function() {
 e.prototype.onLoad.call(this);
 };
-t.prototype.start = function() {};
+t.prototype.start = function() {
+this.show_version();
+};
 t.prototype.show_user_info = function() {
 if (this.view.IMG_USER_INFO_BG) {
 this.set_string(this.view.TEXT_USER_NAME, s.default.get_uname());
@@ -4048,12 +4081,16 @@ this.set_string(this.view.TEXT_COIN, s.default.get_uchip());
 console.log("hcc>>LobbySceneShowUI>>show_user_info ", e);
 }
 };
-return t = r([ c ], t);
+t.prototype.show_version = function() {
+this.set_string(this.view.KW_TEXT_VERSION, a.default.getInstance().getLocalVersion());
+};
+return t = r([ u ], t);
 }(i.default));
-o.default = u;
+o.default = l;
 cc._RF.pop();
 }, {
 "../../../framework/common/UserInfo": "UserInfo",
+"../../../framework/hotfix/HotUpdateNew": "HotUpdateNew",
 "../../../framework/uibase/UIController": "UIController"
 } ],
 LobbySceneTouchEvent: [ function(e, t, o) {
@@ -4548,7 +4585,7 @@ return i > 3 && s && Object.defineProperty(t, o, s), s;
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var i = e("../../../framework/uibase/UIController"), s = cc._decorator, a = s.ccclass, c = (s.property, 
+var i = e("../../../framework/uibase/UIController"), s = e("../../../framework/hotfix/HotUpdateNew"), a = cc._decorator, c = a.ccclass, u = (a.property, 
 function(e) {
 n(t, e);
 function t() {
@@ -4557,12 +4594,18 @@ return null !== e && e.apply(this, arguments) || this;
 t.prototype.onLoad = function() {
 e.prototype.onLoad.call(this);
 };
-t.prototype.start = function() {};
-return t = r([ a ], t);
+t.prototype.start = function() {
+this.show_version();
+};
+t.prototype.show_version = function() {
+this.set_string(this.view.KW_TEXT_VERSION, s.default.getInstance().getLocalVersion());
+};
+return t = r([ c ], t);
 }(i.default));
-o.default = c;
+o.default = u;
 cc._RF.pop();
 }, {
+"../../../framework/hotfix/HotUpdateNew": "HotUpdateNew",
 "../../../framework/uibase/UIController": "UIController"
 } ],
 LoginSceneTouchEvent: [ function(e, t, o) {
