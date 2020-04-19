@@ -1136,14 +1136,13 @@ value: !0
 });
 var n = e("../manager/ProtoManager"), r = function() {
 function e() {}
-e.IS_LOCAL_DEBUG = !0;
+e.IS_LOCAL_DEBUG = !1;
 e.LOCAL_HOST = "192.168.0.105";
 e.REMOTE_IP = "www.hccfun.com";
 e.REMOTE_WECHAT_PORT = "6081";
 e.NATIVE_PLATFORM_PORT = "6061";
 e.PROTO_TYPE = n.default.PROTO_BUF;
 e.REMORE_HTTP_PORT = "7000";
-e.HOT_UPDATE_ADDRESS = "http://" + e.LOCAL_HOST + ":" + e.REMORE_HTTP_PORT;
 e.LOCAL_MANIFEST_PATH = "manifest/project";
 return e;
 }();
@@ -3044,7 +3043,7 @@ cc._RF.push(t, "f8f98XsfAdBPKYBs0qJCMd6", "HotUpdateNew");
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-var n = e("../manager/ResourceManager"), r = e("../config/PlatForm"), i = JSON.stringify({
+var n = e("../manager/ResourceManager"), r = e("../config/PlatForm"), i = e("../config/GameAppConfig"), s = JSON.stringify({
 packageUrl: "http://192.168.50.220:5555/tutorial-hot-update/remote-assets/",
 remoteManifestUrl: "http://192.168.50.220:5555/tutorial-hot-update/remote-assets/project.manifest",
 remoteVersionUrl: "http://192.168.50.220:5555/tutorial-hot-update/remote-assets/version.manifest",
@@ -3056,7 +3055,7 @@ md5: "fafdde66bd0a81d1e096799fb8b7af95"
 }
 },
 searchPaths: []
-}), s = function() {
+}), a = function() {
 function e() {
 this._assetsManager = null;
 this._updating = !1;
@@ -3075,7 +3074,7 @@ return this._localVersion;
 e.prototype.init = function() {
 if (this.checkPlatForm()) {
 var e = this;
-n.ResourceManager.getInstance().loadResAsyc("manifest/project", cc.Asset, function(t, o) {
+n.ResourceManager.getInstance().loadResAsyc(i.default.LOCAL_MANIFEST_PATH, cc.Asset, function(t, o) {
 if (t) cc.log("hcc>>manifest error: ", t); else {
 e._manifestUrl = o;
 cc.log("hcc>>manifest: ", o.nativeUrl);
@@ -3288,7 +3287,7 @@ cc.audioEngine.stopAll();
 };
 e.prototype.loadCustomManifest = function() {
 if (this._assetsManager && this._assetsManager.getState() === jsb.AssetsManager.State.UNINITED) {
-var e = (jsb.fileUtils ? jsb.fileUtils.getWritablePath() : "/") + "hotUpdateCache", t = new jsb.Manifest(i, e);
+var e = (jsb.fileUtils ? jsb.fileUtils.getWritablePath() : "/") + "hotUpdateCache", t = new jsb.Manifest(s, e);
 this._assetsManager.loadLocalManifest(t, e);
 }
 };
@@ -3301,100 +3300,12 @@ this._assetsManager.downloadFailedAssets();
 e.instance = new e();
 return e;
 }();
-o.default = s;
-cc._RF.pop();
-}, {
-"../config/PlatForm": "PlatForm",
-"../manager/ResourceManager": "ResourceManager"
-} ],
-HotUpdate: [ function(e, t, o) {
-"use strict";
-cc._RF.push(t, "8e42dRmFhZDHLpxQcBZvuex", "HotUpdate");
-Object.defineProperty(o, "__esModule", {
-value: !0
-});
-var n = e("../utils/HttpUtil"), r = e("../config/GameAppConfig"), i = function() {
-function e() {
-this._storagePath = null;
-this._hotpath = null;
-this._url = r.default.HOT_UPDATE_ADDRESS;
-}
-e.getInstance = function() {
-return e.instance;
-};
-e.prototype.check_hotupdate_start = function() {
-this.set_hotupdate_search_path();
-var e = this.local_hotupdate_download_list(this._hotpath), t = null;
-n.default.get(this._url, "/hotupdate/manifest.json", null, function(o, n) {
-if (!o) {
-t = JSON.parse(n);
-var r = 0, i = [];
-for (var s in t) e[s] && e[s].md5 === t[s].md5 || i.push(t[s]);
-if (i.length <= 0) console.log("下载列表为空"); else {
-r = 0;
-var a = function() {
-if (++r >= i.length) {
-jsb.fileUtils.writeStringToFile(n, this.hotpath + "/manifest.json");
-cc.audioEngine.stopAll();
-cc.game.restart();
-} else this.download_item(this._storagePath, i[r], a);
-}.bind(this);
-this.download_item(this._storagePath, i[r], a);
-}
-}
-}.bind(this));
-};
-e.prototype.set_hotupdate_search_path = function() {
-var e = jsb.fileUtils.getSearchPaths(), t = this._storagePath + "/hotupdate";
-jsb.fileUtils.isDirectoryExist(t) || jsb.fileUtils.createDirectory(t);
-e.unshift(t);
-jsb.fileUtils.setSearchPaths(e);
-this._hotpath = t;
-};
-e.prototype.local_hotupdate_download_list = function(e) {
-var t = {};
-if (jsb.fileUtils.isFileExist(e + "/manifest.json")) {
-var o = jsb.fileUtils.getStringFromFile(e + "/manifest.json");
-t = JSON.parse(o);
-} else {
-o = jsb.fileUtils.getStringFromFile("manifest.json");
-t = JSON.parse(o);
-}
-return t;
-};
-e.prototype.download_item = function(e, t, o) {
-t.file.indexOf(".json") >= 0 ? n.default.get(this._url, "/" + t.file, null, function(n, r) {
-if (n) o && o(); else {
-var i = new Array();
-i = t.dir.split("/");
-for (var s = e, a = 0; a < i.length; a++) {
-s = s + "/" + i[a];
-jsb.fileUtils.isDirectoryExist(s) || jsb.fileUtils.createDirectory(s);
-}
-jsb.fileUtils.writeStringToFile(r, e + "/" + t.file);
-o && o();
-}
-}) : n.default.download(this._url, "/" + t.file, null, function(n, r) {
-if (n) o && o(); else {
-var i = new Array();
-i = t.dir.split("/");
-for (var s = e, a = 0; a < i.length; a++) {
-s = s + "/" + i[a];
-jsb.fileUtils.isDirectoryExist(s) || jsb.fileUtils.createDirectory(s);
-}
-jsb.fileUtils.writeDataToFile(r, e + "/" + t.file);
-o && o();
-}
-});
-};
-e.instance = new e();
-return e;
-}();
-o.default = i;
+o.default = a;
 cc._RF.pop();
 }, {
 "../config/GameAppConfig": "GameAppConfig",
-"../utils/HttpUtil": "HttpUtil"
+"../config/PlatForm": "PlatForm",
+"../manager/ResourceManager": "ResourceManager"
 } ],
 HttpUtil: [ function(e, t, o) {
 "use strict";
@@ -14265,4 +14176,4 @@ cc._RF.push(t, "838fecj9gRM9Y8tUCXSVhgM", "use_v2.1.x_cc.Action");
 cc.macro.ROTATE_ACTION_CCW = !0;
 cc._RF.pop();
 }, {} ]
-}, {}, [ "map_Level1", "use_v2.1.x_cc.Action", "protobuf", "UIFunciton", "UserInfo", "EventDefine", "GameAppConfig", "GameHoodleConfig", "LSDefine", "PlatForm", "HotUpdate", "HotUpdateNew", "AudioManager", "DialogManager", "EventManager", "ProtoManager", "ResourceManager", "SceneManager", "TimerManager", "NetWork", "ProtoTools", "Socket", "SocketDelegate", "AuthProto", "CommonProto", "GameHoodleProto", "ProtoCmd", "Response", "Stype", "SystemProto", "TalkProto", "protobufMsg", "AutoComponent", "BaseScene", "UIController", "UIDialog", "TableView", "TableViewCell", "ArrayUtil", "Base64", "BezierMaker", "DataViewUtil", "DateUtil", "HttpUtil", "Log", "Queue", "SDKAdapter", "Storage", "StringUtil", "BallCenterDialog", "CommonDialog", "GameResultDialog", "JoinRoomDialog", "MatchDialog", "MyCenterDialog", "SettingDialog", "StoreDialog", "WeakHintDialog", "GameApp", "Player", "RoomData", "State", "LoginScene", "LoginSceneCtrl", "LoginSceneInit", "LoginSceneRecvMsg", "LoginSceneShowUI", "LoginSceneTouchEvent", "LoginSendAuthMsg", "EnablePhysics", "GameHoodleCtrl", "GameHoodleData", "GameHoodleRecvMsg", "GameHoodleShowUI", "GameHoodleTouchEvent", "HoodleBallCtrl", "HoodleBallManager", "GameScene", "GameSceneCtrl", "GameSceneInit", "GameSceneRecvAuthMsg", "GameSceneRecvGameMsg", "GameSceneShowUI", "GameSceneTouchEvent", "GameSendGameHoodle", "HotFixScene", "HotFixSceneCtrl", "LobbyScene", "LobbySceneCtrl", "LobbySceneInit", "LobbySceneRecvAuthMsg", "LobbySceneRecvGameHoodleMsg", "LobbySceneShowUI", "LobbySceneTouchEvent", "LobbySendAuthMsg", "LobbySendGameHoodle" ]);
+}, {}, [ "map_Level1", "use_v2.1.x_cc.Action", "protobuf", "UIFunciton", "UserInfo", "EventDefine", "GameAppConfig", "GameHoodleConfig", "LSDefine", "PlatForm", "HotUpdateNew", "AudioManager", "DialogManager", "EventManager", "ProtoManager", "ResourceManager", "SceneManager", "TimerManager", "NetWork", "ProtoTools", "Socket", "SocketDelegate", "AuthProto", "CommonProto", "GameHoodleProto", "ProtoCmd", "Response", "Stype", "SystemProto", "TalkProto", "protobufMsg", "AutoComponent", "BaseScene", "UIController", "UIDialog", "TableView", "TableViewCell", "ArrayUtil", "Base64", "BezierMaker", "DataViewUtil", "DateUtil", "HttpUtil", "Log", "Queue", "SDKAdapter", "Storage", "StringUtil", "BallCenterDialog", "CommonDialog", "GameResultDialog", "JoinRoomDialog", "MatchDialog", "MyCenterDialog", "SettingDialog", "StoreDialog", "WeakHintDialog", "GameApp", "Player", "RoomData", "State", "LoginScene", "LoginSceneCtrl", "LoginSceneInit", "LoginSceneRecvMsg", "LoginSceneShowUI", "LoginSceneTouchEvent", "LoginSendAuthMsg", "EnablePhysics", "GameHoodleCtrl", "GameHoodleData", "GameHoodleRecvMsg", "GameHoodleShowUI", "GameHoodleTouchEvent", "HoodleBallCtrl", "HoodleBallManager", "GameScene", "GameSceneCtrl", "GameSceneInit", "GameSceneRecvAuthMsg", "GameSceneRecvGameMsg", "GameSceneShowUI", "GameSceneTouchEvent", "GameSendGameHoodle", "HotFixScene", "HotFixSceneCtrl", "LobbyScene", "LobbySceneCtrl", "LobbySceneInit", "LobbySceneRecvAuthMsg", "LobbySceneRecvGameHoodleMsg", "LobbySceneShowUI", "LobbySceneTouchEvent", "LobbySendAuthMsg", "LobbySendGameHoodle" ]);
