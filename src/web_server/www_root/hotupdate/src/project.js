@@ -773,42 +773,42 @@ cc._RF.push(t, "973e1LOxJJAZZ05Ib3oSXhF", "DataViewUtil");
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-o.default = class {
-static write_utf8(e, t, o) {
-let n = t;
-for (let t = 0; t < o.length; t++) {
-let r = o.charCodeAt(t);
-if (r < 128) {
-e.setUint8(n, r);
+var n = function() {
+function e() {}
+e.write_utf8 = function(e, t, o) {
+for (var n = t, r = 0; r < o.length; r++) {
+var i = o.charCodeAt(r);
+if (i < 128) {
+e.setUint8(n, i);
 n++;
-} else if (r < 2048) {
-e.setUint8(n, 192 | r >> 6);
+} else if (i < 2048) {
+e.setUint8(n, 192 | i >> 6);
 n++;
-e.setUint8(n, 128 | 63 & r);
+e.setUint8(n, 128 | 63 & i);
 n++;
-} else if (r < 55296 || r >= 57344) {
-e.setUint8(n, 224 | r >> 12);
+} else if (i < 55296 || i >= 57344) {
+e.setUint8(n, 224 | i >> 12);
 n++;
-e.setUint8(n, 128 | r >> 6 & 63);
+e.setUint8(n, 128 | i >> 6 & 63);
 n++;
-e.setUint8(n, 128 | 63 & r);
+e.setUint8(n, 128 | 63 & i);
 n++;
 } else {
-t++;
-r = 65536 + ((1023 & r) << 10 | 1023 & r);
-e.setUint8(n, 240 | r >> 18);
+r++;
+i = 65536 + ((1023 & i) << 10 | 1023 & i);
+e.setUint8(n, 240 | i >> 18);
 n++;
-e.setUint8(n, 128 | r >> 12 & 63);
+e.setUint8(n, 128 | i >> 12 & 63);
 n++;
-e.setUint8(n, 128 | r >> 6 & 63);
+e.setUint8(n, 128 | i >> 6 & 63);
 n++;
-e.setUint8(n, 128 | 63 & r);
+e.setUint8(n, 128 | 63 & i);
 n++;
 }
 }
-}
-static read_utf8(e, t, o) {
-let n, r, i, s, a, c;
+};
+e.read_utf8 = function(e, t, o) {
+var n, r, i, s, a, c;
 n = "";
 i = t + o;
 r = t;
@@ -843,17 +843,16 @@ n += String.fromCharCode((15 & s) << 12 | (63 & a) << 6 | (63 & c) << 0);
 }
 }
 return n;
-}
-static write_uint8_array(e, t, o) {
-let n = t;
-for (let t = 0; t < o.length; t++) {
-let r = o[t];
-e.setUint8(n, r);
+};
+e.write_uint8_array = function(e, t, o) {
+for (var n = t, r = 0; r < o.length; r++) {
+var i = o[r];
+e.setUint8(n, i);
 n++;
 }
-}
-static read_uint8_array(e, t, o) {
-let n, r, i, s;
+};
+e.read_uint8_array = function(e, t, o) {
+var n, r, i, s;
 n = [];
 i = t + o;
 r = t;
@@ -863,8 +862,10 @@ r++;
 n.push(s);
 }
 return n;
-}
 };
+return e;
+}();
+o.default = n;
 cc._RF.pop();
 }, {} ],
 DateUtil: [ function(e, t, o) {
@@ -873,17 +874,18 @@ cc._RF.push(t, "2b226UvNARG8qZrJBPC5hXR", "DateUtil");
 Object.defineProperty(o, "__esModule", {
 value: !0
 });
-o.default = class {
-static getSysDate() {
+var n = function() {
+function e() {}
+e.getSysDate = function() {
 var e = new Date(), t = e.getFullYear(), o = e.getMonth() + 1, n = e.getDate(), r = (e.getDay(), 
 e.getHours()), i = e.getMinutes();
 e.getSeconds(), e.getMilliseconds();
 return t + "-" + o + "-" + n + " " + r + ":" + i;
-}
-formatDate(e, t) {
-let o = new Date();
+};
+e.prototype.formatDate = function(e, t) {
+var o = new Date();
 o.setTime(1e3 * t);
-let n = {
+var n = {
 "M+": o.getMonth() + 1,
 "d+": o.getDate(),
 "h+": o.getHours(),
@@ -893,10 +895,12 @@ let n = {
 S: o.getMilliseconds()
 };
 /(y+)/.test(e) && (e = e.replace(RegExp.$1, (o.getFullYear() + "").substr(4 - RegExp.$1.length)));
-for (let t in n) new RegExp("(" + t + ")").test(e) && (e = e.replace(RegExp.$1, 1 == RegExp.$1.length ? n[t] : ("00" + n[t]).substr(("" + n[t]).length)));
+for (var r in n) new RegExp("(" + r + ")").test(e) && (e = e.replace(RegExp.$1, 1 == RegExp.$1.length ? n[r] : ("00" + n[r]).substr(("" + n[r]).length)));
 return e;
-}
 };
+return e;
+}();
+o.default = n;
 cc._RF.pop();
 }, {} ],
 DialogManager: [ function(e, t, o) {
@@ -1136,7 +1140,7 @@ value: !0
 });
 var n = e("../manager/ProtoManager"), r = function() {
 function e() {}
-e.IS_LOCAL_DEBUG = !1;
+e.IS_LOCAL_DEBUG = !0;
 e.LOCAL_HOST = "192.168.0.105";
 e.REMOTE_IP = "www.hccfun.com";
 e.REMOTE_WECHAT_PORT = "6081";
@@ -3072,7 +3076,6 @@ e.prototype.getLocalVersion = function() {
 return this._localVersion;
 };
 e.prototype.init = function() {
-if (this.checkPlatForm()) {
 var e = this;
 n.ResourceManager.getInstance().loadResAsyc(i.default.LOCAL_MANIFEST_PATH, cc.Asset, function(t, o) {
 if (t) cc.log("hcc>>manifest error: ", t); else {
@@ -3083,6 +3086,7 @@ var n = e._manifestUrl.nativeUrl;
 cc.log("hcc>>_manifestUrl.nativeUrl111>>init: ", n);
 cc.loader.md5Pipe && (n = cc.loader.md5Pipe.transformURL(n));
 cc.log("hcc>>_manifestUrl.nativeUrl222>>init:  ", n);
+if (!e.checkPlatForm()) return;
 var r = (jsb.fileUtils ? jsb.fileUtils.getWritablePath() : "/") + "hotUpdateCache";
 cc.log("hcc>>Storage path for remote asset : ", r);
 e._assetsManager = new jsb.AssetsManager("", r, e.versionCompareCallback.bind(e));
@@ -3092,12 +3096,11 @@ e._assetsManager.loadLocalManifest(n);
 var i = e._assetsManager.getLocalManifest();
 if (i && i.getVersion) {
 e._localVersion = i.getVersion();
-cc.log("hcc>>localMani: ", i, i.getVersion());
+cc.log("hcc>>localMani: ", i, " ,localversion:", i.getVersion());
 }
 }
 }
 });
-}
 };
 e.prototype.setUpdateCallback = function(e) {
 this._updateCallback = e;
